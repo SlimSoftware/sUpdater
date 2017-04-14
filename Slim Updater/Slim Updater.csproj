@@ -96,40 +96,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Slim Updater.png" />
+    <None Include="Resources\PortableApps Icon1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\settings128.png" />
+    <None Include="Resources\Settings Icon1.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\settings1281.png" />
+    <None Include="Resources\GetNewApps Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Slim Updater Inverted Green128.png" />
+    <None Include="Resources\PortableApps Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\download icon128.png" />
+    <None Include="Resources\Settings Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\portable128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Slim Updater_transp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\download icon1281.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\portable1281.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\settings1282.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Slim Updater_transp1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Slim Updater_transp2.png" />
+    <None Include="Resources\Updates Icon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

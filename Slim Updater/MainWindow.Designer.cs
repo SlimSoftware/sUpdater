@@ -104,7 +104,8 @@
             // 
             // settingsIcon
             // 
-            this.settingsIcon.Image = ((System.Drawing.Image)(resources.GetObject("settingsIcon.Image")));
+            this.settingsIcon.BackColor = System.Drawing.Color.Transparent;
+            this.settingsIcon.Image = global::Slim_Updater.Properties.Resources.Settings_Icon;
             this.settingsIcon.Location = new System.Drawing.Point(113, 26);
             this.settingsIcon.Name = "settingsIcon";
             this.settingsIcon.Size = new System.Drawing.Size(64, 64);
@@ -124,7 +125,8 @@
             // 
             // portableAppsIcon
             // 
-            this.portableAppsIcon.Image = ((System.Drawing.Image)(resources.GetObject("portableAppsIcon.Image")));
+            this.portableAppsIcon.BackColor = System.Drawing.Color.Transparent;
+            this.portableAppsIcon.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
             this.portableAppsIcon.Location = new System.Drawing.Point(111, 26);
             this.portableAppsIcon.Name = "portableAppsIcon";
             this.portableAppsIcon.Size = new System.Drawing.Size(64, 64);
@@ -155,7 +157,7 @@
             // 
             // getNewAppsIcon
             // 
-            this.getNewAppsIcon.Image = ((System.Drawing.Image)(resources.GetObject("getNewAppsIcon.Image")));
+            this.getNewAppsIcon.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
             this.getNewAppsIcon.Location = new System.Drawing.Point(113, 27);
             this.getNewAppsIcon.Name = "getNewAppsIcon";
             this.getNewAppsIcon.Size = new System.Drawing.Size(64, 64);
@@ -200,11 +202,11 @@
             // 
             // updaterIcon
             // 
-            this.updaterIcon.Image = global::Slim_Updater.Properties.Resources.Slim_Updater_transp;
-            this.updaterIcon.Location = new System.Drawing.Point(111, 27);
+            this.updaterIcon.Image = global::Slim_Updater.Properties.Resources.Updates_Icon;
+            this.updaterIcon.Location = new System.Drawing.Point(113, 27);
             this.updaterIcon.Name = "updaterIcon";
             this.updaterIcon.Size = new System.Drawing.Size(64, 64);
-            this.updaterIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.updaterIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.updaterIcon.TabIndex = 3;
             this.updaterIcon.TabStop = false;
             this.updaterIcon.Click += new System.EventHandler(this.updaterIcon_Click);

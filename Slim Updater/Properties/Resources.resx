@@ -118,22 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SlimUpdater_transp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Slim Updater_transp1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="GetNewApps_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\GetNewApps Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="SlimUpdater_transp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Slim Updater_transp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="PortableApps_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PortableApps Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="download_icon128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download icon1281.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Settings_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="portable128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\portable1281.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="settings128" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\settings1282.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Slim_Updater_transp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Slim Updater_transp2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Updates_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Updates Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

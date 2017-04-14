@@ -63,9 +63,9 @@ namespace Slim_Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap download_icon128 {
+        internal static System.Drawing.Bitmap GetNewApps_Icon {
             get {
-                object obj = ResourceManager.GetObject("download_icon128", resourceCulture);
+                object obj = ResourceManager.GetObject("GetNewApps_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace Slim_Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap portable128 {
+        internal static System.Drawing.Bitmap PortableApps_Icon {
             get {
-                object obj = ResourceManager.GetObject("portable128", resourceCulture);
+                object obj = ResourceManager.GetObject("PortableApps_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -83,9 +83,9 @@ namespace Slim_Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap settings128 {
+        internal static System.Drawing.Bitmap Settings_Icon {
             get {
-                object obj = ResourceManager.GetObject("settings128", resourceCulture);
+                object obj = ResourceManager.GetObject("Settings_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -93,29 +93,9 @@ namespace Slim_Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Slim_Updater_transp {
+        internal static System.Drawing.Bitmap Updates_Icon {
             get {
-                object obj = ResourceManager.GetObject("Slim_Updater_transp", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SlimUpdater_transp {
-            get {
-                object obj = ResourceManager.GetObject("SlimUpdater_transp", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SlimUpdater_transp1 {
-            get {
-                object obj = ResourceManager.GetObject("SlimUpdater_transp1", resourceCulture);
+                object obj = ResourceManager.GetObject("Updates_Icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
