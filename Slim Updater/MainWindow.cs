@@ -69,7 +69,7 @@ namespace Slim_Updater
 
         #region Mouse Enter/Leave Events
         // Create hover and normal color
-        Color hoverGreen = Color.FromArgb(0, 196, 0);
+        Color hoverGreen = Color.FromArgb(0, 206, 0);
         Color normalGreen = Color.FromArgb(0, 186, 0);
 
         private void updaterButton_MouseEnter(object sender, System.EventArgs e)
@@ -198,22 +198,37 @@ namespace Slim_Updater
         {
             updatePage.BringToFront();
             topBar.BringToFront();
-            titleLabel.Text = "Updates";
+            titleButton.Text = "Updates";
+            titleButton.Arrow = true;
         }
 
         private void updaterIcon_Click(object sender, System.EventArgs e)
         {
             updatePage.BringToFront();
             topBar.BringToFront();
-            titleLabel.Text = "Updates";
+            titleButton.Text = "Updates";
+            titleButton.Arrow = true;
         }
 
         private void updaterLabel_Click(object sender, System.EventArgs e)
         {
             updatePage.BringToFront();
             topBar.BringToFront();
-            titleLabel.Text = "Updates";
+            titleButton.Text = "Updates";
+            titleButton.Arrow = true;
         }
+
+        private void titleButton_Click(object sender, System.EventArgs e)
+        {
+            if (titleButton.Arrow == true)
+            {
+                startPage.BringToFront();
+                topBar.BringToFront();
+                titleButton.Text = "Home";
+                titleButton.Arrow = false;
+            }
+        }
+
         #endregion
 
         #endregion
