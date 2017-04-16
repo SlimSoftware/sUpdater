@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Slim_Updater
@@ -22,13 +17,16 @@ namespace Slim_Updater
 
         }
 
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), //required for the text to display
+            Description("The text associated with the control."), Category("Data")] 
         public override string Text
         {
             get { return titleLabel.Text; }
             set { titleLabel.Text = value; }
         }
 
+        [Description("Indicates if an arrow should be shown on the left side of the control."), 
+            Category("Appearance")] 
         public Boolean Arrow
         {
             get { return backArrow.Visible; }
@@ -107,7 +105,7 @@ namespace Slim_Updater
             }
         }
 
-        // Fix having to click in empty space of control for the event to fire
+        // Fire the button's click event when clicked on a child control
         private void WireAllControls(Control cont)
         {
             foreach (Control ctl in cont.Controls)
