@@ -72,35 +72,35 @@ namespace Slim_Updater
         Color hoverGreen = Color.FromArgb(0, 206, 0);
         Color normalGreen = Color.FromArgb(0, 186, 0);
 
-        private void updaterButton_MouseEnter(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = hoverGreen;
-        }
+        //private void updaterButton_MouseEnter(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = hoverGreen;
+        //}
 
-        private void updaterButton_MouseLeave(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = normalGreen;
-        }
+        //private void updaterButton_MouseLeave(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = normalGreen;
+        //}
 
-        private void updaterIcon_MouseEnter(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = hoverGreen;
-        }
+        //private void updaterIcon_MouseEnter(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = hoverGreen;
+        //}
 
-        private void updaterIcon_MouseLeave(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = normalGreen;
-        }
+        //private void updaterIcon_MouseLeave(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = normalGreen;
+        //}
 
-        private void updaterLabel_MouseEnter(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = hoverGreen;
-        }
+        //private void updaterLabel_MouseEnter(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = hoverGreen;
+        //}
 
-        private void updaterLabel_MouseLeave(object sender, System.EventArgs e)
-        {
-            updaterButton.BackColor = normalGreen;
-        }
+        //private void updaterLabel_MouseLeave(object sender, System.EventArgs e)
+        //{
+        //    updaterButton.BackColor = normalGreen;
+        //}
 
         private void getNewAppsButton_MouseEnter(object sender, System.EventArgs e)
         {

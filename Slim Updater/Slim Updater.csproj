@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom Controls\flatTile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\flatTile.Designer.cs">
+      <DependentUpon>flatTile.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,9 @@
     <Compile Include="Custom Controls\titleButton.Designer.cs">
       <DependentUpon>titleButton.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Custom Controls\flatTile.resx">
+      <DependentUpon>flatTile.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

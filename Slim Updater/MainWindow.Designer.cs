@@ -31,18 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.startPage = new System.Windows.Forms.Panel();
-            this.settingsButton = new System.Windows.Forms.Panel();
-            this.settingsLabel = new System.Windows.Forms.Label();
-            this.settingsIcon = new System.Windows.Forms.PictureBox();
-            this.portableAppsButton = new System.Windows.Forms.Panel();
-            this.portableAppsIcon = new System.Windows.Forms.PictureBox();
-            this.portableAppsLabel = new System.Windows.Forms.Label();
-            this.getNewAppsButton = new System.Windows.Forms.Panel();
-            this.getNewAppsIcon = new System.Windows.Forms.PictureBox();
-            this.getNewAppsLabel = new System.Windows.Forms.Label();
-            this.updaterButton = new System.Windows.Forms.Panel();
-            this.updaterLabel = new System.Windows.Forms.Label();
-            this.updaterIcon = new System.Windows.Forms.PictureBox();
             this.topBar = new System.Windows.Forms.Panel();
             this.aboutLabel = new System.Windows.Forms.Label();
             this.updatePage = new System.Windows.Forms.Panel();
@@ -54,15 +42,11 @@
             this.changelogContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.titleButton = new Slim_Updater.titleButton();
+            this.updateTile = new Slim_Updater.Custom_Controls.flatTile();
+            this.portableAppsTile = new Slim_Updater.Custom_Controls.flatTile();
+            this.getNewAppsTile = new Slim_Updater.Custom_Controls.flatTile();
+            this.settingsTile = new Slim_Updater.Custom_Controls.flatTile();
             this.startPage.SuspendLayout();
-            this.settingsButton.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsIcon)).BeginInit();
-            this.portableAppsButton.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.portableAppsIcon)).BeginInit();
-            this.getNewAppsButton.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.getNewAppsIcon)).BeginInit();
-            this.updaterButton.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updaterIcon)).BeginInit();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).BeginInit();
@@ -71,147 +55,15 @@
             // 
             // startPage
             // 
-            this.startPage.Controls.Add(this.settingsButton);
-            this.startPage.Controls.Add(this.portableAppsButton);
-            this.startPage.Controls.Add(this.getNewAppsButton);
-            this.startPage.Controls.Add(this.updaterButton);
+            this.startPage.Controls.Add(this.settingsTile);
+            this.startPage.Controls.Add(this.getNewAppsTile);
+            this.startPage.Controls.Add(this.portableAppsTile);
+            this.startPage.Controls.Add(this.updateTile);
             this.startPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startPage.Location = new System.Drawing.Point(0, 0);
             this.startPage.Name = "startPage";
             this.startPage.Size = new System.Drawing.Size(751, 449);
             this.startPage.TabIndex = 1;
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.settingsButton.Controls.Add(this.settingsLabel);
-            this.settingsButton.Controls.Add(this.settingsIcon);
-            this.settingsButton.Location = new System.Drawing.Point(416, 263);
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(286, 148);
-            this.settingsButton.TabIndex = 4;
-            // 
-            // settingsLabel
-            // 
-            this.settingsLabel.AutoSize = true;
-            this.settingsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.settingsLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.settingsLabel.Location = new System.Drawing.Point(110, 121);
-            this.settingsLabel.Name = "settingsLabel";
-            this.settingsLabel.Size = new System.Drawing.Size(67, 17);
-            this.settingsLabel.TabIndex = 2;
-            this.settingsLabel.Text = "Settings";
-            // 
-            // settingsIcon
-            // 
-            this.settingsIcon.BackColor = System.Drawing.Color.Transparent;
-            this.settingsIcon.Image = global::Slim_Updater.Properties.Resources.Settings_Icon;
-            this.settingsIcon.Location = new System.Drawing.Point(113, 26);
-            this.settingsIcon.Name = "settingsIcon";
-            this.settingsIcon.Size = new System.Drawing.Size(64, 64);
-            this.settingsIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.settingsIcon.TabIndex = 1;
-            this.settingsIcon.TabStop = false;
-            // 
-            // portableAppsButton
-            // 
-            this.portableAppsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.portableAppsButton.Controls.Add(this.portableAppsIcon);
-            this.portableAppsButton.Controls.Add(this.portableAppsLabel);
-            this.portableAppsButton.Location = new System.Drawing.Point(48, 263);
-            this.portableAppsButton.Name = "portableAppsButton";
-            this.portableAppsButton.Size = new System.Drawing.Size(286, 148);
-            this.portableAppsButton.TabIndex = 3;
-            // 
-            // portableAppsIcon
-            // 
-            this.portableAppsIcon.BackColor = System.Drawing.Color.Transparent;
-            this.portableAppsIcon.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
-            this.portableAppsIcon.Location = new System.Drawing.Point(111, 26);
-            this.portableAppsIcon.Name = "portableAppsIcon";
-            this.portableAppsIcon.Size = new System.Drawing.Size(64, 64);
-            this.portableAppsIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.portableAppsIcon.TabIndex = 4;
-            this.portableAppsIcon.TabStop = false;
-            // 
-            // portableAppsLabel
-            // 
-            this.portableAppsLabel.AutoSize = true;
-            this.portableAppsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.portableAppsLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.portableAppsLabel.Location = new System.Drawing.Point(88, 121);
-            this.portableAppsLabel.Name = "portableAppsLabel";
-            this.portableAppsLabel.Size = new System.Drawing.Size(110, 17);
-            this.portableAppsLabel.TabIndex = 5;
-            this.portableAppsLabel.Text = "Portable Apps";
-            // 
-            // getNewAppsButton
-            // 
-            this.getNewAppsButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.getNewAppsButton.Controls.Add(this.getNewAppsIcon);
-            this.getNewAppsButton.Controls.Add(this.getNewAppsLabel);
-            this.getNewAppsButton.Location = new System.Drawing.Point(416, 79);
-            this.getNewAppsButton.Name = "getNewAppsButton";
-            this.getNewAppsButton.Size = new System.Drawing.Size(286, 148);
-            this.getNewAppsButton.TabIndex = 3;
-            // 
-            // getNewAppsIcon
-            // 
-            this.getNewAppsIcon.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
-            this.getNewAppsIcon.Location = new System.Drawing.Point(113, 27);
-            this.getNewAppsIcon.Name = "getNewAppsIcon";
-            this.getNewAppsIcon.Size = new System.Drawing.Size(64, 64);
-            this.getNewAppsIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.getNewAppsIcon.TabIndex = 4;
-            this.getNewAppsIcon.TabStop = false;
-            // 
-            // getNewAppsLabel
-            // 
-            this.getNewAppsLabel.AutoSize = true;
-            this.getNewAppsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.getNewAppsLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.getNewAppsLabel.Location = new System.Drawing.Point(62, 122);
-            this.getNewAppsLabel.Name = "getNewAppsLabel";
-            this.getNewAppsLabel.Size = new System.Drawing.Size(162, 17);
-            this.getNewAppsLabel.TabIndex = 4;
-            this.getNewAppsLabel.Text = "Get New Applications";
-            // 
-            // updaterButton
-            // 
-            this.updaterButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.updaterButton.Controls.Add(this.updaterLabel);
-            this.updaterButton.Controls.Add(this.updaterIcon);
-            this.updaterButton.Location = new System.Drawing.Point(48, 79);
-            this.updaterButton.Name = "updaterButton";
-            this.updaterButton.Size = new System.Drawing.Size(286, 148);
-            this.updaterButton.TabIndex = 2;
-            this.updaterButton.Click += new System.EventHandler(this.updaterButton_Click);
-            this.updaterButton.MouseEnter += new System.EventHandler(this.updaterButton_MouseEnter);
-            this.updaterButton.MouseLeave += new System.EventHandler(this.updaterButton_MouseLeave);
-            // 
-            // updaterLabel
-            // 
-            this.updaterLabel.AutoSize = true;
-            this.updaterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.updaterLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.updaterLabel.Location = new System.Drawing.Point(63, 122);
-            this.updaterLabel.Name = "updaterLabel";
-            this.updaterLabel.Size = new System.Drawing.Size(161, 17);
-            this.updaterLabel.TabIndex = 3;
-            this.updaterLabel.Text = "No updates available";
-            // 
-            // updaterIcon
-            // 
-            this.updaterIcon.Image = global::Slim_Updater.Properties.Resources.Updates_Icon;
-            this.updaterIcon.Location = new System.Drawing.Point(113, 27);
-            this.updaterIcon.Name = "updaterIcon";
-            this.updaterIcon.Size = new System.Drawing.Size(64, 64);
-            this.updaterIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.updaterIcon.TabIndex = 3;
-            this.updaterIcon.TabStop = false;
-            this.updaterIcon.Click += new System.EventHandler(this.updaterIcon_Click);
-            this.updaterIcon.MouseEnter += new System.EventHandler(this.updaterIcon_MouseEnter);
-            this.updaterIcon.MouseLeave += new System.EventHandler(this.updaterIcon_MouseLeave);
             // 
             // topBar
             // 
@@ -324,6 +176,42 @@
             this.titleButton.TabIndex = 2;
             this.titleButton.Click += new System.EventHandler(this.titleButton_Click);
             // 
+            // updateTile
+            // 
+            this.updateTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.updateTile.Image = global::Slim_Updater.Properties.Resources.Updates_Icon;
+            this.updateTile.Location = new System.Drawing.Point(48, 79);
+            this.updateTile.Name = "updateTile";
+            this.updateTile.Size = new System.Drawing.Size(300, 150);
+            this.updateTile.TabIndex = 5;
+            // 
+            // portableAppsTile
+            // 
+            this.portableAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.portableAppsTile.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
+            this.portableAppsTile.Location = new System.Drawing.Point(48, 261);
+            this.portableAppsTile.Name = "portableAppsTile";
+            this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
+            this.portableAppsTile.TabIndex = 6;
+            // 
+            // getNewAppsTile
+            // 
+            this.getNewAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.getNewAppsTile.Image = global::Slim_Updater.Properties.Resources.GetNewApps_Icon;
+            this.getNewAppsTile.Location = new System.Drawing.Point(402, 79);
+            this.getNewAppsTile.Name = "getNewAppsTile";
+            this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
+            this.getNewAppsTile.TabIndex = 7;
+            // 
+            // settingsTile
+            // 
+            this.settingsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.settingsTile.Image = global::Slim_Updater.Properties.Resources.Settings_Icon;
+            this.settingsTile.Location = new System.Drawing.Point(402, 261);
+            this.settingsTile.Name = "settingsTile";
+            this.settingsTile.Size = new System.Drawing.Size(300, 150);
+            this.settingsTile.TabIndex = 8;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -337,18 +225,6 @@
             this.Name = "MainWindow";
             this.Text = "Slim Updater";
             this.startPage.ResumeLayout(false);
-            this.settingsButton.ResumeLayout(false);
-            this.settingsButton.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsIcon)).EndInit();
-            this.portableAppsButton.ResumeLayout(false);
-            this.portableAppsButton.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.portableAppsIcon)).EndInit();
-            this.getNewAppsButton.ResumeLayout(false);
-            this.getNewAppsButton.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.getNewAppsIcon)).EndInit();
-            this.updaterButton.ResumeLayout(false);
-            this.updaterButton.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updaterIcon)).EndInit();
             this.topBar.ResumeLayout(false);
             this.topBar.PerformLayout();
             this.updatePage.ResumeLayout(false);
@@ -360,20 +236,8 @@
 
         #endregion
         private System.Windows.Forms.Panel startPage;
-        private System.Windows.Forms.PictureBox settingsIcon;
         private System.Windows.Forms.Panel topBar;
         private System.Windows.Forms.Label aboutLabel;
-        private System.Windows.Forms.Panel settingsButton;
-        private System.Windows.Forms.Panel portableAppsButton;
-        private System.Windows.Forms.Panel getNewAppsButton;
-        private System.Windows.Forms.Panel updaterButton;
-        private System.Windows.Forms.Label settingsLabel;
-        private System.Windows.Forms.Label portableAppsLabel;
-        private System.Windows.Forms.Label getNewAppsLabel;
-        private System.Windows.Forms.Label updaterLabel;
-        private System.Windows.Forms.PictureBox updaterIcon;
-        private System.Windows.Forms.PictureBox getNewAppsIcon;
-        private System.Windows.Forms.PictureBox portableAppsIcon;
         private System.Windows.Forms.Panel updatePage;
         private BrightIdeasSoftware.ObjectListView updatesListView;
         private BrightIdeasSoftware.OLVColumn appNameColumn;
@@ -383,6 +247,10 @@
         private System.Windows.Forms.ToolStripMenuItem changelogContextMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ignoreContextMenuItem;
         private titleButton titleButton;
+        private Custom_Controls.flatTile updateTile;
+        private Custom_Controls.flatTile settingsTile;
+        private Custom_Controls.flatTile getNewAppsTile;
+        private Custom_Controls.flatTile portableAppsTile;
     }
 }
 
