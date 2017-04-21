@@ -44,6 +44,8 @@
             this.statusLabel.TabIndex = 4;
             this.statusLabel.Text = "No updates available";
             this.statusLabel.SizeChanged += new System.EventHandler(this.statusLabel_SizeChanged);
+            this.statusLabel.MouseEnter += new System.EventHandler(this.statusLabel_MouseEnter);
+            this.statusLabel.MouseLeave += new System.EventHandler(this.statusLabel_MouseLeave);
             // 
             // tileIcon
             // 
@@ -54,6 +56,8 @@
             this.tileIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.tileIcon.TabIndex = 5;
             this.tileIcon.TabStop = false;
+            this.tileIcon.MouseEnter += new System.EventHandler(this.tileIcon_MouseEnter);
+            this.tileIcon.MouseLeave += new System.EventHandler(this.tileIcon_MouseLeave);
             // 
             // flatTile
             // 
@@ -64,6 +68,8 @@
             this.Controls.Add(this.tileIcon);
             this.Name = "flatTile";
             this.Size = new System.Drawing.Size(300, 150);
+            this.MouseEnter += new System.EventHandler(this.flatTile_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.flatTile_MouseLeave);
             ((System.ComponentModel.ISupportInitialize)(this.tileIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
