@@ -13,8 +13,10 @@ namespace Slim_Updater.Custom_Controls
             WireAllControls(this);
         }
 
-        Color hoverGreen = Color.FromArgb(0, 196, 0);
         Color normalGreen = Color.FromArgb(0, 186, 0);
+        Color hoverGreen = Color.FromArgb(0, 196, 0);
+        Color normalOrange = Color.FromArgb(254, 124, 35);
+        Color hoverOrange = Color.FromArgb(254, 134, 35);
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), //required for the text to display
             Description("The text associated with the control."), Category("Data")]
@@ -42,32 +44,74 @@ namespace Slim_Updater.Custom_Controls
         #region Mouse Enter/Leave Events
         private void tileIcon_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = hoverGreen;
+            if (this.BackColor == normalOrange)
+            {
+                this.BackColor = hoverOrange;
+            }
+            else
+            {
+                this.BackColor = hoverGreen;
+            }
         }
 
         private void tileIcon_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = normalGreen;
+            if (this.BackColor == hoverOrange)
+            {
+                this.BackColor = normalOrange;
+            }
+            else
+            {
+                this.BackColor = normalGreen;
+            }
         }
 
         private void statusLabel_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = hoverGreen;
+            if (this.BackColor == normalOrange)
+            {
+                this.BackColor = hoverOrange;
+            }
+            else
+            {
+                this.BackColor = hoverGreen;
+            }
         }
 
         private void statusLabel_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = normalGreen;
+            if (this.BackColor == hoverOrange)
+            {
+                this.BackColor = normalOrange;
+            }
+            else
+            {
+                this.BackColor = normalGreen;
+            }
         }
 
         private void flatTile_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = hoverGreen;
+            if (this.BackColor == normalOrange)
+            {
+                this.BackColor = hoverOrange;
+            }
+            else
+            {
+                this.BackColor = hoverGreen;
+            }
         }
 
         private void flatTile_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = normalGreen;
+            if (this.BackColor == hoverOrange)
+            {
+                this.BackColor = normalOrange;
+            }
+            else
+            {
+                this.BackColor = normalGreen;
+            }
         }
         #endregion
 

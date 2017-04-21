@@ -7,8 +7,8 @@ namespace Slim_Updater
 {
     public partial class titleButton : UserControl
     {
-        Color hoverGreen = Color.FromArgb(0, 196, 0);
         Color normalGreen = Color.FromArgb(0, 186, 0);
+        Color hoverGreen = Color.FromArgb(0, 196, 0);
 
         public titleButton()
         {

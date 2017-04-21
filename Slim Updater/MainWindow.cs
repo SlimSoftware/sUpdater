@@ -3,19 +3,21 @@ using Microsoft.Win32;
 using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using System;
 
 namespace Slim_Updater
 {
     public partial class MainWindow : Form
     {
-        public List<App> applist = new List<App>();
-
         public MainWindow()
         {
             InitializeComponent();
             ReadDefenitions();
             CheckforUpdates();
         }
+
+        public List<App> appList = new List<App>();
+        Color normalOrange = Color.FromArgb(254, 124, 35);
 
         public void ReadDefenitions()
         {
@@ -43,25 +45,33 @@ namespace Slim_Updater
                     localVersion = "-";
                 }
                 
-                // Add app to applist
-                applist.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion, 
+                // Add app to appList
+                appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion, 
                     archElement.Value, typeElement.Value, switchElement.Value, dlElement.Value));
             }
         }
 
         public void CheckforUpdates()
         {
-            foreach (App app in applist.ToArray())
+            List<App> updateList = new List<App>(appList);
+            foreach (App app in updateList.ToArray())
             {
-                // Remove updated apps from the applist
+                // Remove up to date apps from the updateList
                 if (float.Parse(app.LatestVersion.ToString()) <= float.Parse(app.LocalVersion.ToString()))
                 {
-                    applist.Remove(app);
+                    updateList.Remove(app);
                 }
+            }
 
-                // Add the contents of the applist to the listview
-                updatesListView.SetObjects(applist);
-                updatesListView.BuildList(shouldPreserveState: false);
+            // Add the contents of the updateList to the listview
+            updatesListView.SetObjects(updateList);
+            updatesListView.BuildList(shouldPreserveState: false);
+
+            // Change updaterTile on the startpage accordingly
+            if (updateList.Count != 0)
+            {
+                updaterTile.BackColor = normalOrange;
+                updaterTile.Text = String.Format("{0} updates available", updateList.Count);
             }
         }
 
@@ -85,8 +95,6 @@ namespace Slim_Updater
             }
         }
         #endregion
-
-
     }
 
 
