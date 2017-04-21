@@ -38,11 +38,10 @@
             this.statusLabel.AutoSize = true;
             this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.statusLabel.Location = new System.Drawing.Point(70, 122);
+            this.statusLabel.Location = new System.Drawing.Point(150, 122);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(161, 17);
+            this.statusLabel.Size = new System.Drawing.Size(0, 17);
             this.statusLabel.TabIndex = 4;
-            this.statusLabel.Text = "No updates available";
             this.statusLabel.SizeChanged += new System.EventHandler(this.statusLabel_SizeChanged);
             this.statusLabel.MouseEnter += new System.EventHandler(this.statusLabel_MouseEnter);
             this.statusLabel.MouseLeave += new System.EventHandler(this.statusLabel_MouseLeave);

@@ -17,6 +17,7 @@ namespace Slim_Updater
         }
 
         public List<App> appList = new List<App>();
+        Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
 
         public void ReadDefenitions()
@@ -95,6 +96,18 @@ namespace Slim_Updater
             }
         }
         #endregion
+
+        private void aboutLabel_MouseEnter(object sender, EventArgs e)
+        {
+            aboutLabel.ForeColor = Color.White;
+            aboutLabel.BackColor = normalGreen;
+        }
+
+        private void aboutLabel_MouseLeave(object sender, EventArgs e)
+        {
+            aboutLabel.ForeColor = normalGreen;
+            aboutLabel.BackColor = Color.White;
+        }
     }
 
 
