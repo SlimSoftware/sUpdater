@@ -94,8 +94,11 @@ namespace Slim_Updater
                 titleButton.Text = "Home";
                 titleButton.Arrow = false;
             }
+            if (aboutLabel.Visible == false)
+            {
+                aboutLabel.Visible = true;
+            }
         }
-        #endregion
 
         private void aboutLabel_MouseEnter(object sender, EventArgs e)
         {
@@ -108,6 +111,21 @@ namespace Slim_Updater
             aboutLabel.ForeColor = normalGreen;
             aboutLabel.BackColor = Color.White;
         }
+
+        private void aboutLabel_Click(object sender, EventArgs e)
+        {
+            aboutPage.BringToFront();
+            topBar.BringToFront();
+            titleButton.Text = "About";
+            titleButton.Arrow = true;
+            aboutLabel.Hide();
+        }
+
+        private void siteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://www.slimsoft.tk");
+        }
+        #endregion
     }
 
 

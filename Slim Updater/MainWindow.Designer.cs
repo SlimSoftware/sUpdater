@@ -41,6 +41,12 @@
             this.updatesContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.changelogContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ignoreContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutPage = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.aboutTitle = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.slimsoftwareLabel = new System.Windows.Forms.Label();
+            this.siteLink = new System.Windows.Forms.LinkLabel();
             this.titleButton = new Slim_Updater.titleButton();
             this.settingsTile = new Slim_Updater.Custom_Controls.flatTile();
             this.getNewAppsTile = new Slim_Updater.Custom_Controls.flatTile();
@@ -51,6 +57,8 @@
             this.updatePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).BeginInit();
             this.updatesContextMenu.SuspendLayout();
+            this.aboutPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // startPage
@@ -59,7 +67,6 @@
             this.startPage.Controls.Add(this.getNewAppsTile);
             this.startPage.Controls.Add(this.portableAppsTile);
             this.startPage.Controls.Add(this.updaterTile);
-            this.startPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startPage.Location = new System.Drawing.Point(0, 0);
             this.startPage.Name = "startPage";
             this.startPage.Size = new System.Drawing.Size(751, 449);
@@ -67,8 +74,6 @@
             // 
             // topBar
             // 
-            this.topBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.topBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.topBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.topBar.Controls.Add(this.titleButton);
@@ -80,14 +85,14 @@
             // 
             // aboutLabel
             // 
-            this.aboutLabel.AutoSize = true;
             this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.aboutLabel.Location = new System.Drawing.Point(707, 10);
+            this.aboutLabel.Location = new System.Drawing.Point(704, 9);
             this.aboutLabel.Name = "aboutLabel";
             this.aboutLabel.Size = new System.Drawing.Size(50, 17);
             this.aboutLabel.TabIndex = 1;
             this.aboutLabel.Text = "About";
+            this.aboutLabel.Click += new System.EventHandler(this.aboutLabel_Click);
             this.aboutLabel.MouseEnter += new System.EventHandler(this.aboutLabel_MouseEnter);
             this.aboutLabel.MouseLeave += new System.EventHandler(this.aboutLabel_MouseLeave);
             // 
@@ -167,6 +172,78 @@
             this.ignoreContextMenuItem.Size = new System.Drawing.Size(149, 22);
             this.ignoreContextMenuItem.Text = "Ignore Update";
             // 
+            // aboutPage
+            // 
+            this.aboutPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.aboutPage.Controls.Add(this.siteLink);
+            this.aboutPage.Controls.Add(this.slimsoftwareLabel);
+            this.aboutPage.Controls.Add(this.versionLabel);
+            this.aboutPage.Controls.Add(this.aboutTitle);
+            this.aboutPage.Controls.Add(this.pictureBox1);
+            this.aboutPage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.aboutPage.Location = new System.Drawing.Point(0, 0);
+            this.aboutPage.Name = "aboutPage";
+            this.aboutPage.Size = new System.Drawing.Size(751, 449);
+            this.aboutPage.TabIndex = 9;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Slim_Updater.Properties.Resources.Slim_Updater_new;
+            this.pictureBox1.Location = new System.Drawing.Point(311, 62);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // aboutTitle
+            // 
+            this.aboutTitle.AutoSize = true;
+            this.aboutTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aboutTitle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.aboutTitle.Location = new System.Drawing.Point(300, 215);
+            this.aboutTitle.Name = "aboutTitle";
+            this.aboutTitle.Size = new System.Drawing.Size(151, 26);
+            this.aboutTitle.TabIndex = 1;
+            this.aboutTitle.Text = "Slim Updater";
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.versionLabel.Location = new System.Drawing.Point(325, 248);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(100, 20);
+            this.versionLabel.TabIndex = 2;
+            this.versionLabel.Text = "Version 3.0";
+            // 
+            // slimsoftwareLabel
+            // 
+            this.slimsoftwareLabel.AutoSize = true;
+            this.slimsoftwareLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.slimsoftwareLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.slimsoftwareLabel.Location = new System.Drawing.Point(177, 399);
+            this.slimsoftwareLabel.Name = "slimsoftwareLabel";
+            this.slimsoftwareLabel.Size = new System.Drawing.Size(396, 18);
+            this.slimsoftwareLabel.TabIndex = 3;
+            this.slimsoftwareLabel.Text = "Open Source Software developped by SlimSoftware\r\n";
+            // 
+            // siteLink
+            // 
+            this.siteLink.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.siteLink.AutoSize = true;
+            this.siteLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.siteLink.LinkColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.siteLink.Location = new System.Drawing.Point(325, 423);
+            this.siteLink.Name = "siteLink";
+            this.siteLink.Size = new System.Drawing.Size(101, 17);
+            this.siteLink.TabIndex = 4;
+            this.siteLink.TabStop = true;
+            this.siteLink.Text = "www.slimsoft.tk";
+            this.siteLink.VisitedLinkColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.siteLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.siteLink_LinkClicked);
+            // 
             // titleButton
             // 
             this.titleButton.Arrow = false;
@@ -174,7 +251,7 @@
             this.titleButton.BackColor = System.Drawing.Color.Transparent;
             this.titleButton.Location = new System.Drawing.Point(10, 1);
             this.titleButton.Name = "titleButton";
-            this.titleButton.Size = new System.Drawing.Size(121, 32);
+            this.titleButton.Size = new System.Drawing.Size(69, 32);
             this.titleButton.TabIndex = 2;
             this.titleButton.Click += new System.EventHandler(this.titleButton_Click);
             // 
@@ -227,6 +304,7 @@
             this.ClientSize = new System.Drawing.Size(751, 449);
             this.Controls.Add(this.topBar);
             this.Controls.Add(this.startPage);
+            this.Controls.Add(this.aboutPage);
             this.Controls.Add(this.updatePage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
@@ -237,6 +315,9 @@
             this.updatePage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).EndInit();
             this.updatesContextMenu.ResumeLayout(false);
+            this.aboutPage.ResumeLayout(false);
+            this.aboutPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -258,6 +339,12 @@
         private Custom_Controls.flatTile settingsTile;
         private Custom_Controls.flatTile getNewAppsTile;
         private Custom_Controls.flatTile portableAppsTile;
+        private System.Windows.Forms.Panel aboutPage;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label aboutTitle;
+        private System.Windows.Forms.LinkLabel siteLink;
+        private System.Windows.Forms.Label slimsoftwareLabel;
+        private System.Windows.Forms.Label versionLabel;
     }
 }
 
