@@ -6,7 +6,7 @@ using System.Windows.Forms;
 namespace Slim_Updater.Custom_Controls
 {
     public partial class flatTile : UserControl
-    {  
+    {
         public flatTile()
         {
             InitializeComponent();
@@ -18,8 +18,12 @@ namespace Slim_Updater.Custom_Controls
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color hoverOrange = Color.FromArgb(254, 134, 35);
 
-        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), //required for the text to display
-            Description("The text associated with the control."), Category("Data")]
+        // Required for the text to display correctly
+        [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Bindable(true)]  
+        // Create property discription
+        [Description("The text associated with the control."), Category("Data")]
         public override string Text
         {
             get { return statusLabel.Text; }

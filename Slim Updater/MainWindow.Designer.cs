@@ -186,6 +186,7 @@
             this.settingsTile.Name = "settingsTile";
             this.settingsTile.Size = new System.Drawing.Size(300, 150);
             this.settingsTile.TabIndex = 8;
+            this.settingsTile.Text = "Settings";
             // 
             // getNewAppsTile
             // 
@@ -195,6 +196,7 @@
             this.getNewAppsTile.Name = "getNewAppsTile";
             this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
             this.getNewAppsTile.TabIndex = 7;
+            this.getNewAppsTile.Text = "Get New Applications";
             // 
             // portableAppsTile
             // 
@@ -204,6 +206,7 @@
             this.portableAppsTile.Name = "portableAppsTile";
             this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
             this.portableAppsTile.TabIndex = 6;
+            this.portableAppsTile.Text = "Portable Apps";
             // 
             // updaterTile
             // 
@@ -213,6 +216,7 @@
             this.updaterTile.Name = "updaterTile";
             this.updaterTile.Size = new System.Drawing.Size(300, 150);
             this.updaterTile.TabIndex = 5;
+            this.updaterTile.Text = "No updates available";
             this.updaterTile.Click += new System.EventHandler(this.updaterTile_Click);
             // 
             // MainWindow
