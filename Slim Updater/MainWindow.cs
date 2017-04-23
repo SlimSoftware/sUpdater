@@ -80,7 +80,6 @@ namespace Slim_Updater
         private void updaterTile_Click(object sender, System.EventArgs e)
         {
             updatePage.BringToFront();
-            topBar.BringToFront();
             titleButton.Text = "Updates";
             titleButton.Arrow = true;
         }
@@ -90,7 +89,6 @@ namespace Slim_Updater
             if (titleButton.Arrow == true)
             {
                 startPage.BringToFront();
-                topBar.BringToFront();
                 titleButton.Text = "Home";
                 titleButton.Arrow = false;
             }
