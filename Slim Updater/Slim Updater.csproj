@@ -114,12 +114,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\PortableApps Icon1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Settings Icon1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\GetNewApps Icon.png" />
   </ItemGroup>
   <ItemGroup>

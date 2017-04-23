@@ -113,9 +113,9 @@ namespace Slim_Updater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Slim_Updater_new {
+        internal static System.Drawing.Bitmap SlimUpdater_new {
             get {
-                object obj = ResourceManager.GetObject("Slim Updater_new", resourceCulture);
+                object obj = ResourceManager.GetObject("SlimUpdater_new", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
