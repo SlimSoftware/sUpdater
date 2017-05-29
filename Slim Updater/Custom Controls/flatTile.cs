@@ -22,7 +22,6 @@ namespace Slim_Updater.Custom_Controls
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [Bindable(true)]  
-        // Create property discription
         [Description("The text associated with the control."), Category("Data")]
         public override string Text
         {

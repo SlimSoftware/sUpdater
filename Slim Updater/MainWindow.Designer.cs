@@ -47,6 +47,8 @@
             this.versionLabel = new System.Windows.Forms.Label();
             this.aboutTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.changelogLabel = new System.Windows.Forms.Label();
+            this.changelogBox = new System.Windows.Forms.RichTextBox();
             this.titleButton = new Slim_Updater.titleButton();
             this.settingsTile = new Slim_Updater.Custom_Controls.flatTile();
             this.getNewAppsTile = new Slim_Updater.Custom_Controls.flatTile();
@@ -98,6 +100,9 @@
             // 
             // updatePage
             // 
+            this.updatePage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.updatePage.Controls.Add(this.changelogBox);
+            this.updatePage.Controls.Add(this.changelogLabel);
             this.updatePage.Controls.Add(this.updatesListView);
             this.updatePage.Location = new System.Drawing.Point(0, 36);
             this.updatePage.Name = "updatePage";
@@ -122,10 +127,10 @@
             this.updatesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.updatesListView.Location = new System.Drawing.Point(0, 0);
             this.updatesListView.Name = "updatesListView";
-            this.updatesListView.SelectedBackColor = System.Drawing.Color.White;
-            this.updatesListView.SelectedForeColor = System.Drawing.Color.Black;
+            this.updatesListView.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.updatesListView.SelectedForeColor = System.Drawing.Color.White;
             this.updatesListView.ShowGroups = false;
-            this.updatesListView.Size = new System.Drawing.Size(751, 377);
+            this.updatesListView.Size = new System.Drawing.Size(751, 219);
             this.updatesListView.Sorting = System.Windows.Forms.SortOrder.Descending;
             this.updatesListView.TabIndex = 0;
             this.updatesListView.UseCompatibleStateImageBehavior = false;
@@ -242,6 +247,28 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // changelogLabel
+            // 
+            this.changelogLabel.AutoSize = true;
+            this.changelogLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.changelogLabel.Location = new System.Drawing.Point(0, 222);
+            this.changelogLabel.Name = "changelogLabel";
+            this.changelogLabel.Size = new System.Drawing.Size(80, 17);
+            this.changelogLabel.TabIndex = 1;
+            this.changelogLabel.Text = "Changelog:";
+            // 
+            // changelogBox
+            // 
+            this.changelogBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.changelogBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.changelogBox.Location = new System.Drawing.Point(0, 243);
+            this.changelogBox.Name = "changelogBox";
+            this.changelogBox.ReadOnly = true;
+            this.changelogBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.changelogBox.Size = new System.Drawing.Size(751, 129);
+            this.changelogBox.TabIndex = 2;
+            this.changelogBox.Text = "";
+            // 
             // titleButton
             // 
             this.titleButton.Arrow = false;
@@ -301,9 +328,9 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(751, 449);
             this.Controls.Add(this.topBar);
+            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.startPage);
             this.Controls.Add(this.aboutPage);
-            this.Controls.Add(this.updatePage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "Slim Updater";
@@ -311,6 +338,7 @@
             this.topBar.ResumeLayout(false);
             this.topBar.PerformLayout();
             this.updatePage.ResumeLayout(false);
+            this.updatePage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).EndInit();
             this.updatesContextMenu.ResumeLayout(false);
             this.aboutPage.ResumeLayout(false);
@@ -343,6 +371,8 @@
         private System.Windows.Forms.LinkLabel siteLink;
         private System.Windows.Forms.Label slimsoftwareLabel;
         private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.RichTextBox changelogBox;
+        private System.Windows.Forms.Label changelogLabel;
     }
 }
 

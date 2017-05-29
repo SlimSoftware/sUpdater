@@ -37,7 +37,7 @@ namespace Slim_Updater
                     backArrow.Visible = true;
                     titleLabel.Location = new Point(30, 4);
                 }
-                if (value == false)
+                else
                 {
                     backArrow.Visible = false;
                     titleLabel.Location = new Point(0, 4);
