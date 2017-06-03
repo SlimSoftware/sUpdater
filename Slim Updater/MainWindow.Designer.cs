@@ -33,22 +33,20 @@
             this.startPage = new System.Windows.Forms.Panel();
             this.topBar = new System.Windows.Forms.Panel();
             this.aboutLabel = new System.Windows.Forms.Label();
+            this.updateContentPanel = new System.Windows.Forms.Panel();
+            this.updateContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ignoreUpdateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updatePage = new System.Windows.Forms.Panel();
-            this.updatesListView = new BrightIdeasSoftware.ObjectListView();
-            this.appNameColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.latestVersionColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.LocalVersion = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.updatesContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.changelogContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ignoreContextMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.installUpdatesButton = new System.Windows.Forms.Button();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.selectAllUpdatesCheckBox = new System.Windows.Forms.CheckBox();
             this.aboutPage = new System.Windows.Forms.Panel();
             this.siteLink = new System.Windows.Forms.LinkLabel();
             this.slimsoftwareLabel = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.aboutTitle = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.changelogLabel = new System.Windows.Forms.Label();
-            this.changelogBox = new System.Windows.Forms.RichTextBox();
+            this.slimUpdaterLogo = new System.Windows.Forms.PictureBox();
             this.titleButton = new Slim_Updater.titleButton();
             this.settingsTile = new Slim_Updater.Custom_Controls.flatTile();
             this.getNewAppsTile = new Slim_Updater.Custom_Controls.flatTile();
@@ -56,11 +54,10 @@
             this.updaterTile = new Slim_Updater.Custom_Controls.flatTile();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
+            this.updateContextMenu.SuspendLayout();
             this.updatePage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).BeginInit();
-            this.updatesContextMenu.SuspendLayout();
             this.aboutPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slimUpdaterLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // startPage
@@ -69,9 +66,9 @@
             this.startPage.Controls.Add(this.getNewAppsTile);
             this.startPage.Controls.Add(this.portableAppsTile);
             this.startPage.Controls.Add(this.updaterTile);
-            this.startPage.Location = new System.Drawing.Point(0, 36);
+            this.startPage.Location = new System.Drawing.Point(0, 34);
             this.startPage.Name = "startPage";
-            this.startPage.Size = new System.Drawing.Size(751, 413);
+            this.startPage.Size = new System.Drawing.Size(785, 425);
             this.startPage.TabIndex = 1;
             // 
             // topBar
@@ -82,14 +79,14 @@
             this.topBar.Controls.Add(this.aboutLabel);
             this.topBar.Location = new System.Drawing.Point(-8, -1);
             this.topBar.Name = "topBar";
-            this.topBar.Size = new System.Drawing.Size(767, 38);
+            this.topBar.Size = new System.Drawing.Size(793, 35);
             this.topBar.TabIndex = 5;
             // 
             // aboutLabel
             // 
             this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.aboutLabel.Location = new System.Drawing.Point(704, 9);
+            this.aboutLabel.Location = new System.Drawing.Point(729, 9);
             this.aboutLabel.Name = "aboutLabel";
             this.aboutLabel.Size = new System.Drawing.Size(50, 17);
             this.aboutLabel.TabIndex = 1;
@@ -98,83 +95,77 @@
             this.aboutLabel.MouseEnter += new System.EventHandler(this.aboutLabel_MouseEnter);
             this.aboutLabel.MouseLeave += new System.EventHandler(this.aboutLabel_MouseLeave);
             // 
+            // updateContentPanel
+            // 
+            this.updateContentPanel.AutoScroll = true;
+            this.updateContentPanel.ContextMenuStrip = this.updateContextMenu;
+            this.updateContentPanel.Location = new System.Drawing.Point(-3, 20);
+            this.updateContentPanel.Name = "updateContentPanel";
+            this.updateContentPanel.Size = new System.Drawing.Size(790, 365);
+            this.updateContentPanel.TabIndex = 0;
+            // 
+            // updateContextMenu
+            // 
+            this.updateContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ignoreUpdateToolStripMenuItem,
+            this.detailsToolStripMenuItem});
+            this.updateContextMenu.Name = "contextMenu";
+            this.updateContextMenu.Size = new System.Drawing.Size(110, 48);
+            // 
+            // ignoreUpdateToolStripMenuItem
+            // 
+            this.ignoreUpdateToolStripMenuItem.Name = "ignoreUpdateToolStripMenuItem";
+            this.ignoreUpdateToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.ignoreUpdateToolStripMenuItem.Text = "&Ignore";
+            // 
+            // detailsToolStripMenuItem
+            // 
+            this.detailsToolStripMenuItem.Name = "detailsToolStripMenuItem";
+            this.detailsToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.detailsToolStripMenuItem.Text = "&Details";
+            // 
             // updatePage
             // 
             this.updatePage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.updatePage.Controls.Add(this.changelogBox);
-            this.updatePage.Controls.Add(this.changelogLabel);
-            this.updatePage.Controls.Add(this.updatesListView);
-            this.updatePage.Location = new System.Drawing.Point(0, 36);
+            this.updatePage.Controls.Add(this.installUpdatesButton);
+            this.updatePage.Controls.Add(this.refreshButton);
+            this.updatePage.Controls.Add(this.selectAllUpdatesCheckBox);
+            this.updatePage.Controls.Add(this.updateContentPanel);
+            this.updatePage.Location = new System.Drawing.Point(0, 35);
             this.updatePage.Name = "updatePage";
-            this.updatePage.Size = new System.Drawing.Size(751, 413);
+            this.updatePage.Size = new System.Drawing.Size(785, 425);
             this.updatePage.TabIndex = 6;
             // 
-            // updatesListView
+            // installUpdatesButton
             // 
-            this.updatesListView.AllColumns.Add(this.appNameColumn);
-            this.updatesListView.AllColumns.Add(this.latestVersionColumn);
-            this.updatesListView.AllColumns.Add(this.LocalVersion);
-            this.updatesListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.updatesListView.CellEditUseWholeCell = false;
-            this.updatesListView.CheckBoxes = true;
-            this.updatesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.appNameColumn,
-            this.latestVersionColumn,
-            this.LocalVersion});
-            this.updatesListView.Cursor = System.Windows.Forms.Cursors.Default;
-            this.updatesListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.updatesListView.Location = new System.Drawing.Point(0, 0);
-            this.updatesListView.Name = "updatesListView";
-            this.updatesListView.SelectedBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.updatesListView.SelectedForeColor = System.Drawing.Color.White;
-            this.updatesListView.ShowGroups = false;
-            this.updatesListView.Size = new System.Drawing.Size(751, 219);
-            this.updatesListView.Sorting = System.Windows.Forms.SortOrder.Descending;
-            this.updatesListView.TabIndex = 0;
-            this.updatesListView.UseCompatibleStateImageBehavior = false;
-            this.updatesListView.UseHyperlinks = true;
-            this.updatesListView.View = System.Windows.Forms.View.Details;
+            this.installUpdatesButton.Location = new System.Drawing.Point(398, 394);
+            this.installUpdatesButton.Name = "installUpdatesButton";
+            this.installUpdatesButton.Size = new System.Drawing.Size(93, 23);
+            this.installUpdatesButton.TabIndex = 2;
+            this.installUpdatesButton.Text = "Install Selected";
+            this.installUpdatesButton.UseVisualStyleBackColor = true;
             // 
-            // appNameColumn
+            // refreshButton
             // 
-            this.appNameColumn.AspectName = "Name";
-            this.appNameColumn.HeaderCheckBox = true;
-            this.appNameColumn.Text = "Application";
-            this.appNameColumn.Width = 537;
+            this.refreshButton.Location = new System.Drawing.Point(294, 394);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(75, 23);
+            this.refreshButton.TabIndex = 0;
+            this.refreshButton.Text = "Refresh";
+            this.refreshButton.UseVisualStyleBackColor = true;
             // 
-            // latestVersionColumn
+            // selectAllUpdatesCheckBox
             // 
-            this.latestVersionColumn.AspectName = "LatestVersion";
-            this.latestVersionColumn.Text = "Latest Version";
-            this.latestVersionColumn.Width = 109;
-            // 
-            // LocalVersion
-            // 
-            this.LocalVersion.AspectName = "LocalVersion";
-            this.LocalVersion.Text = "Installed Version";
-            this.LocalVersion.Width = 100;
-            // 
-            // updatesContextMenu
-            // 
-            this.updatesContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.changelogContextMenuItem,
-            this.ignoreContextMenuItem});
-            this.updatesContextMenu.Name = "updatesContextMenu";
-            this.updatesContextMenu.Size = new System.Drawing.Size(150, 48);
-            // 
-            // changelogContextMenuItem
-            // 
-            this.changelogContextMenuItem.Name = "changelogContextMenuItem";
-            this.changelogContextMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.changelogContextMenuItem.Text = "Changelog";
-            // 
-            // ignoreContextMenuItem
-            // 
-            this.ignoreContextMenuItem.Name = "ignoreContextMenuItem";
-            this.ignoreContextMenuItem.Size = new System.Drawing.Size(149, 22);
-            this.ignoreContextMenuItem.Text = "Ignore Update";
+            this.selectAllUpdatesCheckBox.AutoSize = true;
+            this.selectAllUpdatesCheckBox.Checked = true;
+            this.selectAllUpdatesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.selectAllUpdatesCheckBox.Location = new System.Drawing.Point(4, 3);
+            this.selectAllUpdatesCheckBox.Name = "selectAllUpdatesCheckBox";
+            this.selectAllUpdatesCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.selectAllUpdatesCheckBox.TabIndex = 1;
+            this.selectAllUpdatesCheckBox.Text = "Select All";
+            this.selectAllUpdatesCheckBox.UseVisualStyleBackColor = true;
+            this.selectAllUpdatesCheckBox.Click += new System.EventHandler(this.selectAllUpdatesCheckBox_Click);
             // 
             // aboutPage
             // 
@@ -183,10 +174,10 @@
             this.aboutPage.Controls.Add(this.slimsoftwareLabel);
             this.aboutPage.Controls.Add(this.versionLabel);
             this.aboutPage.Controls.Add(this.aboutTitle);
-            this.aboutPage.Controls.Add(this.pictureBox1);
-            this.aboutPage.Location = new System.Drawing.Point(0, 37);
+            this.aboutPage.Controls.Add(this.slimUpdaterLogo);
+            this.aboutPage.Location = new System.Drawing.Point(0, 34);
             this.aboutPage.Name = "aboutPage";
-            this.aboutPage.Size = new System.Drawing.Size(751, 415);
+            this.aboutPage.Size = new System.Drawing.Size(785, 425);
             this.aboutPage.TabIndex = 9;
             // 
             // siteLink
@@ -237,37 +228,15 @@
             this.aboutTitle.TabIndex = 1;
             this.aboutTitle.Text = "Slim Updater";
             // 
-            // pictureBox1
+            // slimUpdaterLogo
             // 
-            this.pictureBox1.Image = global::Slim_Updater.Properties.Resources.SlimUpdater_new;
-            this.pictureBox1.Location = new System.Drawing.Point(311, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(128, 128);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
-            // changelogLabel
-            // 
-            this.changelogLabel.AutoSize = true;
-            this.changelogLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.changelogLabel.Location = new System.Drawing.Point(0, 222);
-            this.changelogLabel.Name = "changelogLabel";
-            this.changelogLabel.Size = new System.Drawing.Size(80, 17);
-            this.changelogLabel.TabIndex = 1;
-            this.changelogLabel.Text = "Changelog:";
-            // 
-            // changelogBox
-            // 
-            this.changelogBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.changelogBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.changelogBox.Location = new System.Drawing.Point(0, 243);
-            this.changelogBox.Name = "changelogBox";
-            this.changelogBox.ReadOnly = true;
-            this.changelogBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.changelogBox.Size = new System.Drawing.Size(751, 129);
-            this.changelogBox.TabIndex = 2;
-            this.changelogBox.Text = "";
+            this.slimUpdaterLogo.Image = global::Slim_Updater.Properties.Resources.SlimUpdater_new;
+            this.slimUpdaterLogo.Location = new System.Drawing.Point(311, 19);
+            this.slimUpdaterLogo.Name = "slimUpdaterLogo";
+            this.slimUpdaterLogo.Size = new System.Drawing.Size(128, 128);
+            this.slimUpdaterLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.slimUpdaterLogo.TabIndex = 0;
+            this.slimUpdaterLogo.TabStop = false;
             // 
             // titleButton
             // 
@@ -326,10 +295,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(751, 449);
+            this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.topBar);
-            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.startPage);
+            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.aboutPage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
@@ -337,13 +306,12 @@
             this.startPage.ResumeLayout(false);
             this.topBar.ResumeLayout(false);
             this.topBar.PerformLayout();
+            this.updateContextMenu.ResumeLayout(false);
             this.updatePage.ResumeLayout(false);
             this.updatePage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.updatesListView)).EndInit();
-            this.updatesContextMenu.ResumeLayout(false);
             this.aboutPage.ResumeLayout(false);
             this.aboutPage.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.slimUpdaterLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -353,26 +321,24 @@
         private System.Windows.Forms.Panel topBar;
         private System.Windows.Forms.Label aboutLabel;
         private System.Windows.Forms.Panel updatePage;
-        private BrightIdeasSoftware.ObjectListView updatesListView;
-        private BrightIdeasSoftware.OLVColumn appNameColumn;
-        private BrightIdeasSoftware.OLVColumn latestVersionColumn;
-        private BrightIdeasSoftware.OLVColumn LocalVersion;
-        private System.Windows.Forms.ContextMenuStrip updatesContextMenu;
-        private System.Windows.Forms.ToolStripMenuItem changelogContextMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ignoreContextMenuItem;
         private titleButton titleButton;
         private Custom_Controls.flatTile updaterTile;
         private Custom_Controls.flatTile settingsTile;
         private Custom_Controls.flatTile getNewAppsTile;
         private Custom_Controls.flatTile portableAppsTile;
         private System.Windows.Forms.Panel aboutPage;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox slimUpdaterLogo;
         private System.Windows.Forms.Label aboutTitle;
         private System.Windows.Forms.LinkLabel siteLink;
         private System.Windows.Forms.Label slimsoftwareLabel;
         private System.Windows.Forms.Label versionLabel;
-        private System.Windows.Forms.RichTextBox changelogBox;
-        private System.Windows.Forms.Label changelogLabel;
+        private System.Windows.Forms.Panel updateContentPanel;
+        private System.Windows.Forms.CheckBox selectAllUpdatesCheckBox;
+        private System.Windows.Forms.Button installUpdatesButton;
+        private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.ContextMenuStrip updateContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem ignoreUpdateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
     }
 }
 

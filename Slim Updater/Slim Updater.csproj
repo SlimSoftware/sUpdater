@@ -40,10 +40,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AppItem.Designer.cs">
+      <DependentUpon>AppItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom Controls\flatTile.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -77,6 +79,9 @@
     <Compile Include="Custom Controls\titleButton.Designer.cs">
       <DependentUpon>titleButton.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AppItem.resx">
+      <DependentUpon>AppItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Custom Controls\flatTile.resx">
       <DependentUpon>flatTile.cs</DependentUpon>
     </EmbeddedResource>

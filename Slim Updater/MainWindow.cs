@@ -55,6 +55,21 @@ namespace Slim_Updater
         public void CheckforUpdates()
         {
             List<App> updateList = new List<App>(appList);
+            AppItem appItem = new AppItem();
+            appItem.Click += (sender, e) => 
+            {
+                if (appItem.Height == 45)
+                {
+                    appItem.Expand();
+                }
+                else
+                {
+                    if (appItem.Height == 200)
+                    {
+                        appItem.Shrink();
+                    }
+                }
+            };
             foreach (App app in updateList.ToArray())
             {
                 // Remove up to date apps from the updateList
@@ -62,11 +77,14 @@ namespace Slim_Updater
                 {
                     updateList.Remove(app);
                 }
+                else
+                {
+                    // Add app to updateList
+                    appItem.Name = app.Name;
+                    appItem.Version = app.LatestVersion;
+                    updateContentPanel.Controls.Add(appItem);
+                }
             }
-
-            // Add the contents of the updateList to the listview
-            updatesListView.SetObjects(updateList);
-            updatesListView.BuildList(shouldPreserveState: false);
 
             // Change updaterTile on the startpage accordingly
             if (updateList.Count != 0)
@@ -76,16 +94,23 @@ namespace Slim_Updater
             }
         }
 
+        public void InstallUpdates()
+        {
+
+        }
+
         #region StartPage/TopBar Mouse Events
         private void updaterTile_Click(object sender, System.EventArgs e)
         {
             updatePage.BringToFront();
             titleButton.Text = "Updates";
             titleButton.Arrow = true;
+            topBar.Size = new Size(topBar.Size.Width, 55);
         }
 
         private void titleButton_Click(object sender, System.EventArgs e)
         {
+            topBar.Size = new Size(topBar.Size.Width, 35);
             if (titleButton.Arrow == true)
             {
                 startPage.BringToFront();
@@ -112,8 +137,8 @@ namespace Slim_Updater
 
         private void aboutLabel_Click(object sender, EventArgs e)
         {
+            topBar.Size = new Size(topBar.Size.Width, 35);
             aboutPage.BringToFront();
-            topBar.BringToFront();
             titleButton.Text = "About";
             titleButton.Arrow = true;
             aboutLabel.Hide();
@@ -124,6 +149,27 @@ namespace Slim_Updater
             System.Diagnostics.Process.Start("http://www.slimsoft.tk");
         }
         #endregion
+
+        private void selectAllUpdatesCheckBox_Click(object sender, EventArgs e)
+        {
+            if (selectAllUpdatesCheckBox.Checked == true)
+            {
+                foreach (AppItem update in updateContentPanel.Controls)
+                {
+                    update.Checked = true;
+                    selectAllUpdatesCheckBox.Text = "Unselect All";
+                }
+            }
+
+            else
+            {
+                foreach (AppItem update in updateContentPanel.Controls)
+                {
+                    update.Checked = false;
+                    selectAllUpdatesCheckBox.Text = "Select All";
+                }
+            }
+        }
     }
 
 
