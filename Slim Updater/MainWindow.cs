@@ -4,6 +4,8 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System;
+using System.Net;
+using System.IO;
 
 namespace Slim_Updater
 {
@@ -17,6 +19,8 @@ namespace Slim_Updater
         }
 
         public List<App> appList = new List<App>();
+        public List<App> updateList;
+        int downloadCount;
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
 
@@ -54,7 +58,7 @@ namespace Slim_Updater
 
         public void CheckforUpdates()
         {
-            List<App> updateList = new List<App>(appList);
+            updateList = new List<App>(appList);
             AppItem appItem = new AppItem();
             appItem.Click += (sender, e) => 
             {
@@ -96,7 +100,52 @@ namespace Slim_Updater
 
         public void InstallUpdates()
         {
+            int maxDownloads = 3; // TODO: Add user setting here
+            foreach (AppItem app in updateContentPanel.Controls)
+            {
+                if (app.Checked == false)
+                {
+                    continue;
+                }
 
+                // Download
+                for (downloadCount = 0; downloadCount <= maxDownloads; downloadCount++)
+                {
+                    foreach (App update in updateList)
+                    {
+                        if (app.Name.Equals(update.Name) == false)
+                        {
+                            continue;
+                        }
+
+                        string fileName = Path.GetFileName(update.DL);
+                        string savePath = Path.Combine(
+                            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileName);
+                        using (var wc = new WebClient())
+                        {
+                            wc.DownloadFileAsync(new System.Uri(update.DL), fileName);
+                            wc.DownloadProgressChanged += (s, e) =>
+                            {
+                                app.Progress = e.ProgressPercentage;
+                                float mbDownloaded = (e.BytesReceived / 1024f) / 1024f;
+                                float mbTotal = (e.TotalBytesToReceive / 1024f) / 1024f;
+                                app.Status = string.Format("Downloading... ({0} MB of {1} MB",
+                                    mbDownloaded, mbTotal);
+                            };
+                            wc.DownloadFileCompleted += (s, e) =>
+                            {
+                                downloadCount--;
+                            };
+                        }
+                        continue;
+                    }
+                }
+
+                // Install
+                {
+                    
+                }
+            }
         }
 
         #region StartPage/TopBar Mouse Events
@@ -173,6 +222,7 @@ namespace Slim_Updater
     }
 
 
+
     public class App
     {
         public string Name { get; set; }
@@ -182,9 +232,10 @@ namespace Slim_Updater
         public string Type { get; set; }
         public string InstallSwitch { get; set; }
         public string DL { get; set; }
+        public string SavePath { get; set; }
 
         public App(string name, string latestVersion, string localVersion, string arch, string type,
-            string installSwitch, string dl)
+            string installSwitch, string dl, string savePath = null)
         {
             Name = name;
             LatestVersion = latestVersion;
@@ -193,6 +244,7 @@ namespace Slim_Updater
             Type = type;
             InstallSwitch = installSwitch;
             DL = dl;
+            SavePath = savePath;
         }
     }
 }

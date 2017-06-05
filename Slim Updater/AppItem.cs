@@ -32,6 +32,18 @@ namespace Slim_Updater
             set { checkBox.Checked = value; }
         }
 
+        public int Progress
+        {
+            get { return progressBar.Value; }
+            set { progressBar.Value = value; }
+        }
+
+        public string Status
+        {
+            get { return statusLabel.Text; }
+            set { statusLabel.Text = value; }
+        }
+
         public void Expand()
         {
             this.Size = new Size(this.Width, 200);
