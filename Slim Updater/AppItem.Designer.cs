@@ -33,9 +33,6 @@
             this.checkBox = new System.Windows.Forms.CheckBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.statusLabel = new System.Windows.Forms.Label();
-            this.changelogText = new System.Windows.Forms.Label();
-            this.changelogLabel = new System.Windows.Forms.Label();
-            this.actionLink = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // appLabel
@@ -92,54 +89,19 @@
             this.statusLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.statusLabel.Visible = false;
             // 
-            // changelogText
-            // 
-            this.changelogText.AutoSize = true;
-            this.changelogText.Location = new System.Drawing.Point(3, 76);
-            this.changelogText.Name = "changelogText";
-            this.changelogText.Size = new System.Drawing.Size(58, 13);
-            this.changelogText.TabIndex = 8;
-            this.changelogText.Text = "Changelog";
-            // 
-            // changelogLabel
-            // 
-            this.changelogLabel.AutoSize = true;
-            this.changelogLabel.BackColor = System.Drawing.Color.Transparent;
-            this.changelogLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.changelogLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.changelogLabel.Location = new System.Drawing.Point(3, 50);
-            this.changelogLabel.Name = "changelogLabel";
-            this.changelogLabel.Size = new System.Drawing.Size(85, 17);
-            this.changelogLabel.TabIndex = 9;
-            this.changelogLabel.Text = "Changelog";
-            // 
-            // actionLink
-            // 
-            this.actionLink.AutoSize = true;
-            this.actionLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.actionLink.Location = new System.Drawing.Point(3, 177);
-            this.actionLink.Name = "actionLink";
-            this.actionLink.Size = new System.Drawing.Size(37, 13);
-            this.actionLink.TabIndex = 10;
-            this.actionLink.TabStop = true;
-            this.actionLink.Text = "Ingore";
-            // 
             // AppItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.Controls.Add(this.actionLink);
-            this.Controls.Add(this.changelogLabel);
-            this.Controls.Add(this.changelogText);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.checkBox);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.appLabel);
             this.Name = "AppItem";
-            this.Size = new System.Drawing.Size(790, 200);
+            this.Size = new System.Drawing.Size(790, 45);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,9 +113,6 @@
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.CheckBox checkBox;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Label changelogText;
-        private System.Windows.Forms.Label changelogLabel;
-        private System.Windows.Forms.LinkLabel actionLink;
         private System.Windows.Forms.Label statusLabel;
     }
 }

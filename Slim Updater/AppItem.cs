@@ -9,7 +9,6 @@ namespace Slim_Updater
         public AppItem()
         {
             InitializeComponent();
-            this.Height = 45;
             this.Checked = true;
             WireAllControls(this);
         }
@@ -42,18 +41,6 @@ namespace Slim_Updater
         {
             get { return statusLabel.Text; }
             set { statusLabel.Text = value; }
-        }
-
-        public void Expand()
-        {
-            this.Size = new Size(this.Width, 200);
-            this.BackColor = Color.WhiteSmoke;
-        }
-
-        public void Shrink()
-        {
-            this.Size = new Size(this.Width, 45);
-            this.BackColor = Color.White;
         }
 
         private void WireAllControls(Control cont)

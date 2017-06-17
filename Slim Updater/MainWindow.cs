@@ -36,12 +36,14 @@ namespace Slim_Updater
                 // Get content from XML nodes
                 XAttribute nameAttribute = appElement.Attribute("name");
                 XElement versionElement = appElement.Element("version");
+                XElement descriptionElement = appElement.Element("description");
                 XElement archElement = appElement.Element("arch");
                 XElement typeElement = appElement.Element("type");
                 XElement switchElement = appElement.Element("switch");
                 XElement dlElement = appElement.Element("dl");
                 XElement regkeyElement = appElement.Element("regkey");
                 XElement regvalueElement = appElement.Element("regvalue");
+                XElement changelogElement = appElement.Element("changelog");
 
                 // Get local version if installed
                 string localVersion = Registry.GetValue(regkeyElement.Value, regvalueElement.Value, false).ToString();
@@ -59,23 +61,14 @@ namespace Slim_Updater
         public void CheckforUpdates()
         {
             updateList = new List<App>(appList);
-            AppItem appItem = new AppItem();
-            appItem.Click += (sender, e) => 
-            {
-                if (appItem.Height == 45)
-                {
-                    appItem.Expand();
-                }
-                else
-                {
-                    if (appItem.Height == 200)
-                    {
-                        appItem.Shrink();
-                    }
-                }
-            };
             foreach (App app in updateList.ToArray())
             {
+                AppItem appItem = new AppItem();
+                appItem.Click += (sender, e) =>
+                {
+                    ShowDetails(app.Changelog);
+                };
+
                 // Remove up to date apps from the updateList
                 if (float.Parse(app.LatestVersion.ToString()) <= float.Parse(app.LocalVersion.ToString()))
                 {
@@ -86,7 +79,16 @@ namespace Slim_Updater
                     // Add app to updateList
                     appItem.Name = app.Name;
                     appItem.Version = app.LatestVersion;
-                    updateContentPanel.Controls.Add(appItem);
+                    if (updateContentPanel.Controls.Count == 0)
+                    {
+                        updateContentPanel.Controls.Add(appItem);
+                    }
+                    else
+                    {
+                        appItem.Location = new Point(0, (updateContentPanel.Controls.Count * 45));
+                        updateContentPanel.Controls.Add(appItem);
+                    }
+                
                 }
             }
 
@@ -219,6 +221,33 @@ namespace Slim_Updater
                 }
             }
         }
+
+        public void ShowDetails(string changelogText = null, string descriptionText = null)
+        {
+            if (descriptionText.Equals(null) == true)
+            {
+                if (changelogText.Equals(null) == false)
+                {
+                    if (detailLabel.Text != "Changelog")
+                    {
+                        detailLabel.Text = "Changelog";
+                    }
+                    detailText.Text = changelogText;
+                }
+            }
+
+            if (changelogText.Equals(null) == true)
+            {
+                if (descriptionText.Equals(null) == false)
+                {
+                    if (detailLabel.Text != "Description")
+                    {
+                        detailLabel.Text = "Description";
+                    }
+                    detailText.Text = descriptionText;
+                }
+            }
+        }
     }
 
 
@@ -228,23 +257,28 @@ namespace Slim_Updater
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
+        public string Changelog { get; set; }
         public string Arch { get; set; }
         public string Type { get; set; }
         public string InstallSwitch { get; set; }
         public string DL { get; set; }
         public string SavePath { get; set; }
+        public string Description { get; set; }
 
-        public App(string name, string latestVersion, string localVersion, string arch, string type,
-            string installSwitch, string dl, string savePath = null)
+        public App(string name, string latestVersion, string localVersion,
+            string arch, string type, string installSwitch, string dl, string savePath = null,
+            string changelog = null, string description = null)
         {
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
+            Changelog = changelog;
             Arch = arch;
             Type = type;
             InstallSwitch = installSwitch;
             DL = dl;
             SavePath = savePath;
+            Description = description;
         }
     }
 }
