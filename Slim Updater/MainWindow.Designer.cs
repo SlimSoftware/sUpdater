@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.startPage = new System.Windows.Forms.Panel();
             this.topBar = new System.Windows.Forms.Panel();
+            this.selectAllUpdatesCheckBox = new System.Windows.Forms.CheckBox();
             this.aboutLabel = new System.Windows.Forms.Label();
             this.updateContentPanel = new System.Windows.Forms.Panel();
             this.updateContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -40,7 +41,6 @@
             this.updatePage = new System.Windows.Forms.Panel();
             this.installUpdatesButton = new System.Windows.Forms.Button();
             this.refreshButton = new System.Windows.Forms.Button();
-            this.selectAllUpdatesCheckBox = new System.Windows.Forms.CheckBox();
             this.aboutPage = new System.Windows.Forms.Panel();
             this.siteLink = new System.Windows.Forms.LinkLabel();
             this.slimsoftwareLabel = new System.Windows.Forms.Label();
@@ -52,10 +52,10 @@
             this.actionLink = new System.Windows.Forms.LinkLabel();
             this.detailLabel = new System.Windows.Forms.Label();
             this.titleButton = new Slim_Updater.titleButton();
-            this.settingsTile = new Slim_Updater.Custom_Controls.flatTile();
-            this.getNewAppsTile = new Slim_Updater.Custom_Controls.flatTile();
-            this.portableAppsTile = new Slim_Updater.Custom_Controls.flatTile();
-            this.updaterTile = new Slim_Updater.Custom_Controls.flatTile();
+            this.settingsTile = new Slim_Updater.flatTile();
+            this.getNewAppsTile = new Slim_Updater.flatTile();
+            this.portableAppsTile = new Slim_Updater.flatTile();
+            this.updaterTile = new Slim_Updater.flatTile();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updateContextMenu.SuspendLayout();
@@ -80,12 +80,26 @@
             // 
             this.topBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.topBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.topBar.Controls.Add(this.selectAllUpdatesCheckBox);
             this.topBar.Controls.Add(this.titleButton);
             this.topBar.Controls.Add(this.aboutLabel);
-            this.topBar.Location = new System.Drawing.Point(-8, -1);
+            this.topBar.Location = new System.Drawing.Point(-7, -1);
             this.topBar.Name = "topBar";
-            this.topBar.Size = new System.Drawing.Size(793, 35);
+            this.topBar.Size = new System.Drawing.Size(798, 35);
             this.topBar.TabIndex = 5;
+            // 
+            // selectAllUpdatesCheckBox
+            // 
+            this.selectAllUpdatesCheckBox.AutoSize = true;
+            this.selectAllUpdatesCheckBox.Checked = true;
+            this.selectAllUpdatesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.selectAllUpdatesCheckBox.Location = new System.Drawing.Point(12, 37);
+            this.selectAllUpdatesCheckBox.Name = "selectAllUpdatesCheckBox";
+            this.selectAllUpdatesCheckBox.Size = new System.Drawing.Size(82, 17);
+            this.selectAllUpdatesCheckBox.TabIndex = 1;
+            this.selectAllUpdatesCheckBox.Text = "Unselect All";
+            this.selectAllUpdatesCheckBox.UseVisualStyleBackColor = true;
+            this.selectAllUpdatesCheckBox.Click += new System.EventHandler(this.selectAllUpdatesCheckBox_Click);
             // 
             // aboutLabel
             // 
@@ -104,9 +118,9 @@
             // 
             this.updateContentPanel.AutoScroll = true;
             this.updateContentPanel.ContextMenuStrip = this.updateContextMenu;
-            this.updateContentPanel.Location = new System.Drawing.Point(-3, 20);
+            this.updateContentPanel.Location = new System.Drawing.Point(0, 20);
             this.updateContentPanel.Name = "updateContentPanel";
-            this.updateContentPanel.Size = new System.Drawing.Size(790, 365);
+            this.updateContentPanel.Size = new System.Drawing.Size(785, 365);
             this.updateContentPanel.TabIndex = 0;
             // 
             // updateContextMenu
@@ -136,7 +150,6 @@
             this.updatePage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.updatePage.Controls.Add(this.installUpdatesButton);
             this.updatePage.Controls.Add(this.refreshButton);
-            this.updatePage.Controls.Add(this.selectAllUpdatesCheckBox);
             this.updatePage.Controls.Add(this.updateContentPanel);
             this.updatePage.Location = new System.Drawing.Point(0, 35);
             this.updatePage.Name = "updatePage";
@@ -162,19 +175,6 @@
             this.refreshButton.Text = "Refresh";
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
-            // selectAllUpdatesCheckBox
-            // 
-            this.selectAllUpdatesCheckBox.AutoSize = true;
-            this.selectAllUpdatesCheckBox.Checked = true;
-            this.selectAllUpdatesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.selectAllUpdatesCheckBox.Location = new System.Drawing.Point(4, 3);
-            this.selectAllUpdatesCheckBox.Name = "selectAllUpdatesCheckBox";
-            this.selectAllUpdatesCheckBox.Size = new System.Drawing.Size(82, 17);
-            this.selectAllUpdatesCheckBox.TabIndex = 1;
-            this.selectAllUpdatesCheckBox.Text = "Unselect All";
-            this.selectAllUpdatesCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllUpdatesCheckBox.Click += new System.EventHandler(this.selectAllUpdatesCheckBox_Click);
             // 
             // aboutPage
             // 
@@ -351,9 +351,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(784, 461);
-            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.topBar);
             this.Controls.Add(this.startPage);
+            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.detailsPage);
             this.Controls.Add(this.aboutPage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -364,7 +364,6 @@
             this.topBar.PerformLayout();
             this.updateContextMenu.ResumeLayout(false);
             this.updatePage.ResumeLayout(false);
-            this.updatePage.PerformLayout();
             this.aboutPage.ResumeLayout(false);
             this.aboutPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.slimUpdaterLogo)).EndInit();
@@ -380,10 +379,10 @@
         private System.Windows.Forms.Label aboutLabel;
         private System.Windows.Forms.Panel updatePage;
         private titleButton titleButton;
-        private Custom_Controls.flatTile updaterTile;
-        private Custom_Controls.flatTile settingsTile;
-        private Custom_Controls.flatTile getNewAppsTile;
-        private Custom_Controls.flatTile portableAppsTile;
+        private flatTile updaterTile;
+        private flatTile settingsTile;
+        private flatTile getNewAppsTile;
+        private flatTile portableAppsTile;
         private System.Windows.Forms.Panel aboutPage;
         private System.Windows.Forms.PictureBox slimUpdaterLogo;
         private System.Windows.Forms.Label aboutTitle;

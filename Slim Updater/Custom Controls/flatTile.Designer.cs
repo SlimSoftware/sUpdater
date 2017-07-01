@@ -1,4 +1,4 @@
-﻿namespace Slim_Updater.Custom_Controls
+﻿namespace Slim_Updater
 {
     partial class flatTile
     {

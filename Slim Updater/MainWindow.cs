@@ -99,7 +99,6 @@ namespace Slim_Updater
                         changelogElement.Value, archElement.Value, typeElement.Value, switchElement.Value, 
                         dlElement.Value, descriptionElement.Value));
                 }
-
             }
         }
 
@@ -111,7 +110,7 @@ namespace Slim_Updater
             foreach (App app in updateList.ToArray())
             {
                 AppItem appItem = new AppItem();
-
+                Separator separator = new Separator();
                 appItem.Click += (sender, e) =>
                 {
                     ShowDetails(app.Changelog);
@@ -129,16 +128,20 @@ namespace Slim_Updater
                     appItem.Version = app.LatestVersion;
                     if (updateContentPanel.Controls.Count == 0)
                     {
+                        separator.Location = new Point(0, (appItem.Location.Y + 45));
+                        updateContentPanel.Controls.Add(separator);
                         updateContentPanel.Controls.Add(appItem);
                         previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height; // spacer underneath first
+                        previousHeight = appItem.Height;
                     }
                     else
                     {
                         appItem.Location = new Point(0, (previousY + previousHeight));
+                        separator.Location = new Point(0, (appItem.Location.Y + 45));
                         updateContentPanel.Controls.Add(appItem);
+                        updateContentPanel.Controls.Add(separator);
                         previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height; // spacer below second, third...
+                        previousHeight = appItem.Height;
                     }
                 
                 }
@@ -208,7 +211,8 @@ namespace Slim_Updater
             updatePage.BringToFront();
             titleButton.Text = "Updates";
             titleButton.Arrow = true;
-            topBar.Size = new Size(topBar.Size.Width, 55);
+            topBar.Size = new Size(topBar.Size.Width, 57);
+            topBar.BringToFront();
         }
 
         private void titleButton_Click(object sender, System.EventArgs e)
@@ -268,19 +272,25 @@ namespace Slim_Updater
         {
             if (selectAllUpdatesCheckBox.Checked == true)
             {
-                foreach (AppItem update in updateContentPanel.Controls)
+                foreach (Control c in updateContentPanel.Controls)
                 {
-                    update.Checked = true;
-                    selectAllUpdatesCheckBox.Text = "Unselect All";
+                    if (c is AppItem)
+                    {
+                        (c as AppItem).Checked = true;
+                        selectAllUpdatesCheckBox.Text = "Unselect All";
+                    }
                 }
             }
 
             else
             {
-                foreach (AppItem update in updateContentPanel.Controls)
+                foreach (Control c in updateContentPanel.Controls)
                 {
-                    update.Checked = false;
-                    selectAllUpdatesCheckBox.Text = "Select All";
+                    if (c is AppItem)
+                    {
+                        (c as AppItem).Checked = false;
+                        selectAllUpdatesCheckBox.Text = "Select All";
+                    }
                 }
             }
         }
@@ -327,21 +337,6 @@ namespace Slim_Updater
         private void installUpdatesButton_Click(object sender, EventArgs e)
         {
             InstallUpdates();
-        }
-
-        public bool IsFirstAppItem
-        {
-            get
-            {
-                if (updateContentPanel.Controls.Count == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
         }
     }
 

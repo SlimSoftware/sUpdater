@@ -100,7 +100,7 @@
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.appLabel);
             this.Name = "AppItem";
-            this.Size = new System.Drawing.Size(792, 47);
+            this.Size = new System.Drawing.Size(785, 45);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -53,10 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppItem.cs">
+    <Compile Include="Custom Controls\AppItem.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AppItem.Designer.cs">
+    <Compile Include="Custom Controls\AppItem.Designer.cs">
       <DependentUpon>AppItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\flatTile.cs">
@@ -64,6 +64,12 @@
     </Compile>
     <Compile Include="Custom Controls\flatTile.Designer.cs">
       <DependentUpon>flatTile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\Separator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\Separator.Designer.cs">
+      <DependentUpon>Separator.cs</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -79,11 +85,14 @@
     <Compile Include="Custom Controls\titleButton.Designer.cs">
       <DependentUpon>titleButton.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AppItem.resx">
+    <EmbeddedResource Include="Custom Controls\AppItem.resx">
       <DependentUpon>AppItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Custom Controls\flatTile.resx">
       <DependentUpon>flatTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom Controls\Separator.resx">
+      <DependentUpon>Separator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

@@ -14,7 +14,6 @@ namespace Slim_Updater
         {
             InitializeComponent();
             WireAllControls(this);
-
         }
 
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always), //required for the text to display
