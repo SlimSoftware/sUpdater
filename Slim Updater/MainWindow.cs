@@ -11,18 +11,18 @@ namespace Slim_Updater
 {
     public partial class MainWindow : Form
     {
+        public List<App> appList = new List<App>();
+        public List<App> updateList;
+        int downloadCount;
+        Color normalGreen = Color.FromArgb(0, 186, 0);
+        Color normalOrange = Color.FromArgb(254, 124, 35);
+
         public MainWindow()
         {
             InitializeComponent();
             ReadDefenitions();
             CheckforUpdates();
         }
-
-        public List<App> appList = new List<App>();
-        public List<App> updateList;
-        int downloadCount;
-        Color normalGreen = Color.FromArgb(0, 186, 0);
-        Color normalOrange = Color.FromArgb(254, 124, 35);
 
         public void ReadDefenitions()
         {
@@ -51,19 +51,67 @@ namespace Slim_Updater
                 {
                     localVersion = "-";
                 }
-                
+
+                // Remove first newline from app description and changelog if present
+                if (changelogElement != null)
+                {
+                    if (changelogElement.Value.StartsWith("\n"))
+                    {
+                        changelogElement.Value = changelogElement.Value.TrimStart("\n".ToCharArray());
+                    }
+                }
+
+                if (descriptionElement != null)
+                {
+                    if (descriptionElement.Value.StartsWith("\n"))
+                    {
+                        descriptionElement.Value = descriptionElement.Value.TrimStart("\n".ToCharArray());
+                    }
+                }
+
                 // Add app to appList
-                appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion, 
-                    archElement.Value, typeElement.Value, switchElement.Value, dlElement.Value));
+                if (changelogElement == null | descriptionElement == null)
+                {
+                    if (descriptionElement == null && changelogElement != null)
+                    {
+                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                            localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                            dlElement.Value, changelogElement.Value, null));
+                    }
+
+                    if (changelogElement == null && descriptionElement != null)
+                    {
+                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                            localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                            dlElement.Value, null, descriptionElement.Value));
+                    }
+
+                    else
+                    {
+                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, 
+                            localVersion, archElement.Value, typeElement.Value, switchElement.Value, 
+                            dlElement.Value, null, null));
+                    }
+                }
+                else
+                {
+                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion,
+                        changelogElement.Value, archElement.Value, typeElement.Value, switchElement.Value, 
+                        dlElement.Value, descriptionElement.Value));
+                }
+
             }
         }
 
         public void CheckforUpdates()
         {
             updateList = new List<App>(appList);
+            int previousY = 0;
+            int previousHeight = 0;
             foreach (App app in updateList.ToArray())
             {
                 AppItem appItem = new AppItem();
+
                 appItem.Click += (sender, e) =>
                 {
                     ShowDetails(app.Changelog);
@@ -82,11 +130,15 @@ namespace Slim_Updater
                     if (updateContentPanel.Controls.Count == 0)
                     {
                         updateContentPanel.Controls.Add(appItem);
+                        previousY = appItem.Location.Y;
+                        previousHeight = appItem.Height; // spacer underneath first
                     }
                     else
                     {
-                        appItem.Location = new Point(0, (updateContentPanel.Controls.Count * 45));
+                        appItem.Location = new Point(0, (previousY + previousHeight));
                         updateContentPanel.Controls.Add(appItem);
+                        previousY = appItem.Location.Y;
+                        previousHeight = appItem.Height; // spacer below second, third...
                     }
                 
                 }
@@ -103,52 +155,52 @@ namespace Slim_Updater
         public void InstallUpdates()
         {
             int maxDownloads = 3; // TODO: Add user setting here
-            foreach (AppItem app in updateContentPanel.Controls)
+            foreach (AppItem update in updateContentPanel.Controls)
             {
-                if (app.Checked == false)
+                if (update.Checked == false)
                 {
                     continue;
                 }
 
                 // Download
-                for (downloadCount = 0; downloadCount <= maxDownloads; downloadCount++)
+                for (downloadCount = 1; downloadCount <= maxDownloads; downloadCount++)
                 {
-                    foreach (App update in updateList)
+                    foreach (App app in updateList)
                     {
                         if (app.Name.Equals(update.Name) == false)
                         {
                             continue;
                         }
 
-                        string fileName = Path.GetFileName(update.DL);
+                        string fileName = Path.GetFileName(app.DL);
                         string savePath = Path.Combine(
-                            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), fileName);
+                            @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"SlimSoftware\Slim Updater\" + fileName);
                         using (var wc = new WebClient())
                         {
-                            wc.DownloadFileAsync(new System.Uri(update.DL), fileName);
                             wc.DownloadProgressChanged += (s, e) =>
                             {
-                                app.Progress = e.ProgressPercentage;
+                                update.Progress = e.ProgressPercentage;
                                 float mbDownloaded = (e.BytesReceived / 1024f) / 1024f;
                                 float mbTotal = (e.TotalBytesToReceive / 1024f) / 1024f;
-                                app.Status = string.Format("Downloading... ({0} MB of {1} MB",
+                                update.Status = string.Format("Downloading... ({0} MB of {1} MB",
                                     mbDownloaded, mbTotal);
                             };
                             wc.DownloadFileCompleted += (s, e) =>
                             {
                                 downloadCount--;
                             };
+                            wc.DownloadFileAsync(new Uri(app.DL), savePath);
                         }
-                        continue;
+                        break;
                     }
                 }
+            }
 
                 // Install
                 {
                     
                 }
             }
-        }
 
         #region StartPage/TopBar Mouse Events
         private void updaterTile_Click(object sender, System.EventArgs e)
@@ -162,15 +214,26 @@ namespace Slim_Updater
         private void titleButton_Click(object sender, System.EventArgs e)
         {
             topBar.Size = new Size(topBar.Size.Width, 35);
-            if (titleButton.Arrow == true)
+            if (titleButton.Text == "Details")
             {
-                startPage.BringToFront();
-                titleButton.Text = "Home";
-                titleButton.Arrow = false;
+                detailsPage.SendToBack();
+                if (this.Controls[0].Name == "updatePage")
+                {
+                    titleButton.Text = "Updates";
+                }
             }
-            if (aboutLabel.Visible == false)
+            else
             {
-                aboutLabel.Visible = true;
+                if (titleButton.Arrow == true)
+                {
+                    startPage.BringToFront();
+                    titleButton.Text = "Home";
+                    titleButton.Arrow = false;
+                }
+                if (aboutLabel.Visible == false)
+                {
+                    aboutLabel.Visible = true;
+                }
             }
         }
 
@@ -224,9 +287,9 @@ namespace Slim_Updater
 
         public void ShowDetails(string changelogText = null, string descriptionText = null)
         {
-            if (descriptionText.Equals(null) == true)
+            if (descriptionText == null)
             {
-                if (changelogText.Equals(null) == false)
+                if (changelogText != null)
                 {
                     if (detailLabel.Text != "Changelog")
                     {
@@ -234,23 +297,53 @@ namespace Slim_Updater
                     }
                     detailText.Text = changelogText;
                 }
+                detailsPage.BringToFront();
+                titleButton.Text = "Details";
             }
-
-            if (changelogText.Equals(null) == true)
+            else
             {
-                if (descriptionText.Equals(null) == false)
+                if (changelogText == null)
                 {
-                    if (detailLabel.Text != "Description")
+                    if (descriptionText != null)
                     {
-                        detailLabel.Text = "Description";
+                        if (detailLabel.Text != "Description")
+                        {
+                            detailLabel.Text = "Description";
+                        }
+                        detailText.Text = descriptionText;
                     }
-                    detailText.Text = descriptionText;
+                    detailsPage.BringToFront();
+                    titleButton.Text = "Details";
+                }
+            }
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            ReadDefenitions();
+            CheckforUpdates();
+        }
+
+        private void installUpdatesButton_Click(object sender, EventArgs e)
+        {
+            InstallUpdates();
+        }
+
+        public bool IsFirstAppItem
+        {
+            get
+            {
+                if (updateContentPanel.Controls.Count == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }
     }
-
-
 
     public class App
     {
@@ -266,8 +359,8 @@ namespace Slim_Updater
         public string Description { get; set; }
 
         public App(string name, string latestVersion, string localVersion,
-            string arch, string type, string installSwitch, string dl, string savePath = null,
-            string changelog = null, string description = null)
+            string arch, string type, string installSwitch, string dl,
+            string changelog = null, string description = null, string savePath = null)
         {
             Name = name;
             LatestVersion = latestVersion;

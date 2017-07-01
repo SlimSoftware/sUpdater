@@ -2,6 +2,7 @@
 using System.Drawing;
 using System;
 
+
 namespace Slim_Updater
 {
     public partial class AppItem : UserControl
@@ -57,7 +58,10 @@ namespace Slim_Updater
 
         private void ctl_Click(object sender, EventArgs e)
         {
-            this.InvokeOnClick(this, EventArgs.Empty);
+            if (sender != checkBox)
+            {
+                this.InvokeOnClick(this, EventArgs.Empty);
+            }
         }
     }
 }
