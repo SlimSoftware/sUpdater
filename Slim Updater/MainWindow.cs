@@ -159,15 +159,23 @@ namespace Slim_Updater
                 updaterTile.Text = String.Format("{0} updates available", updateList.Count);
             }
         }
-
+        
         public void InstallUpdates()
         {
             int maxDownloads = 3; // TODO: Add user setting here
-            foreach (AppItem update in updateContentPanel.Controls)
+            foreach (Control update in updateContentPanel.Controls)
             {
-                if (update.Checked == false)
+                if (update is Separator)
                 {
                     continue;
+                }
+
+                else
+                {
+                    if ((update as AppItem).Checked == false)
+                    {
+                        continue;
+                    }
                 }
 
                 // Download
@@ -175,7 +183,7 @@ namespace Slim_Updater
                 {
                     foreach (App app in updateList)
                     {
-                        if (app.Name.Equals(update.Name) == false)
+                        if (app.Name.Equals((update as AppItem).Name) == false)
                         {
                             continue;
                         }
@@ -185,12 +193,12 @@ namespace Slim_Updater
                             @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"SlimSoftware\Slim Updater\" + fileName);
                         using (var wc = new WebClient())
                         {
-                            wc.DownloadProgressChanged += (s, e) =>
+                            wc.DownloadProgressChanged += (sender, e) =>
                             {
-                                update.Progress = e.ProgressPercentage;
+                                (update as AppItem).Progress = e.ProgressPercentage;
                                 float mbDownloaded = (e.BytesReceived / 1024f) / 1024f;
                                 float mbTotal = (e.TotalBytesToReceive / 1024f) / 1024f;
-                                update.Status = string.Format("Downloading... ({0} MB of {1} MB",
+                                (update as AppItem).Status = string.Format("Downloading... ({0} MB of {1} MB",
                                     mbDownloaded, mbTotal);
                             };
                             wc.DownloadFileCompleted += (s, e) =>
