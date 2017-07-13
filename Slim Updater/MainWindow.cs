@@ -128,7 +128,9 @@ namespace Slim_Updater
                     appItem.Version = app.LatestVersion;
                     if (updateContentPanel.Controls.Count == 0)
                     {
-                        separator.Location = new Point(0, (appItem.Location.Y + 45));
+                        updateContentPanel.Controls.Add(separator);
+                        separator = new Separator();
+                        separator.Location = new Point(0, 45);
                         updateContentPanel.Controls.Add(separator);
                         updateContentPanel.Controls.Add(appItem);
                         previousY = appItem.Location.Y;
@@ -211,13 +213,21 @@ namespace Slim_Updater
             updatePage.BringToFront();
             titleButton.Text = "Updates";
             titleButton.Arrow = true;
-            topBar.Size = new Size(topBar.Size.Width, 57);
-            topBar.BringToFront();
+            topBar.BorderStyle = BorderStyle.None;
         }
 
         private void titleButton_Click(object sender, System.EventArgs e)
         {
-            topBar.Size = new Size(topBar.Size.Width, 35);
+            if (topBar.Size.Height != 35)
+            {
+                topBar.Size = new Size(topBar.Size.Width, 35);
+            }
+            
+            if (topBar.BorderStyle == BorderStyle.None)
+            {
+                topBar.BorderStyle = BorderStyle.FixedSingle;
+            }
+
             if (titleButton.Text == "Details")
             {
                 detailsPage.SendToBack();
@@ -337,6 +347,14 @@ namespace Slim_Updater
         private void installUpdatesButton_Click(object sender, EventArgs e)
         {
             InstallUpdates();
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (this.Controls[0] == updatePage)
+            {
+                topBar.BorderStyle = BorderStyle.None;
+            }
         }
     }
 
