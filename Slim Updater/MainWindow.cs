@@ -52,12 +52,17 @@ namespace Slim_Updater
                     localVersion = "-";
                 }
 
-                // Remove first newline from app description and changelog if present
+                // Remove first newline and/or tabs from app description and changelog if present
                 if (changelogElement != null)
                 {
                     if (changelogElement.Value.StartsWith("\n"))
                     {
                         changelogElement.Value = changelogElement.Value.TrimStart("\n".ToCharArray());
+                    }
+
+                    if (changelogElement.Value.Contains("\t"))
+                    {
+                        changelogElement.Value = changelogElement.Value.Replace("\t", string.Empty);
                     }
                 }
 

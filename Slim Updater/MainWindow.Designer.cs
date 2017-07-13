@@ -351,9 +351,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(784, 461);
-            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.topBar);
             this.Controls.Add(this.startPage);
+            this.Controls.Add(this.updatePage);
             this.Controls.Add(this.detailsPage);
             this.Controls.Add(this.aboutPage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
