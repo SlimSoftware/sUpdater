@@ -73,23 +73,20 @@ namespace Slim_Updater
                         descriptionElement.Value = descriptionElement.Value.TrimStart("\n".ToCharArray());
                     }
                 }
-
+                
                 // Add app to appList
-                if (changelogElement == null | descriptionElement == null)
+                if (descriptionElement == null && changelogElement != null)
                 {
-                    if (descriptionElement == null && changelogElement != null)
-                    {
-                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
-                            localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                            dlElement.Value, changelogElement.Value, null));
-                    }
+                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                        dlElement.Value, changelogElement.Value, null));
+                }
 
-                    if (changelogElement == null && descriptionElement != null)
-                    {
-                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
-                            localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                            dlElement.Value, null, descriptionElement.Value));
-                    }
+                if (changelogElement == null && descriptionElement != null)
+                {
+                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                        dlElement.Value, null, descriptionElement.Value));
                 }
 
                 if (changelogElement == null && descriptionElement == null)
