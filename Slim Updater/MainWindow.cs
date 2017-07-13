@@ -90,15 +90,16 @@ namespace Slim_Updater
                             localVersion, archElement.Value, typeElement.Value, switchElement.Value,
                             dlElement.Value, null, descriptionElement.Value));
                     }
-
-                    else
-                    {
-                        appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, 
-                            localVersion, archElement.Value, typeElement.Value, switchElement.Value, 
-                            dlElement.Value, null, null));
-                    }
                 }
-                else
+
+                if (changelogElement == null && descriptionElement == null)
+                {
+                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                        dlElement.Value, null, null));
+                }
+            
+                if (changelogElement != null && descriptionElement != null)
                 {
                     appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion,
                         changelogElement.Value, archElement.Value, typeElement.Value, switchElement.Value, 
