@@ -237,6 +237,7 @@ namespace Slim_Updater
                 if (this.Controls[0].Name == "updatePage")
                 {
                     titleButton.Text = "Updates";
+                    topBar.BorderStyle = BorderStyle.None;
                 }
             }
             else
