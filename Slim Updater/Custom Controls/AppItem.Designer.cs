@@ -70,23 +70,23 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(582, 7);
+            this.progressBar.Location = new System.Drawing.Point(530, 7);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(200, 23);
+            this.progressBar.Size = new System.Drawing.Size(250, 23);
             this.progressBar.TabIndex = 6;
             this.progressBar.Visible = false;
             // 
             // statusLabel
             // 
             this.statusLabel.BackColor = System.Drawing.Color.Transparent;
-            this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.statusLabel.Location = new System.Drawing.Point(582, 29);
+            this.statusLabel.Location = new System.Drawing.Point(530, 26);
             this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(200, 19);
+            this.statusLabel.Size = new System.Drawing.Size(250, 20);
             this.statusLabel.TabIndex = 7;
             this.statusLabel.Text = "Status";
-            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.statusLabel.Visible = false;
             // 
             // AppItem

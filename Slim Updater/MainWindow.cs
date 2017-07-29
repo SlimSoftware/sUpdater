@@ -6,6 +6,9 @@ using System.Drawing;
 using System;
 using System.Net;
 using System.IO;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Slim_Updater
 {
@@ -13,7 +16,6 @@ namespace Slim_Updater
     {
         public List<App> appList = new List<App>();
         public List<App> updateList;
-        int downloadCount;
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
 
@@ -62,7 +64,7 @@ namespace Slim_Updater
 
                     if (changelogElement.Value.Contains("\t"))
                     {
-                        changelogElement.Value = changelogElement.Value.Replace("\t", string.Empty);
+                        changelogElement.Value = changelogElement.Value.Replace("\t", String.Empty);
                     }
                 }
 
@@ -159,65 +161,161 @@ namespace Slim_Updater
                 updaterTile.Text = String.Format("{0} updates available", updateList.Count);
             }
         }
-        
-        public void InstallUpdates()
+
+        public async void InstallUpdates()
         {
-            int maxDownloads = 3; // TODO: Add user setting here
+            refreshButton.Enabled = false;
+            installUpdatesButton.Enabled = false;
+
+            int i = 0;
+            int j = 0;
+            List<int> indexList = new List<int>();
+            List<App> selectedUpdateList = new List<App>(updateList);
+
             foreach (Control update in updateContentPanel.Controls)
             {
-                if (update is Separator)
+                i++;
+                if (!(update is Separator))
                 {
-                    continue;
-                }
-
-                else
-                {
-                    if ((update as AppItem).Checked == false)
+                    j++;
+                    if ((update as AppItem).Checked == true)
                     {
-                        continue;
+                        indexList.Add(i - 1);
+                    }
+                    else
+                    {
+                        selectedUpdateList.RemoveAt(j - 1);
                     }
                 }
-
-                // Download
-                for (downloadCount = 1; downloadCount <= maxDownloads; downloadCount++)
+            }
+            // Download
+            i = 0;
+            List<Task> tasks = new List<Task>();
+            foreach (App app in selectedUpdateList)
+            {
+                Task downloadTask = Task.Run(async () =>
                 {
-                    foreach (App app in updateList)
-                    {
-                        if (app.Name.Equals((update as AppItem).Name) == false)
-                        {
-                            continue;
-                        }
+                    i++;
+                    int index = indexList[i - 1];
+                    string fileName = Path.GetFileName(app.DL);
+                    app.SavePath = Path.Combine(
+                        @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        @"SlimSoftware\Slim Updater\" + fileName);
 
-                        string fileName = Path.GetFileName(app.DL);
-                        string savePath = Path.Combine(
-                            @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"SlimSoftware\Slim Updater\" + fileName);
+                    // Check if installer is already downloaded
+                    if (!File.Exists(app.SavePath))
+                    {
                         using (var wc = new WebClient())
                         {
-                            wc.DownloadProgressChanged += (sender, e) =>
+                            wc.DownloadProgressChanged += (s, e) =>
                             {
-                                (update as AppItem).Progress = e.ProgressPercentage;
-                                float mbDownloaded = (e.BytesReceived / 1024f) / 1024f;
-                                float mbTotal = (e.TotalBytesToReceive / 1024f) / 1024f;
-                                (update as AppItem).Status = string.Format("Downloading... ({0} MB of {1} MB",
-                                    mbDownloaded, mbTotal);
+                            // Convert download size to mb
+                            double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
+                            double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
+
+                            // Get the correct AppItem to set the progress for
+                            if (InvokeRequired)
+                                {
+                                    Invoke(new MethodInvoker(() =>
+                                    {
+                                        (updateContentPanel.Controls[index] as AppItem).Progress = e.ProgressPercentage / 2;
+                                        (updateContentPanel.Controls[index] as AppItem).Status = String.Format(
+                                            "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
+                                    }));
+                                }
                             };
                             wc.DownloadFileCompleted += (s, e) =>
                             {
-                                downloadCount--;
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new MethodInvoker(() =>
+                                    {
+                                        (updateContentPanel.Controls[index] as AppItem).Status = "Download complete";
+                                    }));
+                                }
                             };
-                            wc.DownloadFileAsync(new Uri(app.DL), savePath);
+                            await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
                         }
-                        break;
+                    }
+                    else
+                    {
+                        if (InvokeRequired)
+                        {
+                            Invoke(new MethodInvoker(() =>
+                            {
+                                (updateContentPanel.Controls[index] as AppItem).Progress = 50;
+                            }));
+                        }
+                    }
+                });
+                tasks.Add(downloadTask);
+            }
+            await Task.WhenAll(tasks.ToArray());
+
+            // Install
+            i = 0;
+            foreach (App app in selectedUpdateList)
+            {
+                i++;
+                int index = indexList[i - 1];
+                launchInstaller:
+                using (var p = new Process())
+                {
+                    p.StartInfo.FileName = app.SavePath;
+                    p.StartInfo.UseShellExecute = true;
+                    p.StartInfo.Arguments = app.InstallSwitch;
+                    try
+                    {
+                        p.Start();
+                    }
+                    catch (Exception)
+                    {
+                        var result = MessageBox.Show(
+                            "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (result == DialogResult.Yes)
+                        {
+                            goto launchInstaller;
+                        }
+                        if (result == DialogResult.No)
+                        {
+                            if (i == selectedUpdateList.Count)
+                            {
+                                goto enableButtons;
+                            }
+                            else
+                            {
+                                continue;
+                            }
+                        }
+                    }
+                    (updateContentPanel.Controls[index] as AppItem).Status = "Installing...";
+                    p.WaitForExit();
+                    if (p.ExitCode == 0)
+                    {
+                        (updateContentPanel.Controls[index] as AppItem).Status = "Install complete";
+                        (updateContentPanel.Controls[index] as AppItem).Progress = 100;
+                        await Task.Delay(1500);
+                        CheckforUpdates();
+                    }
+                    if (p.ExitCode != 0)
+                    {
+                        (updateContentPanel.Controls[index] as AppItem).Status = String.Format(
+                            "Install failed. Exit code: {0}", p.ExitCode);
+                        (updateContentPanel.Controls[index] as AppItem).Progress = 0;
+                        refreshButton.Enabled = true;
+                        // TODO: Add retry system here (add failed updates to list and install only those if clicked
+                        // on installUpdatesButton renamed to Retry Failed
+                    }
+                    enableButtons:
+                    if (refreshButton.Enabled == false | installUpdatesButton.Enabled == false)
+                    {
+                        refreshButton.Enabled = true;
+                        installUpdatesButton.Enabled = true;
                     }
                 }
             }
-
-                // Install
-                {
-                    
-                }
-            }
-
+        }
+ 
         #region StartPage/TopBar Mouse Events
         private void updaterTile_Click(object sender, System.EventArgs e)
         {
@@ -286,7 +384,7 @@ namespace Slim_Updater
 
         private void siteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://www.slimsoft.tk");
+            Process.Start("http://www.slimsoft.tk");
         }
         #endregion
 

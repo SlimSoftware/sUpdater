@@ -35,13 +35,39 @@ namespace Slim_Updater
         public int Progress
         {
             get { return progressBar.Value; }
-            set { progressBar.Value = value; }
+            set
+            {
+                progressBar.Value = value;
+                if (value != 0)
+                {
+                    progressBar.Visible = true;
+                    statusLabel.Location = new Point(530, 27);
+                    statusLabel.Size = new Size(250, 20);
+                }
+                else
+                {
+                    progressBar.Visible = false;
+                    statusLabel.Location = new Point(530, 0);
+                    statusLabel.Size = new Size(250, 47);
+                }
+            }
         }
 
         public string Status
         {
             get { return statusLabel.Text; }
-            set { statusLabel.Text = value; }
+            set
+            {
+                statusLabel.Text = value;
+                if (value != null)
+                {
+                    statusLabel.Visible = true;
+                }
+                else
+                {
+                    statusLabel.Visible = false;
+                }
+            }
         }
 
         private void WireAllControls(Control cont)
