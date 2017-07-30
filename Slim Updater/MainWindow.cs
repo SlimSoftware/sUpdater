@@ -135,8 +135,10 @@ namespace Slim_Updater
                     if (updateContentPanel.Controls.Count == 0)
                     {
                         updateContentPanel.Controls.Add(separator);
-                        separator = new Separator();
-                        separator.Location = new Point(0, 45);
+                        separator = new Separator()
+                        {
+                            Location = new Point(0, 45)
+                        };
                         updateContentPanel.Controls.Add(separator);
                         updateContentPanel.Controls.Add(appItem);
                         previousY = appItem.Location.Y;
@@ -256,7 +258,6 @@ namespace Slim_Updater
 
             // Install
             i = 0;
-
             foreach (App update in selectedUpdateList)
             {
                 i++;
@@ -332,7 +333,7 @@ namespace Slim_Updater
         #endregion
 
         #region StartPage/TopBar Mouse Events
-        private void updaterTile_Click(object sender, System.EventArgs e)
+        private void UpdaterTile_Click(object sender, EventArgs e)
         {
             updatePage.BringToFront();
             titleButton.Text = "Updates";
@@ -340,7 +341,7 @@ namespace Slim_Updater
             topBar.BorderStyle = BorderStyle.None;
         }
 
-        private void titleButton_Click(object sender, System.EventArgs e)
+        private void TitleButton_Click(object sender, EventArgs e)
         {
             if (topBar.Size.Height != 35)
             {
@@ -376,19 +377,19 @@ namespace Slim_Updater
             }
         }
 
-        private void aboutLabel_MouseEnter(object sender, EventArgs e)
+        private void AboutLabel_MouseEnter(object sender, EventArgs e)
         {
             aboutLabel.ForeColor = Color.White;
             aboutLabel.BackColor = normalGreen;
         }
 
-        private void aboutLabel_MouseLeave(object sender, EventArgs e)
+        private void AboutLabel_MouseLeave(object sender, EventArgs e)
         {
             aboutLabel.ForeColor = normalGreen;
             aboutLabel.BackColor = Color.White;
         }
 
-        private void aboutLabel_Click(object sender, EventArgs e)
+        private void AboutLabel_Click(object sender, EventArgs e)
         {
             topBar.Size = new Size(topBar.Size.Width, 35);
             aboutPage.BringToFront();
@@ -397,13 +398,13 @@ namespace Slim_Updater
             aboutLabel.Hide();
         }
 
-        private void siteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void SiteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://www.slimsoft.tk");
         }
         #endregion
 
-        private void selectAllUpdatesCheckBox_Click(object sender, EventArgs e)
+        private void SelectAllUpdatesCheckBox_Click(object sender, EventArgs e)
         {
             if (selectAllUpdatesCheckBox.Checked == true)
             {
@@ -463,13 +464,13 @@ namespace Slim_Updater
             }
         }
 
-        private void refreshUpdatesButton_Click(object sender, EventArgs e)
+        private void RefreshUpdatesButton_Click(object sender, EventArgs e)
         {
             ReadDefenitions();
             CheckforUpdates();
         }
 
-        private void installUpdatesButton_Click(object sender, EventArgs e)
+        private void InstallUpdatesButton_Click(object sender, EventArgs e)
         {
             if (installUpdatesButton.Text == "Yes")
             {

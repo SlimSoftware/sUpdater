@@ -74,7 +74,7 @@ namespace Slim_Updater
         {
             foreach (Control ctl in cont.Controls)
             {
-                ctl.Click += ctl_Click;
+                ctl.Click += Ctl_Click;
                 if (ctl.HasChildren)
                 {
                     WireAllControls(ctl);
@@ -82,7 +82,7 @@ namespace Slim_Updater
             }
         }
 
-        private void ctl_Click(object sender, EventArgs e)
+        private void Ctl_Click(object sender, EventArgs e)
         {
             if (sender != checkBox)
             {

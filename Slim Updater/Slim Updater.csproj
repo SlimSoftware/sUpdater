@@ -59,11 +59,11 @@
     <Compile Include="Custom Controls\AppItem.Designer.cs">
       <DependentUpon>AppItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="Custom Controls\flatTile.cs">
+    <Compile Include="Custom Controls\FlatTile.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Custom Controls\flatTile.Designer.cs">
-      <DependentUpon>flatTile.cs</DependentUpon>
+    <Compile Include="Custom Controls\FlatTile.Designer.cs">
+      <DependentUpon>FlatTile.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\Separator.cs">
       <SubType>UserControl</SubType>
@@ -79,17 +79,17 @@
     </Compile>
     <Compile Include="Slim Updater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Custom Controls\titleButton.cs">
+    <Compile Include="Custom Controls\TitleButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Custom Controls\titleButton.Designer.cs">
-      <DependentUpon>titleButton.cs</DependentUpon>
+    <Compile Include="Custom Controls\TitleButton.Designer.cs">
+      <DependentUpon>TitleButton.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Custom Controls\AppItem.resx">
       <DependentUpon>AppItem.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Custom Controls\flatTile.resx">
-      <DependentUpon>flatTile.cs</DependentUpon>
+    <EmbeddedResource Include="Custom Controls\FlatTile.resx">
+      <DependentUpon>FlatTile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Custom Controls\Separator.resx">
       <DependentUpon>Separator.cs</DependentUpon>
@@ -107,8 +107,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Custom Controls\titleButton.resx">
-      <DependentUpon>titleButton.cs</DependentUpon>
+    <EmbeddedResource Include="Custom Controls\TitleButton.resx">
+      <DependentUpon>TitleButton.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest">
       <SubType>Designer</SubType>

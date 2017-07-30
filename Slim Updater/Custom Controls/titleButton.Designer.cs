@@ -44,8 +44,8 @@
             this.titleLabel.Size = new System.Drawing.Size(66, 24);
             this.titleLabel.TabIndex = 1;
             this.titleLabel.Text = "Home";
-            this.titleLabel.MouseEnter += new System.EventHandler(this.titleLabel_MouseEnter);
-            this.titleLabel.MouseLeave += new System.EventHandler(this.titleLabel_MouseLeave);
+            this.titleLabel.MouseEnter += new System.EventHandler(this.TitleLabel_MouseEnter);
+            this.titleLabel.MouseLeave += new System.EventHandler(this.TitleLabel_MouseLeave);
             // 
             // backArrow
             // 
@@ -56,8 +56,8 @@
             this.backArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.backArrow.TabIndex = 3;
             this.backArrow.TabStop = false;
-            this.backArrow.MouseEnter += new System.EventHandler(this.backArrow_MouseEnter);
-            this.backArrow.MouseLeave += new System.EventHandler(this.backArrow_MouseLeave);
+            this.backArrow.MouseEnter += new System.EventHandler(this.BackArrow_MouseEnter);
+            this.backArrow.MouseLeave += new System.EventHandler(this.BackArrow_MouseLeave);
             // 
             // titleButton
             // 
@@ -68,9 +68,9 @@
             this.Controls.Add(this.titleLabel);
             this.Name = "titleButton";
             this.Size = new System.Drawing.Size(95, 32);
-            this.Click += new System.EventHandler(this.titleButton_Click);
-            this.MouseEnter += new System.EventHandler(this.titleButton_MouseEnter);
-            this.MouseLeave += new System.EventHandler(this.titleButton_MouseLeave);
+            this.Click += new System.EventHandler(this.TitleButton_Click);
+            this.MouseEnter += new System.EventHandler(this.TitleButton_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.TitleButton_MouseLeave);
             ((System.ComponentModel.ISupportInitialize)(this.backArrow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

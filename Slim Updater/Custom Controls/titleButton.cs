@@ -44,7 +44,7 @@ namespace Slim_Updater
             }
         }
 
-        private void titleButton_MouseEnter(object sender, EventArgs e)
+        private void TitleButton_MouseEnter(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -54,7 +54,7 @@ namespace Slim_Updater
             }
         }
 
-        private void titleButton_MouseLeave(object sender, EventArgs e)
+        private void TitleButton_MouseLeave(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -64,7 +64,7 @@ namespace Slim_Updater
             }
         }
 
-        private void titleLabel_MouseEnter(object sender, EventArgs e)
+        private void TitleLabel_MouseEnter(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -74,7 +74,7 @@ namespace Slim_Updater
             }
         }
 
-        private void titleLabel_MouseLeave(object sender, EventArgs e)
+        private void TitleLabel_MouseLeave(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -84,7 +84,7 @@ namespace Slim_Updater
             }
         }
 
-        private void backArrow_MouseEnter(object sender, EventArgs e)
+        private void BackArrow_MouseEnter(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -94,7 +94,7 @@ namespace Slim_Updater
             }
         }
 
-        private void backArrow_MouseLeave(object sender, EventArgs e)
+        private void BackArrow_MouseLeave(object sender, EventArgs e)
         {
             if (Arrow == true)
             {
@@ -109,7 +109,7 @@ namespace Slim_Updater
         {
             foreach (Control ctl in cont.Controls)
             {
-                ctl.Click += ctl_Click;
+                ctl.Click += Ctl_Click;
                 if (ctl.HasChildren)
                 {
                     WireAllControls(ctl);
@@ -117,12 +117,12 @@ namespace Slim_Updater
             }
         }
 
-        private void ctl_Click(object sender, EventArgs e)
+        private void Ctl_Click(object sender, EventArgs e)
         {
             this.InvokeOnClick(this, EventArgs.Empty);
         }
 
-        private void titleButton_Click(object sender, EventArgs e)
+        private void TitleButton_Click(object sender, EventArgs e)
         {
             this.BackColor = Color.White;
             backArrow.Image = Slim_Updater.Properties.Resources.ArrowGreen;

@@ -116,7 +116,7 @@
             this.updaterTile.Size = new System.Drawing.Size(300, 150);
             this.updaterTile.TabIndex = 5;
             this.updaterTile.Text = "No updates available";
-            this.updaterTile.Click += new System.EventHandler(this.updaterTile_Click);
+            this.updaterTile.Click += new System.EventHandler(this.UpdaterTile_Click);
             // 
             // topBar
             // 
@@ -138,7 +138,7 @@
             this.titleButton.Name = "titleButton";
             this.titleButton.Size = new System.Drawing.Size(69, 32);
             this.titleButton.TabIndex = 2;
-            this.titleButton.Click += new System.EventHandler(this.titleButton_Click);
+            this.titleButton.Click += new System.EventHandler(this.TitleButton_Click);
             // 
             // aboutLabel
             // 
@@ -149,9 +149,9 @@
             this.aboutLabel.Size = new System.Drawing.Size(50, 17);
             this.aboutLabel.TabIndex = 1;
             this.aboutLabel.Text = "About";
-            this.aboutLabel.Click += new System.EventHandler(this.aboutLabel_Click);
-            this.aboutLabel.MouseEnter += new System.EventHandler(this.aboutLabel_MouseEnter);
-            this.aboutLabel.MouseLeave += new System.EventHandler(this.aboutLabel_MouseLeave);
+            this.aboutLabel.Click += new System.EventHandler(this.AboutLabel_Click);
+            this.aboutLabel.MouseEnter += new System.EventHandler(this.AboutLabel_MouseEnter);
+            this.aboutLabel.MouseLeave += new System.EventHandler(this.AboutLabel_MouseLeave);
             // 
             // selectAllUpdatesCheckBox
             // 
@@ -164,7 +164,7 @@
             this.selectAllUpdatesCheckBox.TabIndex = 1;
             this.selectAllUpdatesCheckBox.Text = "Unselect All";
             this.selectAllUpdatesCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllUpdatesCheckBox.Click += new System.EventHandler(this.selectAllUpdatesCheckBox_Click);
+            this.selectAllUpdatesCheckBox.Click += new System.EventHandler(this.SelectAllUpdatesCheckBox_Click);
             // 
             // updateContentPanel
             // 
@@ -218,7 +218,7 @@
             this.installUpdatesButton.TabIndex = 2;
             this.installUpdatesButton.Text = "Install Selected";
             this.installUpdatesButton.UseVisualStyleBackColor = true;
-            this.installUpdatesButton.Click += new System.EventHandler(this.installUpdatesButton_Click);
+            this.installUpdatesButton.Click += new System.EventHandler(this.InstallUpdatesButton_Click);
             // 
             // refreshUpdatesButton
             // 
@@ -228,7 +228,7 @@
             this.refreshUpdatesButton.TabIndex = 0;
             this.refreshUpdatesButton.Text = "Refresh";
             this.refreshUpdatesButton.UseVisualStyleBackColor = true;
-            this.refreshUpdatesButton.Click += new System.EventHandler(this.refreshUpdatesButton_Click);
+            this.refreshUpdatesButton.Click += new System.EventHandler(this.RefreshUpdatesButton_Click);
             // 
             // aboutPage
             // 
@@ -256,7 +256,7 @@
             this.siteLink.TabStop = true;
             this.siteLink.Text = "www.slimsoft.tk";
             this.siteLink.VisitedLinkColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.siteLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.siteLink_LinkClicked);
+            this.siteLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SiteLink_LinkClicked);
             // 
             // slimsoftwareLabel
             // 
