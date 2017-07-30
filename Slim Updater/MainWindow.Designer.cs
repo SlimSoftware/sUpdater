@@ -45,7 +45,7 @@
             this.detailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updatePage = new System.Windows.Forms.Panel();
             this.installUpdatesButton = new System.Windows.Forms.Button();
-            this.refreshButton = new System.Windows.Forms.Button();
+            this.refreshUpdatesButton = new System.Windows.Forms.Button();
             this.aboutPage = new System.Windows.Forms.Panel();
             this.siteLink = new System.Windows.Forms.LinkLabel();
             this.slimsoftwareLabel = new System.Windows.Forms.Label();
@@ -56,6 +56,7 @@
             this.detailText = new System.Windows.Forms.RichTextBox();
             this.actionLink = new System.Windows.Forms.LinkLabel();
             this.detailLabel = new System.Windows.Forms.Label();
+            this.failedUpdateLabel = new System.Windows.Forms.Label();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updateContextMenu.SuspendLayout();
@@ -199,8 +200,9 @@
             // updatePage
             // 
             this.updatePage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.updatePage.Controls.Add(this.failedUpdateLabel);
             this.updatePage.Controls.Add(this.installUpdatesButton);
-            this.updatePage.Controls.Add(this.refreshButton);
+            this.updatePage.Controls.Add(this.refreshUpdatesButton);
             this.updatePage.Controls.Add(this.selectAllUpdatesCheckBox);
             this.updatePage.Controls.Add(this.updateContentPanel);
             this.updatePage.Location = new System.Drawing.Point(0, 35);
@@ -218,15 +220,15 @@
             this.installUpdatesButton.UseVisualStyleBackColor = true;
             this.installUpdatesButton.Click += new System.EventHandler(this.installUpdatesButton_Click);
             // 
-            // refreshButton
+            // refreshUpdatesButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(294, 394);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(75, 23);
-            this.refreshButton.TabIndex = 0;
-            this.refreshButton.Text = "Refresh";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            this.refreshUpdatesButton.Location = new System.Drawing.Point(294, 394);
+            this.refreshUpdatesButton.Name = "refreshUpdatesButton";
+            this.refreshUpdatesButton.Size = new System.Drawing.Size(75, 23);
+            this.refreshUpdatesButton.TabIndex = 0;
+            this.refreshUpdatesButton.Text = "Refresh";
+            this.refreshUpdatesButton.UseVisualStyleBackColor = true;
+            this.refreshUpdatesButton.Click += new System.EventHandler(this.refreshUpdatesButton_Click);
             // 
             // aboutPage
             // 
@@ -345,6 +347,18 @@
             this.detailLabel.TabIndex = 12;
             this.detailLabel.Text = "Changelog";
             // 
+            // failedUpdateLabel
+            // 
+            this.failedUpdateLabel.AutoSize = true;
+            this.failedUpdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.failedUpdateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.failedUpdateLabel.Location = new System.Drawing.Point(164, 2);
+            this.failedUpdateLabel.Name = "failedUpdateLabel";
+            this.failedUpdateLabel.Size = new System.Drawing.Size(457, 15);
+            this.failedUpdateLabel.TabIndex = 3;
+            this.failedUpdateLabel.Text = "Some updates failed to install. Would you like to retry installing these?";
+            this.failedUpdateLabel.Visible = false;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -352,8 +366,8 @@
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.topBar);
-            this.Controls.Add(this.startPage);
             this.Controls.Add(this.updatePage);
+            this.Controls.Add(this.startPage);
             this.Controls.Add(this.detailsPage);
             this.Controls.Add(this.aboutPage);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -394,7 +408,7 @@
         private System.Windows.Forms.Panel updateContentPanel;
         private System.Windows.Forms.CheckBox selectAllUpdatesCheckBox;
         private System.Windows.Forms.Button installUpdatesButton;
-        private System.Windows.Forms.Button refreshButton;
+        private System.Windows.Forms.Button refreshUpdatesButton;
         private System.Windows.Forms.ContextMenuStrip updateContextMenu;
         private System.Windows.Forms.ToolStripMenuItem ignoreUpdateToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem detailsToolStripMenuItem;
@@ -402,6 +416,7 @@
         private System.Windows.Forms.LinkLabel actionLink;
         private System.Windows.Forms.Label detailLabel;
         private System.Windows.Forms.RichTextBox detailText;
+        private System.Windows.Forms.Label failedUpdateLabel;
     }
 }
 
