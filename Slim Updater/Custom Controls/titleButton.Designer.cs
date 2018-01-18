@@ -1,6 +1,6 @@
 ﻿namespace Slim_Updater
 {
-    partial class titleButton
+    partial class TitleButton
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.titleLabel = new System.Windows.Forms.Label();
-            this.backArrow = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.backArrow)).BeginInit();
+            this.backArrowRight = new System.Windows.Forms.PictureBox();
+            this.backArrowLeft = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.backArrowRight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.backArrowLeft)).BeginInit();
             this.SuspendLayout();
             // 
             // titleLabel
@@ -39,7 +41,7 @@
             this.titleLabel.BackColor = System.Drawing.Color.Transparent;
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.titleLabel.Location = new System.Drawing.Point(30, 4);
+            this.titleLabel.Location = new System.Drawing.Point(32, 4);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(66, 24);
             this.titleLabel.TabIndex = 1;
@@ -47,31 +49,45 @@
             this.titleLabel.MouseEnter += new System.EventHandler(this.TitleLabel_MouseEnter);
             this.titleLabel.MouseLeave += new System.EventHandler(this.TitleLabel_MouseLeave);
             // 
-            // backArrow
+            // backArrowRight
             // 
-            this.backArrow.Image = global::Slim_Updater.Properties.Resources.ArrowGreen;
-            this.backArrow.Location = new System.Drawing.Point(3, 4);
-            this.backArrow.Name = "backArrow";
-            this.backArrow.Size = new System.Drawing.Size(32, 24);
-            this.backArrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.backArrow.TabIndex = 3;
-            this.backArrow.TabStop = false;
-            this.backArrow.MouseEnter += new System.EventHandler(this.BackArrow_MouseEnter);
-            this.backArrow.MouseLeave += new System.EventHandler(this.BackArrow_MouseLeave);
+            this.backArrowRight.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.backArrowRight.Image = global::Slim_Updater.Properties.Resources.ArrowGreenRight;
+            this.backArrowRight.Location = new System.Drawing.Point(94, 4);
+            this.backArrowRight.Name = "backArrowRight";
+            this.backArrowRight.Size = new System.Drawing.Size(32, 24);
+            this.backArrowRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.backArrowRight.TabIndex = 4;
+            this.backArrowRight.TabStop = false;
             // 
-            // titleButton
+            // backArrowLeft
+            // 
+            this.backArrowLeft.Image = global::Slim_Updater.Properties.Resources.ArrowGreen;
+            this.backArrowLeft.Location = new System.Drawing.Point(3, 4);
+            this.backArrowLeft.Name = "backArrowLeft";
+            this.backArrowLeft.Size = new System.Drawing.Size(32, 24);
+            this.backArrowLeft.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.backArrowLeft.TabIndex = 3;
+            this.backArrowLeft.TabStop = false;
+            this.backArrowLeft.MouseEnter += new System.EventHandler(this.BackArrow_MouseEnter);
+            this.backArrowLeft.MouseLeave += new System.EventHandler(this.BackArrow_MouseLeave);
+            // 
+            // TitleButton
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.backArrow);
+            this.Controls.Add(this.backArrowRight);
+            this.Controls.Add(this.backArrowLeft);
             this.Controls.Add(this.titleLabel);
-            this.Name = "titleButton";
-            this.Size = new System.Drawing.Size(95, 32);
+            this.Name = "TitleButton";
+            this.Size = new System.Drawing.Size(129, 32);
             this.Click += new System.EventHandler(this.TitleButton_Click);
             this.MouseEnter += new System.EventHandler(this.TitleButton_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.TitleButton_MouseLeave);
-            ((System.ComponentModel.ISupportInitialize)(this.backArrow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.backArrowRight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.backArrowLeft)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -80,6 +96,7 @@
         #endregion
 
         private System.Windows.Forms.Label titleLabel;
-        private System.Windows.Forms.PictureBox backArrow;
+        private System.Windows.Forms.PictureBox backArrowLeft;
+        private System.Windows.Forms.PictureBox backArrowRight;
     }
 }

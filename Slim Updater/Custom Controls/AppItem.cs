@@ -10,7 +10,6 @@ namespace Slim_Updater
         public AppItem()
         {
             InitializeComponent();
-            this.Checked = true;
             WireAllControls(this);
         }
 
@@ -23,7 +22,14 @@ namespace Slim_Updater
         public string Version
         {
             get { return versionLabel.Text; }
-            set { versionLabel.Text = value; }
+            set
+            {
+                versionLabel.Text = value;
+                if (value == null)
+                {
+                    appLabel.Location = new Point(22, 12);
+                }
+            }
         }
 
         public bool Checked
@@ -70,11 +76,95 @@ namespace Slim_Updater
             }
         }
 
+        // Link 1 & 2 Properties and Events
+        public bool ShowLink1
+        {
+            get
+            {
+                if (link1.Visible == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set
+            {
+                if (value == true)
+                {
+                    link1.Visible = true;
+                }
+                else
+                {
+                    link1.Visible = false;
+                }
+            }
+        }
+
+        public string Link1Text
+        {
+            get { return link1.Text; }
+            set { link1.Text = value; }
+        }
+
+        public event EventHandler Link1Clicked;
+        private void Link1_Clicked(object sender, EventArgs e)
+        {
+            Link1Clicked?.Invoke(sender, e);
+        }
+
+        public bool ShowLink2
+        {
+            get
+            {
+                if (link2.Visible == true)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            set
+            {
+                if (value == true)
+                {
+                    link2.Visible = true;
+                }
+                else
+                {
+                    link2.Visible = false;
+                }
+            }
+        }
+
+        public string Link2Text
+        {
+            get { return link2.Text; }
+            set { link2.Text = value; }
+        }
+        
+        public event EventHandler Link2Clicked;
+        private void Link2_Clicked(object sender, EventArgs e)
+        {
+            Link2Clicked?.Invoke(sender, e);
+        }
+
         private void WireAllControls(Control cont)
         {
             foreach (Control ctl in cont.Controls)
             {
-                ctl.Click += Ctl_Click;
+                if (ctl == link2)
+                {
+                    ctl.Click += Link2Clicked;
+                }
+                else
+                {
+                    ctl.Click += Ctl_Click;
+                }
                 if (ctl.HasChildren)
                 {
                     WireAllControls(ctl);
