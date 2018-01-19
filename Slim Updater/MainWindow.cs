@@ -178,6 +178,10 @@ namespace Slim_Updater
             {
                 updaterTile.BackColor = normalOrange;
                 updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                if (updateContentPanel.VerticalScroll.Visible == true)
+                {
+                    FixScrollbars(updateContentPanel.Controls);
+                }
                 return true;
             }
             else
@@ -213,6 +217,11 @@ namespace Slim_Updater
                         previousY = appItem.Location.Y;
                         previousHeight = appItem.Height;
                     }
+                }
+
+                if (updateContentPanel.VerticalScroll.Visible == true)
+                {
+                    FixScrollbars(updateContentPanel.Controls);
                 }
                 return false;
             }
@@ -265,6 +274,11 @@ namespace Slim_Updater
                         previousHeight = appItem.Height;
                     }
                 }
+            }
+
+            if (getNewAppsPage.VerticalScroll.Visible == true)
+            {
+                FixScrollbars(getNewAppsPage.Controls);
             }
         }
         #endregion
@@ -400,6 +414,11 @@ namespace Slim_Updater
                 }
                 portableApp.AppItem = appItem;
             }
+
+            if (updateContentPanel.VerticalScroll.Visible == true)
+            {
+                FixScrollbars(updateContentPanel.Controls);
+            }
         }
         #endregion
 
@@ -506,6 +525,11 @@ namespace Slim_Updater
                     previousHeight = appItem.Height;
                 }
                 portableApp.AppItem = appItem;
+            }
+
+            if (updateContentPanel.VerticalScroll.Visible == true)
+            {
+                FixScrollbars(updateContentPanel.Controls);
             }
         }
         #endregion
@@ -1146,7 +1170,23 @@ namespace Slim_Updater
                 }
             }
         }
-    #endregion
+        #endregion
+
+        #region FixScrollbars()
+        /// <summary>
+        /// Reduces the width of controls so that a horziontal scrollbar 
+        /// doesn't appear in a container.
+        /// </summary>
+        /// <param name="controls">The controls to reduce the width for.</param>
+        private void FixScrollbars(Control.ControlCollection controls)
+        {
+            foreach (Control control in controls)
+            {
+                int newWidth = control.Size.Width - SystemInformation.VerticalScrollBarWidth;
+                control.Size = new Size(newWidth, control.Size.Height);
+            }
+        }
+        #endregion
 
         #region startPage/topBar Mouse Events
         private void TitleButtonLeft_Click(object sender, EventArgs e)
