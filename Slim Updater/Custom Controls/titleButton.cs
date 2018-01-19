@@ -96,7 +96,7 @@ Category("Appearance")]
                     {
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = false;
-                        titleLabel.Location = new Point(0, 4);
+                        titleLabel.Location = new Point(5, 4);
                     }
                 }
             }
