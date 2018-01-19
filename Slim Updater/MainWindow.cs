@@ -141,15 +141,17 @@ namespace Slim_Updater
                 else
                 {
                     // Remove up to date apps from the updateList
-                    if (float.Parse(app.LatestVersion.ToString()) <= float.Parse(app.LocalVersion.ToString()))
+                    if (float.Parse(app.LatestVersion.ToString()) <= 
+                        float.Parse(app.LocalVersion.ToString()))
                     {
                         updateList.Remove(app);
                         continue;
                     }
                 }
                 // Add app to the content panel
-                appItem.Name = app.Name;
-                appItem.Version = app.LatestVersion;
+                appItem.Name = app.Name + " " + app.LatestVersion;
+                appItem.Version = "Installed: " + app.LocalVersion;
+
                 if (updateContentPanel.Controls.Count == 0)
                 {
                     updateContentPanel.Controls.Add(separator);
@@ -194,8 +196,18 @@ namespace Slim_Updater
                 {
                     AppItem appItem = new AppItem();
                     Separator separator = new Separator();
-                    appItem.Name = app.Name;
-                    appItem.Version = app.LatestVersion;
+                    
+                    if (app.LocalVersion != null)
+                    {
+                        appItem.Name = app.Name + " " + app.LatestVersion;
+                        appItem.Version = "Installed: " + app.LocalVersion;
+                    }
+                    else
+                    {
+                        appItem.Name = app.Name + " " + app.LatestVersion;
+                        appItem.Version = "Not Found";
+                    }
+
                     if (updateContentPanel.Controls.Count == 0)
                     {
                         updateContentPanel.Controls.Add(separator);
@@ -1279,7 +1291,7 @@ namespace Slim_Updater
             updatePage.BringToFront();
             if (updatesAvailable == false)
             {
-                // No updates are available and therefore the details view is actieve
+                // No updates are available and therefore the details view is active
                 titleButtonLeft.Text = "Details";
             }
             else
@@ -1316,7 +1328,8 @@ namespace Slim_Updater
             else
             {
                 setPortableAppFolderPage.BringToFront();
-                locationBox2.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Portable Apps");
+                locationBox2.Text = Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.MyDocuments), "Portable Apps");
                 titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 topBar.BorderStyle = BorderStyle.None;

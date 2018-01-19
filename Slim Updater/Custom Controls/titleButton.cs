@@ -25,7 +25,7 @@ namespace Slim_Updater
         }
 
         [Description("Indicates if the arrow should be shown on the left side of the control."),
-    Category("Appearance")]
+            Category("Appearance")]
         public Boolean ArrowLeft
         {
             get { return backArrowLeft.Visible; }
@@ -63,7 +63,7 @@ namespace Slim_Updater
         }
 
         [Description("Indicates if the arrow should be shown on the right side of the control."),
-Category("Appearance")]
+            Category("Appearance")]
         public Boolean ArrowRight
         {
             get { return backArrowRight.Visible; }
