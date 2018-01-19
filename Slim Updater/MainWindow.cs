@@ -253,7 +253,7 @@ namespace Slim_Updater
         #region CheckForNonInstalledApps()
         public void CheckForNonInstalledApps()
         {
-            appContentPanel.Controls.Clear();
+            getNewAppsContentPanel.Controls.Clear();
 
             int previousY = 0;
             int previousHeight = 0;
@@ -276,15 +276,15 @@ namespace Slim_Updater
                     // Add app to the content panel
                     appItem.Name = app.Name;
                     appItem.Version = app.LatestVersion;
-                    if (appContentPanel.Controls.Count == 0)
+                    if (getNewAppsContentPanel.Controls.Count == 0)
                     {
-                        appContentPanel.Controls.Add(separator);
+                        getNewAppsContentPanel.Controls.Add(separator);
                         separator = new Separator()
                         {
                             Location = new Point(0, 45)
                         };
-                        appContentPanel.Controls.Add(separator);
-                        appContentPanel.Controls.Add(appItem);
+                        getNewAppsContentPanel.Controls.Add(separator);
+                        getNewAppsContentPanel.Controls.Add(appItem);
                         previousY = appItem.Location.Y;
                         previousHeight = appItem.Height;
                     }
@@ -292,17 +292,17 @@ namespace Slim_Updater
                     {
                         appItem.Location = new Point(0, (previousY + previousHeight));
                         separator.Location = new Point(0, (appItem.Location.Y + 45));
-                        appContentPanel.Controls.Add(appItem);
-                        appContentPanel.Controls.Add(separator);
+                        getNewAppsContentPanel.Controls.Add(appItem);
+                        getNewAppsContentPanel.Controls.Add(separator);
                         previousY = appItem.Location.Y;
                         previousHeight = appItem.Height;
                     }
                 }
             }
 
-            if (getNewAppsPage.VerticalScroll.Visible == true)
+            if (getNewAppsContentPanel.VerticalScroll.Visible == true)
             {
-                FixScrollbars(getNewAppsPage.Controls);
+                FixScrollbars(getNewAppsContentPanel.Controls);
             }
         }
         #endregion
@@ -740,7 +740,7 @@ namespace Slim_Updater
             List<int> indexList = new List<int>();
             List<App> selectedAppList = new List<App>(appList);
 
-            foreach (Control app in appContentPanel.Controls)
+            foreach (Control app in getNewAppsContentPanel.Controls)
             {
                 i++;
                 if (!(app is Separator))
@@ -786,8 +786,8 @@ namespace Slim_Updater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (appContentPanel.Controls[index] as AppItem).Progress = e.ProgressPercentage / 2;
-                                        (appContentPanel.Controls[index] as AppItem).Status = String.Format(
+                                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = e.ProgressPercentage / 2;
+                                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = String.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                                     }));
                                 }
@@ -798,7 +798,7 @@ namespace Slim_Updater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (appContentPanel.Controls[index] as AppItem).Status = "Download complete";
+                                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Download complete";
                                     }));
                                 }
                             };
@@ -811,7 +811,7 @@ namespace Slim_Updater
                         {
                             Invoke(new MethodInvoker(() =>
                             {
-                                (appContentPanel.Controls[index] as AppItem).Progress = 50;
+                                (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 50;
                             }));
                         }
                     }
@@ -856,18 +856,18 @@ namespace Slim_Updater
                             }
                         }
                     }
-                    (appContentPanel.Controls[index] as AppItem).Status = "Installing...";
+                    (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Installing...";
                     p.WaitForExit();
                     if (p.ExitCode == 0)
                     {
-                        (appContentPanel.Controls[index] as AppItem).Status = "Install complete";
-                        (appContentPanel.Controls[index] as AppItem).Progress = 100;
+                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Install complete";
+                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 100;
                     }
                     if (p.ExitCode != 0)
                     {
-                        (appContentPanel.Controls[index] as AppItem).Status = String.Format(
+                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = String.Format(
                             "Install failed. Exit code: {0}", p.ExitCode);
-                        (appContentPanel.Controls[index] as AppItem).Progress = 0;
+                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 0;
                         refreshAppsButton.Enabled = true;
                         failedInstallList.Add(app);
                     }
@@ -1321,7 +1321,6 @@ namespace Slim_Updater
 
         private void GetNewAppsTile_Click(object sender, EventArgs e)
         {
-            CheckForNonInstalledApps();
             getNewAppsPage.BringToFront();
             titleButtonLeft.Text = "Get New Applications";
             titleButtonLeft.ArrowLeft = true;
@@ -1456,7 +1455,7 @@ namespace Slim_Updater
         {
             if (selectAllAppsCheckBox.Checked == true)
             {
-                foreach (Control ctl in appContentPanel.Controls)
+                foreach (Control ctl in getNewAppsContentPanel.Controls)
                 {
                     if (ctl is AppItem)
                     {
@@ -1467,7 +1466,7 @@ namespace Slim_Updater
             }
             else
             {
-                foreach (Control ctl in appContentPanel.Controls)
+                foreach (Control ctl in getNewAppsContentPanel.Controls)
                 {
                     if (ctl is AppItem)
                     {

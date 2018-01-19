@@ -59,7 +59,7 @@
             this.failedAppInstallLabel = new System.Windows.Forms.Label();
             this.installAppsButton = new System.Windows.Forms.Button();
             this.refreshAppsButton = new System.Windows.Forms.Button();
-            this.appContentPanel = new System.Windows.Forms.Panel();
+            this.getNewAppsContentPanel = new System.Windows.Forms.Panel();
             this.installedPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox1 = new System.Windows.Forms.CheckBox();
             this.failedPortableInstallLabel1 = new System.Windows.Forms.Label();
@@ -400,7 +400,7 @@
             this.getNewAppsPage.Controls.Add(this.failedAppInstallLabel);
             this.getNewAppsPage.Controls.Add(this.installAppsButton);
             this.getNewAppsPage.Controls.Add(this.refreshAppsButton);
-            this.getNewAppsPage.Controls.Add(this.appContentPanel);
+            this.getNewAppsPage.Controls.Add(this.getNewAppsContentPanel);
             this.getNewAppsPage.Location = new System.Drawing.Point(0, 35);
             this.getNewAppsPage.Name = "getNewAppsPage";
             this.getNewAppsPage.Size = new System.Drawing.Size(785, 425);
@@ -449,13 +449,13 @@
             this.refreshAppsButton.UseVisualStyleBackColor = true;
             this.refreshAppsButton.Click += new System.EventHandler(this.RefreshAppsButton_Click);
             // 
-            // appContentPanel
+            // getNewAppsContentPanel
             // 
-            this.appContentPanel.AutoScroll = true;
-            this.appContentPanel.Location = new System.Drawing.Point(0, 20);
-            this.appContentPanel.Name = "appContentPanel";
-            this.appContentPanel.Size = new System.Drawing.Size(785, 365);
-            this.appContentPanel.TabIndex = 0;
+            this.getNewAppsContentPanel.AutoScroll = true;
+            this.getNewAppsContentPanel.Location = new System.Drawing.Point(0, 20);
+            this.getNewAppsContentPanel.Name = "getNewAppsContentPanel";
+            this.getNewAppsContentPanel.Size = new System.Drawing.Size(785, 365);
+            this.getNewAppsContentPanel.TabIndex = 0;
             // 
             // installedPortableAppsPage
             // 
@@ -866,7 +866,7 @@
         private System.Windows.Forms.Button installAppsButton;
         private System.Windows.Forms.Button refreshAppsButton;
         private System.Windows.Forms.CheckBox selectAllAppsCheckBox;
-        private System.Windows.Forms.Panel appContentPanel;
+        private System.Windows.Forms.Panel getNewAppsContentPanel;
         private System.Windows.Forms.Panel installedPortableAppsPage;
         private System.Windows.Forms.Label failedPortableInstallLabel1;
         private System.Windows.Forms.Button refreshPortableButton;
