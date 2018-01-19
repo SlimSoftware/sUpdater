@@ -180,6 +180,11 @@ namespace Slim_Updater
                 updaterTile.BackColor = normalOrange;
                 updaterTile.Text = String.Format("{0} updates available", updateList.Count);
             }
+            else
+            {
+                updaterTile.BackColor = normalGreen;
+                updaterTile.Text = "No updates available";
+            }
         }
         #endregion
 
