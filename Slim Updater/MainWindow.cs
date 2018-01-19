@@ -268,7 +268,8 @@ namespace Slim_Updater
                 Separator separator = new Separator();
 
                 // Make sure installed and recenter apps are not included
-                if (app.LocalVersion == null | !(float.Parse(app.LatestVersion.ToString()) >= 
+                if (app.LocalVersion == null || app.LocalVersion != null &&
+                    !(float.Parse(app.LatestVersion.ToString()) >= 
                     float.Parse(app.LocalVersion.ToString())))
                 {
                     notInstalledApps.Add(app);
