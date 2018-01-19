@@ -37,7 +37,7 @@ namespace Slim_Updater
         {
             // Load XML File
             XDocument defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
-            foreach (XElement appElement in defenitions.Elements("app"))
+            foreach (XElement appElement in defenitions.Descendants("app"))
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = appElement.Attribute("name");
@@ -116,7 +116,7 @@ namespace Slim_Updater
         #region Check Methods
 
         #region CheckForUpdates()
-        public void CheckForUpdates()
+        public bool CheckForUpdates()
         {
             updateContentPanel.Controls.Clear();
 
@@ -178,6 +178,7 @@ namespace Slim_Updater
             {
                 updaterTile.BackColor = normalOrange;
                 updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                return true;
             }
             else
             {
@@ -213,6 +214,7 @@ namespace Slim_Updater
                         previousHeight = appItem.Height;
                     }
                 }
+                return false;
             }
         }
         #endregion
@@ -1224,9 +1226,9 @@ namespace Slim_Updater
 
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
-            CheckForUpdates();
+            bool updatesAvailable = CheckForUpdates();
             updatePage.BringToFront();
-            if (updateContentPanel.Controls.Count == appList.Count)
+            if (updatesAvailable == false)
             {
                 // No updates are available and therefore the details view is actieve
                 titleButtonLeft.Text = "Details";
