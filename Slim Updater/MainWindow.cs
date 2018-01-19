@@ -37,7 +37,6 @@ namespace Slim_Updater
         {
             // Load XML File
             XDocument defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
-
             foreach (XElement appElement in defenitions.Elements("app"))
             {
                 // Get content from XML nodes
@@ -184,6 +183,36 @@ namespace Slim_Updater
             {
                 updaterTile.BackColor = normalGreen;
                 updaterTile.Text = "No updates available";
+
+                // Add all apps to updatecontentPanel for details view
+                foreach (App app in appList)
+                {
+                    AppItem appItem = new AppItem();
+                    Separator separator = new Separator();
+                    appItem.Name = app.Name;
+                    appItem.Version = app.LatestVersion;
+                    if (updateContentPanel.Controls.Count == 0)
+                    {
+                        updateContentPanel.Controls.Add(separator);
+                        separator = new Separator()
+                        {
+                            Location = new Point(0, 45)
+                        };
+                        updateContentPanel.Controls.Add(separator);
+                        updateContentPanel.Controls.Add(appItem);
+                        previousY = appItem.Location.Y;
+                        previousHeight = appItem.Height;
+                    }
+                    else
+                    {
+                        appItem.Location = new Point(0, (previousY + previousHeight));
+                        separator.Location = new Point(0, (appItem.Location.Y + 45));
+                        updateContentPanel.Controls.Add(appItem);
+                        updateContentPanel.Controls.Add(separator);
+                        previousY = appItem.Location.Y;
+                        previousHeight = appItem.Height;
+                    }
+                }
             }
         }
         #endregion
@@ -1195,14 +1224,24 @@ namespace Slim_Updater
 
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
+            CheckForUpdates();
             updatePage.BringToFront();
-            titleButtonLeft.Text = "Updates";
+            if (updateContentPanel.Controls.Count == appList.Count)
+            {
+                // No updates are available and therefore the details view is actieve
+                titleButtonLeft.Text = "Details";
+            }
+            else
+            {
+                titleButtonLeft.Text = "Updates";
+            }
             titleButtonLeft.ArrowLeft = true;
             topBar.BorderStyle = BorderStyle.None;
         }
 
         private void GetNewAppsTile_Click(object sender, EventArgs e)
         {
+            CheckForNonInstalledApps();
             getNewAppsPage.BringToFront();
             titleButtonLeft.Text = "Get New Applications";
             titleButtonLeft.ArrowLeft = true;
