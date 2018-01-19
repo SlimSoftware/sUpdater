@@ -192,48 +192,58 @@ namespace Slim_Updater
                 updaterTile.Text = "No updates available";
 
                 // Add all apps to updatecontentPanel for details view
-                foreach (App app in appList)
+                if (this.Controls[0] == updatePage) // Only if page is actually visible
                 {
-                    AppItem appItem = new AppItem();
-                    Separator separator = new Separator();
-                    
-                    if (app.LocalVersion != null)
+                    foreach (App app in appList)
                     {
-                        appItem.Name = app.Name + " " + app.LatestVersion;
-                        appItem.Version = "Installed: " + app.LocalVersion;
-                    }
-                    else
-                    {
-                        appItem.Name = app.Name + " " + app.LatestVersion;
-                        appItem.Version = "Not Found";
-                    }
+                        AppItem appItem = new AppItem();
+                        Separator separator = new Separator();
 
-                    if (updateContentPanel.Controls.Count == 0)
-                    {
-                        updateContentPanel.Controls.Add(separator);
-                        separator = new Separator()
+                        if (app.LocalVersion != null)
                         {
-                            Location = new Point(0, 45)
-                        };
-                        updateContentPanel.Controls.Add(separator);
-                        updateContentPanel.Controls.Add(appItem);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
-                    }
-                    else
-                    {
-                        appItem.Location = new Point(0, (previousY + previousHeight));
-                        separator.Location = new Point(0, (appItem.Location.Y + 45));
-                        updateContentPanel.Controls.Add(appItem);
-                        updateContentPanel.Controls.Add(separator);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
-                    }
-                }
+                            appItem.Name = app.Name + " " + app.LatestVersion;
+                            appItem.Version = "Installed: " + app.LocalVersion;
+                        }
+                        else
+                        {
+                            appItem.Name = app.Name + " " + app.LatestVersion;
+                            appItem.Version = "Not Found";
+                        }
 
-                if (updateContentPanel.VerticalScroll.Visible == true)
-                {
-                    FixScrollbars(updateContentPanel.Controls);
+                        if (updateContentPanel.Controls.Count == 0)
+                        {
+                            updateContentPanel.Controls.Add(separator);
+                            separator = new Separator()
+                            {
+                                Location = new Point(0, 45)
+                            };
+                            updateContentPanel.Controls.Add(separator);
+                            updateContentPanel.Controls.Add(appItem);
+                            previousY = appItem.Location.Y;
+                            previousHeight = appItem.Height;
+                        }
+                        else
+                        {
+                            appItem.Location = new Point(0, (previousY + previousHeight));
+                            separator.Location = new Point(0, (appItem.Location.Y + 45));
+                            updateContentPanel.Controls.Add(appItem);
+                            updateContentPanel.Controls.Add(separator);
+                            previousY = appItem.Location.Y;
+                            previousHeight = appItem.Height;
+                        }
+                    }
+
+                    if (updateContentPanel.VerticalScroll.Visible == true)
+                    {
+                        FixScrollbars(updateContentPanel.Controls);
+                    }
+
+                    // Hide select all checkbox and bottom buttons for details view
+                    updateContentPanel.Location = new Point(0, 0);
+                    updateContentPanel.Size = new Size(updateContentPanel.Size.Width, 425);
+                    selectAllUpdatesCheckBox.Visible = false;
+                    installUpdatesButton.Visible = false;
+                    refreshUpdatesButton.Visible = false;
                 }
                 return false;
             }
@@ -258,7 +268,8 @@ namespace Slim_Updater
                 Separator separator = new Separator();
 
                 // Make sure installed and recenter apps are not included
-                if (!(float.Parse(app.LatestVersion.ToString()) >= float.Parse(app.LocalVersion.ToString())))
+                if (app.LocalVersion == null | !(float.Parse(app.LatestVersion.ToString()) >= 
+                    float.Parse(app.LocalVersion.ToString())))
                 {
                     notInstalledApps.Add(app);
                     // Add app to the content panel
@@ -1220,6 +1231,11 @@ namespace Slim_Updater
                     updatePage.SendToBack();
                     titleButtonLeft.Text = "Home";
                     titleButtonLeft.ArrowLeft = false;
+                    updateContentPanel.Location = new Point(0, 20);
+                    updateContentPanel.Size = new Size(updateContentPanel.Size.Width, 365);
+                    selectAllUpdatesCheckBox.Visible = true;
+                    installUpdatesButton.Visible = true;
+                    refreshUpdatesButton.Visible = true;
                 }
                 else
                 {
@@ -1287,8 +1303,8 @@ namespace Slim_Updater
 
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
-            bool updatesAvailable = CheckForUpdates();
             updatePage.BringToFront();
+            bool updatesAvailable = CheckForUpdates();           
             if (updatesAvailable == false)
             {
                 // No updates are available and therefore the details view is active
