@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using System.Xml;
 
 namespace Slim_Updater
 {
@@ -42,14 +43,12 @@ namespace Slim_Updater
                 // Get content from XML nodes
                 XAttribute nameAttribute = appElement.Attribute("name");
                 XElement versionElement = appElement.Element("version");
-                XElement descriptionElement = appElement.Element("description");
                 XElement archElement = appElement.Element("arch");
                 XElement typeElement = appElement.Element("type");
                 XElement switchElement = appElement.Element("switch");
                 XElement dlElement = appElement.Element("dl");
                 XElement regkeyElement = appElement.Element("regkey");
                 XElement regvalueElement = appElement.Element("regvalue");
-                XElement changelogElement = appElement.Element("changelog");
 
                 // Get local version if installed
                 string localVersion = null;
@@ -59,56 +58,10 @@ namespace Slim_Updater
                     localVersion = regValue.ToString();
                 }
 
-                // Remove first newline and/or tabs from app description and changelog if present
-                if (changelogElement != null)
-                {
-                    if (changelogElement.Value.StartsWith("\n"))
-                    {
-                        changelogElement.Value = changelogElement.Value.TrimStart("\n".ToCharArray());
-                    }
-
-                    if (changelogElement.Value.Contains("\t"))
-                    {
-                        changelogElement.Value = changelogElement.Value.Replace("\t", String.Empty);
-                    }
-                }
-
-                if (descriptionElement != null)
-                {
-                    if (descriptionElement.Value.StartsWith("\n"))
-                    {
-                        descriptionElement.Value = descriptionElement.Value.TrimStart("\n".ToCharArray());
-                    }
-                }
-
                 // Add app to appList
-                if (changelogElement != null && descriptionElement == null)
-                {
-                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                        dlElement.Value, changelogElement.Value, null));
-                }
-
-                if (changelogElement == null && descriptionElement != null)
-                {
-                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                        dlElement.Value, null, descriptionElement.Value));
-                }
-
-                if (changelogElement == null && descriptionElement == null)
-                {
-                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                        dlElement.Value, null, null));
-                }
-
-                if (changelogElement != null && descriptionElement != null)
-                {
-                    appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value, localVersion,
-                        changelogElement.Value, archElement.Value, typeElement.Value, switchElement.Value,
-                        dlElement.Value, descriptionElement.Value));
-                }
+                appList.Add(new App(nameAttribute.Value.ToString(), versionElement.Value,
+                    localVersion, archElement.Value, typeElement.Value, switchElement.Value,
+                    dlElement.Value, null));   
             }
         }
         #endregion
@@ -128,7 +81,7 @@ namespace Slim_Updater
                 AppItem appItem = new AppItem();
                 appItem.Click += (sender, e) =>
                 {
-                    ShowDetails(app.Changelog);
+                    ShowDetails(app.Name, true, false);
                 };
                 Separator separator = new Separator();
 
@@ -262,7 +215,7 @@ namespace Slim_Updater
                 AppItem appItem = new AppItem();
                 appItem.Click += (sender, e) =>
                 {
-                    ShowDetails(app.Description);
+                    ShowDetails(app.Name, false, false);
                 };
                 appItem.Checked = false;
                 Separator separator = new Separator();
@@ -333,115 +286,69 @@ namespace Slim_Updater
                 // TODO: Get local version of portable app if installed
                 string localVersion = "-";
 
-                // Remove first newline and/or tabs from app description and changelog if present
-                if (changelogElement != null)
-                {
-                    if (changelogElement.Value.StartsWith("\n"))
-                    {
-                        changelogElement.Value = changelogElement.Value.TrimStart("\n".ToCharArray());
-                    }
-
-                    if (changelogElement.Value.Contains("\t"))
-                    {
-                        changelogElement.Value = changelogElement.Value.Replace("\t", String.Empty);
-                    }
-                }
-
-                if (descriptionElement != null)
-                {
-                    if (descriptionElement.Value.StartsWith("\n"))
-                    {
-                        descriptionElement.Value = descriptionElement.Value.TrimStart("\n".ToCharArray());
-                    }
-                }
-
                 // Add app to portableAppList
-                if (changelogElement == null && descriptionElement != null)
-                {
-                    portableAppList.Add(new PortableApp(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                        extractModeElement.Value, changelogElement.Value, null));
-                }
+                portableAppList.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
+                    localVersion, archElement.Value, launchElement.Value, dlElement.Value,
+                    extractModeElement.Value));
 
-                if (changelogElement != null && descriptionElement == null)
-                {
-                    portableAppList.Add(new PortableApp(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                        extractModeElement.Value, null, descriptionElement.Value));
-                }
+                int previousY = 0;
+                int previousHeight = 0;
+                Separator separator = new Separator();
 
-                if (changelogElement == null && descriptionElement == null)
+                foreach (PortableApp portableApp in portableAppList.ToArray())
                 {
-                    portableAppList.Add(new PortableApp(nameAttribute.Value.ToString(), versionElement.Value,
-                        localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                        extractModeElement.Value, null, null));
-                }
-
-                if (changelogElement != null && descriptionElement != null)
-                {
-                    portableAppList.Add(new PortableApp(nameAttribute.Value.ToString(), versionElement.Value, localVersion,
-                        changelogElement.Value, archElement.Value, launchElement.Value, dlElement.Value,
-                        savePathElement.Value, extractModeElement.Value, descriptionElement.Value));
-                }
-            }
-
-            int previousY = 0;
-            int previousHeight = 0;
-            Separator separator = new Separator();
-
-            foreach (PortableApp portableApp in portableAppList.ToArray())
-            {
-                AppItem appItem = new AppItem();
-                appItem.Click += (sender, e) =>
-                {
-                    ShowDetails(portableApp.Description);
-                };
-                appItem.Link2Clicked += (sender, e) =>
-                {
-                    List<PortableApp> selectedAppList = new List<PortableApp>();
-                    selectedAppList.Add(portableAppList.Find(x => x.Name == appItem.Name));
-                    InstallPortableApps(selectedAppList, true);
-                };
-                appItem.Checked = false;
-
-                // Make sure only not installed apps are included
-                if (portableApp.LocalVersion == "-" || portableApp.LocalVersion != null
-                    && !(float.Parse(portableApp.LatestVersion.ToString()) >= float.Parse(portableApp.LocalVersion.ToString())))
-                {
-                    // Add app to the content panel
-                    appItem.Name = portableApp.Name;
-                    appItem.Version = portableApp.LatestVersion;
-                    appItem.Link2Text = "Run";
-                    appItem.ShowLink2 = true;
-
-                    if (getPortableContentPanel.Controls.Count == 0)
+                    AppItem appItem = new AppItem();
+                    appItem.Click += (sender, e) =>
                     {
-                        getPortableContentPanel.Controls.Add(separator);
-                        separator = new Separator()
+                        ShowDetails(portableApp.Name, false, true);
+                    };
+                    appItem.Link2Clicked += (sender, e) =>
+                    {
+                        List<PortableApp> selectedAppList = new List<PortableApp>();
+                        selectedAppList.Add(portableAppList.Find(x => x.Name == appItem.Name));
+                        InstallPortableApps(selectedAppList, true);
+                    };
+                    appItem.Checked = false;
+
+                    // Make sure only not installed apps are included
+                    if (portableApp.LocalVersion == "-" || portableApp.LocalVersion != null
+                        && !(float.Parse(portableApp.LatestVersion.ToString()) >= float.Parse(portableApp.LocalVersion.ToString())))
+                    {
+                        // Add app to the content panel
+                        appItem.Name = portableApp.Name;
+                        appItem.Version = portableApp.LatestVersion;
+                        appItem.Link2Text = "Run";
+                        appItem.ShowLink2 = true;
+
+                        if (getPortableContentPanel.Controls.Count == 0)
                         {
-                            Location = new Point(0, 45)
-                        };                       
-                        getPortableContentPanel.Controls.Add(appItem);
-                        getPortableContentPanel.Controls.Add(separator);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
+                            getPortableContentPanel.Controls.Add(separator);
+                            separator = new Separator()
+                            {
+                                Location = new Point(0, 45)
+                            };
+                            getPortableContentPanel.Controls.Add(appItem);
+                            getPortableContentPanel.Controls.Add(separator);
+                            previousY = appItem.Location.Y;
+                            previousHeight = appItem.Height;
+                        }
+                        else
+                        {
+                            appItem.Location = new Point(0, (previousY + previousHeight));
+                            separator.Location = new Point(0, (appItem.Location.Y + 45));
+                            getPortableContentPanel.Controls.Add(appItem);
+                            getPortableContentPanel.Controls.Add(separator);
+                            previousY = appItem.Location.Y;
+                            previousHeight = appItem.Height;
+                        }
                     }
-                    else
-                    {
-                        appItem.Location = new Point(0, (previousY + previousHeight));
-                        separator.Location = new Point(0, (appItem.Location.Y + 45));
-                        getPortableContentPanel.Controls.Add(appItem);
-                        getPortableContentPanel.Controls.Add(separator);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
-                    }
+                    portableApp.AppItem = appItem;
                 }
-                portableApp.AppItem = appItem;
-            }
 
-            if (updateContentPanel.VerticalScroll.Visible == true)
-            {
-                FixScrollbars(updateContentPanel.Controls);
+                if (updateContentPanel.VerticalScroll.Visible == true)
+                {
+                    FixScrollbars(updateContentPanel.Controls);
+                }
             }
         }
         #endregion
@@ -524,7 +431,7 @@ namespace Slim_Updater
                 };
                 appItem.Click += (sender, e) =>
                 {
-                    ShowDetails(portableApp.Description);
+                    ShowDetails(portableApp.Name, false, true);
                 };
 
                 if (installedPortableContentPanel.Controls.Count == 0)
@@ -1162,12 +1069,58 @@ namespace Slim_Updater
         #endregion
 
         #region ShowDetails()
-        public void ShowDetails(string changelogText = null, string descriptionText = null)
+        public void ShowDetails(string appName, bool changelog, bool portable)
         {
-            if (descriptionText == null)
+            string changelogText = null;
+            string descriptionText = null;
+
+            using (XmlReader xmlReader = XmlReader.Create(
+                "http://www.slimsoft.tk/slimupdater/defenitions.xml"))
+            {
+                while (xmlReader.Read())
+                {
+                    if (portable == true)
+                    {
+                        xmlReader.ReadToFollowing("portable");
+                    }
+                    else
+                    {
+                        xmlReader.ReadToFollowing("app");
+                    }
+                    xmlReader.MoveToFirstAttribute();
+                    string appAttribute = xmlReader.Value;
+                    if (appAttribute == appName)
+                    {
+                        if (changelog == true)
+                        {
+                            xmlReader.ReadToFollowing("changelog");
+                            changelogText = xmlReader.ReadElementContentAsString();
+                        }
+                        else
+                        {
+                            xmlReader.ReadToFollowing("description");
+                            descriptionText = xmlReader.ReadElementContentAsString();
+                        }
+                        break;
+                    }
+                }
+            }
+
+            
+            if (changelog == true)
             {
                 if (changelogText != null)
                 {
+                    // Remove first newline and/or any tabs
+                    if (changelogText.StartsWith("\n"))
+                    {
+                        changelogText = changelogText.TrimStart("\n".ToCharArray());
+                    }
+                    if (changelogText.Contains("\t"))
+                    {
+                        changelogText = changelogText.Replace("\t", String.Empty);
+                    }
+
                     if (detailLabel.Text != "Changelog")
                     {
                         detailLabel.Text = "Changelog";
@@ -1179,18 +1132,24 @@ namespace Slim_Updater
             }
             else
             {
-                if (changelogText == null)
+                if (descriptionText != null)
                 {
-                    if (descriptionText != null)
+                    if (descriptionText.StartsWith("\n"))
                     {
-                        if (detailLabel.Text != "Description")
-                        {
-                            detailLabel.Text = "Description";
-                        }
-                        detailText.Text = descriptionText;
-                        detailsPage.BringToFront();
-                        titleButtonLeft.Text = "Details";
+                        descriptionText = descriptionText.TrimStart("\n".ToCharArray());
                     }
+                    if (descriptionText.Contains("\t"))
+                    {
+                        descriptionText = descriptionText.Replace("\t", String.Empty);
+                    }
+
+                    if (detailLabel.Text != "Description")
+                    {
+                        detailLabel.Text = "Description";
+                    }
+                    detailText.Text = descriptionText;
+                    detailsPage.BringToFront();
+                    titleButtonLeft.Text = "Details";
                 }
             }
         }
@@ -1256,6 +1215,11 @@ namespace Slim_Updater
                     {
                         titleButtonLeft.Text = "Updates";
                         topBar.BorderStyle = BorderStyle.None;
+                    }
+                    if (this.Controls[0].Name == "getPortableAppsPage")
+                    {
+                        topBar.BorderStyle = BorderStyle.None;
+                        titleButtonLeft.Text = "Get Portable Apps";
                     }
                 }
             }
@@ -1757,15 +1721,12 @@ namespace Slim_Updater
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
 
-        public App(string name, string latestVersion, string localVersion,
-            string arch, string type, string installSwitch, string dl,
-            string changelog = null, string description = null, string savePath = null)
+        public App(string name, string latestVersion, string localVersion, string arch, 
+            string type, string installSwitch, string dl, string savePath = null)
         {
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
-            Changelog = changelog;
-            Description = description;
             Arch = arch;
             Type = type;
             InstallSwitch = installSwitch;
@@ -1775,15 +1736,13 @@ namespace Slim_Updater
     }
 #endregion
 
-#region Portable App Class
+    #region Portable App Class
     public class PortableApp
     {
         public string Name { get; set; }
         public AppItem AppItem { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
-        public string Changelog { get; set; }
-        public string Description { get; set; }
         public string Arch { get; set; }
         public string DL { get; set; }
         public string ExtractMode { get; set; }
@@ -1792,14 +1751,12 @@ namespace Slim_Updater
 
         public PortableApp(string name, string latestVersion, string localVersion,
             string arch, string launch, string dl, string extractMode,
-            string changelog = null, string description = null, string savePath = null, AppItem appItem = null)
+            AppItem appItem = null, string savePath = null)
         {
             Name = name;
             AppItem = appItem;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
-            Changelog = changelog;
-            Description = description;
             Arch = arch;
             Launch = launch;
             DL = dl;
@@ -1809,7 +1766,7 @@ namespace Slim_Updater
     }
 #endregion
 
-#region Settings Class
+    #region Settings Class
     public class Settings
     {
         public string DefenitionURL { get; set; }
