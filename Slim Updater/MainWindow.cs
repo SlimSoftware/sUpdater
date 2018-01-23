@@ -132,7 +132,15 @@ namespace Slim_Updater
             if (updateList.Count != 0)
             {
                 updaterTile.BackColor = normalOrange;
-                updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                if (updateList.Count > 1)
+                {
+                    updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                }
+                else
+                {
+                    updaterTile.Text = String.Format("1 update available");
+                }
+
                 if (updateContentPanel.VerticalScroll.Visible == true)
                 {
                     FixScrollbars(updateContentPanel.Controls);
