@@ -164,6 +164,11 @@ namespace Slim_Updater
                         AppItem appItem = new AppItem();
                         Separator separator = new Separator();
 
+                        appItem.Click += (sender, e) =>
+                        {
+                            ShowDetails(app.Name, false, false);
+                        };
+
                         if (app.LocalVersion != null)
                         {
                             appItem.Name = app.Name + " " + app.LatestVersion;
@@ -1289,8 +1294,8 @@ namespace Slim_Updater
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
             ReadDefenitions();
-            bool updatesAvailable = CheckForUpdates();
-            updatePage.BringToFront();                   
+            updatePage.BringToFront();
+            bool updatesAvailable = CheckForUpdates();                
             if (updatesAvailable == false)
             {
                 // No updates are available and therefore the details view is active
