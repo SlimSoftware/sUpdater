@@ -36,6 +36,9 @@ namespace Slim_Updater
         #region ReadDefenitions()
         public void ReadDefenitions()
         {
+            appList = new List<App>();
+            updateList = new List<App>();
+
             // Load XML File
             XDocument defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
             foreach (XElement appElement in defenitions.Descendants("app"))
@@ -71,6 +74,7 @@ namespace Slim_Updater
         #region CheckForUpdates()
         public bool CheckForUpdates()
         {
+            updateList = new List<App>();
             updateContentPanel.Controls.Clear();
 
             updateList = new List<App>(appList);
@@ -1244,6 +1248,10 @@ namespace Slim_Updater
                     }
                     else if (this.Controls[0] == installedPortableAppsPage)
                     {
+                        if (updaterTile.Text != "No updates available")
+                        {
+                            updaterTile.BackColor = normalOrange;
+                        }
                         startPage.BringToFront();
                         titleButtonLeft.Text = "Home";
                         titleButtonLeft.ArrowLeft = false;
@@ -1251,6 +1259,10 @@ namespace Slim_Updater
                     }
                     else
                     {
+                        if (updaterTile.Text != "No updates available")
+                        {
+                            updaterTile.BackColor = normalOrange;
+                        }
                         startPage.BringToFront();
                         titleButtonLeft.Text = "Home";
                         titleButtonLeft.ArrowLeft = false;
@@ -1276,8 +1288,9 @@ namespace Slim_Updater
 
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
-            updatePage.BringToFront();
-            bool updatesAvailable = CheckForUpdates();           
+            ReadDefenitions();
+            bool updatesAvailable = CheckForUpdates();
+            updatePage.BringToFront();                   
             if (updatesAvailable == false)
             {
                 // No updates are available and therefore the details view is active
