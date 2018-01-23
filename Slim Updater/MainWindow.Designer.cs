@@ -380,6 +380,7 @@
             this.actionLink.TabIndex = 13;
             this.actionLink.TabStop = true;
             this.actionLink.Text = "Ingore";
+            this.actionLink.Visible = false;
             // 
             // detailLabel
             // 
