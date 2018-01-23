@@ -363,6 +363,7 @@
             this.detailText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.detailText.BackColor = System.Drawing.Color.White;
             this.detailText.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.detailText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.detailText.Location = new System.Drawing.Point(6, 27);
             this.detailText.Name = "detailText";
             this.detailText.ReadOnly = true;
@@ -386,11 +387,11 @@
             // 
             this.detailLabel.AutoSize = true;
             this.detailLabel.BackColor = System.Drawing.Color.Transparent;
-            this.detailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.detailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.detailLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
             this.detailLabel.Location = new System.Drawing.Point(3, 4);
             this.detailLabel.Name = "detailLabel";
-            this.detailLabel.Size = new System.Drawing.Size(85, 17);
+            this.detailLabel.Size = new System.Drawing.Size(88, 18);
             this.detailLabel.TabIndex = 12;
             this.detailLabel.Text = "Changelog";
             // 
