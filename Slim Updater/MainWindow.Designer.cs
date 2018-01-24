@@ -339,7 +339,7 @@
             // 
             // slimUpdaterLogo
             // 
-            this.slimUpdaterLogo.Image = global::Slim_Updater.Properties.Resources.SlimUpdater_new;
+            this.slimUpdaterLogo.Image = global::Slim_Updater.Properties.Resources.SlimUpdater;
             this.slimUpdaterLogo.Location = new System.Drawing.Point(311, 19);
             this.slimUpdaterLogo.Name = "slimUpdaterLogo";
             this.slimUpdaterLogo.Size = new System.Drawing.Size(128, 128);
