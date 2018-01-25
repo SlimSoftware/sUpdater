@@ -57,7 +57,6 @@
             this.getNewAppsContentPanel = new System.Windows.Forms.Panel();
             this.installedPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox1 = new System.Windows.Forms.CheckBox();
-            this.failedPortableInstallLabel1 = new System.Windows.Forms.Label();
             this.refreshPortableButton = new System.Windows.Forms.Button();
             this.installedPortableContentPanel = new System.Windows.Forms.Panel();
             this.setPortableAppFolderPage = new System.Windows.Forms.Panel();
@@ -82,7 +81,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.getPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox2 = new System.Windows.Forms.CheckBox();
-            this.failedPortableInstallLabel2 = new System.Windows.Forms.Label();
+            this.failedPortableInstallLabel = new System.Windows.Forms.Label();
             this.downloadPortableButton = new System.Windows.Forms.Button();
             this.refreshPortableButton2 = new System.Windows.Forms.Button();
             this.getPortableContentPanel = new System.Windows.Forms.Panel();
@@ -401,7 +400,6 @@
             // 
             this.installedPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.installedPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox1);
-            this.installedPortableAppsPage.Controls.Add(this.failedPortableInstallLabel1);
             this.installedPortableAppsPage.Controls.Add(this.refreshPortableButton);
             this.installedPortableAppsPage.Controls.Add(this.installedPortableContentPanel);
             this.installedPortableAppsPage.Location = new System.Drawing.Point(0, 35);
@@ -419,18 +417,6 @@
             this.selectAllPortableCheckBox1.Text = "Select All";
             this.selectAllPortableCheckBox1.UseVisualStyleBackColor = true;
             this.selectAllPortableCheckBox1.CheckedChanged += new System.EventHandler(this.SelectAllPortableCheckBox1_CheckedChanged);
-            // 
-            // failedPortableInstallLabel1
-            // 
-            this.failedPortableInstallLabel1.AutoSize = true;
-            this.failedPortableInstallLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.failedPortableInstallLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.failedPortableInstallLabel1.Location = new System.Drawing.Point(145, 2);
-            this.failedPortableInstallLabel1.Name = "failedPortableInstallLabel1";
-            this.failedPortableInstallLabel1.Size = new System.Drawing.Size(495, 15);
-            this.failedPortableInstallLabel1.TabIndex = 3;
-            this.failedPortableInstallLabel1.Text = "Some Portable Apps failed to install. Would you like to retry installing these?";
-            this.failedPortableInstallLabel1.Visible = false;
             // 
             // refreshPortableButton
             // 
@@ -671,7 +657,7 @@
             // 
             this.getPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.getPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox2);
-            this.getPortableAppsPage.Controls.Add(this.failedPortableInstallLabel2);
+            this.getPortableAppsPage.Controls.Add(this.failedPortableInstallLabel);
             this.getPortableAppsPage.Controls.Add(this.downloadPortableButton);
             this.getPortableAppsPage.Controls.Add(this.refreshPortableButton2);
             this.getPortableAppsPage.Controls.Add(this.getPortableContentPanel);
@@ -691,17 +677,17 @@
             this.selectAllPortableCheckBox2.UseVisualStyleBackColor = true;
             this.selectAllPortableCheckBox2.Click += new System.EventHandler(this.SelectAllPortableCheckBox2_CheckedChanged);
             // 
-            // failedPortableInstallLabel2
+            // failedPortableInstallLabel
             // 
-            this.failedPortableInstallLabel2.AutoSize = true;
-            this.failedPortableInstallLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.failedPortableInstallLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.failedPortableInstallLabel2.Location = new System.Drawing.Point(145, 2);
-            this.failedPortableInstallLabel2.Name = "failedPortableInstallLabel2";
-            this.failedPortableInstallLabel2.Size = new System.Drawing.Size(495, 15);
-            this.failedPortableInstallLabel2.TabIndex = 3;
-            this.failedPortableInstallLabel2.Text = "Some Portable Apps failed to install. Would you like to retry installing these?";
-            this.failedPortableInstallLabel2.Visible = false;
+            this.failedPortableInstallLabel.AutoSize = true;
+            this.failedPortableInstallLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.failedPortableInstallLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.failedPortableInstallLabel.Location = new System.Drawing.Point(145, 2);
+            this.failedPortableInstallLabel.Name = "failedPortableInstallLabel";
+            this.failedPortableInstallLabel.Size = new System.Drawing.Size(495, 15);
+            this.failedPortableInstallLabel.TabIndex = 3;
+            this.failedPortableInstallLabel.Text = "Some Portable Apps failed to install. Would you like to retry installing these?";
+            this.failedPortableInstallLabel.Visible = false;
             // 
             // downloadPortableButton
             // 
@@ -921,7 +907,6 @@
         private System.Windows.Forms.CheckBox selectAllAppsCheckBox;
         private System.Windows.Forms.Panel getNewAppsContentPanel;
         private System.Windows.Forms.Panel installedPortableAppsPage;
-        private System.Windows.Forms.Label failedPortableInstallLabel1;
         private System.Windows.Forms.Button refreshPortableButton;
         private System.Windows.Forms.CheckBox selectAllPortableCheckBox1;
         private System.Windows.Forms.Panel installedPortableContentPanel;
@@ -949,7 +934,7 @@
         private TitleButton titleButtonRight;
         private System.Windows.Forms.Panel getPortableAppsPage;
         private System.Windows.Forms.CheckBox selectAllPortableCheckBox2;
-        private System.Windows.Forms.Label failedPortableInstallLabel2;
+        private System.Windows.Forms.Label failedPortableInstallLabel;
         private System.Windows.Forms.Button downloadPortableButton;
         private System.Windows.Forms.Button refreshPortableButton2;
         private System.Windows.Forms.Panel getPortableContentPanel;

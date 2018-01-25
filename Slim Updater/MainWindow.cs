@@ -39,7 +39,7 @@ namespace Slim_Updater
                 trayIcon.Visible = true;
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
-            }
+            }      
             settings.Load();
             ReadDefenitions();
             CheckForUpdates();
@@ -662,6 +662,12 @@ namespace Slim_Updater
             else
             {
                 // All updates installed succesfully
+                if (failedUpdateLabel.Visible == true)
+                {
+                    failedUpdateLabel.Visible = false;
+                    installUpdatesButton.ResetText();
+                    refreshUpdatesButton.ResetText();
+                }
                 await Task.Delay(1500);
                 CheckForUpdates();
             }
@@ -822,13 +828,19 @@ namespace Slim_Updater
             if (failedInstallList.Count > 0)
             {
                 // Check for failed updates and ask for retry
-                failedUpdateLabel.Visible = true;
+                failedAppInstallLabel.Visible = true;
                 installAppsButton.Text = "Yes";
                 refreshAppsButton.Text = "No";
             }
             else
             {
                 // All updates installed succesfully
+                if (failedAppInstallLabel.Visible == true)
+                {
+                    failedAppInstallLabel.Visible = false;
+                    installAppsButton.ResetText();
+                    refreshAppsButton.ResetText();
+                }
                 await Task.Delay(1500);
                 CheckForNonInstalledApps();
             }
@@ -1085,13 +1097,19 @@ namespace Slim_Updater
             if (failedPortableList != null && failedPortableList.Count > 0)
             {
                 // Check for failed apps and ask for retry
-                failedPortableInstallLabel2.Visible = true;
+                failedPortableInstallLabel.Visible = true;
                 downloadPortableButton.Text = "Yes";
                 refreshPortableButton.Text = "No";
             }
             else
             {
                 // All portable apps installed succesfully
+                if (failedPortableInstallLabel.Visible == true)
+                {
+                    failedAppInstallLabel.Visible = false;
+                    downloadPortableButton.ResetText();
+                    refreshPortableButton.ResetText();
+                }
                 await Task.Delay(1000);
                 CheckForPortableApps();
             }
@@ -1584,7 +1602,7 @@ namespace Slim_Updater
             if (downloadPortableButton.Text == "Yes")
             {
                 InstallPortableApps(failedPortableList, true);
-                failedPortableInstallLabel2.Visible = false;
+                failedPortableInstallLabel.Visible = false;
                 downloadPortableButton.Text = "Download Selected";
                 refreshPortableButton.Text = "Refresh";
             }
