@@ -632,6 +632,7 @@ namespace Slim_Updater
                     p.WaitForExit();
                     if (p.ExitCode == 0)
                     {
+                        File.Delete(update.SavePath);
                         (updateContentPanel.Controls[index] as AppItem).Status = "Install complete";
                         (updateContentPanel.Controls[index] as AppItem).Progress = 100;
                     }
@@ -805,6 +806,7 @@ namespace Slim_Updater
                     p.WaitForExit();
                     if (p.ExitCode == 0)
                     {
+                        File.Delete(app.SavePath);
                         (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Install complete";
                         (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 100;
                     }
