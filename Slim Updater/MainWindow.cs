@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Xml;
+using System.Linq;
 
 namespace Slim_Updater
 {
@@ -28,6 +29,17 @@ namespace Slim_Updater
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void Main(string[] args)
+        {
+            if (args.Contains("/tray"))
+            {
+                this.Hide();
+                trayIcon.Visible = true;
+                this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
             settings.Load();
             ReadDefenitions();
             CheckForUpdates();
@@ -135,6 +147,8 @@ namespace Slim_Updater
             // Change updaterTile on the startpage accordingly
             if (updateList.Count != 0)
             {
+                // TODO: Balloon tip only once and if more updates are availble then last checked
+                trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
                 updaterTile.BackColor = normalOrange;
                 if (updateList.Count > 1)
                 {
@@ -153,6 +167,7 @@ namespace Slim_Updater
             }
             else
             {
+                trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
                 updaterTile.BackColor = normalGreen;
                 updaterTile.Text = "No updates available";
 
@@ -1640,7 +1655,7 @@ namespace Slim_Updater
         }
     #endregion
 
-        #region Settings Page Events
+        #region settingsPage Events
         private void LocationBox1_TextChanged(object sender, EventArgs e)
         {
             if (saveButton.Enabled == false)
@@ -1731,6 +1746,45 @@ namespace Slim_Updater
                 topBar.BorderStyle = BorderStyle.None;
             }
         }
+
+        #region Tray Icon Click Events
+        private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;            
+            this.Show();
+        }
+
+        private void SettingsTrayIconMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.Visible == false | this.WindowState == FormWindowState.Minimized)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.ShowInTaskbar = true;
+                this.Show();
+            }
+            SettingsTile_Click(sender, e);
+        }
+
+        private void ExitTrayIconMenuItem_Click(object sender, EventArgs e)
+        {            
+            Application.Exit();
+        }
+        #endregion
+
+        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (settings.MinimizeToTray == true)
+            {
+                this.Hide();
+                this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                trayIcon.Dispose();
+            }
+        }
     }
 
     #region App Class
@@ -1797,57 +1851,87 @@ namespace Slim_Updater
     {
         public string DefenitionURL { get; set; }
         public string PortableAppDir { get; set; }
+        public bool MinimizeToTray { get; set; }
 
         public void Load()
         {
             // Load XML File
             if (File.Exists(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")))
+                    Environment.SpecialFolder.ApplicationData), 
+                    @"Slim Software\Slim Updater\Settings.xml")))
             {
                 XDocument settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+                    Environment.SpecialFolder.ApplicationData), 
+                    @"Slim Software\Slim Updater\Settings.xml"));
 
                 // Get content from XML nodes
                 string defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
-                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value; 
+                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value;         
                 if (defenitionURL != string.Empty)
                 {
                     DefenitionURL = defenitionURL;
+                }
+                else
+                {
+                    CreateXMLFile();
                 }
                 if (portableAppDir != string.Empty)
                 {
                     PortableAppDir = portableAppDir;
                 }
+                else
+                {
+                    CreateXMLFile();
+                }
+                if (settingXML.Root.Element("MinimizeToTray").Value != null)
+                {
+                    MinimizeToTray = XmlConvert.ToBoolean(
+                        settingXML.Root.Element("MinimizeToTray").Value);
+                }
+                else
+                {
+                    CreateXMLFile();
+                }
 
                 // Unload XML File
                 settingXML = null;
             }
+            else
+            {
+                CreateXMLFile();
+            }
         }
         
+        public void CreateXMLFile()
+        {
+            // Check if folder exists
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(
+                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater")))
+            {
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater"));
+            }
+
+            XDocument doc =
+            new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
+                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray",
+                "true")));
+            doc.Save(Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+        }
+
         public void Save()
         {
             // Check if XML File exists
             if (!File.Exists(Path.Combine(Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")))
             {
-                // Check if folder exists
-                if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater")))
-                {
-                    Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(
-                        Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater"));
-                }
-
-                XDocument doc =
-                new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty), 
-                    new XElement("PortableAppDir"), String.Empty));
-                doc.Save(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+                CreateXMLFile();
             }
 
             // Load XML File
             XDocument settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
 
             // Save values
             if (DefenitionURL != null)
@@ -1858,6 +1942,13 @@ namespace Slim_Updater
                 settingXML.Element("Settings").Add(defenitionURL);
             }
             if (PortableAppDir != null)
+            {
+                settingXML.Descendants("PortableAppDir").Remove();
+                XElement portableAppDir = new XElement("PortableAppDir");
+                portableAppDir.Value = PortableAppDir;
+                settingXML.Element("Settings").Add(portableAppDir);
+            }
+            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
             {
                 settingXML.Descendants("PortableAppDir").Remove();
                 XElement portableAppDir = new XElement("PortableAppDir");

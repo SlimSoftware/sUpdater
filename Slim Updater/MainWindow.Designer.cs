@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.startPage = new System.Windows.Forms.Panel();
             this.updaterTile = new Slim_Updater.flatTile();
@@ -72,7 +73,7 @@
             this.instructionLabel = new System.Windows.Forms.Label();
             this.setPortableAppFolderButton = new System.Windows.Forms.Button();
             this.settingsPage = new System.Windows.Forms.Panel();
-            this.trayIconCheckBox = new System.Windows.Forms.CheckBox();
+            this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
             this.autoStartCheckBox = new System.Windows.Forms.CheckBox();
             this.paFolderLocationLabel = new System.Windows.Forms.Label();
             this.locationBox1 = new System.Windows.Forms.TextBox();
@@ -91,6 +92,11 @@
             this.downloadPortableButton = new System.Windows.Forms.Button();
             this.refreshPortableButton2 = new System.Windows.Forms.Button();
             this.getPortableContentPanel = new System.Windows.Forms.Panel();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
@@ -103,6 +109,7 @@
             this.settingsPage.SuspendLayout();
             this.defenitionsGroupBox.SuspendLayout();
             this.getPortableAppsPage.SuspendLayout();
+            this.trayIconContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // startPage
@@ -580,7 +587,7 @@
             // settingsPage
             // 
             this.settingsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.settingsPage.Controls.Add(this.trayIconCheckBox);
+            this.settingsPage.Controls.Add(this.minimizeToTrayCheckBox);
             this.settingsPage.Controls.Add(this.autoStartCheckBox);
             this.settingsPage.Controls.Add(this.paFolderLocationLabel);
             this.settingsPage.Controls.Add(this.locationBox1);
@@ -594,15 +601,15 @@
             this.settingsPage.Size = new System.Drawing.Size(785, 425);
             this.settingsPage.TabIndex = 14;
             // 
-            // trayIconCheckBox
+            // minimizeToTrayCheckBox
             // 
-            this.trayIconCheckBox.AutoSize = true;
-            this.trayIconCheckBox.Location = new System.Drawing.Point(12, 30);
-            this.trayIconCheckBox.Name = "trayIconCheckBox";
-            this.trayIconCheckBox.Size = new System.Drawing.Size(316, 17);
-            this.trayIconCheckBox.TabIndex = 5;
-            this.trayIconCheckBox.Text = "Keep running as a system tray icon when I close Slim Updater";
-            this.trayIconCheckBox.UseVisualStyleBackColor = true;
+            this.minimizeToTrayCheckBox.AutoSize = true;
+            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(12, 30);
+            this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
+            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(316, 17);
+            this.minimizeToTrayCheckBox.TabIndex = 5;
+            this.minimizeToTrayCheckBox.Text = "Keep running as a system tray icon when I close Slim Updater";
+            this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
             // 
             // autoStartCheckBox
             // 
@@ -793,6 +800,48 @@
             this.getPortableContentPanel.Size = new System.Drawing.Size(785, 365);
             this.getPortableContentPanel.TabIndex = 0;
             // 
+            // trayIcon
+            // 
+            this.trayIcon.ContextMenuStrip = this.trayIconContextMenu;
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "Slim Updater";
+            this.trayIcon.Visible = true;
+            // 
+            // trayIconContextMenu
+            // 
+            this.trayIconContextMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.trayIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTrayIconMenuItem,
+            this.settingsTrayIconMenuItem,
+            this.exitTrayIconMenuItem});
+            this.trayIconContextMenu.Name = "trayIconContextMenu";
+            this.trayIconContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.trayIconContextMenu.Size = new System.Drawing.Size(117, 70);
+            // 
+            // openTrayIconMenuItem
+            // 
+            this.openTrayIconMenuItem.BackColor = System.Drawing.Color.White;
+            this.openTrayIconMenuItem.Name = "openTrayIconMenuItem";
+            this.openTrayIconMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.openTrayIconMenuItem.Text = "&Open ";
+            this.openTrayIconMenuItem.Click += new System.EventHandler(this.OpenTrayIconMenuItem_Click);
+            // 
+            // settingsTrayIconMenuItem
+            // 
+            this.settingsTrayIconMenuItem.BackColor = System.Drawing.Color.White;
+            this.settingsTrayIconMenuItem.Name = "settingsTrayIconMenuItem";
+            this.settingsTrayIconMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.settingsTrayIconMenuItem.Text = "&Settings";
+            this.settingsTrayIconMenuItem.Click += new System.EventHandler(this.SettingsTrayIconMenuItem_Click);
+            // 
+            // exitTrayIconMenuItem
+            // 
+            this.exitTrayIconMenuItem.BackColor = System.Drawing.Color.White;
+            this.exitTrayIconMenuItem.Name = "exitTrayIconMenuItem";
+            this.exitTrayIconMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.exitTrayIconMenuItem.Text = "E&xit";
+            this.exitTrayIconMenuItem.Click += new System.EventHandler(this.ExitTrayIconMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -812,6 +861,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "Slim Updater";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.startPage.ResumeLayout(false);
             this.topBar.ResumeLayout(false);
@@ -835,6 +885,7 @@
             this.defenitionsGroupBox.PerformLayout();
             this.getPortableAppsPage.ResumeLayout(false);
             this.getPortableAppsPage.PerformLayout();
+            this.trayIconContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -888,7 +939,7 @@
         private System.Windows.Forms.TextBox customURLTextBox;
         private System.Windows.Forms.RadioButton customDefenRadioBtn;
         private System.Windows.Forms.RadioButton officialDefenRadioBtn;
-        private System.Windows.Forms.CheckBox trayIconCheckBox;
+        private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
         private System.Windows.Forms.CheckBox autoStartCheckBox;
         private System.Windows.Forms.Button browseButton1;
         private System.Windows.Forms.Label paFolderLocationLabel;
@@ -902,6 +953,11 @@
         private System.Windows.Forms.Button downloadPortableButton;
         private System.Windows.Forms.Button refreshPortableButton2;
         private System.Windows.Forms.Panel getPortableContentPanel;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.ContextMenuStrip trayIconContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem openTrayIconMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsTrayIconMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitTrayIconMenuItem;
     }
 }
 
