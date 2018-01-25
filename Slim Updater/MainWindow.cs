@@ -1360,6 +1360,19 @@ namespace Slim_Updater
         private void SettingsTile_Click(object sender, EventArgs e)
         {
             settings.Load();
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run") ??
+                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
+            {
+                if (key.GetValue("Slim Updater") != null)
+                {
+                    autoStartCheckBox.Checked = true;
+                }
+            }
+            if (settings.MinimizeToTray == true)
+            {
+                minimizeToTrayCheckBox.Checked = true;
+            }
             if (settings.PortableAppDir != null)
             {
                 locationBox1.Text = settings.PortableAppDir;
@@ -1369,7 +1382,7 @@ namespace Slim_Updater
                 customURLTextBox.Text = settings.DefenitionURL;
                 officialDefenRadioBtn.Checked = false;
                 customDefenRadioBtn.Checked = true;
-            }           
+            }                
             settingsPage.BringToFront();
             titleButtonLeft.Text = "Settings";
             titleButtonLeft.ArrowLeft = true;
@@ -1694,7 +1707,7 @@ namespace Slim_Updater
         private void SaveButton_Click(object sender, EventArgs e)
         {
             // Check if selected Portable App folder exists
-            if (locationBox1.Text == null)
+            if (locationBox1.Text == null | locationBox1.Text == "")
             {
                 MessageBox.Show("You must specify a Portable Apps Folder to continue");
             }
@@ -1711,47 +1724,48 @@ namespace Slim_Updater
                         paFolderNotWriteableLabel1.Visible = false;
                         File.Delete(Path.Combine(locationBox1.Text, "Slim Updater Tempfile"));
                     }
-
-                    if (!Directory.Exists(locationBox1.Text))
-                    {
-                        Directory.CreateDirectory(locationBox1.Text);
-                    }
-
-                    settings.PortableAppDir = locationBox1.Text;
-                    if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
-                    {
-                        settings.DefenitionURL = customURLTextBox.Text;
-                    }
-                    if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
-                    {
-                        MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
-                    }
-                    settings.Save();
                 }
                 catch (Exception)
                 {
                     saveButton.Enabled = false;
-                    paFolderNotWriteableLabel1.Visible = true;  
+                    paFolderLocationLabel.ResetText();
+                    paFolderNotWriteableLabel1.Visible = true;
                 }
+
+                if (!Directory.Exists(locationBox1.Text))
+                {
+                    Directory.CreateDirectory(locationBox1.Text);
+                }
+
+                settings.PortableAppDir = locationBox1.Text;
+                if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
+                {
+                    settings.DefenitionURL = customURLTextBox.Text;
+                }
+                if (autoStartCheckBox.Checked == true)
+                {
+                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
+                        @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
+                    {
+                        key.SetValue("Slim Updater", "\"" + 
+                            System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()
+                            + "\"" + " /tray");
+                    }
+                }
+                if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+                {
+                    MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+                }
+                settings.Save();
             }
         }
         #endregion
-
-        private void MainWindow_Shown(object sender, EventArgs e)
-        {
-            if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
-                    this.Controls[0] == installedPortableAppsPage | 
-                    this.Controls[0] == getPortableAppsPage)
-            {
-                topBar.BorderStyle = BorderStyle.None;
-            }
-        }
 
         #region Tray Icon Click Events
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
-            this.ShowInTaskbar = true;            
+            this.ShowInTaskbar = true;
             this.Show();
         }
 
@@ -1767,10 +1781,20 @@ namespace Slim_Updater
         }
 
         private void ExitTrayIconMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             Application.Exit();
         }
         #endregion
+
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
+                    this.Controls[0] == installedPortableAppsPage | 
+                    this.Controls[0] == getPortableAppsPage)
+            {
+                topBar.BorderStyle = BorderStyle.None;
+            }
+        }      
 
         private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -1849,9 +1873,9 @@ namespace Slim_Updater
     #region Settings Class
     public class Settings
     {
+        public bool MinimizeToTray { get; set; }        
         public string DefenitionURL { get; set; }
-        public string PortableAppDir { get; set; }
-        public bool MinimizeToTray { get; set; }
+        public string PortableAppDir { get; set; }       
 
         public void Load()
         {
@@ -1866,7 +1890,16 @@ namespace Slim_Updater
 
                 // Get content from XML nodes
                 string defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
-                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value;         
+                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value;
+                if (settingXML.Root.Element("MinimizeToTray").Value != null)
+                {
+                    MinimizeToTray = XmlConvert.ToBoolean(
+                        settingXML.Root.Element("MinimizeToTray").Value);
+                }
+                else
+                {
+                    CreateXMLFile();
+                }
                 if (defenitionURL != string.Empty)
                 {
                     DefenitionURL = defenitionURL;
@@ -1878,15 +1911,6 @@ namespace Slim_Updater
                 if (portableAppDir != string.Empty)
                 {
                     PortableAppDir = portableAppDir;
-                }
-                else
-                {
-                    CreateXMLFile();
-                }
-                if (settingXML.Root.Element("MinimizeToTray").Value != null)
-                {
-                    MinimizeToTray = XmlConvert.ToBoolean(
-                        settingXML.Root.Element("MinimizeToTray").Value);
                 }
                 else
                 {
@@ -1914,10 +1938,11 @@ namespace Slim_Updater
 
             XDocument doc =
             new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
-                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray",
-                "true")));
+                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray", "true")));
             doc.Save(Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+            // Unload XML
+            doc = null;      
         }
 
         public void Save()
@@ -1950,10 +1975,10 @@ namespace Slim_Updater
             }
             if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
             {
-                settingXML.Descendants("PortableAppDir").Remove();
-                XElement portableAppDir = new XElement("PortableAppDir");
-                portableAppDir.Value = PortableAppDir;
-                settingXML.Element("Settings").Add(portableAppDir);
+                settingXML.Descendants("MinimizeToTray").Remove();
+                XElement minimizeToTray = new XElement("MinimizeToTray");
+                minimizeToTray.Value = MinimizeToTray.ToString();
+                settingXML.Element("Settings").Add(minimizeToTray);
             }
 
             // Save XML File
