@@ -1,4 +1,4 @@
-﻿namespace Slim_Updater
+﻿namespace SlimUpdater
 {
     partial class MainWindow
     {
@@ -90,12 +90,12 @@
             this.openTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.titleButtonRight = new Slim_Updater.TitleButton();
-            this.titleButtonLeft = new Slim_Updater.TitleButton();
-            this.updaterTile = new Slim_Updater.flatTile();
-            this.getNewAppsTile = new Slim_Updater.flatTile();
-            this.portableAppsTile = new Slim_Updater.flatTile();
-            this.settingsTile = new Slim_Updater.flatTile();
+            this.titleButtonRight = new SlimUpdater.TitleButton();
+            this.titleButtonLeft = new SlimUpdater.TitleButton();
+            this.updaterTile = new SlimUpdater.flatTile();
+            this.getNewAppsTile = new SlimUpdater.flatTile();
+            this.portableAppsTile = new SlimUpdater.flatTile();
+            this.settingsTile = new SlimUpdater.flatTile();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
@@ -276,7 +276,7 @@
             // 
             // slimUpdaterLogo
             // 
-            this.slimUpdaterLogo.Image = global::Slim_Updater.Properties.Resources.SlimUpdater;
+            this.slimUpdaterLogo.Image = global::SlimUpdater.Properties.Resources.SlimUpdater;
             this.slimUpdaterLogo.Location = new System.Drawing.Point(311, 19);
             this.slimUpdaterLogo.Name = "slimUpdaterLogo";
             this.slimUpdaterLogo.Size = new System.Drawing.Size(128, 128);
@@ -787,7 +787,7 @@
             // updaterTile
             // 
             this.updaterTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.updaterTile.Image = global::Slim_Updater.Properties.Resources.Updates_Icon;
+            this.updaterTile.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
             this.updaterTile.Location = new System.Drawing.Point(48, 40);
             this.updaterTile.Name = "updaterTile";
             this.updaterTile.Size = new System.Drawing.Size(300, 150);
@@ -798,7 +798,7 @@
             // getNewAppsTile
             // 
             this.getNewAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.getNewAppsTile.Image = global::Slim_Updater.Properties.Resources.GetNewApps_Icon;
+            this.getNewAppsTile.Image = global::SlimUpdater.Properties.Resources.GetNewApps_Icon;
             this.getNewAppsTile.Location = new System.Drawing.Point(402, 40);
             this.getNewAppsTile.Name = "getNewAppsTile";
             this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
@@ -809,7 +809,7 @@
             // portableAppsTile
             // 
             this.portableAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.portableAppsTile.Image = global::Slim_Updater.Properties.Resources.PortableApps_Icon;
+            this.portableAppsTile.Image = global::SlimUpdater.Properties.Resources.PortableApps_Icon;
             this.portableAppsTile.Location = new System.Drawing.Point(48, 222);
             this.portableAppsTile.Name = "portableAppsTile";
             this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
@@ -820,7 +820,7 @@
             // settingsTile
             // 
             this.settingsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.settingsTile.Image = global::Slim_Updater.Properties.Resources.Settings_Icon;
+            this.settingsTile.Image = global::SlimUpdater.Properties.Resources.Settings_Icon;
             this.settingsTile.Location = new System.Drawing.Point(402, 222);
             this.settingsTile.Name = "settingsTile";
             this.settingsTile.Size = new System.Drawing.Size(300, 150);

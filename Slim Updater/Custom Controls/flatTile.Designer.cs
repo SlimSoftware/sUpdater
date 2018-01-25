@@ -1,4 +1,4 @@
-﻿namespace Slim_Updater
+﻿namespace SlimUpdater
 {
     partial class flatTile
     {
@@ -49,7 +49,7 @@
             // 
             // tileIcon
             // 
-            this.tileIcon.Image = global::Slim_Updater.Properties.Resources.Updates_Icon;
+            this.tileIcon.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
             this.tileIcon.Location = new System.Drawing.Point(118, 22);
             this.tileIcon.Name = "tileIcon";
             this.tileIcon.Size = new System.Drawing.Size(64, 64);

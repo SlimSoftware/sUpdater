@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Slim_Updater
+namespace SlimUpdater
 {
     public partial class TitleButton : UserControl
     {
@@ -189,8 +189,8 @@ namespace Slim_Updater
         private void TitleButton_Click(object sender, EventArgs e)
         {
             this.BackColor = Color.White;
-            backArrowLeft.Image = Slim_Updater.Properties.Resources.ArrowGreen;
-            backArrowRight.Image = Slim_Updater.Properties.Resources.ArrowGreenRight;
+            backArrowLeft.Image = SlimUpdater.Properties.Resources.ArrowGreen;
+            backArrowRight.Image = SlimUpdater.Properties.Resources.ArrowGreenRight;
             titleLabel.ForeColor = normalGreen;
         }
     }

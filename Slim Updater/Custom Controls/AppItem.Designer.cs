@@ -1,4 +1,4 @@
-﻿namespace Slim_Updater
+﻿namespace SlimUpdater
 {
     partial class AppItem
     {

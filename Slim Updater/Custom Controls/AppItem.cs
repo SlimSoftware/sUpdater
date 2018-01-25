@@ -3,7 +3,7 @@ using System.Drawing;
 using System;
 
 
-namespace Slim_Updater
+namespace SlimUpdater
 {
     public partial class AppItem : UserControl
     {

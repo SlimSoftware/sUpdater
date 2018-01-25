@@ -7,7 +7,7 @@
     <ProjectGuid>{57BC193C-4C37-4B4A-8C95-85EB402877D8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Slim_Updater</RootNamespace>
+    <RootNamespace>SlimUpdater</RootNamespace>
     <AssemblyName>Slim Updater</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

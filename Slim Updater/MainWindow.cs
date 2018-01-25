@@ -12,7 +12,7 @@ using System.Threading;
 using System.Xml;
 using System.Linq;
 
-namespace Slim_Updater
+namespace SlimUpdater
 {
     public partial class MainWindow : Form
     {

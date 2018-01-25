@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Slim_Updater
+namespace SlimUpdater
 {
     public partial class Separator : UserControl
     {
