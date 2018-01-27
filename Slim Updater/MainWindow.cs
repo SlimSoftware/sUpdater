@@ -11,6 +11,7 @@ using System.Drawing;
 using System.Threading;
 using System.Xml;
 using System.Linq;
+using AutoUpdaterDotNET;
 
 namespace SlimUpdater
 {
@@ -29,20 +30,23 @@ namespace SlimUpdater
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        public void Main(string[] args)
-        {
+            string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("/tray"))
             {
                 this.Hide();
                 trayIcon.Visible = true;
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
-            }      
+            }
             settings.Load();
             ReadDefenitions();
             CheckForUpdates();
+            if (this.Visible)
+            {
+                AutoUpdater.ShowRemindLaterButton = false;
+                AutoUpdater.ShowSkipButton = false;
+                AutoUpdater.Start("http://www.slimsoft.tk/slimupdater/update.xml");
+            }
         }
 
         #region ReadDefenitions()
@@ -52,6 +56,7 @@ namespace SlimUpdater
             updateList = new List<App>();
 
             // Load XML File
+            // TODO: Check internet connection
             XDocument defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
             foreach (XElement appElement in defenitions.Descendants("app"))
             {
