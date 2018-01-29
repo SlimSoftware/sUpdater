@@ -90,6 +90,8 @@
             this.openTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.offlineLabel = new System.Windows.Forms.Label();
+            this.offlineRetryLink = new System.Windows.Forms.LinkLabel();
             this.titleButtonRight = new SlimUpdater.TitleButton();
             this.titleButtonLeft = new SlimUpdater.TitleButton();
             this.updaterTile = new SlimUpdater.flatTile();
@@ -113,6 +115,8 @@
             // 
             // startPage
             // 
+            this.startPage.Controls.Add(this.offlineRetryLink);
+            this.startPage.Controls.Add(this.offlineLabel);
             this.startPage.Controls.Add(this.updaterTile);
             this.startPage.Controls.Add(this.getNewAppsTile);
             this.startPage.Controls.Add(this.portableAppsTile);
@@ -759,6 +763,34 @@
             this.exitTrayIconMenuItem.Text = "E&xit";
             this.exitTrayIconMenuItem.Click += new System.EventHandler(this.ExitTrayIconMenuItem_Click);
             // 
+            // offlineLabel
+            // 
+            this.offlineLabel.AutoSize = true;
+            this.offlineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.offlineLabel.ForeColor = System.Drawing.Color.Red;
+            this.offlineLabel.Location = new System.Drawing.Point(154, 10);
+            this.offlineLabel.Name = "offlineLabel";
+            this.offlineLabel.Size = new System.Drawing.Size(327, 17);
+            this.offlineLabel.TabIndex = 9;
+            this.offlineLabel.Text = "Could not connect to the defenitions server.";
+            this.offlineLabel.Visible = false;
+            // 
+            // offlineRetryLink
+            // 
+            this.offlineRetryLink.AutoSize = true;
+            this.offlineRetryLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.offlineRetryLink.ForeColor = System.Drawing.Color.Red;
+            this.offlineRetryLink.LinkColor = System.Drawing.Color.Red;
+            this.offlineRetryLink.Location = new System.Drawing.Point(477, 10);
+            this.offlineRetryLink.Name = "offlineRetryLink";
+            this.offlineRetryLink.Size = new System.Drawing.Size(153, 17);
+            this.offlineRetryLink.TabIndex = 10;
+            this.offlineRetryLink.TabStop = true;
+            this.offlineRetryLink.Text = "Click here to retry...";
+            this.offlineRetryLink.Visible = false;
+            this.offlineRetryLink.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.offlineRetryLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OfflineRetryLink_LinkClicked);
+            // 
             // titleButtonRight
             // 
             this.titleButtonRight.ArrowLeft = false;
@@ -847,9 +879,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
             this.Text = "Slim Updater";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Shown += new System.EventHandler(this.MainWindow_Shown);
             this.startPage.ResumeLayout(false);
+            this.startPage.PerformLayout();
             this.topBar.ResumeLayout(false);
             this.topBar.PerformLayout();
             this.updatePage.ResumeLayout(false);
@@ -943,6 +976,8 @@
         private System.Windows.Forms.ToolStripMenuItem openTrayIconMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsTrayIconMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitTrayIconMenuItem;
+        private System.Windows.Forms.Label offlineLabel;
+        private System.Windows.Forms.LinkLabel offlineRetryLink;
     }
 }
 

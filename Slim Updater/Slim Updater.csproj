@@ -156,7 +156,7 @@
     <None Include="Resources\ArrowWhite.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Slim Updater_new.png" />
+    <None Include="Resources\Slim Updater.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="7-Zip\7z.dll">
@@ -167,6 +167,7 @@
     </Content>
     <Content Include="Resources\ArrowGreenRight.png" />
     <Content Include="Resources\ArrowWhiteRight.png" />
+    <Content Include="Resources\Slim UpdaterIcon_Grey.ico" />
     <None Include="Resources\SlimUpdaterIcon_Orange.ico" />
     <None Include="Resources\SlimUpdaterIcon.ico" />
   </ItemGroup>

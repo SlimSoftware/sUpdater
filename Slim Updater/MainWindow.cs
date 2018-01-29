@@ -26,6 +26,7 @@ namespace SlimUpdater
         public Settings settings = new Settings();
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
+        Color normalGrey = Color.FromArgb(141, 141, 141);
 
         public MainWindow()
         {
@@ -34,19 +35,11 @@ namespace SlimUpdater
             if (args.Contains("/tray"))
             {
                 this.Hide();
-                trayIcon.Visible = true;
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
             }
             settings.Load();
             ReadDefenitions();
-            CheckForUpdates();
-            if (this.Visible)
-            {
-                AutoUpdater.ShowRemindLaterButton = false;
-                AutoUpdater.ShowSkipButton = false;
-                AutoUpdater.Start("http://www.slimsoft.tk/slimupdater/update.xml");
-            }
         }
 
         #region ReadDefenitions()
@@ -54,10 +47,37 @@ namespace SlimUpdater
         {
             appList = new List<App>();
             updateList = new List<App>();
+            XDocument defenitions = new XDocument();
 
             // Load XML File
-            // TODO: Check internet connection
-            XDocument defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+            try
+            {
+                defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
+            catch (Exception e)
+            {
+                trayIcon.Icon = Properties.Resources.Slim_UpdaterIcon_Grey;
+                trayIcon.Text = e.Message;
+                updaterTile.BackColor = normalGrey;
+                getNewAppsTile.BackColor = normalGrey;
+                portableAppsTile.BackColor = normalGrey;
+                updaterTile.Text = "Cannot check for updates";
+                offlineLabel.Visible = true;
+                offlineRetryLink.Visible = true;
+                return;
+            }
+
+            if (trayIcon.Icon == Properties.Resources.Slim_UpdaterIcon_Grey)
+            {
+                trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
+                trayIcon.Text = "Slim Updater";
+                updaterTile.BackColor = normalGreen;
+                getNewAppsTile.BackColor = normalGreen;
+                portableAppsTile.BackColor = normalGreen;
+                offlineLabel.Visible = false;
+                offlineRetryLink.Visible = false;
+            }
+
             foreach (XElement appElement in defenitions.Descendants("app"))
             {
                 // Get content from XML nodes
@@ -1334,19 +1354,22 @@ namespace SlimUpdater
         private void UpdaterTile_Click(object sender, EventArgs e)
         {
             ReadDefenitions();
-            updatePage.BringToFront();
-            bool updatesAvailable = CheckForUpdates();                
-            if (updatesAvailable == false)
+            if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
-                // No updates are available and therefore the details view is active
-                titleButtonLeft.Text = "Details";
+                updatePage.BringToFront();
+                bool updatesAvailable = CheckForUpdates();
+                if (updatesAvailable == false)
+                {
+                    // No updates are available and therefore the details view is active
+                    titleButtonLeft.Text = "Details";
+                }
+                else
+                {
+                    titleButtonLeft.Text = "Updates";
+                }
+                titleButtonLeft.ArrowLeft = true;
+                topBar.BorderStyle = BorderStyle.None;
             }
-            else
-            {
-                titleButtonLeft.Text = "Updates";
-            }
-            titleButtonLeft.ArrowLeft = true;
-            topBar.BorderStyle = BorderStyle.None;
         }
 
         private void GetNewAppsTile_Click(object sender, EventArgs e)
@@ -1412,6 +1435,13 @@ namespace SlimUpdater
             titleButtonLeft.Text = "Settings";
             titleButtonLeft.ArrowLeft = true;
             topBar.BorderStyle = BorderStyle.None;           
+        }
+
+        private void OfflineRetryLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            offlineLabel.Visible = false;
+            offlineRetryLink.Visible = false;
+            ReadDefenitions();
         }
 
         private void AboutLabel_MouseEnter(object sender, EventArgs e)
@@ -1791,6 +1821,14 @@ namespace SlimUpdater
         {
             this.WindowState = FormWindowState.Normal;
             this.ShowInTaskbar = true;
+            ReadDefenitions();
+            if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
+            {
+                CheckForUpdates();
+                AutoUpdater.ShowRemindLaterButton = false;
+                AutoUpdater.ShowSkipButton = false;
+                AutoUpdater.Start("http://www.slimsoft.tk/slimupdater/update.xml");
+            }
             this.Show();
         }
 
@@ -1819,12 +1857,20 @@ namespace SlimUpdater
             {
                 topBar.BorderStyle = BorderStyle.None;
             }
+
+            if (offlineLabel.Visible == false)
+            {
+                CheckForUpdates();
+            }
         }      
 
-        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (settings.MinimizeToTray == true)
+            if (settings.MinimizeToTray == true | e.CloseReason != CloseReason.TaskManagerClosing |
+                e.CloseReason != CloseReason.ApplicationExitCall | 
+                e.CloseReason != CloseReason.FormOwnerClosing)
             {
+                e.Cancel = true;
                 this.Hide();
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;

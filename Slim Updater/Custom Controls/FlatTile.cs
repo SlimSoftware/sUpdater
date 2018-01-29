@@ -17,6 +17,8 @@ namespace SlimUpdater
         Color hoverGreen = Color.FromArgb(0, 196, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color hoverOrange = Color.FromArgb(254, 134, 35);
+        Color normalGrey = Color.FromArgb(141, 141, 141);
+        Color hoverGrey = Color.FromArgb(141, 151, 141);
 
         // Required for the text to display correctly
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
@@ -51,6 +53,10 @@ namespace SlimUpdater
             {
                 this.BackColor = hoverOrange;
             }
+            else if (this.BackColor == normalGrey)
+            {
+                this.BackColor = hoverGrey;
+            }
             else
             {
                 this.BackColor = hoverGreen;
@@ -62,6 +68,10 @@ namespace SlimUpdater
             if (this.BackColor == hoverOrange)
             {
                 this.BackColor = normalOrange;
+            }
+            else if (this.BackColor == hoverGrey)
+            {
+                this.BackColor = normalGrey;
             }
             else
             {
@@ -75,6 +85,10 @@ namespace SlimUpdater
             {
                 this.BackColor = hoverOrange;
             }
+            else if (this.BackColor == normalGrey)
+            {
+                this.BackColor = hoverGrey;
+            }
             else
             {
                 this.BackColor = hoverGreen;
@@ -86,6 +100,10 @@ namespace SlimUpdater
             if (this.BackColor == hoverOrange)
             {
                 this.BackColor = normalOrange;
+            }
+            else if (this.BackColor == hoverGrey)
+            {
+                this.BackColor = normalGrey;
             }
             else
             {
@@ -99,6 +117,10 @@ namespace SlimUpdater
             {
                 this.BackColor = hoverOrange;
             }
+            else if (this.BackColor == normalGrey)
+            {
+                this.BackColor = hoverGrey;
+            }
             else
             {
                 this.BackColor = hoverGreen;
@@ -110,6 +132,10 @@ namespace SlimUpdater
             if (this.BackColor == hoverOrange)
             {
                 this.BackColor = normalOrange;
+            }
+            else if (this.BackColor == hoverGrey)
+            {
+                this.BackColor = normalGrey;
             }
             else
             {
