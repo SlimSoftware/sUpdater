@@ -99,10 +99,29 @@ namespace SlimUpdater
 
                 // Get local version if installed
                 string localVersion = null;
-                object regValue = Registry.GetValue(regkeyElement.Value, regvalueElement.Value, null);
-                if (regValue != null)
+                if (regkeyElement.Value.StartsWith("HKEY"))
                 {
-                    localVersion = regValue.ToString();
+                    var regValue = Registry.GetValue(regkeyElement.Value, 
+                        regvalueElement.Value, null);
+                    if (regValue != null)
+                    {
+                        localVersion = regValue.ToString();
+                    }
+                }
+                else
+                {
+                    string exePath = regkeyElement.Value;
+                    if (exePath.Contains("%pf32%"))
+                    {
+                        exePath.Replace("%pf64", Environment.ExpandEnvironmentVariables(
+                            "%ProgramFiles(x86)%"));
+                    }
+                    if (exePath.Contains("%pf64%"))
+                    {
+                        exePath.Replace("%pf32%", Environment.ExpandEnvironmentVariables(
+                            "%ProgramW6432%"));
+                    }
+                    localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
                 }
 
                 // Add app to appList
