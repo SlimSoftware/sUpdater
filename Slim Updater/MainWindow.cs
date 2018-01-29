@@ -52,7 +52,14 @@ namespace SlimUpdater
             // Load XML File
             try
             {
-                defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+                if (settings.DefenitionURL != null)
+                {
+                    defenitions = XDocument.Load(settings.DefenitionURL);
+                }
+                else
+                {
+                    defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+                }
             }
             catch (Exception e)
             {
@@ -1150,9 +1157,17 @@ namespace SlimUpdater
         {
             string changelogText = null;
             string descriptionText = null;
+            string defenitionURL = null;
+            if (settings.DefenitionURL != null)
+            {
+                defenitionURL = settings.DefenitionURL;
+            }
+            else
+            {
+                defenitionURL = "http://www.slimsoft.tk/slimupdater/defenitions.xml";
+            }
 
-            using (XmlReader xmlReader = XmlReader.Create(
-                "http://www.slimsoft.tk/slimupdater/defenitions.xml"))
+            using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
             {
                 while (xmlReader.Read())
                 {
