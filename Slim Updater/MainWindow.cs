@@ -1851,6 +1851,11 @@ namespace SlimUpdater
         #endregion
 
         #region Tray Icon Click Events
+        private void CheckUpdatesTrayIconMenuItem_Click(object sender, EventArgs e)
+        {
+            MainWindow_Shown(sender, e);
+        }
+
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
