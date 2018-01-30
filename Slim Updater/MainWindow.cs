@@ -24,6 +24,7 @@ namespace SlimUpdater
         public List<App> failedInstallList = new List<App>();
         public List<PortableApp> failedPortableList = new List<PortableApp>();
         public Settings settings = new Settings();
+        public bool justInstalledUpdates = false;
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
@@ -223,13 +224,15 @@ namespace SlimUpdater
                 updaterTile.Text = "No updates available";
 
                 // Add all apps to updatecontentPanel for details view
-                if (this.Controls[0] == updatePage) // Only if page is actually visible
+                // Only if page is actually visible and if updates were not just installed
+                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
                 {
                     foreach (App app in appList)
                     {
                         AppItem appItem = new AppItem();
                         Separator separator = new Separator();
 
+                        appItem.Checkbox = false;
                         appItem.Click += (sender, e) =>
                         {
                             ShowDetails(app.Name, false, false);
@@ -281,6 +284,20 @@ namespace SlimUpdater
                     installUpdatesButton.Visible = false;
                     refreshUpdatesButton.Visible = false;
                 }
+                else
+                {
+                    Label noticeLabel = new Label();
+                    noticeLabel.Text = "No updates available.";
+                    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                    // Center
+                    noticeLabel.AutoSize = true;
+                    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    updateContentPanel.Controls.Add(noticeLabel);
+                    noticeLabel.Left = (updateContentPanel.Width
+                        - noticeLabel.Width) / 2;
+                    noticeLabel.Top = (updateContentPanel.Height
+                        - noticeLabel.Height - topBar.Height) / 2;
+                }                
                 return false;
             }
         }
@@ -339,6 +356,21 @@ namespace SlimUpdater
             if (getNewAppsContentPanel.VerticalScroll.Visible == true)
             {
                 FixScrollbars(getNewAppsContentPanel.Controls);
+            }
+
+            if (notInstalledApps.Count == 0)
+            {
+                Label noticeLabel = new Label();
+                noticeLabel.Text = "No new applications to install found.";
+                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                // Center
+                noticeLabel.AutoSize = true;
+                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                getNewAppsContentPanel.Controls.Add(noticeLabel);
+                noticeLabel.Left = (getNewAppsContentPanel.Width
+                    - noticeLabel.Width) / 2;
+                noticeLabel.Top = (getNewAppsContentPanel.Height
+                    - noticeLabel.Height - topBar.Height) / 2;
             }
         }
         #endregion
@@ -427,11 +459,25 @@ namespace SlimUpdater
                     }
                     portableApp.AppItem = appItem;
                 }
+            }
+            if (updateContentPanel.VerticalScroll.Visible == true)
+            {
+                FixScrollbars(updateContentPanel.Controls);
+            }
 
-                if (updateContentPanel.VerticalScroll.Visible == true)
-                {
-                    FixScrollbars(updateContentPanel.Controls);
-                }
+            if (portableAppList.Count == 0)
+            {
+                Label noticeLabel = new Label();
+                noticeLabel.Text = "No new Portable Apps to install found.";
+                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                // Center
+                noticeLabel.AutoSize = true;
+                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                getPortableContentPanel.Controls.Add(noticeLabel);
+                noticeLabel.Left = (getPortableContentPanel.Width
+                    - noticeLabel.Width) / 2;
+                noticeLabel.Top = (getPortableContentPanel.Height
+                    - noticeLabel.Height - topBar.Height) / 2;
             }
         }
         #endregion
@@ -720,6 +766,7 @@ namespace SlimUpdater
                     installUpdatesButton.ResetText();
                     refreshUpdatesButton.ResetText();
                 }
+                justInstalledUpdates = true;
                 await Task.Delay(1500);
                 ReadDefenitions();
                 CheckForUpdates();
@@ -1297,6 +1344,10 @@ namespace SlimUpdater
                 topBar.BorderStyle = BorderStyle.FixedSingle;
             }
 
+            if (justInstalledUpdates == true)
+            {
+                justInstalledUpdates = false;
+            }
             if (titleButtonLeft.Text == "Details")
             {
                 if (this.Controls[0] == updatePage)

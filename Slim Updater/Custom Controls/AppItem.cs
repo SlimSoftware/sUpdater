@@ -32,6 +32,26 @@ namespace SlimUpdater
             }
         }
 
+        public bool Checkbox
+        {
+            get { return checkBox.Visible; }
+            set
+            {
+                if (value == true)
+                {
+                    checkBox.Visible = true;
+                    appLabel.Location = new Point(22, appLabel.Location.Y);
+                    versionLabel.Location = new Point(22, versionLabel.Location.Y);
+                }
+                else
+                {
+                    checkBox.Visible = false;
+                    appLabel.Location = new Point(5, appLabel.Location.Y);
+                    versionLabel.Location = new Point(5, versionLabel.Location.Y);
+                }
+            }
+        }
+
         public bool Checked
         {
             get { return checkBox.Checked; }
