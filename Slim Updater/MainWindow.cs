@@ -591,7 +591,7 @@ namespace SlimUpdater
                     string fileName = Path.GetFileName(update.DL);
                     update.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        @"SlimSoftware\Slim Updater\" + fileName);
+                        @"Slim Software\Slim Updater\" + fileName);
 
                     // Check if installer is already downloaded
                     if (!File.Exists(update.SavePath))
@@ -765,7 +765,7 @@ namespace SlimUpdater
                     string fileName = Path.GetFileName(app.DL);
                     app.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        @"SlimSoftware\Slim Updater\" + fileName);
+                        @"Slim Software\Slim Updater\" + fileName);
 
                     // Check if installer is already downloaded
                     if (!File.Exists(app.SavePath))
