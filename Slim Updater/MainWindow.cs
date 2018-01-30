@@ -1247,19 +1247,28 @@ namespace SlimUpdater
                     {
                         xmlReader.ReadToFollowing("app");
                     }
-                    xmlReader.MoveToFirstAttribute();
+                    //xmlReader.MoveToFirstAttribute();
+                    xmlReader.MoveToNextAttribute();
                     string appAttribute = xmlReader.Value;
                     if (appAttribute == appName)
                     {
                         if (changelog == true)
                         {
-                            xmlReader.ReadToFollowing("changelog");
-                            changelogText = xmlReader.ReadElementContentAsString();
+                            xmlReader.MoveToElement();
+                            xmlReader.ReadToDescendant("changelog");
+                            if (xmlReader.NodeType != XmlNodeType.EndElement)
+                            {
+                                descriptionText = xmlReader.ReadElementContentAsString();
+                            }
                         }
                         else
                         {
-                            xmlReader.ReadToFollowing("description");
-                            descriptionText = xmlReader.ReadElementContentAsString();
+                            xmlReader.MoveToElement();
+                            xmlReader.ReadToDescendant("description");
+                            if (xmlReader.NodeType != XmlNodeType.EndElement)
+                            {
+                                descriptionText = xmlReader.ReadElementContentAsString();
+                            }
                         }
                         break;
                     }
