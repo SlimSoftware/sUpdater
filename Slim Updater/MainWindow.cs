@@ -721,6 +721,7 @@ namespace SlimUpdater
                     refreshUpdatesButton.ResetText();
                 }
                 await Task.Delay(1500);
+                ReadDefenitions();
                 CheckForUpdates();
             }
         }
@@ -895,6 +896,7 @@ namespace SlimUpdater
                     refreshAppsButton.ResetText();
                 }
                 await Task.Delay(1500);
+                ReadDefenitions();
                 CheckForNonInstalledApps();
             }
         }
