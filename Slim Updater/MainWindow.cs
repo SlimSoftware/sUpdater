@@ -1912,7 +1912,10 @@ namespace SlimUpdater
 
         private void CheckUpdatesTrayIconMenuItem_Click(object sender, EventArgs e)
         {
-            MainWindow_Shown(sender, e);
+            if (offlineLabel.Visible == false)
+            {
+                CheckForUpdates();
+            }
         }
 
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
