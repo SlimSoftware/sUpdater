@@ -605,8 +605,6 @@ namespace SlimUpdater
         {
             refreshUpdatesButton.Enabled = false;
             installUpdatesButton.Enabled = false;
-
-            int i = 0;
             List<App> selectedUpdateList = new List<App>();
 
             foreach (App update in updateList)
@@ -625,14 +623,13 @@ namespace SlimUpdater
             {
                 MessageBox.Show("You have not selected any updates.");
             }
+
             // Download
-            i = 0;
             List<Task> tasks = new List<Task>();
             foreach (App update in selectedUpdateList)
             {
                 Task downloadTask = Task.Run(async () =>
                 {
-                    i++;
                     string fileName = Path.GetFileName(update.DL);
                     update.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -688,10 +685,8 @@ namespace SlimUpdater
             await Task.WhenAll(tasks.ToArray());
 
             // Install
-            i = 0;
             foreach (App update in selectedUpdateList)
             {
-                i++;
                 launchInstaller:
                 using (var p = new Process())
                 {
@@ -710,17 +705,6 @@ namespace SlimUpdater
                         {
                             goto launchInstaller;
                         }
-                        if (result == DialogResult.No)
-                        {
-                            if (i == selectedUpdateList.Count)
-                            {
-                                goto enableButtons;
-                            }
-                            else
-                            {
-                                continue;
-                            }
-                        }
                     }
                     update.AppItem.Status = "Installing...";
                     p.WaitForExit();
@@ -737,12 +721,6 @@ namespace SlimUpdater
                         update.AppItem.Progress = 0;
                         refreshUpdatesButton.Enabled = true;
                         failedInstallList.Add(update);
-                    }
-                    enableButtons:
-                    if (refreshUpdatesButton.Enabled == false | installUpdatesButton.Enabled == false)
-                    {
-                        refreshUpdatesButton.Enabled = true;
-                        installUpdatesButton.Enabled = true;
                     }
                 }
             }
@@ -777,7 +755,7 @@ namespace SlimUpdater
             refreshAppsButton.Enabled = false;
             installAppsButton.Enabled = false;
 
-            int i = 0;
+            //int i = 0;
             List<App> selectedAppList = new List<App>();
 
             foreach (App app in appList)
@@ -798,7 +776,6 @@ namespace SlimUpdater
             {
                 Task downloadTask = Task.Run(async () =>
                 {
-                    i++;
                     string fileName = Path.GetFileName(app.DL);
                     app.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -854,10 +831,8 @@ namespace SlimUpdater
             await Task.WhenAll(tasks.ToArray());
 
             // Install
-            i = 0;
             foreach (App app in selectedAppList)
             {
-                i++;
                 launchInstaller:
                 using (var p = new Process())
                 {
@@ -876,17 +851,6 @@ namespace SlimUpdater
                         {
                             goto launchInstaller;
                         }
-                        if (result == DialogResult.No)
-                        {
-                            if (i == selectedAppList.Count)
-                            {
-                                goto enableButtons;
-                            }
-                            else
-                            {
-                                continue;
-                            }
-                        }
                     }
                     app.AppItem.Status = "Installing...";
                     p.WaitForExit();
@@ -903,12 +867,6 @@ namespace SlimUpdater
                         app.AppItem.Progress = 0;
                         refreshAppsButton.Enabled = true;
                         failedInstallList.Add(app);
-                    }
-                    enableButtons:
-                    if (refreshAppsButton.Enabled == false | installAppsButton.Enabled == false)
-                    {
-                        refreshAppsButton.Enabled = true;
-                        installAppsButton.Enabled = true;
                     }
                 }
             }
@@ -942,7 +900,6 @@ namespace SlimUpdater
             refreshPortableButton.Enabled = false;
             downloadPortableButton.Enabled = false;
             List<PortableApp> selectedAppList = new List<PortableApp>();
-            int i = 0;
 
             if (runOnce != true)
             {
@@ -971,7 +928,6 @@ namespace SlimUpdater
             }
 
             // Download
-            i = 0;
             List<Task> tasks = new List<Task>();
 
             foreach (PortableApp app in selectedAppList)
