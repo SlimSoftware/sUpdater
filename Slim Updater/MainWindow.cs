@@ -144,7 +144,7 @@ namespace SlimUpdater
             updateList = new List<App>(appList);
             int previousY = 0;
             int previousHeight = 0;
-            foreach (App app in updateList.ToArray())
+            foreach (App app in updateList.ToArray()) // TODO: Is this ToArray needed?
             {
                 AppItem appItem = new AppItem();
                 appItem.Click += (sender, e) =>
@@ -154,7 +154,7 @@ namespace SlimUpdater
                 Separator separator = new Separator();
 
                 // Remove not installed apps from the updateList
-                if (app.LocalVersion == null)
+                if (app.LocalVersion == null | app.Type == "noupdate")
                 {
                     updateList.Remove(app);
                     continue;
@@ -242,7 +242,14 @@ namespace SlimUpdater
                         if (app.LocalVersion != null)
                         {
                             appItem.Name = app.Name + " " + app.LatestVersion;
-                            appItem.Version = "Installed: " + app.LocalVersion;
+                            if (app.Type == "noupdate")
+                            {
+                                appItem.Version = "Installed: " + app.LocalVersion + " (Using own updater)";
+                            }
+                            else
+                            {
+                                appItem.Version = "Installed: " + app.LocalVersion;
+                            }
                         }
                         else
                         {
