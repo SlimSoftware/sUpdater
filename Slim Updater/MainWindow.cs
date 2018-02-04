@@ -194,6 +194,7 @@ namespace SlimUpdater
                     previousY = appItem.Location.Y;
                     previousHeight = appItem.Height;
                 }
+                app.AppItem = appItem;
             }
 
             // Change updaterTile on the startpage accordingly
@@ -351,6 +352,7 @@ namespace SlimUpdater
                         previousHeight = appItem.Height;
                     }
                 }
+                app.AppItem = appItem;
             }
 
             if (getNewAppsContentPanel.VerticalScroll.Visible == true)
@@ -605,25 +607,25 @@ namespace SlimUpdater
             installUpdatesButton.Enabled = false;
 
             int i = 0;
-            int j = 0;
-            List<int> indexList = new List<int>();
             List<App> selectedUpdateList = new List<App>(updateList);
 
             foreach (Control update in updateContentPanel.Controls)
             {
-                i++;
                 if (!(update is Separator))
                 {
-                    j++;
-                    if ((update as AppItem).Checked == true)
+                    i++;
+                    if ((update as AppItem).Checked == false)
                     {
-                        indexList.Add(i - 1);
-                    }
-                    else
-                    {
-                        selectedUpdateList.RemoveAt(j - 1);
+                        // Remove non-selected apps from the list
+                        selectedUpdateList.RemoveAt(i - 1);
+                        updateContentPanel.Controls.Remove(update as AppItem);
                     }
                 }
+            }
+
+            if (selectedUpdateList.Count == 0)
+            {
+                MessageBox.Show("You have not selected any updates.");
             }
             // Download
             i = 0;
@@ -633,7 +635,6 @@ namespace SlimUpdater
                 Task downloadTask = Task.Run(async () =>
                 {
                     i++;
-                    int index = indexList[i - 1];
                     string fileName = Path.GetFileName(update.DL);
                     update.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -650,13 +651,12 @@ namespace SlimUpdater
                                 double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
                                 double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
 
-                                // Get the correct AppItem to set the progress for
                                 if (InvokeRequired)
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (updateContentPanel.Controls[index] as AppItem).Progress = e.ProgressPercentage / 2;
-                                        (updateContentPanel.Controls[index] as AppItem).Status = String.Format(
+                                        update.AppItem.Progress = e.ProgressPercentage / 2;
+                                        update.AppItem.Status = String.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                                     }));
                                 }
@@ -667,7 +667,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (updateContentPanel.Controls[index] as AppItem).Status = "Download complete";
+                                        update.AppItem.Status = "Download complete";
                                     }));
                                 }
                             };
@@ -680,7 +680,7 @@ namespace SlimUpdater
                         {
                             Invoke(new MethodInvoker(() =>
                             {
-                                (updateContentPanel.Controls[index] as AppItem).Progress = 50;
+                                update.AppItem.Progress = 50;
                             }));
                         }
                     }
@@ -694,7 +694,6 @@ namespace SlimUpdater
             foreach (App update in selectedUpdateList)
             {
                 i++;
-                int index = indexList[i - 1];
                 launchInstaller:
                 using (var p = new Process())
                 {
@@ -725,19 +724,19 @@ namespace SlimUpdater
                             }
                         }
                     }
-                    (updateContentPanel.Controls[index] as AppItem).Status = "Installing...";
+                    update.AppItem.Status = "Installing...";
                     p.WaitForExit();
                     if (p.ExitCode == 0)
                     {
                         File.Delete(update.SavePath);
-                        (updateContentPanel.Controls[index] as AppItem).Status = "Install complete";
-                        (updateContentPanel.Controls[index] as AppItem).Progress = 100;
+                        update.AppItem.Status = "Install complete";
+                        update.AppItem.Progress = 100;
                     }
                     if (p.ExitCode != 0)
                     {
-                        (updateContentPanel.Controls[index] as AppItem).Status = String.Format(
+                        update.AppItem.Status = String.Format(
                             "Install failed. Exit code: {0}", p.ExitCode);
-                        (updateContentPanel.Controls[index] as AppItem).Progress = 0;
+                        update.AppItem.Progress = 0;
                         refreshUpdatesButton.Enabled = true;
                         failedInstallList.Add(update);
                     }
@@ -781,8 +780,6 @@ namespace SlimUpdater
             installAppsButton.Enabled = false;
 
             int i = 0;
-            int j = 0;
-            List<int> indexList = new List<int>();
             List<App> selectedAppList = new List<App>(appList);
 
             foreach (Control app in getNewAppsContentPanel.Controls)
@@ -790,14 +787,11 @@ namespace SlimUpdater
                 i++;
                 if (!(app is Separator))
                 {
-                    j++;
-                    if ((app as AppItem).Checked == true)
+                    i++;
+                    if ((app as AppItem).Checked == false)
                     {
-                        indexList.Add(i - 1);
-                    }
-                    else
-                    {
-                        selectedAppList.RemoveAt(j - 1);
+                        // Remove non-selected apps from the list
+                        selectedAppList.RemoveAt(i - 1);
                     }
                 }
             }
@@ -809,7 +803,6 @@ namespace SlimUpdater
                 Task downloadTask = Task.Run(async () =>
                 {
                     i++;
-                    int index = indexList[i - 1];
                     string fileName = Path.GetFileName(app.DL);
                     app.SavePath = Path.Combine(
                         @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -826,13 +819,12 @@ namespace SlimUpdater
                                 double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
                                 double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
 
-                                // Get the correct AppItem to set the progress for
                                 if (InvokeRequired)
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = e.ProgressPercentage / 2;
-                                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = String.Format(
+                                        app.AppItem.Progress = e.ProgressPercentage / 2;
+                                        app.AppItem.Status = String.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                                     }));
                                 }
@@ -843,7 +835,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Download complete";
+                                        app.AppItem.Status = "Download complete";
                                     }));
                                 }
                             };
@@ -856,7 +848,7 @@ namespace SlimUpdater
                         {
                             Invoke(new MethodInvoker(() =>
                             {
-                                (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 50;
+                                app.AppItem.Progress = 50;
                             }));
                         }
                     }
@@ -870,7 +862,6 @@ namespace SlimUpdater
             foreach (App app in selectedAppList)
             {
                 i++;
-                int index = indexList[i - 1];
                 launchInstaller:
                 using (var p = new Process())
                 {
@@ -901,19 +892,19 @@ namespace SlimUpdater
                             }
                         }
                     }
-                    (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Installing...";
+                    app.AppItem.Status = "Installing...";
                     p.WaitForExit();
                     if (p.ExitCode == 0)
                     {
                         File.Delete(app.SavePath);
-                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = "Install complete";
-                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 100;
+                        app.AppItem.Status = "Install complete";
+                        app.AppItem.Progress = 100;
                     }
                     if (p.ExitCode != 0)
                     {
-                        (getNewAppsContentPanel.Controls[index] as AppItem).Status = String.Format(
+                        app.AppItem.Status = String.Format(
                             "Install failed. Exit code: {0}", p.ExitCode);
-                        (getNewAppsContentPanel.Controls[index] as AppItem).Progress = 0;
+                        app.AppItem.Progress = 0;
                         refreshAppsButton.Enabled = true;
                         failedInstallList.Add(app);
                     }
@@ -968,6 +959,7 @@ namespace SlimUpdater
                     }
                     else
                     {
+                        // TODO: This doesn't actually check if app is selected or not!
                         // Remove non-selected apps from the list
                         selectedAppList.RemoveAt(i - 1);
                         installedPortableContentPanel.Controls.Remove(app as AppItem);
@@ -1989,6 +1981,7 @@ namespace SlimUpdater
     public class App
     {
         public string Name { get; set; }
+        public AppItem AppItem { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
         public string Changelog { get; set; }
@@ -1999,10 +1992,12 @@ namespace SlimUpdater
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
 
-        public App(string name, string latestVersion, string localVersion, string arch, 
-            string type, string installSwitch, string dl, string savePath = null)
+        public App(string name, string latestVersion, string localVersion, string arch,
+            string type, string installSwitch, string dl, AppItem appItem = null, 
+            string savePath = null)
         {
             Name = name;
+            AppItem = AppItem;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
             Arch = arch;
@@ -2012,7 +2007,7 @@ namespace SlimUpdater
             SavePath = savePath;
         }
     }
-#endregion
+    #endregion
 
     #region Portable App Class
     public class PortableApp
@@ -2027,9 +2022,9 @@ namespace SlimUpdater
         public string SavePath { get; set; }
         public string Launch { get; set; }
 
-        public PortableApp(string name, string latestVersion, string localVersion,
-            string arch, string launch, string dl, string extractMode,
-            AppItem appItem = null, string savePath = null)
+        public PortableApp(string name, string latestVersion, string localVersion, string arch,
+            string launch, string dl, string extractMode, AppItem appItem = null,
+            string savePath = null)
         {
             Name = name;
             AppItem = appItem;
@@ -2042,7 +2037,7 @@ namespace SlimUpdater
             SavePath = savePath;
         }
     }
-#endregion
+    #endregion
 
     #region Settings Class
     public class Settings
@@ -2163,5 +2158,5 @@ namespace SlimUpdater
             settingXML = null;
         }
     }
-#endregion
+    #endregion
 }
