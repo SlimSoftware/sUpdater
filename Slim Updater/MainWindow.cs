@@ -742,6 +742,17 @@ namespace SlimUpdater
             else
             {
                 // All updates installed succesfully
+                if (Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
+                    "*.exe").Length > 0)
+                {
+                    foreach (string exePath in Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
+                    "*.exe"))
+                    {
+                        File.Delete(exePath);
+                    }
+                }
                 if (failedUpdateLabel.Visible == true)
                 {
                     failedUpdateLabel.Visible = false;
@@ -888,6 +899,17 @@ namespace SlimUpdater
             else
             {
                 // All updates installed succesfully
+                if (Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
+                    "*.exe").Length > 0)
+                {
+                    foreach (string exePath in Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
+                    "*.exe"))
+                    {
+                        File.Delete(exePath);
+                    }
+                }
                 if (failedAppInstallLabel.Visible == true)
                 {
                     failedAppInstallLabel.Visible = false;
