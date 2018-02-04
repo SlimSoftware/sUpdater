@@ -1857,58 +1857,50 @@ namespace SlimUpdater
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            // Check if selected Portable App folder exists
-            if (locationBox1.Text == null | locationBox1.Text == "")
+            // Test if the folder is accessible without admin rights
+            try
             {
-                MessageBox.Show("You must specify a Portable Apps Folder to continue");
+                File.Create(Path.Combine(locationBox1.Text, "Slim Updater Tempfile")).Close();
+                // Enable ok button and hide error label if the folder is writeable
+                if (setPortableAppFolderButton.Enabled == false)
+                {
+                    saveButton.Enabled = true;
+                    paFolderNotWriteableLabel1.Visible = false;
+                    File.Delete(Path.Combine(locationBox1.Text, "Slim Updater Tempfile"));
+                }
             }
-            else
+            catch (Exception)
             {
-                // Test if the folder is accessible without admin rights
-                try
-                {
-                    File.Create(Path.Combine(locationBox1.Text, "Slim Updater Tempfile")).Close();
-                    // Enable ok button and hide error label if the folder is writeable
-                    if (setPortableAppFolderButton.Enabled == false)
-                    {
-                        saveButton.Enabled = true;
-                        paFolderNotWriteableLabel1.Visible = false;
-                        File.Delete(Path.Combine(locationBox1.Text, "Slim Updater Tempfile"));
-                    }
-                }
-                catch (Exception)
-                {
-                    saveButton.Enabled = false;
-                    paFolderLocationLabel.ResetText();
-                    paFolderNotWriteableLabel1.Visible = true;
-                }
-
-                if (!Directory.Exists(locationBox1.Text))
-                {
-                    Directory.CreateDirectory(locationBox1.Text);
-                }
-
-                settings.PortableAppDir = locationBox1.Text;
-                if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
-                {
-                    settings.DefenitionURL = customURLTextBox.Text;
-                }
-                if (autoStartCheckBox.Checked == true)
-                {
-                    using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
-                        @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
-                    {
-                        key.SetValue("Slim Updater", "\"" + 
-                            System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()
-                            + "\"" + " /tray");
-                    }
-                }
-                if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
-                {
-                    MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
-                }
-                settings.Save();
+                saveButton.Enabled = false;
+                paFolderLocationLabel.ResetText();
+                paFolderNotWriteableLabel1.Visible = true;
             }
+
+            if (!Directory.Exists(locationBox1.Text) && locationBox1.Text != "")
+            {
+                Directory.CreateDirectory(locationBox1.Text);
+            }
+
+            settings.PortableAppDir = locationBox1.Text;
+            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
+            {
+                settings.DefenitionURL = customURLTextBox.Text;
+            }
+            if (autoStartCheckBox.Checked == true)
+            {
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
+                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    key.SetValue("Slim Updater", "\"" + 
+                        System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()
+                        + "\"" + " /tray");
+                }
+            }
+            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+            {
+                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+            }
+            settings.Save();
         }
         #endregion
 
@@ -2127,8 +2119,8 @@ namespace SlimUpdater
             }
 
             // Load XML File
-            XDocument settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+            XElement settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")).Element("Settings");
 
             // Save values
             if (DefenitionURL != null)
@@ -2136,21 +2128,21 @@ namespace SlimUpdater
                 settingXML.Descendants("DefenitionURL").Remove();
                 XElement defenitionURL = new XElement("DefenitionURL");
                 defenitionURL.Value = DefenitionURL;
-                settingXML.Element("Settings").Add(defenitionURL);
+                settingXML.Add(defenitionURL);
             }
             if (PortableAppDir != null)
             {
                 settingXML.Descendants("PortableAppDir").Remove();
                 XElement portableAppDir = new XElement("PortableAppDir");
                 portableAppDir.Value = PortableAppDir;
-                settingXML.Element("Settings").Add(portableAppDir);
+                settingXML.Add(portableAppDir);
             }
             if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
             {
                 settingXML.Descendants("MinimizeToTray").Remove();
                 XElement minimizeToTray = new XElement("MinimizeToTray");
                 minimizeToTray.Value = MinimizeToTray.ToString();
-                settingXML.Element("Settings").Add(minimizeToTray);
+                settingXML.Add(minimizeToTray);
             }
 
             // Save XML File
