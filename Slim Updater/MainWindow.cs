@@ -1950,6 +1950,7 @@ namespace SlimUpdater
         }
         #endregion
 
+        #region MainWindow Events
         private void MainWindow_Shown(object sender, EventArgs e)
         {
             if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
@@ -1981,6 +1982,7 @@ namespace SlimUpdater
                 trayIcon.Dispose();
             }
         }
+        #endregion
     }
 
     #region App Class
