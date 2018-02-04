@@ -607,19 +607,17 @@ namespace SlimUpdater
             installUpdatesButton.Enabled = false;
 
             int i = 0;
-            List<App> selectedUpdateList = new List<App>(updateList);
+            List<App> selectedUpdateList = new List<App>();
 
-            foreach (Control update in updateContentPanel.Controls)
+            foreach (App update in updateList)
             {
-                if (!(update is Separator))
+                if (update.AppItem.Checked == true)
                 {
-                    i++;
-                    if ((update as AppItem).Checked == false)
-                    {
-                        // Remove non-selected apps from the list
-                        selectedUpdateList.RemoveAt(i - 1);
-                        updateContentPanel.Controls.Remove(update as AppItem);
-                    }
+                    selectedUpdateList.Add(update);
+                }
+                else
+                {
+                    updateContentPanel.Controls.Remove(update.AppItem);
                 }
             }
 
@@ -780,23 +778,21 @@ namespace SlimUpdater
             installAppsButton.Enabled = false;
 
             int i = 0;
-            List<App> selectedAppList = new List<App>(appList);
+            List<App> selectedAppList = new List<App>();
 
-            foreach (Control app in getNewAppsContentPanel.Controls)
+            foreach (App app in appList)
             {
-                i++;
-                if (!(app is Separator))
+                if (app.AppItem.Checked == true)
                 {
-                    i++;
-                    if ((app as AppItem).Checked == false)
-                    {
-                        // Remove non-selected apps from the list
-                        selectedAppList.RemoveAt(i - 1);
-                    }
+                    selectedAppList.Add(app);
+                }
+                else
+                {
+                    getNewAppsContentPanel.Controls.Remove(app.AppItem);
                 }
             }
+
             // Download
-            i = 0;
             List<Task> tasks = new List<Task>();
             foreach (App app in selectedAppList)
             {
@@ -945,24 +941,21 @@ namespace SlimUpdater
         {
             refreshPortableButton.Enabled = false;
             downloadPortableButton.Enabled = false;
-            List<PortableApp> selectedAppList = new List<PortableApp>(portableAppList);
+            List<PortableApp> selectedAppList = new List<PortableApp>();
             int i = 0;
 
             if (runOnce != true)
             {
-                foreach (Control app in installedPortableContentPanel.Controls)
+                foreach (PortableApp app in portableAppList)
                 {
-                    if (!(app is Separator))
+                    app.AppItem.ShowLink2 = false;
+                    if (app.AppItem.Checked == true)
                     {
-                        i++;
-                        (app as AppItem).ShowLink2 = false;
+                        selectedAppList.Add(app);
                     }
                     else
                     {
-                        // TODO: This doesn't actually check if app is selected or not!
-                        // Remove non-selected apps from the list
-                        selectedAppList.RemoveAt(i - 1);
-                        installedPortableContentPanel.Controls.Remove(app as AppItem);
+                        getPortableContentPanel.Controls.Remove(app.AppItem);
                     }
                 }
 
