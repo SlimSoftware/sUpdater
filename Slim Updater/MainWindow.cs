@@ -1905,6 +1905,11 @@ namespace SlimUpdater
         #endregion
 
         #region Tray Icon Click Events
+        private void TrayIcon_Click(object sender, EventArgs e)
+        {
+            OpenTrayIconMenuItem_Click(sender, e);
+        }
+
         private void CheckUpdatesTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             MainWindow_Shown(sender, e);
