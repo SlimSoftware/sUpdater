@@ -673,7 +673,35 @@ namespace SlimUpdater
                                     }));
                                 }
                             };
-                            await wc.DownloadFileTaskAsync(new Uri(update.DL), update.SavePath);
+                            try
+                            {
+                                await wc.DownloadFileTaskAsync(new Uri(update.DL), update.SavePath);
+                            }
+                            catch (Exception e)
+                            {
+                                var result = MessageBox.Show(e.Message + Environment.NewLine +
+                                    "Would you like to try to download the application again?",
+                                    "Error", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    try
+                                    {
+                                        await wc.DownloadFileTaskAsync(new Uri(update.DL), update.SavePath);
+                                    }
+                                    catch
+                                    {
+                                        MessageBox.Show("A second exception occurred, " +
+                                            "skipping this download...");
+                                        return;
+                                    }
+                                }
+
+                                if (File.Exists(update.SavePath))
+                                {
+                                    File.Delete(update.SavePath);
+                                }
+                                return;
+                            }
                         }
                     }
                     else
@@ -830,7 +858,35 @@ namespace SlimUpdater
                                     }));
                                 }
                             };
-                            await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                            try
+                            {
+                                await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                            }
+                            catch (Exception e)
+                            {
+                                var result = MessageBox.Show(e.Message + Environment.NewLine +
+                                    "Would you like to try to download the application again?",
+                                    "Error", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    try
+                                    {
+                                        await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                                    }
+                                    catch
+                                    {
+                                        MessageBox.Show("A second exception occurred, " +
+                                            "skipping this download...");
+                                        return;
+                                    }
+                                }
+
+                                if (File.Exists(app.SavePath))
+                                {
+                                    File.Delete(app.SavePath);
+                                }
+                                return;
+                            }
                         }
                     }
                     else
@@ -1015,7 +1071,35 @@ namespace SlimUpdater
                                     }));
                                 }
                             };
-                            await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                            try
+                            {
+                                await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                            }
+                            catch (Exception e)
+                            {
+                                var result = MessageBox.Show(e.Message + Environment.NewLine +
+                                    "Would you like to try to download the application again?",
+                                    "Error", MessageBoxButtons.YesNo);
+                                if (result == DialogResult.Yes)
+                                {
+                                    try
+                                    {
+                                        await wc.DownloadFileTaskAsync(new Uri(app.DL), app.SavePath);
+                                    }
+                                    catch
+                                    {
+                                        MessageBox.Show("A second exception occurred, " +
+                                            "skipping this download...");
+                                        return;
+                                    }
+                                }
+                               
+                                if (File.Exists(app.SavePath))
+                                {
+                                    File.Delete(app.SavePath);
+                                }
+                                return;
+                            }
                         }
                     }
                     else
