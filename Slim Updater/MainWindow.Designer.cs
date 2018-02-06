@@ -826,7 +826,7 @@
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Text = "Slim Updater";
             this.trayIcon.Visible = true;
-            this.trayIcon.Click += new System.EventHandler(this.TrayIcon_Click);
+            this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TrayIcon_MouseClick);
             // 
             // trayIconContextMenu
             // 

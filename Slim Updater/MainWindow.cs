@@ -1875,9 +1875,12 @@ namespace SlimUpdater
         #endregion
 
         #region Tray Icon Click Events
-        private void TrayIcon_Click(object sender, EventArgs e)
+        private void TrayIcon_MouseClick(object sender, MouseEventArgs e)
         {
-            OpenTrayIconMenuItem_Click(sender, e);
+            if (e.Button == MouseButtons.Left)
+            {
+                OpenTrayIconMenuItem_Click(sender, e);
+            }
         }
 
         private void CheckUpdatesTrayIconMenuItem_Click(object sender, EventArgs e)
