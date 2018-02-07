@@ -497,7 +497,12 @@ namespace SlimUpdater
             CheckForPortableApps();
             installedPortableContentPanel.Controls.Clear();
 
-            string[] installedAppPaths = Directory.GetDirectories(settings.PortableAppDir);
+            string[] installedAppPaths = null;
+            if (settings.PortableAppDir != null)
+            {
+                installedAppPaths = Directory.GetDirectories(settings.PortableAppDir);
+            }
+
             if (installedAppPaths.Length == 0)
             {
                 Label noticeLabel = new Label();
@@ -521,6 +526,7 @@ namespace SlimUpdater
             int previousHeight = 0;
             Separator separator = new Separator();
 
+            if (installedAppPaths.Length > 0)
             foreach (string appDirPath in installedAppPaths)
             {
                 // TODO: Way to retrive app version here to set appItem.Version
