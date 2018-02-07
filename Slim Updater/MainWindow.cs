@@ -1725,6 +1725,75 @@ namespace SlimUpdater
         #endregion
 
         #region installedPortableAppsPage Mouse Events
+        private void LocationBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (setPortableAppFolderButton.Enabled == false)
+            {
+                setPortableAppFolderButton.Enabled = true;
+            }
+        }
+
+        private void BrowseButton2_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            {
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    locationBox2.Text = fbd.SelectedPath;
+                }
+            }
+
+            if (setPortableAppFolderButton.Enabled == false)
+            {
+                setPortableAppFolderButton.Enabled = true;
+            }
+        }
+
+        private void SetPortableAppFolderButton_Click(object sender, EventArgs e)
+        {
+            // Check if selected folder exists
+            if (locationBox2.Text == null)
+            {
+                MessageBox.Show("You must specify a Portable Apps Folder to continue");
+            }
+            else
+            {
+                // Test if the folder is accessible without admin rights
+                try
+                {
+                    if (!Directory.Exists(locationBox2.Text))
+                    {
+                        Directory.CreateDirectory(locationBox2.Text);
+                    }
+
+                    File.Create(Path.Combine(locationBox2.Text, "Slim Updater Tempfile")).Close();
+                    // Enable ok button and hide error label if the folder is writeable
+                    if (setPortableAppFolderButton.Enabled == false)
+                    {
+                        setPortableAppFolderButton.Enabled = true;
+                        paFolderNotWriteableLabel2.Visible = false;
+                    }
+
+                    File.Delete(Path.Combine(locationBox2.Text, "Slim Updater Tempfile"));
+                    settings.PortableAppDir = locationBox2.Text;
+                    settings.Save();
+                }
+                catch (Exception)
+                {
+                    setPortableAppFolderButton.Enabled = false;
+                    paFolderNotWriteableLabel2.Visible = true;
+                }
+
+                CheckForInstalledPortableApps();
+                installedPortableAppsPage.BringToFront();
+                titleButtonLeft.Text = "Portable Apps";
+                titleButtonLeft.ArrowLeft = true;
+                titleButtonRight.Visible = true;
+                topBar.BorderStyle = BorderStyle.None;
+            }
+        }
+
         private void SelectAllPortableCheckBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (selectAllPortableCheckBox1.Checked == true)
@@ -1802,74 +1871,6 @@ namespace SlimUpdater
         private void RefreshPortableButton2_Click(object sender, EventArgs e)
         {
             CheckForPortableApps();
-        }
-
-        private void LocationBox2_TextChanged(object sender, EventArgs e)
-        {
-            if (setPortableAppFolderButton.Enabled == false)
-            {
-                setPortableAppFolderButton.Enabled = true;
-            }
-        }
-
-        private void BrowseButton2_Click(object sender, EventArgs e)
-        {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
-            {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    locationBox2.Text = fbd.SelectedPath;
-                }
-            }
-
-            if (setPortableAppFolderButton.Enabled == false)
-            {
-                setPortableAppFolderButton.Enabled = true;
-            }
-        }
-
-        private void SetPortableAppFolderButton_Click(object sender, EventArgs e)
-        {
-            // Check if selected folder exists
-            if (locationBox2.Text == null)
-            {
-                MessageBox.Show("You must specify a Portable Apps Folder to continue");
-            }
-            else
-            {
-                // Test if the folder is accessible without admin rights
-                try
-                {
-                    if (!Directory.Exists(locationBox2.Text))
-                    {
-                        Directory.CreateDirectory(locationBox2.Text);
-                    }
-
-                    File.Create(Path.Combine(locationBox2.Text, "Slim Updater Tempfile")).Close();
-                    // Enable ok button and hide error label if the folder is writeable
-                    if (setPortableAppFolderButton.Enabled == false)
-                    {
-                        setPortableAppFolderButton.Enabled = true;
-                        paFolderNotWriteableLabel2.Visible = false;                        
-                    }
-
-                    File.Delete(Path.Combine(locationBox2.Text, "Slim Updater Tempfile"));
-                    settings.PortableAppDir = locationBox2.Text;
-                    settings.Save();
-                }
-                catch (Exception)
-                {
-                    setPortableAppFolderButton.Enabled = false;
-                    paFolderNotWriteableLabel2.Visible = true;
-                }
-
-                CheckForPortableApps();
-                installedPortableAppsPage.BringToFront();
-                titleButtonLeft.Text = "Portable Apps";
-                titleButtonLeft.ArrowLeft = true;
-                topBar.BorderStyle = BorderStyle.None;             
-            }
         }
     #endregion
 
