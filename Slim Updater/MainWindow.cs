@@ -1796,6 +1796,7 @@ namespace SlimUpdater
                 titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.Visible = true;
+                titleButtonRight.Text = "Get Portable Apps";
                 topBar.BorderStyle = BorderStyle.None;
             }
         }
