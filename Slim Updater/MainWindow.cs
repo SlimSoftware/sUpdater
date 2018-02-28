@@ -724,7 +724,12 @@ namespace SlimUpdater
                         }
                     }
                 });
-                // TODO: Max amount of tasks running synchroniously?
+                
+                // Do not allow more than 3 downloads at once
+                while (tasks.Count > 2)
+                {
+                    await Task.Delay(1000);
+                }
                 tasks.Add(downloadTask);
             }
             await Task.WhenAll(tasks.ToArray());
@@ -911,6 +916,12 @@ namespace SlimUpdater
                         }
                     }
                 });
+
+                // Do not allow more than 3 downloads at once
+                while (tasks.Count > 2)
+                {
+                    await Task.Delay(1000);
+                }
                 tasks.Add(downloadTask);
             }
             await Task.WhenAll(tasks.ToArray());
@@ -1139,6 +1150,12 @@ namespace SlimUpdater
                         }
                     }
                 });
+
+                // Do not allow more than 3 downloads at once
+                while (tasks.Count > 2)
+                {
+                    await Task.Delay(1000);
+                }
                 tasks.Add(downloadTask);
             }
             await Task.WhenAll(tasks.ToArray());
