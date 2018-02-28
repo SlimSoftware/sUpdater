@@ -115,6 +115,7 @@
     <Compile Include="Custom Controls\Separator.Designer.cs">
       <DependentUpon>Separator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

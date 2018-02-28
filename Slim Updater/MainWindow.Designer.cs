@@ -100,6 +100,9 @@
             this.openTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logPage = new System.Windows.Forms.Panel();
+            this.logTextBox = new System.Windows.Forms.RichTextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
@@ -113,6 +116,7 @@
             this.defenitionsGroupBox.SuspendLayout();
             this.getPortableAppsPage.SuspendLayout();
             this.trayIconContextMenu.SuspendLayout();
+            this.logPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // startPage
@@ -204,9 +208,10 @@
             // 
             this.topBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.topBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.topBar.Controls.Add(this.titleButtonRight);
+            this.topBar.Controls.Add(this.button1);
             this.topBar.Controls.Add(this.titleButtonLeft);
             this.topBar.Controls.Add(this.aboutLabel);
+            this.topBar.Controls.Add(this.titleButtonRight);
             this.topBar.Location = new System.Drawing.Point(-7, -1);
             this.topBar.Name = "topBar";
             this.topBar.Size = new System.Drawing.Size(798, 35);
@@ -877,6 +882,35 @@
             this.exitTrayIconMenuItem.Text = "E&xit";
             this.exitTrayIconMenuItem.Click += new System.EventHandler(this.ExitTrayIconMenuItem_Click);
             // 
+            // logPage
+            // 
+            this.logPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.logPage.Controls.Add(this.logTextBox);
+            this.logPage.Location = new System.Drawing.Point(0, 34);
+            this.logPage.Name = "logPage";
+            this.logPage.Size = new System.Drawing.Size(785, 425);
+            this.logPage.TabIndex = 16;
+            // 
+            // logTextBox
+            // 
+            this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.logTextBox.Location = new System.Drawing.Point(-1, 0);
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
+            this.logTextBox.Size = new System.Drawing.Size(786, 426);
+            this.logTextBox.TabIndex = 0;
+            this.logTextBox.Text = "";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(361, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Show Log";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -892,6 +926,7 @@
             this.Controls.Add(this.setPortableAppFolderPage);
             this.Controls.Add(this.settingsPage);
             this.Controls.Add(this.detailsPage);
+            this.Controls.Add(this.logPage);
             this.Controls.Add(this.aboutPage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -926,6 +961,7 @@
             this.getPortableAppsPage.ResumeLayout(false);
             this.getPortableAppsPage.PerformLayout();
             this.trayIconContextMenu.ResumeLayout(false);
+            this.logPage.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1001,6 +1037,9 @@
         private System.Windows.Forms.LinkLabel offlineRetryLink;
         private System.Windows.Forms.ToolStripMenuItem checkUpdatesTrayIconMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
+        private System.Windows.Forms.Panel logPage;
+        private System.Windows.Forms.RichTextBox logTextBox;
+        private System.Windows.Forms.Button button1;
     }
 }
 
