@@ -130,6 +130,7 @@
     <Compile Include="Custom Controls\TitleButton.Designer.cs">
       <DependentUpon>TitleButton.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="Custom Controls\AppItem.resx">
       <DependentUpon>AppItem.cs</DependentUpon>
     </EmbeddedResource>

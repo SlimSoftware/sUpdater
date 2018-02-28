@@ -13,6 +13,7 @@ using System.Xml;
 using System.Linq;
 using AutoUpdaterDotNET;
 
+
 namespace SlimUpdater
 {
     public partial class MainWindow : Form
@@ -155,7 +156,7 @@ namespace SlimUpdater
                 };
                 Separator separator = new Separator();
 
-                // Remove not installed apps from the updateList
+                // Remove not installed apps from the updateList and don't its add AppItem to panel
                 if (app.LocalVersion == null | app.Type == "noupdate")
                 {
                     updateList.Remove(app);
@@ -163,15 +164,14 @@ namespace SlimUpdater
                 }
                 else
                 {
-                    // Remove up to date apps from the updateList
-                    if (float.Parse(app.LatestVersion.ToString()) <= 
-                        float.Parse(app.LocalVersion.ToString()))
+                    // Remove up to date apps from the updateList and don't its add AppItem to panel
+                    if (Utilities.IsUpToDate(app.LatestVersion, app.LocalVersion))
                     {
                         updateList.Remove(app);
                         continue;
                     }
                 }
-                // Add app to the content panel
+                // Add apps that need updating to the content panel
                 appItem.Name = app.Name + " " + app.LatestVersion;
                 appItem.Version = "Installed: " + app.LocalVersion;
 
@@ -335,10 +335,8 @@ namespace SlimUpdater
                 appItem.Checked = false;
                 Separator separator = new Separator();
 
-                // Make sure installed and recenter apps are not included
-                if (app.LocalVersion == null || app.LocalVersion != null &&
-                    !(float.Parse(app.LatestVersion.ToString()) >= 
-                    float.Parse(app.LocalVersion.ToString())))
+                // Make sure installed apps are not included
+                if (app.LocalVersion == null)
                 {
                     notInstalledApps.Add(app);
                     // Add app to the content panel
@@ -442,8 +440,7 @@ namespace SlimUpdater
                     appItem.Checked = false;
 
                     // Make sure only not installed apps are included
-                    if (portableApp.LocalVersion == "-" || portableApp.LocalVersion != null
-                        && !(float.Parse(portableApp.LatestVersion.ToString()) >= float.Parse(portableApp.LocalVersion.ToString())))
+                    if (portableApp.LocalVersion == "-")
                     {
                         // Add app to the content panel
                         appItem.Name = portableApp.Name;
