@@ -42,8 +42,42 @@ namespace SlimUpdater
                 this.WindowState = FormWindowState.Minimized;
             }
             settings.Load();
-            ReadDefenitions();
         }
+
+        #region MainWindow Events
+        private void MainWindow_Shown(object sender, EventArgs e)
+        {
+            if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
+                    this.Controls[0] == installedPortableAppsPage |
+                    this.Controls[0] == getPortableAppsPage)
+            {
+                topBar.BorderStyle = BorderStyle.None;
+            }
+
+            ReadDefenitions();
+            if (offlineLabel.Visible == false)
+            {
+                CheckForUpdates();
+            }
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (settings.MinimizeToTray == true | e.CloseReason != CloseReason.TaskManagerClosing |
+                e.CloseReason != CloseReason.ApplicationExitCall |
+                e.CloseReason != CloseReason.FormOwnerClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+                this.ShowInTaskbar = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
+            else
+            {
+                trayIcon.Dispose();
+            }
+        }
+        #endregion
 
         #region ReadDefenitions()
         public void ReadDefenitions()
@@ -2040,40 +2074,6 @@ namespace SlimUpdater
         private void ExitTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-        #endregion
-
-        #region MainWindow Events
-        private void MainWindow_Shown(object sender, EventArgs e)
-        {
-            if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
-                    this.Controls[0] == installedPortableAppsPage | 
-                    this.Controls[0] == getPortableAppsPage)
-            {
-                topBar.BorderStyle = BorderStyle.None;
-            }
-
-            if (offlineLabel.Visible == false)
-            {
-                CheckForUpdates();
-            }
-        }      
-
-        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (settings.MinimizeToTray == true | e.CloseReason != CloseReason.TaskManagerClosing |
-                e.CloseReason != CloseReason.ApplicationExitCall | 
-                e.CloseReason != CloseReason.FormOwnerClosing)
-            {
-                e.Cancel = true;
-                this.Hide();
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
-            }
-            else
-            {
-                trayIcon.Dispose();
-            }
         }
         #endregion
 
