@@ -771,53 +771,56 @@ namespace SlimUpdater
             {
                 currentUpdate++;
                 launchInstaller:
-                logger.Log(string.Format("Installing {0} ({1} of {2}) ...", update.Name,
-                    currentUpdate, selectedUpdateList.Count), Logger.LogLevel.INFO, logTextBox);
-                using (var p = new Process())
+                if (File.Exists(update.SavePath))
                 {
-                    p.StartInfo.FileName = update.SavePath;
-                    p.StartInfo.UseShellExecute = true;
-                    p.StartInfo.Arguments = update.InstallSwitch;
-                    try
+                    logger.Log(string.Format("Installing {0} ({1} of {2}) ...", update.Name,
+                        currentUpdate, selectedUpdateList.Count), Logger.LogLevel.INFO, logTextBox);
+                    using (var p = new Process())
                     {
-                        p.Start();
-                    }
-                    catch (Exception)
-                    {
-                        var result = MessageBox.Show(
-                            "Launching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        logger.Log("Launching the installer failed. Asking user for retry.",
-                            Logger.LogLevel.INFO, logTextBox);
-                        if (result == DialogResult.Yes)
+                        p.StartInfo.FileName = update.SavePath;
+                        p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Arguments = update.InstallSwitch;
+                        try
                         {
-                            logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
-                            goto launchInstaller;
+                            p.Start();
                         }
-                        else
+                        catch (Exception)
                         {
-                            logger.Log("User chose no. Skipping this update.", Logger.LogLevel.INFO, logTextBox);
-                            continue;
+                            var result = MessageBox.Show(
+                                "Launching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            logger.Log("Launching the installer failed. Asking user for retry.",
+                                Logger.LogLevel.INFO, logTextBox);
+                            if (result == DialogResult.Yes)
+                            {
+                                logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
+                                goto launchInstaller;
+                            }
+                            else
+                            {
+                                logger.Log("User chose no. Skipping this update.", Logger.LogLevel.INFO, logTextBox);
+                                continue;
+                            }
                         }
-                    }
-                    update.AppItem.Status = "Installing...";
-                    p.WaitForExit();
-                    if (p.ExitCode == 0)
-                    {
-                        logger.Log("Installer exited with exit code 0.", 
-                            Logger.LogLevel.INFO, logTextBox);
-                        File.Delete(update.SavePath);
-                        update.AppItem.Status = "Install complete";
-                        update.AppItem.Progress = 100;
-                    }
-                    if (p.ExitCode != 0)
-                    {
-                        logger.Log(string.Format("Installation failed. Installer exited with " +
-                            "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
-                        update.AppItem.Status = String.Format(
-                            "Install failed. Exit code: {0}", p.ExitCode);
-                        update.AppItem.Progress = 0;
-                        refreshUpdatesButton.Enabled = true;
-                        installUpdatesButton.Enabled = true;
+                        update.AppItem.Status = "Installing...";
+                        p.WaitForExit();
+                        if (p.ExitCode == 0)
+                        {
+                            logger.Log("Installer exited with exit code 0.",
+                                Logger.LogLevel.INFO, logTextBox);
+                            File.Delete(update.SavePath);
+                            update.AppItem.Status = "Install complete";
+                            update.AppItem.Progress = 100;
+                        }
+                        if (p.ExitCode != 0)
+                        {
+                            logger.Log(string.Format("Installation failed. Installer exited with " +
+                                "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
+                            update.AppItem.Status = String.Format(
+                                "Install failed. Exit code: {0}", p.ExitCode);
+                            update.AppItem.Progress = 0;
+                            refreshUpdatesButton.Enabled = true;
+                            installUpdatesButton.Enabled = true;
+                        }
                     }
                 }
             }
@@ -963,53 +966,56 @@ namespace SlimUpdater
             {
                 currentUpdate++;
                 launchInstaller:
-                logger.Log(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
-                    currentUpdate, selectedAppList.Count), Logger.LogLevel.INFO, logTextBox);
-                using (var p = new Process())
+                if (File.Exists(app.SavePath))
                 {
-                    p.StartInfo.FileName = app.SavePath;
-                    p.StartInfo.UseShellExecute = true;
-                    p.StartInfo.Arguments = app.InstallSwitch;
-                    try
+                    logger.Log(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
+                        currentUpdate, selectedAppList.Count), Logger.LogLevel.INFO, logTextBox);
+                    using (var p = new Process())
                     {
-                        p.Start();
-                    }
-                    catch (Exception)
-                    {
-                        var result = MessageBox.Show(
-                            "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                        logger.Log("Launching the installer failed. Asking user for retry.",
-                            Logger.LogLevel.INFO, logTextBox);
-                        if (result == DialogResult.Yes)
+                        p.StartInfo.FileName = app.SavePath;
+                        p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Arguments = app.InstallSwitch;
+                        try
                         {
-                            logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
-                            goto launchInstaller;
+                            p.Start();
                         }
-                        else
+                        catch (Exception)
                         {
-                            logger.Log("User chose no. Skipping this app.", Logger.LogLevel.INFO, logTextBox);
-                            continue;
+                            var result = MessageBox.Show(
+                                "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            logger.Log("Launching the installer failed. Asking user for retry.",
+                                Logger.LogLevel.INFO, logTextBox);
+                            if (result == DialogResult.Yes)
+                            {
+                                logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
+                                goto launchInstaller;
+                            }
+                            else
+                            {
+                                logger.Log("User chose no. Skipping this app.", Logger.LogLevel.INFO, logTextBox);
+                                continue;
+                            }
                         }
-                    }
-                    app.AppItem.Status = "Installing...";
-                    p.WaitForExit();
-                    if (p.ExitCode == 0)
-                    {
-                        logger.Log("Installer exited with exit code 0.",
-                            Logger.LogLevel.INFO, logTextBox);
-                        File.Delete(app.SavePath);
-                        app.AppItem.Status = "Install complete";
-                        app.AppItem.Progress = 100;
-                    }
-                    if (p.ExitCode != 0)
-                    {
-                        logger.Log(string.Format("Installation failed. Installer exited with " +
-                            "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
-                        app.AppItem.Status = String.Format(
-                            "Install failed. Exit code: {0}", p.ExitCode);
-                        app.AppItem.Progress = 0;
-                        refreshAppsButton.Enabled = true;
-                        installAppsButton.Enabled = true;
+                        app.AppItem.Status = "Installing...";
+                        p.WaitForExit();
+                        if (p.ExitCode == 0)
+                        {
+                            logger.Log("Installer exited with exit code 0.",
+                                Logger.LogLevel.INFO, logTextBox);
+                            File.Delete(app.SavePath);
+                            app.AppItem.Status = "Install complete";
+                            app.AppItem.Progress = 100;
+                        }
+                        if (p.ExitCode != 0)
+                        {
+                            logger.Log(string.Format("Installation failed. Installer exited with " +
+                                "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
+                            app.AppItem.Status = String.Format(
+                                "Install failed. Exit code: {0}", p.ExitCode);
+                            app.AppItem.Progress = 0;
+                            refreshAppsButton.Enabled = true;
+                            installAppsButton.Enabled = true;
+                        }
                     }
                 }
             }
@@ -1235,99 +1241,102 @@ namespace SlimUpdater
 
             foreach (PortableApp app in selectedAppList)
             {
-                if (runOnce == true && app.ExtractMode == "single")
+                if (File.Exists(app.SavePath))
                 {
-                    logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
-                    app.AppItem.Status = "Running";
-                    using (var ro = new Process())
+                    if (runOnce == true && app.ExtractMode == "single")
                     {
-                        ro.StartInfo.FileName = Path.Combine(
-                            settings.PortableAppDir, app.Name, app.Launch);
-                        // TODO: Add support for optional arguments and use shell execute here
-                        ro.Start();
-                    }
-                    await Task.Run(() =>
-                    {
+                        logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
+                        app.AppItem.Status = "Running";
+                        using (var ro = new Process())
+                        {
+                            ro.StartInfo.FileName = Path.Combine(
+                                settings.PortableAppDir, app.Name, app.Launch);
+                            // TODO: Add support for optional arguments and use shell execute here
+                            ro.Start();
+                        }
+                        await Task.Run(() =>
+                        {
                         // TODO: Better watching system if process has exited
                         Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
-                        while (processes == null | processes.Length != 0)
-                        {
-                            Thread.Sleep(1000);
-                            processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
-                        }
-                    });
-                    logger.Log("All processes exited. Cleaning up...", Logger.LogLevel.INFO, logTextBox);
-
-                    // Cleanup
-                    Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
-                }
-
-                if (app.ExtractMode == "folder")
-                {
-                    using (var p = new Process())
-                    {
-                        p.StartInfo.FileName = sevenZipPath;
-                        p.StartInfo.Arguments = "e \"" + app.SavePath + "\" -o\""
-                            + Path.Combine(settings.PortableAppDir, app.Name) + "\" -aoa";
-                        p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                        try
-                        {
-                            p.Start();
-                        }
-                        catch (Exception e)
-                        {
-                            app.AppItem.Status = "Extracting failed: " + e.InnerException;
-                            logger.Log("Extracting failed" + e.Message, 
-                                Logger.LogLevel.ERROR, logTextBox);
-                            return;
-                        }
-
-                        app.AppItem.Status = "Extracting...";
-                        logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
-                            app.Name, currentApp, selectedAppList.Count), 
-                            Logger.LogLevel.INFO, logTextBox);
-                        p.WaitForExit();
-                        if (p.ExitCode == 0)
-                        {
-                            logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
-                            File.Delete(app.SavePath);
-                            app.AppItem.Status = "Install complete";
-                            app.AppItem.Progress = 100;
-                            await Task.Delay(1000);
-
-                            if (runOnce == true)
+                            while (processes == null | processes.Length != 0)
                             {
-                                logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
-                                app.AppItem.Status = "Running";
-                                using (var ro = new Process())
-                                {
-                                    ro.StartInfo.FileName = Path.Combine(
-                                        settings.PortableAppDir, app.Name, app.Launch);
-                                    // TODO: Add support for optional arguments and use shell execute here
-                                    ro.Start();
-                                }
-                                await Task.Run(() =>
-                                {
-                                // TODO: Better watching system if process has exited
-                                Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
-                                    while (processes == null | processes.Length != 0)
-                                    {
-                                        Thread.Sleep(1000);
-                                        processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
-                                    }
-                                });
-                                logger.Log("All processes exited. Cleaning up...", 
-                                    Logger.LogLevel.INFO, logTextBox);
-                                Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
+                                Thread.Sleep(1000);
+                                processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                             }
-                        }
-                        if (p.ExitCode != 0)
+                        });
+                        logger.Log("All processes exited. Cleaning up...", Logger.LogLevel.INFO, logTextBox);
+
+                        // Cleanup
+                        Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
+                    }
+
+                    if (app.ExtractMode == "folder")
+                    {
+                        using (var p = new Process())
                         {
-                            app.AppItem.Status = String.Format(
-                                "Extract failed. Exit code: {0}", p.ExitCode);
-                            app.AppItem.Progress = 0;
-                            logger.Log("Extract failed. Exit code: " + p.ExitCode, 
-                                Logger.LogLevel.ERROR, logTextBox);
+                            p.StartInfo.FileName = sevenZipPath;
+                            p.StartInfo.Arguments = "e \"" + app.SavePath + "\" -o\""
+                                + Path.Combine(settings.PortableAppDir, app.Name) + "\" -aoa";
+                            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                            try
+                            {
+                                p.Start();
+                            }
+                            catch (Exception e)
+                            {
+                                app.AppItem.Status = "Extracting failed: " + e.InnerException;
+                                logger.Log("Extracting failed" + e.Message,
+                                    Logger.LogLevel.ERROR, logTextBox);
+                                return;
+                            }
+
+                            app.AppItem.Status = "Extracting...";
+                            logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
+                                app.Name, currentApp, selectedAppList.Count),
+                                Logger.LogLevel.INFO, logTextBox);
+                            p.WaitForExit();
+                            if (p.ExitCode == 0)
+                            {
+                                logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
+                                File.Delete(app.SavePath);
+                                app.AppItem.Status = "Install complete";
+                                app.AppItem.Progress = 100;
+                                await Task.Delay(1000);
+
+                                if (runOnce == true)
+                                {
+                                    logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
+                                    app.AppItem.Status = "Running";
+                                    using (var ro = new Process())
+                                    {
+                                        ro.StartInfo.FileName = Path.Combine(
+                                            settings.PortableAppDir, app.Name, app.Launch);
+                                        // TODO: Add support for optional arguments and use shell execute here
+                                        ro.Start();
+                                    }
+                                    await Task.Run(() =>
+                                    {
+                                    // TODO: Better watching system if process has exited
+                                    Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
+                                        while (processes == null | processes.Length != 0)
+                                        {
+                                            Thread.Sleep(1000);
+                                            processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
+                                        }
+                                    });
+                                    logger.Log("All processes exited. Cleaning up...",
+                                        Logger.LogLevel.INFO, logTextBox);
+                                    Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
+                                }
+                            }
+                            if (p.ExitCode != 0)
+                            {
+                                app.AppItem.Status = String.Format(
+                                    "Extract failed. Exit code: {0}", p.ExitCode);
+                                app.AppItem.Progress = 0;
+                                logger.Log("Extract failed. Exit code: " + p.ExitCode,
+                                    Logger.LogLevel.ERROR, logTextBox);
+                            }
                         }
                     }
                 }
