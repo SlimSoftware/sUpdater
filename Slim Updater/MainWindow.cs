@@ -827,8 +827,6 @@ namespace SlimUpdater
                             update.AppItem.Status = String.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             update.AppItem.Progress = 0;
-                            refreshUpdatesButton.Enabled = true;
-                            installUpdatesButton.Enabled = true;
                         }
                     }
                 }
@@ -852,6 +850,8 @@ namespace SlimUpdater
             await Task.Delay(1500);
             ReadDefenitions();
             CheckForUpdates();
+            refreshUpdatesButton.Enabled = true;
+            installUpdatesButton.Enabled = true;
         }
         #endregion
 
@@ -1030,8 +1030,6 @@ namespace SlimUpdater
                             app.AppItem.Status = String.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             app.AppItem.Progress = 0;
-                            refreshAppsButton.Enabled = true;
-                            installAppsButton.Enabled = true;
                         }
                     }
                 }
@@ -1054,6 +1052,8 @@ namespace SlimUpdater
             await Task.Delay(1500);
             ReadDefenitions();
             CheckForNonInstalledApps();
+            refreshAppsButton.Enabled = true;
+            installAppsButton.Enabled = true;
         }
         #endregion
 
