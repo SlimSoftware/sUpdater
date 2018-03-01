@@ -736,10 +736,19 @@ namespace SlimUpdater
                             {
                                 logger.Log("An error occurred when attempting to download " +
                                     "the update." + e.Message, Logger.LogLevel.ERROR, logTextBox);
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new MethodInvoker(() =>
+                                    {
+                                        update.AppItem.Status = e.Message;
+                                    }));
+                                }
+                                
                                 if (File.Exists(update.SavePath))
                                 {
                                     File.Delete(update.SavePath);
                                 }
+                                failedInstallList.Add(update);
                                 return;
                             }
                         }
@@ -931,6 +940,14 @@ namespace SlimUpdater
                             {
                                 logger.Log("An error occurred when attempting to download " +
                                     "the installer." + e.Message, Logger.LogLevel.ERROR, logTextBox);
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new MethodInvoker(() =>
+                                    {
+                                        app.AppItem.Status = e.Message;
+                                    }));
+                                }
+
                                 if (File.Exists(app.SavePath))
                                 {
                                     File.Delete(app.SavePath);
@@ -1166,7 +1183,14 @@ namespace SlimUpdater
                             {
                                 logger.Log("An error occurred when attempting to download " +
                                     "the Portable App." + e.Message, Logger.LogLevel.ERROR, logTextBox);
-                               
+                                if (InvokeRequired)
+                                {
+                                    Invoke(new MethodInvoker(() =>
+                                    {
+                                        app.AppItem.Status = e.Message;
+                                    }));
+                                }
+
                                 if (File.Exists(app.SavePath))
                                 {
                                     File.Delete(app.SavePath);
