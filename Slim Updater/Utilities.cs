@@ -93,5 +93,19 @@ namespace SlimUpdater
             control.Left = (parent.Width - control.Width) / 2;
             control.Top = (parent.Height - control.Height) / 2;
         }
+
+        /// <summary>
+        /// Reduces the width of controls so that a horziontal scrollbar 
+        /// doesn't appear in a container.
+        /// </summary>
+        /// <param name="controls">The controls to reduce the width for.</param>
+        public static void FixScrollbars(Control.ControlCollection controls)
+        {
+            foreach (Control control in controls)
+            {
+                int newWidth = control.Size.Width - SystemInformation.VerticalScrollBarWidth;
+                control.Size = new Size(newWidth, control.Size.Height);
+            }
+        }
     }
 }

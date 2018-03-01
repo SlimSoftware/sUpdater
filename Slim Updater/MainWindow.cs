@@ -227,7 +227,7 @@ namespace SlimUpdater
 
                 if (updateContentPanel.VerticalScroll.Visible == true)
                 {
-                    FixScrollbars(updateContentPanel.Controls);
+                    Utilities.FixScrollbars(updateContentPanel.Controls);
                 }
                 return true;
             }
@@ -275,7 +275,7 @@ namespace SlimUpdater
 
                     if (updateContentPanel.VerticalScroll.Visible == true)
                     {
-                        FixScrollbars(updateContentPanel.Controls);
+                        Utilities.FixScrollbars(updateContentPanel.Controls);
                     }
 
                     // Hide select all checkbox and bottom buttons for details view
@@ -330,7 +330,7 @@ namespace SlimUpdater
 
                 if (getNewAppsContentPanel.VerticalScroll.Visible == true)
                 {
-                    FixScrollbars(getNewAppsContentPanel.Controls);
+                    Utilities.FixScrollbars(getNewAppsContentPanel.Controls);
                 }
 
                 if (notInstalledApps.Count == 0)
@@ -410,7 +410,7 @@ namespace SlimUpdater
             }
             if (getPortableContentPanel.VerticalScroll.Visible == true)
             {
-                FixScrollbars(getPortableContentPanel.Controls);
+                Utilities.FixScrollbars(getPortableContentPanel.Controls);
             }
 
                 if (portableAppList.Count == 0)
@@ -514,7 +514,7 @@ namespace SlimUpdater
 
             if (installedPortableContentPanel.VerticalScroll.Visible == true)
             {
-                FixScrollbars(installedPortableContentPanel.Controls);
+                Utilities.FixScrollbars(installedPortableContentPanel.Controls);
             }
         }
         #endregion
@@ -1428,22 +1428,6 @@ namespace SlimUpdater
                     detailsPage.BringToFront();
                     titleButtonLeft.Text = "Details";
                 }
-            }
-        }
-        #endregion
-
-        #region FixScrollbars()
-        /// <summary>
-        /// Reduces the width of controls so that a horziontal scrollbar 
-        /// doesn't appear in a container.
-        /// </summary>
-        /// <param name="controls">The controls to reduce the width for.</param>
-        private void FixScrollbars(Control.ControlCollection controls)
-        {
-            foreach (Control control in controls)
-            {
-                int newWidth = control.Size.Width - SystemInformation.VerticalScrollBarWidth;
-                control.Size = new Size(newWidth, control.Size.Height);
             }
         }
         #endregion
