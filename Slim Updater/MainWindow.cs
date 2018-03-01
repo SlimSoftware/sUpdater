@@ -59,9 +59,9 @@ namespace SlimUpdater
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (settings.MinimizeToTray == true | e.CloseReason != CloseReason.TaskManagerClosing |
-                e.CloseReason != CloseReason.ApplicationExitCall |
-                e.CloseReason != CloseReason.FormOwnerClosing)
+            if (settings.MinimizeToTray == true && (e.CloseReason != CloseReason.TaskManagerClosing &&
+                e.CloseReason != CloseReason.ApplicationExitCall &&
+                e.CloseReason != CloseReason.FormOwnerClosing))
             {
                 e.Cancel = true;
                 this.Hide();
