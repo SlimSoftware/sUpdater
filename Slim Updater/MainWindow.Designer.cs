@@ -33,9 +33,15 @@
             this.startPage = new System.Windows.Forms.Panel();
             this.offlineRetryLink = new System.Windows.Forms.LinkLabel();
             this.offlineLabel = new System.Windows.Forms.Label();
+            this.updaterTile = new SlimUpdater.flatTile();
+            this.getNewAppsTile = new SlimUpdater.flatTile();
+            this.portableAppsTile = new SlimUpdater.flatTile();
+            this.settingsTile = new SlimUpdater.flatTile();
             this.topBar = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.aboutLabel = new System.Windows.Forms.Label();
+            this.logButton = new System.Windows.Forms.Label();
+            this.titleButtonLeft = new SlimUpdater.TitleButton();
+            this.aboutButton = new System.Windows.Forms.Label();
+            this.titleButtonRight = new SlimUpdater.TitleButton();
             this.selectAllUpdatesCheckBox = new System.Windows.Forms.CheckBox();
             this.updateContentPanel = new System.Windows.Forms.Panel();
             this.updatePage = new System.Windows.Forms.Panel();
@@ -53,6 +59,7 @@
             this.actionLink = new System.Windows.Forms.LinkLabel();
             this.detailLabel = new System.Windows.Forms.Label();
             this.getNewAppsPage = new System.Windows.Forms.Panel();
+            this.newAppsStatusLabel = new System.Windows.Forms.Label();
             this.selectAllAppsCheckBox = new System.Windows.Forms.CheckBox();
             this.installAppsButton = new System.Windows.Forms.Button();
             this.refreshAppsButton = new System.Windows.Forms.Button();
@@ -95,13 +102,6 @@
             this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logPage = new System.Windows.Forms.Panel();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
-            this.newAppsStatusLabel = new System.Windows.Forms.Label();
-            this.titleButtonLeft = new SlimUpdater.TitleButton();
-            this.titleButtonRight = new SlimUpdater.TitleButton();
-            this.updaterTile = new SlimUpdater.flatTile();
-            this.getNewAppsTile = new SlimUpdater.flatTile();
-            this.portableAppsTile = new SlimUpdater.flatTile();
-            this.settingsTile = new SlimUpdater.flatTile();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
@@ -161,41 +161,113 @@
             this.offlineLabel.Text = "Could not connect to the defenitions server.";
             this.offlineLabel.Visible = false;
             // 
+            // updaterTile
+            // 
+            this.updaterTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.updaterTile.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
+            this.updaterTile.Location = new System.Drawing.Point(65, 46);
+            this.updaterTile.Name = "updaterTile";
+            this.updaterTile.Size = new System.Drawing.Size(300, 150);
+            this.updaterTile.TabIndex = 5;
+            this.updaterTile.Text = "No updates available";
+            this.updaterTile.Click += new System.EventHandler(this.UpdaterTile_Click);
+            // 
+            // getNewAppsTile
+            // 
+            this.getNewAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.getNewAppsTile.Image = global::SlimUpdater.Properties.Resources.GetNewApps_Icon;
+            this.getNewAppsTile.Location = new System.Drawing.Point(419, 46);
+            this.getNewAppsTile.Name = "getNewAppsTile";
+            this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
+            this.getNewAppsTile.TabIndex = 7;
+            this.getNewAppsTile.Text = "Get New Applications";
+            this.getNewAppsTile.Click += new System.EventHandler(this.GetNewAppsTile_Click);
+            // 
+            // portableAppsTile
+            // 
+            this.portableAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.portableAppsTile.Image = global::SlimUpdater.Properties.Resources.PortableApps_Icon;
+            this.portableAppsTile.Location = new System.Drawing.Point(65, 228);
+            this.portableAppsTile.Name = "portableAppsTile";
+            this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
+            this.portableAppsTile.TabIndex = 6;
+            this.portableAppsTile.Text = "Portable Apps";
+            this.portableAppsTile.Click += new System.EventHandler(this.PortableAppsTile_Click);
+            // 
+            // settingsTile
+            // 
+            this.settingsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.settingsTile.Image = global::SlimUpdater.Properties.Resources.Settings_Icon;
+            this.settingsTile.Location = new System.Drawing.Point(419, 228);
+            this.settingsTile.Name = "settingsTile";
+            this.settingsTile.Size = new System.Drawing.Size(300, 150);
+            this.settingsTile.TabIndex = 8;
+            this.settingsTile.Text = "Settings";
+            this.settingsTile.Click += new System.EventHandler(this.SettingsTile_Click);
+            // 
             // topBar
             // 
             this.topBar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.topBar.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.topBar.Controls.Add(this.button1);
+            this.topBar.Controls.Add(this.logButton);
             this.topBar.Controls.Add(this.titleButtonLeft);
-            this.topBar.Controls.Add(this.aboutLabel);
+            this.topBar.Controls.Add(this.aboutButton);
             this.topBar.Controls.Add(this.titleButtonRight);
             this.topBar.Location = new System.Drawing.Point(-7, -1);
             this.topBar.Name = "topBar";
             this.topBar.Size = new System.Drawing.Size(798, 35);
             this.topBar.TabIndex = 5;
             // 
-            // button1
+            // logButton
             // 
-            this.button1.Location = new System.Drawing.Point(361, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Show Log";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.logButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.logButton.Location = new System.Drawing.Point(690, 9);
+            this.logButton.Name = "logButton";
+            this.logButton.Size = new System.Drawing.Size(35, 17);
+            this.logButton.TabIndex = 5;
+            this.logButton.Text = "Log";
+            this.logButton.Click += new System.EventHandler(this.LogButton_Click);
+            this.logButton.MouseEnter += new System.EventHandler(this.LogButton_MouseEnter);
+            this.logButton.MouseLeave += new System.EventHandler(this.LogButton_MouseLeave);
             // 
-            // aboutLabel
+            // titleButtonLeft
             // 
-            this.aboutLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aboutLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.aboutLabel.Location = new System.Drawing.Point(729, 9);
-            this.aboutLabel.Name = "aboutLabel";
-            this.aboutLabel.Size = new System.Drawing.Size(50, 17);
-            this.aboutLabel.TabIndex = 1;
-            this.aboutLabel.Text = "About";
-            this.aboutLabel.Click += new System.EventHandler(this.AboutLabel_Click);
-            this.aboutLabel.MouseEnter += new System.EventHandler(this.AboutLabel_MouseEnter);
-            this.aboutLabel.MouseLeave += new System.EventHandler(this.AboutLabel_MouseLeave);
+            this.titleButtonLeft.ArrowLeft = false;
+            this.titleButtonLeft.ArrowRight = false;
+            this.titleButtonLeft.AutoSize = true;
+            this.titleButtonLeft.BackColor = System.Drawing.Color.Transparent;
+            this.titleButtonLeft.Location = new System.Drawing.Point(5, 2);
+            this.titleButtonLeft.Name = "titleButtonLeft";
+            this.titleButtonLeft.Size = new System.Drawing.Size(99, 32);
+            this.titleButtonLeft.TabIndex = 2;
+            this.titleButtonLeft.Click += new System.EventHandler(this.TitleButtonLeft_Click);
+            // 
+            // aboutButton
+            // 
+            this.aboutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aboutButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.aboutButton.Location = new System.Drawing.Point(729, 9);
+            this.aboutButton.Name = "aboutButton";
+            this.aboutButton.Size = new System.Drawing.Size(50, 17);
+            this.aboutButton.TabIndex = 1;
+            this.aboutButton.Text = "About";
+            this.aboutButton.Click += new System.EventHandler(this.AboutLabel_Click);
+            this.aboutButton.MouseEnter += new System.EventHandler(this.AboutLabel_MouseEnter);
+            this.aboutButton.MouseLeave += new System.EventHandler(this.AboutLabel_MouseLeave);
+            // 
+            // titleButtonRight
+            // 
+            this.titleButtonRight.ArrowLeft = false;
+            this.titleButtonRight.ArrowRight = true;
+            this.titleButtonRight.AutoSize = true;
+            this.titleButtonRight.BackColor = System.Drawing.Color.White;
+            this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
+            this.titleButtonRight.Name = "titleButtonRight";
+            this.titleButtonRight.Size = new System.Drawing.Size(214, 31);
+            this.titleButtonRight.TabIndex = 3;
+            this.titleButtonRight.Visible = false;
+            this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
             // 
             // selectAllUpdatesCheckBox
             // 
@@ -394,6 +466,18 @@
             this.getNewAppsPage.Name = "getNewAppsPage";
             this.getNewAppsPage.Size = new System.Drawing.Size(785, 425);
             this.getNewAppsPage.TabIndex = 11;
+            // 
+            // newAppsStatusLabel
+            // 
+            this.newAppsStatusLabel.AutoSize = true;
+            this.newAppsStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.newAppsStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.newAppsStatusLabel.Location = new System.Drawing.Point(272, 2);
+            this.newAppsStatusLabel.Name = "newAppsStatusLabel";
+            this.newAppsStatusLabel.Size = new System.Drawing.Size(270, 17);
+            this.newAppsStatusLabel.TabIndex = 4;
+            this.newAppsStatusLabel.Text = "Succesfully installed all applications";
+            this.newAppsStatusLabel.Visible = false;
             // 
             // selectAllAppsCheckBox
             // 
@@ -773,7 +857,7 @@
             this.exitTrayIconMenuItem});
             this.trayIconContextMenu.Name = "trayIconContextMenu";
             this.trayIconContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.trayIconContextMenu.Size = new System.Drawing.Size(171, 114);
+            this.trayIconContextMenu.Size = new System.Drawing.Size(171, 92);
             // 
             // checkUpdatesTrayIconMenuItem
             // 
@@ -825,87 +909,6 @@
             this.logTextBox.Size = new System.Drawing.Size(786, 426);
             this.logTextBox.TabIndex = 0;
             this.logTextBox.Text = "";
-            // 
-            // newAppsStatusLabel
-            // 
-            this.newAppsStatusLabel.AutoSize = true;
-            this.newAppsStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
-            this.newAppsStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.newAppsStatusLabel.Location = new System.Drawing.Point(272, 2);
-            this.newAppsStatusLabel.Name = "newAppsStatusLabel";
-            this.newAppsStatusLabel.Size = new System.Drawing.Size(270, 17);
-            this.newAppsStatusLabel.TabIndex = 4;
-            this.newAppsStatusLabel.Text = "Succesfully installed all applications";
-            this.newAppsStatusLabel.Visible = false;
-            // 
-            // titleButtonLeft
-            // 
-            this.titleButtonLeft.ArrowLeft = false;
-            this.titleButtonLeft.ArrowRight = false;
-            this.titleButtonLeft.AutoSize = true;
-            this.titleButtonLeft.BackColor = System.Drawing.Color.Transparent;
-            this.titleButtonLeft.Location = new System.Drawing.Point(5, 2);
-            this.titleButtonLeft.Name = "titleButtonLeft";
-            this.titleButtonLeft.Size = new System.Drawing.Size(99, 32);
-            this.titleButtonLeft.TabIndex = 2;
-            this.titleButtonLeft.Click += new System.EventHandler(this.TitleButtonLeft_Click);
-            // 
-            // titleButtonRight
-            // 
-            this.titleButtonRight.ArrowLeft = false;
-            this.titleButtonRight.ArrowRight = true;
-            this.titleButtonRight.AutoSize = true;
-            this.titleButtonRight.BackColor = System.Drawing.Color.White;
-            this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
-            this.titleButtonRight.Name = "titleButtonRight";
-            this.titleButtonRight.Size = new System.Drawing.Size(214, 31);
-            this.titleButtonRight.TabIndex = 3;
-            this.titleButtonRight.Visible = false;
-            this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
-            // 
-            // updaterTile
-            // 
-            this.updaterTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.updaterTile.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
-            this.updaterTile.Location = new System.Drawing.Point(65, 46);
-            this.updaterTile.Name = "updaterTile";
-            this.updaterTile.Size = new System.Drawing.Size(300, 150);
-            this.updaterTile.TabIndex = 5;
-            this.updaterTile.Text = "No updates available";
-            this.updaterTile.Click += new System.EventHandler(this.UpdaterTile_Click);
-            // 
-            // getNewAppsTile
-            // 
-            this.getNewAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.getNewAppsTile.Image = global::SlimUpdater.Properties.Resources.GetNewApps_Icon;
-            this.getNewAppsTile.Location = new System.Drawing.Point(419, 46);
-            this.getNewAppsTile.Name = "getNewAppsTile";
-            this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
-            this.getNewAppsTile.TabIndex = 7;
-            this.getNewAppsTile.Text = "Get New Applications";
-            this.getNewAppsTile.Click += new System.EventHandler(this.GetNewAppsTile_Click);
-            // 
-            // portableAppsTile
-            // 
-            this.portableAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.portableAppsTile.Image = global::SlimUpdater.Properties.Resources.PortableApps_Icon;
-            this.portableAppsTile.Location = new System.Drawing.Point(65, 228);
-            this.portableAppsTile.Name = "portableAppsTile";
-            this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
-            this.portableAppsTile.TabIndex = 6;
-            this.portableAppsTile.Text = "Portable Apps";
-            this.portableAppsTile.Click += new System.EventHandler(this.PortableAppsTile_Click);
-            // 
-            // settingsTile
-            // 
-            this.settingsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.settingsTile.Image = global::SlimUpdater.Properties.Resources.Settings_Icon;
-            this.settingsTile.Location = new System.Drawing.Point(419, 228);
-            this.settingsTile.Name = "settingsTile";
-            this.settingsTile.Size = new System.Drawing.Size(300, 150);
-            this.settingsTile.TabIndex = 8;
-            this.settingsTile.Text = "Settings";
-            this.settingsTile.Click += new System.EventHandler(this.SettingsTile_Click);
             // 
             // MainWindow
             // 
@@ -965,7 +968,7 @@
         #endregion
         private System.Windows.Forms.Panel startPage;
         private System.Windows.Forms.Panel topBar;
-        private System.Windows.Forms.Label aboutLabel;
+        private System.Windows.Forms.Label aboutButton;
         private System.Windows.Forms.Panel updatePage;
         private flatTile updaterTile;
         private flatTile settingsTile;
@@ -1033,8 +1036,8 @@
         private System.Windows.Forms.ToolStripMenuItem checkUpdatesTrayIconMenuItem;
         private System.Windows.Forms.Panel logPage;
         private System.Windows.Forms.RichTextBox logTextBox;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label newAppsStatusLabel;
+        private System.Windows.Forms.Label logButton;
     }
 }
 

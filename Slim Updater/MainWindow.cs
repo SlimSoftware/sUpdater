@@ -1525,9 +1525,9 @@ namespace SlimUpdater
                         portableStatusLabel.Visible = false;
                     }
                 }
-                if (aboutLabel.Visible == false)
+                if (aboutButton.Visible == false)
                 {
-                    aboutLabel.Visible = true;
+                    aboutButton.Visible = true;
                 }
             }
         }
@@ -1540,6 +1540,53 @@ namespace SlimUpdater
             titleButtonRight.Visible = false;
             topBar.BorderStyle = BorderStyle.None;
             CheckForPortableApps();
+        }
+
+        private void LogButton_Click(object sender, EventArgs e)
+        {
+            logPage.BringToFront();
+            titleButtonLeft.Text = "Log";
+            titleButtonLeft.ArrowLeft = true;
+            titleButtonLeft.ArrowRight = false;
+            titleButtonLeft.Visible = true;
+        }
+
+        private void LogButton_MouseEnter(object sender, EventArgs e)
+        {
+            logButton.ForeColor = Color.White;
+            logButton.BackColor = normalGreen;
+        }
+
+        private void LogButton_MouseLeave(object sender, EventArgs e)
+        {
+            logButton.ForeColor = normalGreen;
+            logButton.BackColor = Color.White;
+        }
+
+        private void AboutLabel_MouseEnter(object sender, EventArgs e)
+        {
+            aboutButton.ForeColor = Color.White;
+            aboutButton.BackColor = normalGreen;
+        }
+
+        private void AboutLabel_MouseLeave(object sender, EventArgs e)
+        {
+            aboutButton.ForeColor = normalGreen;
+            aboutButton.BackColor = Color.White;
+        }
+
+        private void AboutLabel_Click(object sender, EventArgs e)
+        {
+            topBar.Size = new Size(topBar.Size.Width, 35);
+            aboutPage.BringToFront();
+            titleButtonLeft.Text = "About";
+            titleButtonLeft.ArrowLeft = true;
+            aboutButton.Hide();
+        }
+
+        private void SiteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://www.slimsoft.tk");
         }
 
         private void UpdaterTile_Click(object sender, EventArgs e)
@@ -1634,33 +1681,7 @@ namespace SlimUpdater
             offlineRetryLink.Visible = false;
             ReadDefenitions();
         }
-
-        private void AboutLabel_MouseEnter(object sender, EventArgs e)
-        {
-            aboutLabel.ForeColor = Color.White;
-            aboutLabel.BackColor = normalGreen;
-        }
-
-        private void AboutLabel_MouseLeave(object sender, EventArgs e)
-        {
-            aboutLabel.ForeColor = normalGreen;
-            aboutLabel.BackColor = Color.White;
-        }
-
-        private void AboutLabel_Click(object sender, EventArgs e)
-        {
-            topBar.Size = new Size(topBar.Size.Width, 35);
-            aboutPage.BringToFront();
-            titleButtonLeft.Text = "About";
-            titleButtonLeft.ArrowLeft = true;
-            aboutLabel.Hide();
-        }
-
-        private void SiteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("http://www.slimsoft.tk");
-        }
-            #endregion
+        #endregion
 
         #region updatePage Mouse Events
         private void SelectAllUpdatesCheckBox_Click(object sender, EventArgs e)
@@ -2019,11 +2040,6 @@ namespace SlimUpdater
             Application.Exit();
         }
         #endregion
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            logPage.BringToFront();
-        }
     }
 
     #region App Class
