@@ -87,5 +87,11 @@ namespace SlimUpdater
                 previousHeight = appItem.Height;
             }
         }
+
+        public static void CenterControl(Control control, Control parent)
+        {
+            control.Left = (parent.Width - control.Width) / 2;
+            control.Top = (parent.Height - control.Height) / 2;
+        }
     }
 }

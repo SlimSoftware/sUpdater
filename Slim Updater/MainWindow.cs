@@ -171,12 +171,9 @@ namespace SlimUpdater
         public bool CheckForUpdates()
         {
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            updateList = new List<App>();
+            updateList = new List<App>(appList);
             updateContentPanel.Controls.Clear();
 
-            updateList = new List<App>(appList);
-            int previousY = 0;
-            int previousHeight = 0;
             foreach (App app in updateList.ToArray()) // TODO: Is this ToArray needed?
             {
                 AppItem appItem = new AppItem();
@@ -297,10 +294,7 @@ namespace SlimUpdater
                     noticeLabel.AutoSize = true;
                     noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                     updateContentPanel.Controls.Add(noticeLabel);
-                    noticeLabel.Left = (updateContentPanel.Width
-                        - noticeLabel.Width) / 2;
-                    noticeLabel.Top = (updateContentPanel.Height
-                        - noticeLabel.Height - topBar.Height) / 2; // TODO: CENTER
+                    Utilities.CenterControl(noticeLabel, updateContentPanel);
                 }                
                 return false;
             }
@@ -312,8 +306,6 @@ namespace SlimUpdater
         {
             getNewAppsContentPanel.Controls.Clear();
 
-            int previousY = 0;
-            int previousHeight = 0;
             foreach (App app in appList.ToArray())
             {
                 AppItem appItem = new AppItem();
@@ -350,10 +342,7 @@ namespace SlimUpdater
                     noticeLabel.AutoSize = true;
                     noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                     getNewAppsContentPanel.Controls.Add(noticeLabel);
-                    noticeLabel.Left = (getNewAppsContentPanel.Width
-                        - noticeLabel.Width) / 2;
-                    noticeLabel.Top = (getNewAppsContentPanel.Height
-                        - noticeLabel.Height - topBar.Height) / 2;
+                    Utilities.CenterControl(noticeLabel, getNewAppsContentPanel);
                 }
             }
         }
@@ -389,9 +378,6 @@ namespace SlimUpdater
                 portableAppList.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
                     extractModeElement.Value));
-
-                int previousY = 0;
-                int previousHeight = 0;
                 Separator separator = new Separator();
 
                 foreach (PortableApp portableApp in portableAppList.ToArray())
@@ -436,10 +422,7 @@ namespace SlimUpdater
                     noticeLabel.AutoSize = true;
                     noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                     getPortableContentPanel.Controls.Add(noticeLabel);
-                    noticeLabel.Left = (getPortableContentPanel.Width
-                        - noticeLabel.Width) / 2;
-                    noticeLabel.Top = (getPortableContentPanel.Height
-                        - noticeLabel.Height - topBar.Height) / 2;
+                    Utilities.CenterControl(noticeLabel, getPortableContentPanel);
                 }
             }
         }
@@ -469,10 +452,7 @@ namespace SlimUpdater
                 noticeLabel.AutoSize = true;                            
                 noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                 installedPortableContentPanel.Controls.Add(noticeLabel);
-                noticeLabel.Left = (installedPortableContentPanel.Width
-                    - noticeLabel.Width) / 2;
-                noticeLabel.Top = (installedPortableContentPanel.Height
-                    - noticeLabel.Height - topBar.Height) / 2;
+                Utilities.CenterControl(noticeLabel, installedPortableContentPanel);
                 return;
             }
 
@@ -757,12 +737,14 @@ namespace SlimUpdater
                 Utilities.AddAppItems(failedUpdates, updateContentPanel);
                 updatesStatusLabel.ForeColor = Color.Red;
                 updatesStatusLabel.Text = "Some updates failed to install.";
+                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
                 updatesStatusLabel.Visible = true;
             }
             if (updateFailed == false)
             {
                 updatesStatusLabel.ForeColor = normalGreen;
                 updatesStatusLabel.ResetText();
+                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
                 updatesStatusLabel.Visible = true;
             }
 
@@ -984,12 +966,14 @@ namespace SlimUpdater
                 Utilities.AddAppItems(failedApps, getNewAppsContentPanel);
                 newAppsStatusLabel.ForeColor = Color.Red;
                 newAppsStatusLabel.Text = "Some applications failed to install.";
+                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent);
                 newAppsStatusLabel.Visible = true;
             }
             if (installFailed == false)
             {
                 newAppsStatusLabel.ForeColor = normalGreen;
                 newAppsStatusLabel.ResetText();
+                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent);
                 newAppsStatusLabel.Visible = true;
             }
 
@@ -1325,13 +1309,15 @@ namespace SlimUpdater
                 getPortableContentPanel.Controls.Clear();
                 Utilities.AddAppItems(failedApps, getPortableContentPanel);
                 portableStatusLabel.ForeColor = Color.Red;
-                portableStatusLabel.Text = "Some Portable Apps failed to install."; // TODO: Center
+                portableStatusLabel.Text = "Some Portable Apps failed to install.";
+                Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent);
                 portableStatusLabel.Visible = true;
             }
             if (installFailed == false)
             {
                 portableStatusLabel.ForeColor = normalGreen;
                 portableStatusLabel.ResetText();
+                Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent);
                 portableStatusLabel.Visible = true;
             }
 
