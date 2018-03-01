@@ -38,13 +38,14 @@
             this.portableAppsTile = new SlimUpdater.flatTile();
             this.settingsTile = new SlimUpdater.flatTile();
             this.topBar = new System.Windows.Forms.Panel();
-            this.titleButtonRight = new SlimUpdater.TitleButton();
+            this.button1 = new System.Windows.Forms.Button();
             this.titleButtonLeft = new SlimUpdater.TitleButton();
             this.aboutLabel = new System.Windows.Forms.Label();
+            this.titleButtonRight = new SlimUpdater.TitleButton();
             this.selectAllUpdatesCheckBox = new System.Windows.Forms.CheckBox();
             this.updateContentPanel = new System.Windows.Forms.Panel();
             this.updatePage = new System.Windows.Forms.Panel();
-            this.failedUpdateLabel = new System.Windows.Forms.Label();
+            this.updatesStatusLabel = new System.Windows.Forms.Label();
             this.installUpdatesButton = new System.Windows.Forms.Button();
             this.refreshUpdatesButton = new System.Windows.Forms.Button();
             this.aboutPage = new System.Windows.Forms.Panel();
@@ -59,7 +60,6 @@
             this.detailLabel = new System.Windows.Forms.Label();
             this.getNewAppsPage = new System.Windows.Forms.Panel();
             this.selectAllAppsCheckBox = new System.Windows.Forms.CheckBox();
-            this.failedAppInstallLabel = new System.Windows.Forms.Label();
             this.installAppsButton = new System.Windows.Forms.Button();
             this.refreshAppsButton = new System.Windows.Forms.Button();
             this.getNewAppsContentPanel = new System.Windows.Forms.Panel();
@@ -89,7 +89,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.getPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox2 = new System.Windows.Forms.CheckBox();
-            this.failedPortableInstallLabel = new System.Windows.Forms.Label();
+            this.portableStatusLabel = new System.Windows.Forms.Label();
             this.downloadPortableButton = new System.Windows.Forms.Button();
             this.refreshPortableButton2 = new System.Windows.Forms.Button();
             this.getPortableContentPanel = new System.Windows.Forms.Panel();
@@ -102,7 +102,7 @@
             this.exitTrayIconMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logPage = new System.Windows.Forms.Panel();
             this.logTextBox = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.newAppsStatusLabel = new System.Windows.Forms.Label();
             this.startPage.SuspendLayout();
             this.topBar.SuspendLayout();
             this.updatePage.SuspendLayout();
@@ -217,18 +217,15 @@
             this.topBar.Size = new System.Drawing.Size(798, 35);
             this.topBar.TabIndex = 5;
             // 
-            // titleButtonRight
+            // button1
             // 
-            this.titleButtonRight.ArrowLeft = false;
-            this.titleButtonRight.ArrowRight = true;
-            this.titleButtonRight.AutoSize = true;
-            this.titleButtonRight.BackColor = System.Drawing.Color.White;
-            this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
-            this.titleButtonRight.Name = "titleButtonRight";
-            this.titleButtonRight.Size = new System.Drawing.Size(214, 31);
-            this.titleButtonRight.TabIndex = 3;
-            this.titleButtonRight.Visible = false;
-            this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
+            this.button1.Location = new System.Drawing.Point(361, 5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Show Log";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // titleButtonLeft
             // 
@@ -255,6 +252,19 @@
             this.aboutLabel.MouseEnter += new System.EventHandler(this.AboutLabel_MouseEnter);
             this.aboutLabel.MouseLeave += new System.EventHandler(this.AboutLabel_MouseLeave);
             // 
+            // titleButtonRight
+            // 
+            this.titleButtonRight.ArrowLeft = false;
+            this.titleButtonRight.ArrowRight = true;
+            this.titleButtonRight.AutoSize = true;
+            this.titleButtonRight.BackColor = System.Drawing.Color.White;
+            this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
+            this.titleButtonRight.Name = "titleButtonRight";
+            this.titleButtonRight.Size = new System.Drawing.Size(214, 31);
+            this.titleButtonRight.TabIndex = 3;
+            this.titleButtonRight.Visible = false;
+            this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
+            // 
             // selectAllUpdatesCheckBox
             // 
             this.selectAllUpdatesCheckBox.AutoSize = true;
@@ -279,8 +289,8 @@
             // updatePage
             // 
             this.updatePage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.updatePage.Controls.Add(this.updatesStatusLabel);
             this.updatePage.Controls.Add(this.selectAllUpdatesCheckBox);
-            this.updatePage.Controls.Add(this.failedUpdateLabel);
             this.updatePage.Controls.Add(this.installUpdatesButton);
             this.updatePage.Controls.Add(this.refreshUpdatesButton);
             this.updatePage.Controls.Add(this.updateContentPanel);
@@ -289,17 +299,17 @@
             this.updatePage.Size = new System.Drawing.Size(785, 425);
             this.updatePage.TabIndex = 6;
             // 
-            // failedUpdateLabel
+            // updatesStatusLabel
             // 
-            this.failedUpdateLabel.AutoSize = true;
-            this.failedUpdateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.failedUpdateLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.failedUpdateLabel.Location = new System.Drawing.Point(164, 2);
-            this.failedUpdateLabel.Name = "failedUpdateLabel";
-            this.failedUpdateLabel.Size = new System.Drawing.Size(457, 15);
-            this.failedUpdateLabel.TabIndex = 3;
-            this.failedUpdateLabel.Text = "Some updates failed to install. Would you like to retry installing these?";
-            this.failedUpdateLabel.Visible = false;
+            this.updatesStatusLabel.AutoSize = true;
+            this.updatesStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.updatesStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.updatesStatusLabel.Location = new System.Drawing.Point(272, 2);
+            this.updatesStatusLabel.Name = "updatesStatusLabel";
+            this.updatesStatusLabel.Size = new System.Drawing.Size(241, 17);
+            this.updatesStatusLabel.TabIndex = 3;
+            this.updatesStatusLabel.Text = "Succesfully installed all updates";
+            this.updatesStatusLabel.Visible = false;
             // 
             // installUpdatesButton
             // 
@@ -443,8 +453,8 @@
             // getNewAppsPage
             // 
             this.getNewAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.getNewAppsPage.Controls.Add(this.newAppsStatusLabel);
             this.getNewAppsPage.Controls.Add(this.selectAllAppsCheckBox);
-            this.getNewAppsPage.Controls.Add(this.failedAppInstallLabel);
             this.getNewAppsPage.Controls.Add(this.installAppsButton);
             this.getNewAppsPage.Controls.Add(this.refreshAppsButton);
             this.getNewAppsPage.Controls.Add(this.getNewAppsContentPanel);
@@ -463,18 +473,6 @@
             this.selectAllAppsCheckBox.Text = "Select All";
             this.selectAllAppsCheckBox.UseVisualStyleBackColor = true;
             this.selectAllAppsCheckBox.Click += new System.EventHandler(this.SelectAllAppsCheckBox_Click);
-            // 
-            // failedAppInstallLabel
-            // 
-            this.failedAppInstallLabel.AutoSize = true;
-            this.failedAppInstallLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.failedAppInstallLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.failedAppInstallLabel.Location = new System.Drawing.Point(150, 2);
-            this.failedAppInstallLabel.Name = "failedAppInstallLabel";
-            this.failedAppInstallLabel.Size = new System.Drawing.Size(484, 15);
-            this.failedAppInstallLabel.TabIndex = 3;
-            this.failedAppInstallLabel.Text = "Some applications failed to install. Would you like to retry installing these?";
-            this.failedAppInstallLabel.Visible = false;
             // 
             // installAppsButton
             // 
@@ -765,7 +763,7 @@
             // 
             this.getPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.getPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox2);
-            this.getPortableAppsPage.Controls.Add(this.failedPortableInstallLabel);
+            this.getPortableAppsPage.Controls.Add(this.portableStatusLabel);
             this.getPortableAppsPage.Controls.Add(this.downloadPortableButton);
             this.getPortableAppsPage.Controls.Add(this.refreshPortableButton2);
             this.getPortableAppsPage.Controls.Add(this.getPortableContentPanel);
@@ -785,17 +783,17 @@
             this.selectAllPortableCheckBox2.UseVisualStyleBackColor = true;
             this.selectAllPortableCheckBox2.Click += new System.EventHandler(this.SelectAllPortableCheckBox2_CheckedChanged);
             // 
-            // failedPortableInstallLabel
+            // portableStatusLabel
             // 
-            this.failedPortableInstallLabel.AutoSize = true;
-            this.failedPortableInstallLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.failedPortableInstallLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.failedPortableInstallLabel.Location = new System.Drawing.Point(145, 2);
-            this.failedPortableInstallLabel.Name = "failedPortableInstallLabel";
-            this.failedPortableInstallLabel.Size = new System.Drawing.Size(495, 15);
-            this.failedPortableInstallLabel.TabIndex = 3;
-            this.failedPortableInstallLabel.Text = "Some Portable Apps failed to install. Would you like to retry installing these?";
-            this.failedPortableInstallLabel.Visible = false;
+            this.portableStatusLabel.AutoSize = true;
+            this.portableStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.portableStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.portableStatusLabel.Location = new System.Drawing.Point(250, 2);
+            this.portableStatusLabel.Name = "portableStatusLabel";
+            this.portableStatusLabel.Size = new System.Drawing.Size(285, 17);
+            this.portableStatusLabel.TabIndex = 3;
+            this.portableStatusLabel.Text = "Succesfully installed all Portable Apps";
+            this.portableStatusLabel.Visible = false;
             // 
             // downloadPortableButton
             // 
@@ -901,15 +899,17 @@
             this.logTextBox.TabIndex = 0;
             this.logTextBox.Text = "";
             // 
-            // button1
+            // newAppsStatusLabel
             // 
-            this.button1.Location = new System.Drawing.Point(361, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Show Log";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.newAppsStatusLabel.AutoSize = true;
+            this.newAppsStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
+            this.newAppsStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
+            this.newAppsStatusLabel.Location = new System.Drawing.Point(272, 2);
+            this.newAppsStatusLabel.Name = "newAppsStatusLabel";
+            this.newAppsStatusLabel.Size = new System.Drawing.Size(270, 17);
+            this.newAppsStatusLabel.TabIndex = 4;
+            this.newAppsStatusLabel.Text = "Succesfully installed all applications";
+            this.newAppsStatusLabel.Visible = false;
             // 
             // MainWindow
             // 
@@ -989,9 +989,8 @@
         private System.Windows.Forms.LinkLabel actionLink;
         private System.Windows.Forms.Label detailLabel;
         private System.Windows.Forms.RichTextBox detailText;
-        private System.Windows.Forms.Label failedUpdateLabel;
+        private System.Windows.Forms.Label updatesStatusLabel;
         private System.Windows.Forms.Panel getNewAppsPage;
-        private System.Windows.Forms.Label failedAppInstallLabel;
         private System.Windows.Forms.Button installAppsButton;
         private System.Windows.Forms.Button refreshAppsButton;
         private System.Windows.Forms.CheckBox selectAllAppsCheckBox;
@@ -1024,7 +1023,7 @@
         private TitleButton titleButtonRight;
         private System.Windows.Forms.Panel getPortableAppsPage;
         private System.Windows.Forms.CheckBox selectAllPortableCheckBox2;
-        private System.Windows.Forms.Label failedPortableInstallLabel;
+        private System.Windows.Forms.Label portableStatusLabel;
         private System.Windows.Forms.Button downloadPortableButton;
         private System.Windows.Forms.Button refreshPortableButton2;
         private System.Windows.Forms.Panel getPortableContentPanel;
@@ -1040,6 +1039,7 @@
         private System.Windows.Forms.Panel logPage;
         private System.Windows.Forms.RichTextBox logTextBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label newAppsStatusLabel;
     }
 }
 

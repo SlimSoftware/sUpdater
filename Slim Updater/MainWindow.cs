@@ -13,7 +13,6 @@ using System.Xml;
 using System.Linq;
 using AutoUpdaterDotNET;
 
-
 namespace SlimUpdater
 {
     public partial class MainWindow : Form
@@ -22,11 +21,8 @@ namespace SlimUpdater
         public List<App> updateList;
         public List<App> notInstalledApps = new List<App>();
         public List<PortableApp> portableAppList = new List<PortableApp>();
-        public List<App> failedInstallList = new List<App>();
-        public List<PortableApp> failedPortableList = new List<PortableApp>();
         public Settings settings = new Settings();
         public Logger logger = new Logger();
-        public bool justInstalledUpdates = false;
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
@@ -267,7 +263,7 @@ namespace SlimUpdater
 
                 // Add all apps to updatecontentPanel for details view
                 // Only if page is actually visible and if updates were not just installed
-                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
+                if (this.Controls[0] == updatePage)
                 {
                     foreach (App app in appList)
                     {
@@ -654,6 +650,7 @@ namespace SlimUpdater
         #region InstallUpdates()
         public async void InstallUpdates(List<App> updateList)
         {
+            bool updateFailed = false;
             logger.Log("Update started...", Logger.LogLevel.INFO, logTextBox);
             refreshUpdatesButton.Enabled = false;
             installUpdatesButton.Enabled = false;
@@ -734,6 +731,7 @@ namespace SlimUpdater
                             }
                             catch (Exception e)
                             {
+                                updateFailed = true;
                                 logger.Log("An error occurred when attempting to download " +
                                     "the update." + e.Message, Logger.LogLevel.ERROR, logTextBox);
                                 if (InvokeRequired)
@@ -748,7 +746,6 @@ namespace SlimUpdater
                                 {
                                     File.Delete(update.SavePath);
                                 }
-                                failedInstallList.Add(update);
                                 return;
                             }
                         }
@@ -846,10 +843,33 @@ namespace SlimUpdater
                 }
             }
 
-            justInstalledUpdates = true;
-            await Task.Delay(1500);
-            ReadDefenitions();
-            CheckForUpdates();
+            if (updateFailed == true)
+            {
+                // Only show the failed updates
+                List<AppItem> failedUpdates = new List<AppItem>(); 
+                foreach (Control control in updateContentPanel.Controls)
+                {
+                    if (control is AppItem appItem)
+                    {
+                        if (appItem.Status != "Install complete")
+                        {
+                            failedUpdates.Add(appItem);
+                        }
+                    }
+                }
+                updateContentPanel.Controls.Clear();
+                Utilities.AddAppItems(failedUpdates, updateContentPanel);
+                updatesStatusLabel.ForeColor = Color.Red;
+                updatesStatusLabel.Text = "Some updates failed to install.";
+                updatesStatusLabel.Visible = true;
+            }
+            if (updateFailed == false)
+            {
+                updatesStatusLabel.ForeColor = normalGreen;
+                updatesStatusLabel.ResetText();
+                updatesStatusLabel.Visible = true;
+            }
+
             refreshUpdatesButton.Enabled = true;
             installUpdatesButton.Enabled = true;
         }
@@ -858,6 +878,7 @@ namespace SlimUpdater
         #region InstallNewApps()
         public async void InstallNewApps(List<App> appList)
         {
+            bool installFailed = false;
             logger.Log("New app installation started...", Logger.LogLevel.INFO, logTextBox);
             refreshAppsButton.Enabled = false;
             installAppsButton.Enabled = false;
@@ -1049,9 +1070,33 @@ namespace SlimUpdater
                 }
             }
 
-            await Task.Delay(1500);
-            ReadDefenitions();
-            CheckForNonInstalledApps();
+            if (installFailed == true)
+            {
+                // Only show the failed apps
+                List<AppItem> failedApps = new List<AppItem>();
+                foreach (Control control in getNewAppsContentPanel.Controls)
+                {
+                    if (control is AppItem appItem)
+                    {
+                        if (appItem.Status != "Install complete")
+                        {
+                            failedApps.Add(appItem);
+                        }
+                    }
+                }
+                getNewAppsContentPanel.Controls.Clear();
+                Utilities.AddAppItems(failedApps, getNewAppsContentPanel);
+                newAppsStatusLabel.ForeColor = Color.Red;
+                newAppsStatusLabel.Text = "Some applications failed to install.";
+                newAppsStatusLabel.Visible = true;
+            }
+            if (installFailed == false)
+            {
+                newAppsStatusLabel.ForeColor = normalGreen;
+                newAppsStatusLabel.ResetText();
+                newAppsStatusLabel.Visible = true;
+            }
+
             refreshAppsButton.Enabled = true;
             installAppsButton.Enabled = true;
         }
@@ -1060,6 +1105,7 @@ namespace SlimUpdater
         #region InstallPortableApps()
         public async void InstallPortableApps(List<PortableApp> portableAppList, bool runOnce)
         {
+            bool installFailed = false;
             if (runOnce == true)
             {
                 logger.Log("Run Once Portable App install started...", 
@@ -1366,10 +1412,35 @@ namespace SlimUpdater
                 }
             }
 
+            if (installFailed == true)
+            {
+                // Only show the failed apps
+                List<AppItem> failedApps = new List<AppItem>();
+                foreach (Control control in getPortableContentPanel.Controls)
+                {
+                    if (control is AppItem appItem)
+                    {
+                        if (appItem.Status != "Install complete")
+                        {
+                            failedApps.Add(appItem);
+                        }
+                    }
+                }
+                getPortableContentPanel.Controls.Clear();
+                Utilities.AddAppItems(failedApps, getPortableContentPanel);
+                portableStatusLabel.ForeColor = Color.Red;
+                portableStatusLabel.Text = "Some Portable Apps failed to install."; // TODO: Center
+                portableStatusLabel.Visible = true;
+            }
+            if (installFailed == false)
+            {
+                portableStatusLabel.ForeColor = normalGreen;
+                portableStatusLabel.ResetText();
+                portableStatusLabel.Visible = true;
+            }
+
             refreshPortableButton.Enabled = true;
             downloadPortableButton.Enabled = true;
-            await Task.Delay(1000);
-            CheckForPortableApps();
         }
         #endregion
 
@@ -1508,10 +1579,6 @@ namespace SlimUpdater
                 topBar.BorderStyle = BorderStyle.FixedSingle;
             }
 
-            if (justInstalledUpdates == true)
-            {
-                justInstalledUpdates = false;
-            }
             if (titleButtonLeft.Text == "Details")
             {
                 if (this.Controls[0] == updatePage)
@@ -1524,6 +1591,7 @@ namespace SlimUpdater
                     selectAllUpdatesCheckBox.Visible = true;
                     installUpdatesButton.Visible = true;
                     refreshUpdatesButton.Visible = true;
+                    updatesStatusLabel.Visible = false;
                 }
                 else
                 {
@@ -1572,6 +1640,9 @@ namespace SlimUpdater
                         titleButtonLeft.Text = "Home";
                         titleButtonLeft.ArrowLeft = false;
                         titleButtonRight.Visible = false;
+                        updatesStatusLabel.Visible = false;
+                        newAppsStatusLabel.Visible = false;
+                        portableStatusLabel.Visible = false;
                     }
                     else
                     {
@@ -1583,6 +1654,9 @@ namespace SlimUpdater
                         titleButtonLeft.Text = "Home";
                         titleButtonLeft.ArrowLeft = false;
                         titleButtonRight.ArrowRight = false;
+                        updatesStatusLabel.Visible = false;
+                        newAppsStatusLabel.Visible = false;
+                        portableStatusLabel.Visible = false;
                     }
                 }
                 if (aboutLabel.Visible == false)
@@ -1760,17 +1834,7 @@ namespace SlimUpdater
 
         private void InstallUpdatesButton_Click(object sender, EventArgs e)
         {
-            if (installUpdatesButton.Text == "Yes")
-            {
-                InstallUpdates(failedInstallList);
-                failedUpdateLabel.Visible = false;
-                installUpdatesButton.Text = "Install Selected";
-                refreshUpdatesButton.Text = "Refresh";
-            }
-            else
-            {
-                InstallUpdates(updateList);
-            }
+            InstallUpdates(updateList);
         }
     #endregion
 
@@ -1803,17 +1867,7 @@ namespace SlimUpdater
 
         private void InstallAppsButton_Click(object sender, EventArgs e)
         {
-            if (installAppsButton.Text == "Yes")
-            {
-                InstallNewApps(appList);
-                failedAppInstallLabel.Visible = false;
-                installAppsButton.Text = "Install Selected";
-                refreshAppsButton.Text = "Refresh";
-            }
-            else
-            {
-                InstallNewApps(appList);
-            }
+            InstallNewApps(appList);
         }
 
         private void RefreshAppsButton_Click(object sender, EventArgs e)
@@ -1957,17 +2011,7 @@ namespace SlimUpdater
 
         private void DownloadPortableButton_Click(object sender, EventArgs e)
         {
-            if (downloadPortableButton.Text == "Yes")
-            {
-                InstallPortableApps(failedPortableList, true);
-                failedPortableInstallLabel.Visible = false;
-                downloadPortableButton.Text = "Download Selected";
-                refreshPortableButton.Text = "Refresh";
-            }
-            else
-            {
-                InstallPortableApps(portableAppList, true);
-            }
+            InstallPortableApps(portableAppList, true);
         }
 
         private void RefreshPortableButton2_Click(object sender, EventArgs e)
