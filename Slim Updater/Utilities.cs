@@ -58,5 +58,34 @@ namespace SlimUpdater
                 }
             }
         }
+
+        public static void AddAppItem(AppItem appItem, Panel panel)
+        {
+            Separator separator = new Separator();
+            int previousY = 0;
+            int previousHeight = 0;
+
+            if (panel.Controls.Count == 0)
+            {
+                panel.Controls.Add(separator);
+                separator = new Separator()
+                {
+                    Location = new Point(0, 45)
+                };
+                panel.Controls.Add(separator);
+                panel.Controls.Add(appItem);
+                previousY = appItem.Location.Y;
+                previousHeight = appItem.Height;
+            }
+            else
+            {
+                appItem.Location = new Point(0, (previousY + previousHeight));
+                separator.Location = new Point(0, (appItem.Location.Y + 45));
+                panel.Controls.Add(appItem);
+                panel.Controls.Add(separator);
+                previousY = appItem.Location.Y;
+                previousHeight = appItem.Height;
+            }
+        }
     }
 }

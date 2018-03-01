@@ -204,28 +204,8 @@ namespace SlimUpdater
                 // Add apps that need updating to the content panel
                 appItem.Name = app.Name + " " + app.LatestVersion;
                 appItem.Version = "Installed: " + app.LocalVersion;
+                Utilities.AddAppItem(appItem, updateContentPanel);
 
-                if (updateContentPanel.Controls.Count == 0)
-                {
-                    updateContentPanel.Controls.Add(separator);
-                    separator = new Separator()
-                    {
-                        Location = new Point(0, 45)
-                    };
-                    updateContentPanel.Controls.Add(separator);
-                    updateContentPanel.Controls.Add(appItem);
-                    previousY = appItem.Location.Y;
-                    previousHeight = appItem.Height;
-                }
-                else
-                {
-                    appItem.Location = new Point(0, (previousY + previousHeight));
-                    separator.Location = new Point(0, (appItem.Location.Y + 45));
-                    updateContentPanel.Controls.Add(appItem);
-                    updateContentPanel.Controls.Add(separator);
-                    previousY = appItem.Location.Y;
-                    previousHeight = appItem.Height;
-                }
                 app.AppItem = appItem;
             }
 
@@ -293,28 +273,7 @@ namespace SlimUpdater
                             appItem.Name = app.Name + " " + app.LatestVersion;
                             appItem.Version = "Not Found";
                         }
-
-                        if (updateContentPanel.Controls.Count == 0)
-                        {
-                            updateContentPanel.Controls.Add(separator);
-                            separator = new Separator()
-                            {
-                                Location = new Point(0, 45)
-                            };
-                            updateContentPanel.Controls.Add(separator);
-                            updateContentPanel.Controls.Add(appItem);
-                            previousY = appItem.Location.Y;
-                            previousHeight = appItem.Height;
-                        }
-                        else
-                        {
-                            appItem.Location = new Point(0, (previousY + previousHeight));
-                            separator.Location = new Point(0, (appItem.Location.Y + 45));
-                            updateContentPanel.Controls.Add(appItem);
-                            updateContentPanel.Controls.Add(separator);
-                            previousY = appItem.Location.Y;
-                            previousHeight = appItem.Height;
-                        }
+                        Utilities.AddAppItem(appItem, updateContentPanel);
                     }
 
                     if (updateContentPanel.VerticalScroll.Visible == true)
@@ -341,7 +300,7 @@ namespace SlimUpdater
                     noticeLabel.Left = (updateContentPanel.Width
                         - noticeLabel.Width) / 2;
                     noticeLabel.Top = (updateContentPanel.Height
-                        - noticeLabel.Height - topBar.Height) / 2;
+                        - noticeLabel.Height - topBar.Height) / 2; // TODO: CENTER
                 }                
                 return false;
             }
@@ -372,49 +331,30 @@ namespace SlimUpdater
                     // Add app to the content panel
                     appItem.Name = app.Name;
                     appItem.Version = app.LatestVersion;
-                    if (getNewAppsContentPanel.Controls.Count == 0)
-                    {
-                        getNewAppsContentPanel.Controls.Add(separator);
-                        separator = new Separator()
-                        {
-                            Location = new Point(0, 45)
-                        };
-                        getNewAppsContentPanel.Controls.Add(separator);
-                        getNewAppsContentPanel.Controls.Add(appItem);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
-                    }
-                    else
-                    {
-                        appItem.Location = new Point(0, (previousY + previousHeight));
-                        separator.Location = new Point(0, (appItem.Location.Y + 45));
-                        getNewAppsContentPanel.Controls.Add(appItem);
-                        getNewAppsContentPanel.Controls.Add(separator);
-                        previousY = appItem.Location.Y;
-                        previousHeight = appItem.Height;
-                    }
+                    Utilities.AddAppItem(appItem, getNewAppsContentPanel);
+
+                    app.AppItem = appItem;
                 }
-                app.AppItem = appItem;
-            }
 
-            if (getNewAppsContentPanel.VerticalScroll.Visible == true)
-            {
-                FixScrollbars(getNewAppsContentPanel.Controls);
-            }
+                if (getNewAppsContentPanel.VerticalScroll.Visible == true)
+                {
+                    FixScrollbars(getNewAppsContentPanel.Controls);
+                }
 
-            if (notInstalledApps.Count == 0)
-            {
-                Label noticeLabel = new Label();
-                noticeLabel.Text = "No new applications to install found.";
-                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
-                // Center
-                noticeLabel.AutoSize = true;
-                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
-                getNewAppsContentPanel.Controls.Add(noticeLabel);
-                noticeLabel.Left = (getNewAppsContentPanel.Width
-                    - noticeLabel.Width) / 2;
-                noticeLabel.Top = (getNewAppsContentPanel.Height
-                    - noticeLabel.Height - topBar.Height) / 2;
+                if (notInstalledApps.Count == 0)
+                {
+                    Label noticeLabel = new Label();
+                    noticeLabel.Text = "No new applications to install found.";
+                    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                    // Center
+                    noticeLabel.AutoSize = true;
+                    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    getNewAppsContentPanel.Controls.Add(noticeLabel);
+                    noticeLabel.Left = (getNewAppsContentPanel.Width
+                        - noticeLabel.Width) / 2;
+                    noticeLabel.Top = (getNewAppsContentPanel.Height
+                        - noticeLabel.Height - topBar.Height) / 2;
+                }
             }
         }
         #endregion
@@ -477,50 +417,30 @@ namespace SlimUpdater
                         appItem.Version = portableApp.LatestVersion;
                         appItem.Link2Text = "Run";
                         appItem.ShowLink2 = true;
-
-                        if (getPortableContentPanel.Controls.Count == 0)
-                        {
-                            getPortableContentPanel.Controls.Add(separator);
-                            separator = new Separator()
-                            {
-                                Location = new Point(0, 45)
-                            };
-                            getPortableContentPanel.Controls.Add(appItem);
-                            getPortableContentPanel.Controls.Add(separator);
-                            previousY = appItem.Location.Y;
-                            previousHeight = appItem.Height;
-                        }
-                        else
-                        {
-                            appItem.Location = new Point(0, (previousY + previousHeight));
-                            separator.Location = new Point(0, (appItem.Location.Y + 45));
-                            getPortableContentPanel.Controls.Add(appItem);
-                            getPortableContentPanel.Controls.Add(separator);
-                            previousY = appItem.Location.Y;
-                            previousHeight = appItem.Height;
-                        }
+                        Utilities.AddAppItem(appItem, getPortableContentPanel);
+                        
+                        portableApp.AppItem = appItem;
                     }
-                    portableApp.AppItem = appItem;
-                }
             }
-            if (updateContentPanel.VerticalScroll.Visible == true)
+            if (getPortableContentPanel.VerticalScroll.Visible == true)
             {
-                FixScrollbars(updateContentPanel.Controls);
+                FixScrollbars(getPortableContentPanel.Controls);
             }
 
-            if (portableAppList.Count == 0)
-            {
-                Label noticeLabel = new Label();
-                noticeLabel.Text = "No new Portable Apps to install found.";
-                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
-                // Center
-                noticeLabel.AutoSize = true;
-                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
-                getPortableContentPanel.Controls.Add(noticeLabel);
-                noticeLabel.Left = (getPortableContentPanel.Width
-                    - noticeLabel.Width) / 2;
-                noticeLabel.Top = (getPortableContentPanel.Height
-                    - noticeLabel.Height - topBar.Height) / 2;
+                if (portableAppList.Count == 0)
+                {
+                    Label noticeLabel = new Label();
+                    noticeLabel.Text = "No new Portable Apps to install found.";
+                    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                    // Center
+                    noticeLabel.AutoSize = true;
+                    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                    getPortableContentPanel.Controls.Add(noticeLabel);
+                    noticeLabel.Left = (getPortableContentPanel.Width
+                        - noticeLabel.Width) / 2;
+                    noticeLabel.Top = (getPortableContentPanel.Height
+                        - noticeLabel.Height - topBar.Height) / 2;
+                }
             }
         }
         #endregion
@@ -555,10 +475,6 @@ namespace SlimUpdater
                     - noticeLabel.Height - topBar.Height) / 2;
                 return;
             }
-
-            int previousY = 0;
-            int previousHeight = 0;
-            Separator separator = new Separator();
 
             if (installedAppPaths.Length > 0)
             foreach (string appDirPath in installedAppPaths)
@@ -611,34 +527,14 @@ namespace SlimUpdater
                 {
                     ShowDetails(portableApp.Name, false, true);
                 };
+                Utilities.AddAppItem(appItem, installedPortableContentPanel);
 
-                if (installedPortableContentPanel.Controls.Count == 0)
-                {
-                    installedPortableContentPanel.Controls.Add(separator);
-                    separator = new Separator()
-                    {
-                        Location = new Point(0, 45)
-                    };
-                    installedPortableContentPanel.Controls.Add(separator);
-                    installedPortableContentPanel.Controls.Add(appItem);
-                    previousY = appItem.Location.Y;
-                    previousHeight = appItem.Height;
-                }
-                else
-                {
-                    appItem.Location = new Point(0, (previousY + previousHeight));
-                    separator.Location = new Point(0, (appItem.Location.Y + 45));
-                    installedPortableContentPanel.Controls.Add(appItem);
-                    installedPortableContentPanel.Controls.Add(separator);
-                    previousY = appItem.Location.Y;
-                    previousHeight = appItem.Height;
-                }
                 portableApp.AppItem = appItem;
             }
 
-            if (updateContentPanel.VerticalScroll.Visible == true)
+            if (installedPortableContentPanel.VerticalScroll.Visible == true)
             {
-                FixScrollbars(updateContentPanel.Controls);
+                FixScrollbars(installedPortableContentPanel.Controls);
             }
         }
         #endregion
