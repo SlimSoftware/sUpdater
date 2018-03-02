@@ -89,7 +89,7 @@ namespace SlimUpdater
                 }
                 else
                 {
-                    defenitions = XDocument.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+                    defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
                 }
             }
             catch (Exception e)
@@ -353,7 +353,7 @@ namespace SlimUpdater
             getPortableContentPanel.Controls.Clear();
 
             // Load XML File
-            XElement defenitions = XElement.Load("http://www.slimsoft.tk/slimupdater/defenitions.xml");
+            XElement defenitions = XElement.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
 
             foreach (XElement portableAppElement in defenitions.Elements("portable"))
             {
@@ -1338,7 +1338,7 @@ namespace SlimUpdater
             }
             else
             {
-                defenitionURL = "http://www.slimsoft.tk/slimupdater/defenitions.xml";
+                defenitionURL = "https://www.slimsoft.tk/slimupdater/defenitions.xml";
             }
 
             using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
@@ -1590,7 +1590,7 @@ namespace SlimUpdater
 
         private void SiteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://www.slimsoft.tk");
+            Process.Start("https://www.slimsoft.tk");
         }
 
         private void UpdaterTile_Click(object sender, EventArgs e)
@@ -2027,7 +2027,7 @@ namespace SlimUpdater
                 CheckForUpdates();
                 AutoUpdater.ShowRemindLaterButton = false;
                 AutoUpdater.ShowSkipButton = false;
-                AutoUpdater.Start("http://www.slimsoft.tk/slimupdater/update.xml");
+                AutoUpdater.Start("https://www.slimsoft.tk/slimupdater/update.xml");
             }
             this.Show();
         }
