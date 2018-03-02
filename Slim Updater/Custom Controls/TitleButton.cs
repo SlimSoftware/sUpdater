@@ -35,6 +35,7 @@ namespace SlimUpdater
                 {
                     if (ArrowRight == true)
                     {
+                        // Both arrows are visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = true;
                         this.Size = new Size(backArrowRight.Location.X + backArrowRight.Width,
@@ -42,6 +43,7 @@ namespace SlimUpdater
                     }
                     else
                     {
+                        // Only left arrow is visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(32, 4);
@@ -52,6 +54,7 @@ namespace SlimUpdater
                 {
                     if (ArrowRight == true)
                     {
+                        // Only right arrow is visible
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = true;
                         this.Size = new Size(backArrowRight.Location.X + backArrowRight.Width,
@@ -59,6 +62,7 @@ namespace SlimUpdater
                     }
                     else
                     {
+                        // No arrows are visible
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(5, 4);
@@ -79,6 +83,7 @@ namespace SlimUpdater
                 {
                     if (ArrowLeft == true)
                     {
+                        // Both arrows are visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = true;
                         titleLabel.Location = new Point(32, 4);
@@ -87,6 +92,7 @@ namespace SlimUpdater
                     }
                     else
                     {
+                        // Only the right arrow is visible
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = true;
                         titleLabel.Location = new Point(0, 4);
@@ -97,6 +103,7 @@ namespace SlimUpdater
                 {
                     if (ArrowLeft == true)
                     {
+                        // Only the left arrow is visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(32, 4);
@@ -105,6 +112,7 @@ namespace SlimUpdater
                     }
                     else
                     {
+                        // No arrows are visible
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(5, 4);
