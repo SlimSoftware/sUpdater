@@ -12,6 +12,7 @@ using System.Threading;
 using System.Xml;
 using System.Linq;
 using AutoUpdaterDotNET;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace SlimUpdater
 {
