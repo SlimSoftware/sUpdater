@@ -1529,6 +1529,10 @@ namespace SlimUpdater
                 {
                     aboutButton.Visible = true;
                 }
+                if (logButton.Visible == false)
+                {
+                    logButton.Visible = true;
+                }
             }
         }
 
@@ -1829,6 +1833,8 @@ namespace SlimUpdater
 
                 CheckForInstalledPortableApps();
                 installedPortableAppsPage.BringToFront();
+                logButton.Visible = false;
+                aboutButton.Visible = false;
                 titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.Visible = true;
