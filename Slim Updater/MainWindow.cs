@@ -1494,6 +1494,8 @@ namespace SlimUpdater
                         installedPortableAppsPage.BringToFront();
                         titleButtonLeft.Text = "Portable Apps";
                         topBar.BorderStyle = BorderStyle.None;
+                        aboutButton.Visible = false;
+                        logButton.Visible = false;
                         titleButtonRight.Visible = true;
                     }
                     else if (this.Controls[0] == installedPortableAppsPage)
@@ -1631,6 +1633,8 @@ namespace SlimUpdater
                 titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.ArrowRight = true;
+                aboutButton.Visible = false;
+                logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
                 titleButtonRight.Visible = true;
                 topBar.BorderStyle = BorderStyle.None;
