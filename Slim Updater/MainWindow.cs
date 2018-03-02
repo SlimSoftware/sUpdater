@@ -30,7 +30,8 @@ namespace SlimUpdater
 
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();           
+
             string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("/tray"))
             {
@@ -68,10 +69,6 @@ namespace SlimUpdater
                 this.Hide();
                 this.ShowInTaskbar = false;
                 this.WindowState = FormWindowState.Minimized;
-            }
-            else
-            {
-                trayIcon.Dispose();
             }
         }
         #endregion

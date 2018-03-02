@@ -17,12 +17,20 @@ namespace SlimUpdater
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MainForm = new MainWindow();
-            SingleInstanceApplication.Run(MainForm, NewInstanceHandler);
+            SingleInstanceApplication.Run(MainForm, FirstInstanceHandler, SecondInstanceHandler);
         }
 
-        public static void NewInstanceHandler(object sender, StartupNextInstanceEventArgs e)
+        private static void FirstInstanceHandler(object sender, StartupEventArgs e)
+        {
+            MainForm.trayIcon.Visible = true;
+        }
+
+        public static void SecondInstanceHandler(object sender, StartupNextInstanceEventArgs e)
         {
             e.BringToForeground = true;
+            MainForm.Show();
+            MainForm.ShowInTaskbar = true;
+            MainForm.WindowState = FormWindowState.Normal;
         }
 
         public class SingleInstanceApplication : WindowsFormsApplicationBase
@@ -32,11 +40,13 @@ namespace SlimUpdater
                 base.IsSingleInstance = true;
             }
 
-            public static void Run(Form f, StartupNextInstanceEventHandler startupHandler)
+            public static void Run(Form f, StartupEventHandler firstInstanceHandler, 
+                StartupNextInstanceEventHandler secondInstanceHandler)
             {
                 SingleInstanceApplication app = new SingleInstanceApplication();
                 app.MainForm = f;
-                app.StartupNextInstance += startupHandler;
+                app.Startup += firstInstanceHandler;
+                app.StartupNextInstance += secondInstanceHandler;
                 app.Run(Environment.GetCommandLineArgs());
             }
         }
