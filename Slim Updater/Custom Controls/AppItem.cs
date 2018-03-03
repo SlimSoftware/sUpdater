@@ -79,6 +79,12 @@ namespace SlimUpdater
             }
         }
 
+        public ProgressBarStyle ProgressBarStyle
+        {
+            get { return progressBar.Style; }
+            set { progressBar.Style = value; }
+        }
+
         public string Status
         {
             get { return statusLabel.Text; }

@@ -595,6 +595,7 @@ namespace SlimUpdater
                                     Invoke(new MethodInvoker(() =>
                                     {
                                         update.AppItem.Status = "Download complete";
+                                        update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                                     }));
                                 }
                             };
@@ -629,7 +630,7 @@ namespace SlimUpdater
                         {
                             Invoke(new MethodInvoker(() =>
                             {
-                                update.AppItem.Progress = 50;
+                                update.AppItem.Progress = 50;                                
                             }));
                         }
                     }
@@ -681,6 +682,7 @@ namespace SlimUpdater
                             }
                         }
                         update.AppItem.Status = "Installing...";
+                        update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                         p.WaitForExit();
                         if (p.ExitCode == 0)
                         {
@@ -688,6 +690,7 @@ namespace SlimUpdater
                                 Logger.LogLevel.INFO, logTextBox);
                             File.Delete(update.SavePath);
                             update.AppItem.Status = "Install complete";
+                            update.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
                             update.AppItem.Progress = 100;
                         }
                         if (p.ExitCode != 0)
@@ -697,6 +700,7 @@ namespace SlimUpdater
                             update.AppItem.Status = String.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             update.AppItem.Progress = 0;
+                            update.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
                         }
                     }
                 }
@@ -825,6 +829,7 @@ namespace SlimUpdater
                                     Invoke(new MethodInvoker(() =>
                                     {
                                         app.AppItem.Status = "Download complete";
+                                        app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                                     }));
                                 }
                             };
@@ -858,7 +863,7 @@ namespace SlimUpdater
                         {
                             Invoke(new MethodInvoker(() =>
                             {
-                                app.AppItem.Progress = 50;
+                                app.AppItem.Progress = 50;                                
                             }));
                         }
                     }
@@ -910,6 +915,7 @@ namespace SlimUpdater
                             }
                         }
                         app.AppItem.Status = "Installing...";
+                        app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                         p.WaitForExit();
                         if (p.ExitCode == 0)
                         {
@@ -917,7 +923,8 @@ namespace SlimUpdater
                                 Logger.LogLevel.INFO, logTextBox);
                             File.Delete(app.SavePath);
                             app.AppItem.Status = "Install complete";
-                            app.AppItem.Progress = 100;
+                            app.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
+                            app.AppItem.Progress = 100;                            
                         }
                         if (p.ExitCode != 0)
                         {
@@ -926,6 +933,7 @@ namespace SlimUpdater
                             app.AppItem.Status = String.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             app.AppItem.Progress = 0;
+                            app.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
                         }
                     }
                 }
@@ -1094,7 +1102,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        app.AppItem.Status = "Download complete";
+                                        app.AppItem.Status = "Download complete";                                        
                                     }));
                                 }
                             };
@@ -1238,6 +1246,7 @@ namespace SlimUpdater
                             }
 
                             app.AppItem.Status = "Extracting...";
+                            app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                             logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
                                 app.Name, currentApp, selectedAppList.Count),
                                 Logger.LogLevel.INFO, logTextBox);
@@ -1248,6 +1257,7 @@ namespace SlimUpdater
                                 File.Delete(app.SavePath);
                                 app.AppItem.Status = "Install complete";
                                 app.AppItem.Progress = 100;
+                                app.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
                                 await Task.Delay(1000);
 
                                 if (runOnce == true)
