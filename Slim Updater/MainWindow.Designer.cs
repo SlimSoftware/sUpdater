@@ -285,7 +285,7 @@
             this.siteLink.AutoSize = true;
             this.siteLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siteLink.LinkColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.siteLink.Location = new System.Drawing.Point(325, 387);
+            this.siteLink.Location = new System.Drawing.Point(342, 387);
             this.siteLink.Name = "siteLink";
             this.siteLink.Size = new System.Drawing.Size(101, 17);
             this.siteLink.TabIndex = 4;
@@ -299,7 +299,7 @@
             this.slimsoftwareLabel.AutoSize = true;
             this.slimsoftwareLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.slimsoftwareLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.slimsoftwareLabel.Location = new System.Drawing.Point(177, 365);
+            this.slimsoftwareLabel.Location = new System.Drawing.Point(194, 365);
             this.slimsoftwareLabel.Name = "slimsoftwareLabel";
             this.slimsoftwareLabel.Size = new System.Drawing.Size(396, 18);
             this.slimsoftwareLabel.TabIndex = 3;
@@ -310,18 +310,18 @@
             this.versionLabel.AutoSize = true;
             this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.versionLabel.Location = new System.Drawing.Point(335, 205);
+            this.versionLabel.Location = new System.Drawing.Point(342, 205);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(115, 20);
+            this.versionLabel.Size = new System.Drawing.Size(100, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 3.0.1";
+            this.versionLabel.Text = "Version 3.1";
             // 
             // aboutTitle
             // 
             this.aboutTitle.AutoSize = true;
             this.aboutTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutTitle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.aboutTitle.Location = new System.Drawing.Point(300, 172);
+            this.aboutTitle.Location = new System.Drawing.Point(317, 172);
             this.aboutTitle.Name = "aboutTitle";
             this.aboutTitle.Size = new System.Drawing.Size(151, 26);
             this.aboutTitle.TabIndex = 1;
@@ -330,7 +330,7 @@
             // slimUpdaterLogo
             // 
             this.slimUpdaterLogo.Image = global::SlimUpdater.Properties.Resources.SlimUpdater;
-            this.slimUpdaterLogo.Location = new System.Drawing.Point(311, 19);
+            this.slimUpdaterLogo.Location = new System.Drawing.Point(328, 19);
             this.slimUpdaterLogo.Name = "slimUpdaterLogo";
             this.slimUpdaterLogo.Size = new System.Drawing.Size(128, 128);
             this.slimUpdaterLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
