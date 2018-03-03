@@ -2147,25 +2147,13 @@ namespace SlimUpdater
                     MinimizeToTray = XmlConvert.ToBoolean(
                         settingXML.Root.Element("MinimizeToTray").Value);
                 }
-                else
-                {
-                    CreateXMLFile();
-                }
                 if (defenitionURL != string.Empty)
                 {
                     DefenitionURL = defenitionURL;
                 }
-                else
-                {
-                    CreateXMLFile();
-                }
                 if (portableAppDir != string.Empty)
                 {
                     PortableAppDir = portableAppDir;
-                }
-                else
-                {
-                    CreateXMLFile();
                 }
 
                 // Unload XML File
