@@ -76,7 +76,6 @@ namespace SlimUpdater
         public void ReadDefenitions()
         {
             appList = new List<App>();
-            updateList = new List<App>();
             XDocument defenitions = new XDocument();
 
             // Load XML File
@@ -302,6 +301,7 @@ namespace SlimUpdater
         public void CheckForNonInstalledApps()
         {
             getNewAppsContentPanel.Controls.Clear();
+            notInstalledApps.Clear();
 
             foreach (App app in appList.ToArray())
             {
@@ -329,18 +329,18 @@ namespace SlimUpdater
                 {
                     Utilities.FixScrollbars(getNewAppsContentPanel.Controls);
                 }
+            }
 
-                if (notInstalledApps.Count == 0)
-                {
-                    Label noticeLabel = new Label();
-                    noticeLabel.Text = "No new applications to install found.";
-                    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
-                    // Center
-                    noticeLabel.AutoSize = true;
-                    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    getNewAppsContentPanel.Controls.Add(noticeLabel);
-                    Utilities.CenterControl(noticeLabel, getNewAppsContentPanel);
-                }
+            if (notInstalledApps.Count == 0)
+            {
+                Label noticeLabel = new Label();
+                noticeLabel.Text = "No new applications to install found.";
+                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                // Center
+                noticeLabel.AutoSize = true;
+                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                getNewAppsContentPanel.Controls.Add(noticeLabel);
+                Utilities.CenterControl(noticeLabel, getNewAppsContentPanel);
             }
         }
         #endregion
