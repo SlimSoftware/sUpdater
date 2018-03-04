@@ -53,7 +53,7 @@
             // 
             this.backArrowRight.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.backArrowRight.Image = global::SlimUpdater.Properties.Resources.ArrowGreenRight;
-            this.backArrowRight.Location = new System.Drawing.Point(115, 5);
+            this.backArrowRight.Location = new System.Drawing.Point(95, 5);
             this.backArrowRight.Name = "backArrowRight";
             this.backArrowRight.Size = new System.Drawing.Size(32, 24);
             this.backArrowRight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -83,7 +83,7 @@
             this.Controls.Add(this.backArrowLeft);
             this.Controls.Add(this.titleLabel);
             this.Name = "TitleButton";
-            this.Size = new System.Drawing.Size(150, 32);
+            this.Size = new System.Drawing.Size(130, 32);
             this.Click += new System.EventHandler(this.TitleButton_Click);
             this.MouseEnter += new System.EventHandler(this.TitleButton_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.TitleButton_MouseLeave);

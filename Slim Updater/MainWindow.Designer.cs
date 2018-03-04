@@ -842,6 +842,7 @@
             // 
             // titleButtonLeft
             // 
+            this.titleButtonLeft.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.titleButtonLeft.ArrowLeft = false;
             this.titleButtonLeft.ArrowRight = false;
             this.titleButtonLeft.AutoSize = true;
@@ -855,6 +856,7 @@
             // 
             // titleButtonRight
             // 
+            this.titleButtonRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.titleButtonRight.ArrowLeft = false;
             this.titleButtonRight.ArrowRight = true;
             this.titleButtonRight.AutoSize = true;

@@ -38,16 +38,13 @@ namespace SlimUpdater
                         // Both arrows are visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = true;
-                        this.Size = new Size(backArrowRight.Location.X + backArrowRight.Width,
-                            this.Height);
                     }
                     else
                     {
                         // Only left arrow is visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = false;
-                        titleLabel.Location = new Point(32, 4);
-                        this.Size = new Size(titleLabel.Location.X + titleLabel.Width, this.Height);
+                        titleLabel.Location = new Point(35, 4);
                     }
                 }
                 else
@@ -57,8 +54,6 @@ namespace SlimUpdater
                         // Only right arrow is visible
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = true;
-                        this.Size = new Size(backArrowRight.Location.X + backArrowRight.Width,
-                            this.Height);
                     }
                     else
                     {
@@ -66,7 +61,6 @@ namespace SlimUpdater
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(5, 4);
-                        this.Size = new Size(titleLabel.Width - backArrowLeft.Width, this.Height);
                     }
                 }
             }
@@ -86,9 +80,7 @@ namespace SlimUpdater
                         // Both arrows are visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = true;
-                        titleLabel.Location = new Point(32, 4);
-                        this.Size = new Size(backArrowRight.Location.X + backArrowRight.Width,
-                            this.Height);
+                        titleLabel.Location = new Point(35, 4);
                     }
                     else
                     {
@@ -96,7 +88,6 @@ namespace SlimUpdater
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = true;
                         titleLabel.Location = new Point(0, 4);
-                        this.Size = new Size(titleLabel.Location.X + titleLabel.Width, this.Height);
                     }
                 }
                 else
@@ -106,9 +97,7 @@ namespace SlimUpdater
                         // Only the left arrow is visible
                         backArrowLeft.Visible = true;
                         backArrowRight.Visible = false;
-                        titleLabel.Location = new Point(32, 4);
-                        this.Size = new Size(backArrowLeft.Width + titleLabel.Location.X + 
-                            titleLabel.Width, this.Height);
+                        titleLabel.Location = new Point(35, 4);
                     }
                     else
                     {
@@ -116,7 +105,6 @@ namespace SlimUpdater
                         backArrowLeft.Visible = false;
                         backArrowRight.Visible = false;
                         titleLabel.Location = new Point(5, 4);
-                        this.Size = new Size(titleLabel.Width - backArrowLeft.Width, this.Height);
                     }
                 }
             }
