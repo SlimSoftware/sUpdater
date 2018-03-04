@@ -765,9 +765,12 @@ namespace SlimUpdater
 
             foreach (App app in appList)
             {
-                if (app.AppItem.Checked == true)
+                if (app.AppItem != null)
                 {
-                    selectedAppList.Add(app);
+                    if (app.AppItem.Checked == true)
+                    {
+                        selectedAppList.Add(app);
+                    }
                 }
                 else
                 {
