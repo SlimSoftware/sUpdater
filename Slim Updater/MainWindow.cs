@@ -1376,7 +1376,7 @@ namespace SlimUpdater
                             xmlReader.ReadToDescendant("changelog");
                             if (xmlReader.NodeType != XmlNodeType.EndElement)
                             {
-                                descriptionText = xmlReader.ReadElementContentAsString();
+                                changelogText = xmlReader.ReadElementContentAsString();
                             }
                         }
                         else
