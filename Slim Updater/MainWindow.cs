@@ -749,6 +749,7 @@ namespace SlimUpdater
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
+                installUpdatesButton.Enabled = false;
             }
             if (updateFailed == false)
             {
@@ -757,11 +758,11 @@ namespace SlimUpdater
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
+                installUpdatesButton.Enabled = true;
                 CheckForUpdates();
             }
 
-            refreshUpdatesButton.Enabled = true;
-            installUpdatesButton.Enabled = true;
+            refreshUpdatesButton.Enabled = true;           
         }
         #endregion
 
@@ -996,10 +997,10 @@ namespace SlimUpdater
                 Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
+                installAppsButton.Enabled = false;
             }
 
-            refreshAppsButton.Enabled = true;
-            installAppsButton.Enabled = true;
+            refreshAppsButton.Enabled = true;            
         }
         #endregion
 
@@ -1336,6 +1337,7 @@ namespace SlimUpdater
                 Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 portableStatusLabel.Visible = true;
+                downloadPortableButton.Enabled = false;
             }
             if (installFailed == false)
             {
@@ -1347,7 +1349,6 @@ namespace SlimUpdater
             }
 
             refreshPortableButton.Enabled = true;
-            downloadPortableButton.Enabled = true;
         }
         #endregion
 
@@ -1624,7 +1625,8 @@ namespace SlimUpdater
         {
             ReadDefenitions();
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
-            {               
+            {
+                updatePage.BringToFront();
                 bool updatesAvailable = CheckForUpdates();
                 if (updatesAvailable == false)
                 {
@@ -1636,9 +1638,13 @@ namespace SlimUpdater
                     titleButtonLeft.Text = "Updates";
                 }
                 AddUpdatesToContentPanel();
-                titleButtonLeft.ArrowLeft = true;
-                updatePage.BringToFront();
+                titleButtonLeft.ArrowLeft = true;                
                 topBar.BorderStyle = BorderStyle.None;
+            }
+
+            if (installUpdatesButton.Enabled == false)
+            {
+                installUpdatesButton.Enabled = true;
             }
         }
 
@@ -1649,6 +1655,11 @@ namespace SlimUpdater
             titleButtonLeft.ArrowLeft = true;
             topBar.BorderStyle = BorderStyle.None;
             CheckForNewApps();
+
+            if (installAppsButton.Enabled == false)
+            {
+                installAppsButton.Enabled = true;
+            }
         }
 
         private void PortableAppsTile_Click(object sender, EventArgs e)
@@ -1665,6 +1676,11 @@ namespace SlimUpdater
                 titleButtonRight.Visible = true;
                 topBar.BorderStyle = BorderStyle.None;
                 CheckForInstalledPortableApps();
+
+                if (downloadPortableButton.Enabled == false)
+                {
+                    downloadPortableButton.Enabled = true;
+                }
             }
             else
             {
