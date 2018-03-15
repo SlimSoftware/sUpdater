@@ -167,8 +167,7 @@ namespace SlimUpdater
         public bool CheckForUpdates()
         {
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            updateList = new List<App>(appList);
-            updateContentPanel.Controls.Clear();
+            updateList = new List<App>(appList);           
 
             foreach (App app in updateList.ToArray())
             {
@@ -508,6 +507,7 @@ namespace SlimUpdater
         #region AddUpdatesToContentPanel()
         private void AddUpdatesToContentPanel()
         {
+            updateContentPanel.Controls.Clear();
             foreach (App app in updateList)
             {
                 AppItem appItem = new AppItem();
