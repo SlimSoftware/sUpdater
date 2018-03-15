@@ -599,8 +599,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        update.AppItem.Status = "Download complete";
-                                        update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
+                                        update.AppItem.Status = "Download complete";                                       
                                     }));
                                 }
                             };
@@ -749,7 +748,7 @@ namespace SlimUpdater
             if (updateFailed == false)
             {
                 updatesStatusLabel.ForeColor = normalGreen;
-                updatesStatusLabel.ResetText();
+                updatesStatusLabel.Text = "Succesfully installed all updates";
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
                 updatesStatusLabel.Visible = true;
                 CheckForUpdates();
