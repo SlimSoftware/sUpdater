@@ -276,7 +276,8 @@ namespace SlimUpdater
                     noticeLabel.AutoSize = true;
                     noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                     updateContentPanel.Controls.Add(noticeLabel);
-                    Utilities.CenterControl(noticeLabel, updateContentPanel);
+                    Utilities.CenterControl(noticeLabel, updateContentPanel, 
+                        Utilities.CenterMode.Both);
                 }                
                 return false;
             }
@@ -326,7 +327,8 @@ namespace SlimUpdater
                 noticeLabel.AutoSize = true;
                 noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                 getNewAppsContentPanel.Controls.Add(noticeLabel);
-                Utilities.CenterControl(noticeLabel, getNewAppsContentPanel);
+                Utilities.CenterControl(noticeLabel, getNewAppsContentPanel,
+                    Utilities.CenterMode.Both);
             }
         }
         #endregion
@@ -405,7 +407,8 @@ namespace SlimUpdater
                     noticeLabel.AutoSize = true;
                     noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                     getPortableContentPanel.Controls.Add(noticeLabel);
-                    Utilities.CenterControl(noticeLabel, getPortableContentPanel);
+                    Utilities.CenterControl(noticeLabel, getPortableContentPanel, 
+                        Utilities.CenterMode.Both);
                 }
             }
         }
@@ -435,7 +438,8 @@ namespace SlimUpdater
                 noticeLabel.AutoSize = true;                            
                 noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
                 installedPortableContentPanel.Controls.Add(noticeLabel);
-                Utilities.CenterControl(noticeLabel, installedPortableContentPanel);
+                Utilities.CenterControl(noticeLabel, installedPortableContentPanel, 
+                    Utilities.CenterMode.Both);
                 return;
             }
 
@@ -742,14 +746,16 @@ namespace SlimUpdater
                 Utilities.AddAppItems(failedUpdates, updateContentPanel);
                 updatesStatusLabel.ForeColor = Color.Red;
                 updatesStatusLabel.Text = "Some updates failed to install.";
-                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
+                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
+                    Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
             }
             if (updateFailed == false)
             {
                 updatesStatusLabel.ForeColor = normalGreen;
                 updatesStatusLabel.Text = "Succesfully installed all updates";
-                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
+                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
+                    Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
                 CheckForUpdates();
             }
@@ -979,14 +985,16 @@ namespace SlimUpdater
                 Utilities.AddAppItems(failedApps, getNewAppsContentPanel);
                 newAppsStatusLabel.ForeColor = Color.Red;
                 newAppsStatusLabel.Text = "Some applications failed to install.";
-                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent);
+                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent, 
+                    Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
             }
             if (installFailed == false)
             {
                 newAppsStatusLabel.ForeColor = normalGreen;
                 newAppsStatusLabel.ResetText();
-                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent);
+                Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent, 
+                    Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
             }
 
@@ -1325,14 +1333,16 @@ namespace SlimUpdater
                 Utilities.AddAppItems(failedApps, getPortableContentPanel);
                 portableStatusLabel.ForeColor = Color.Red;
                 portableStatusLabel.Text = "Some Portable Apps failed to install.";
-                Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent);
+                Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent, 
+                    Utilities.CenterMode.Horizontal);
                 portableStatusLabel.Visible = true;
             }
             if (installFailed == false)
             {
                 portableStatusLabel.ForeColor = normalGreen;
                 portableStatusLabel.ResetText();
-                Utilities.CenterControl(portableStatusLabel, portableStatusLabel.Parent);
+                Utilities.CenterControl(portableStatusLabel, 
+                    portableStatusLabel.Parent, Utilities.CenterMode.Horizontal);
                 portableStatusLabel.Visible = true;
             }
 

@@ -88,10 +88,30 @@ namespace SlimUpdater
             }
         }
 
-        public static void CenterControl(Control control, Control parent)
+        public enum CenterMode
         {
-            control.Left = (parent.Width - control.Width) / 2;
-            control.Top = (parent.Height - control.Height) / 2;
+            Horizontal,
+            Vertical,
+            Both,
+        }
+
+        public static void CenterControl(Control control, Control parent, CenterMode centerMode)
+        {
+            if (centerMode == CenterMode.Horizontal)
+            {
+                control.Left = (parent.Width - control.Width) / 2;
+            }
+
+            if (centerMode == CenterMode.Vertical)
+            {
+                control.Top = (parent.Height - control.Height) / 2;
+            } 
+            
+            if (centerMode == CenterMode.Both)
+            {
+                control.Left = (parent.Width - control.Width) / 2;
+                control.Top = (parent.Height - control.Height) / 2;
+            }
         }
 
         /// <summary>
