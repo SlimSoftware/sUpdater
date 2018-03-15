@@ -170,7 +170,7 @@ namespace SlimUpdater
             updateList = new List<App>(appList);
             updateContentPanel.Controls.Clear();
 
-            foreach (App app in updateList)
+            foreach (App app in updateList.ToArray())
             {
                 // Remove not installed apps from the updateList so it doesn't get added
                 if (app.LocalVersion == null | app.Type == "noupdate")
@@ -510,17 +510,15 @@ namespace SlimUpdater
         {
             foreach (App app in updateList)
             {
-                using (AppItem appItem = new AppItem())
+                AppItem appItem = new AppItem();
+                appItem.Click += (sender, e) =>
                 {
-                    appItem.Click += (sender, e) =>
-                    {
-                        ShowDetails(app.Name, true, false);
-                    };
-                    appItem.Name = app.Name + " " + app.LatestVersion;
-                    appItem.Version = "Installed: " + app.LocalVersion;
-                    Utilities.AddAppItem(appItem, updateContentPanel);
-                    app.AppItem = appItem;
-                }
+                    ShowDetails(app.Name, true, false);
+                };
+                appItem.Name = app.Name + " " + app.LatestVersion;
+                appItem.Version = "Installed: " + app.LocalVersion;
+                Utilities.AddAppItem(appItem, updateContentPanel);
+                app.AppItem = appItem;
             }
         }
         #endregion

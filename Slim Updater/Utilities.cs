@@ -71,9 +71,9 @@ namespace SlimUpdater
                 separator = new Separator()
                 {
                     Location = new Point(0, 45)
-                };
-                panel.Controls.Add(separator);
+                };                
                 panel.Controls.Add(appItem);
+                panel.Controls.Add(separator);
                 previousY = appItem.Location.Y;
                 previousHeight = appItem.Height;
             }
