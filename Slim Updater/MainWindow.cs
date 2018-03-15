@@ -284,8 +284,8 @@ namespace SlimUpdater
         }
         #endregion
 
-        #region CheckForNonInstalledApps()
-        public void CheckForNonInstalledApps()
+        #region CheckForNewApps()
+        public void CheckForNewApps()
         {
             getNewAppsContentPanel.Controls.Clear();
             notInstalledApps.Clear();
@@ -1640,7 +1640,7 @@ namespace SlimUpdater
             titleButtonLeft.Text = "Get New Applications";
             titleButtonLeft.ArrowLeft = true;
             topBar.BorderStyle = BorderStyle.None;
-            CheckForNonInstalledApps();
+            CheckForNewApps();
         }
 
         private void PortableAppsTile_Click(object sender, EventArgs e)
@@ -1788,7 +1788,7 @@ namespace SlimUpdater
         {
             refreshAppsButton.Enabled = false;
             ReadDefenitions();
-            CheckForNonInstalledApps();
+            CheckForNewApps();
             refreshAppsButton.Enabled = true;
         }
         #endregion
