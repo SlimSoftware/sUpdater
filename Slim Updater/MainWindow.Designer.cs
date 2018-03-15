@@ -65,7 +65,6 @@
             this.refreshAppsButton = new System.Windows.Forms.Button();
             this.getNewAppsContentPanel = new System.Windows.Forms.Panel();
             this.installedPortableAppsPage = new System.Windows.Forms.Panel();
-            this.selectAllPortableCheckBox1 = new System.Windows.Forms.CheckBox();
             this.refreshPortableButton = new System.Windows.Forms.Button();
             this.installedPortableContentPanel = new System.Windows.Forms.Panel();
             this.setPortableAppFolderPage = new System.Windows.Forms.Panel();
@@ -89,7 +88,7 @@
             this.resetButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.getPortableAppsPage = new System.Windows.Forms.Panel();
-            this.selectAllPortableCheckBox2 = new System.Windows.Forms.CheckBox();
+            this.selectAllPortableCheckBox = new System.Windows.Forms.CheckBox();
             this.portableStatusLabel = new System.Windows.Forms.Label();
             this.downloadPortableButton = new System.Windows.Forms.Button();
             this.refreshPortableButton2 = new System.Windows.Forms.Button();
@@ -268,7 +267,7 @@
             this.titleButtonRight.BackColor = System.Drawing.Color.White;
             this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
             this.titleButtonRight.Name = "titleButtonRight";
-            this.titleButtonRight.Size = new System.Drawing.Size(214, 31);
+            this.titleButtonRight.Size = new System.Drawing.Size(214, 32);
             this.titleButtonRight.TabIndex = 3;
             this.titleButtonRight.Visible = false;
             this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
@@ -525,24 +524,12 @@
             // installedPortableAppsPage
             // 
             this.installedPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.installedPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox1);
             this.installedPortableAppsPage.Controls.Add(this.refreshPortableButton);
             this.installedPortableAppsPage.Controls.Add(this.installedPortableContentPanel);
             this.installedPortableAppsPage.Location = new System.Drawing.Point(0, 35);
             this.installedPortableAppsPage.Name = "installedPortableAppsPage";
             this.installedPortableAppsPage.Size = new System.Drawing.Size(785, 425);
             this.installedPortableAppsPage.TabIndex = 12;
-            // 
-            // selectAllPortableCheckBox1
-            // 
-            this.selectAllPortableCheckBox1.AutoSize = true;
-            this.selectAllPortableCheckBox1.Location = new System.Drawing.Point(6, 2);
-            this.selectAllPortableCheckBox1.Name = "selectAllPortableCheckBox1";
-            this.selectAllPortableCheckBox1.Size = new System.Drawing.Size(70, 17);
-            this.selectAllPortableCheckBox1.TabIndex = 1;
-            this.selectAllPortableCheckBox1.Text = "Select All";
-            this.selectAllPortableCheckBox1.UseVisualStyleBackColor = true;
-            this.selectAllPortableCheckBox1.CheckedChanged += new System.EventHandler(this.SelectAllPortableCheckBox1_CheckedChanged);
             // 
             // refreshPortableButton
             // 
@@ -557,9 +544,9 @@
             // installedPortableContentPanel
             // 
             this.installedPortableContentPanel.AutoScroll = true;
-            this.installedPortableContentPanel.Location = new System.Drawing.Point(0, 20);
+            this.installedPortableContentPanel.Location = new System.Drawing.Point(0, 0);
             this.installedPortableContentPanel.Name = "installedPortableContentPanel";
-            this.installedPortableContentPanel.Size = new System.Drawing.Size(785, 365);
+            this.installedPortableContentPanel.Size = new System.Drawing.Size(785, 386);
             this.installedPortableContentPanel.TabIndex = 0;
             // 
             // setPortableAppFolderPage
@@ -782,7 +769,7 @@
             // getPortableAppsPage
             // 
             this.getPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.getPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox2);
+            this.getPortableAppsPage.Controls.Add(this.selectAllPortableCheckBox);
             this.getPortableAppsPage.Controls.Add(this.portableStatusLabel);
             this.getPortableAppsPage.Controls.Add(this.downloadPortableButton);
             this.getPortableAppsPage.Controls.Add(this.refreshPortableButton2);
@@ -792,16 +779,16 @@
             this.getPortableAppsPage.Size = new System.Drawing.Size(785, 425);
             this.getPortableAppsPage.TabIndex = 15;
             // 
-            // selectAllPortableCheckBox2
+            // selectAllPortableCheckBox
             // 
-            this.selectAllPortableCheckBox2.AutoSize = true;
-            this.selectAllPortableCheckBox2.Location = new System.Drawing.Point(6, 2);
-            this.selectAllPortableCheckBox2.Name = "selectAllPortableCheckBox2";
-            this.selectAllPortableCheckBox2.Size = new System.Drawing.Size(70, 17);
-            this.selectAllPortableCheckBox2.TabIndex = 1;
-            this.selectAllPortableCheckBox2.Text = "Select All";
-            this.selectAllPortableCheckBox2.UseVisualStyleBackColor = true;
-            this.selectAllPortableCheckBox2.Click += new System.EventHandler(this.SelectAllPortableCheckBox2_CheckedChanged);
+            this.selectAllPortableCheckBox.AutoSize = true;
+            this.selectAllPortableCheckBox.Location = new System.Drawing.Point(6, 2);
+            this.selectAllPortableCheckBox.Name = "selectAllPortableCheckBox";
+            this.selectAllPortableCheckBox.Size = new System.Drawing.Size(70, 17);
+            this.selectAllPortableCheckBox.TabIndex = 1;
+            this.selectAllPortableCheckBox.Text = "Select All";
+            this.selectAllPortableCheckBox.UseVisualStyleBackColor = true;
+            this.selectAllPortableCheckBox.Click += new System.EventHandler(this.SelectAllPortableCheckBox_CheckedChanged);
             // 
             // portableStatusLabel
             // 
@@ -953,7 +940,6 @@
             this.getNewAppsPage.ResumeLayout(false);
             this.getNewAppsPage.PerformLayout();
             this.installedPortableAppsPage.ResumeLayout(false);
-            this.installedPortableAppsPage.PerformLayout();
             this.setPortableAppFolderPage.ResumeLayout(false);
             this.setPortableAppFolderPage.PerformLayout();
             this.settingsPage.ResumeLayout(false);
@@ -999,7 +985,6 @@
         private System.Windows.Forms.Panel getNewAppsContentPanel;
         private System.Windows.Forms.Panel installedPortableAppsPage;
         private System.Windows.Forms.Button refreshPortableButton;
-        private System.Windows.Forms.CheckBox selectAllPortableCheckBox1;
         private System.Windows.Forms.Panel installedPortableContentPanel;
         private System.Windows.Forms.Panel setPortableAppFolderPage;
         private System.Windows.Forms.Button browseButton2;
@@ -1024,7 +1009,7 @@
         private TitleButton titleButtonLeft;
         private TitleButton titleButtonRight;
         private System.Windows.Forms.Panel getPortableAppsPage;
-        private System.Windows.Forms.CheckBox selectAllPortableCheckBox2;
+        private System.Windows.Forms.CheckBox selectAllPortableCheckBox;
         private System.Windows.Forms.Label portableStatusLabel;
         private System.Windows.Forms.Button downloadPortableButton;
         private System.Windows.Forms.Button refreshPortableButton2;

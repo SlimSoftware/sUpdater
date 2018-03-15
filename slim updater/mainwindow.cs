@@ -1674,7 +1674,6 @@ namespace SlimUpdater
                 logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
                 titleButtonRight.Visible = true;
-                topBar.BorderStyle = BorderStyle.None;
                 CheckForInstalledPortableApps();
 
                 if (downloadPortableButton.Enabled == false)
@@ -1890,32 +1889,6 @@ namespace SlimUpdater
             }
         }
 
-        private void SelectAllPortableCheckBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (selectAllPortableCheckBox1.Checked == true)
-            {
-                foreach (Control ctl in installedPortableContentPanel.Controls)
-                {
-                    if (ctl is AppItem)
-                    {
-                        (ctl as AppItem).Checked = true;
-                        selectAllPortableCheckBox1.Text = "Unselect All";
-                    }
-                }
-            }
-            else
-            {
-                foreach (Control ctl in installedPortableContentPanel.Controls)
-                {
-                    if (ctl is AppItem)
-                    {
-                        (ctl as AppItem).Checked = false;
-                        selectAllPortableCheckBox1.Text = "Select All";
-                    }
-                }
-            }
-        }
-
         private void RefreshPortableButton_Click(object sender, EventArgs e)
         {
             CheckForInstalledPortableApps();
@@ -1923,16 +1896,16 @@ namespace SlimUpdater
         #endregion
 
         #region getPortableAppsPage Mouse Events
-        private void SelectAllPortableCheckBox2_CheckedChanged(object sender, EventArgs e)
+        private void SelectAllPortableCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (selectAllPortableCheckBox2.Checked == true)
+            if (selectAllPortableCheckBox.Checked == true)
             {
                 foreach (Control ctl in getPortableContentPanel.Controls)
                 {
                     if (ctl is AppItem)
                     {
                         (ctl as AppItem).Checked = true;
-                        selectAllPortableCheckBox2.Text = "Unselect All";
+                        selectAllPortableCheckBox.Text = "Unselect All";
                     }
                 }
             }
@@ -1943,7 +1916,7 @@ namespace SlimUpdater
                     if (ctl is AppItem)
                     {
                         (ctl as AppItem).Checked = false;
-                        selectAllPortableCheckBox2.Text = "Select All";
+                        selectAllPortableCheckBox.Text = "Select All";
                     }
                 }
             }
