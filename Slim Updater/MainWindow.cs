@@ -170,7 +170,7 @@ namespace SlimUpdater
             updateList = new List<App>(appList);
             updateContentPanel.Controls.Clear();
 
-            foreach (App app in updateList)
+            foreach (App app in updateList.ToArray())
             {
                 // Remove not installed apps from the updateList so it doesn't get added
                 if (app.LocalVersion == null | app.Type == "noupdate")
@@ -754,6 +754,7 @@ namespace SlimUpdater
                 updatesStatusLabel.ResetText();
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
                 updatesStatusLabel.Visible = true;
+                CheckForUpdates();
             }
 
             refreshUpdatesButton.Enabled = true;
