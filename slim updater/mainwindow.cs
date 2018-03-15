@@ -172,14 +172,7 @@ namespace SlimUpdater
 
             foreach (App app in updateList)
             {
-                AppItem appItem = new AppItem();
-                appItem.Click += (sender, e) =>
-                {
-                    ShowDetails(app.Name, true, false);
-                };
-                Separator separator = new Separator();
-
-                // Remove not installed apps from the updateList and don't its add AppItem to panel
+                // Remove not installed apps from the updateList so it doesn't get added
                 if (app.LocalVersion == null | app.Type == "noupdate")
                 {
                     updateList.Remove(app);
@@ -194,12 +187,6 @@ namespace SlimUpdater
                         continue;
                     }
                 }
-                // Add apps that need updating to the content panel
-                appItem.Name = app.Name + " " + app.LatestVersion;
-                appItem.Version = "Installed: " + app.LocalVersion;
-                Utilities.AddAppItem(appItem, updateContentPanel);
-
-                app.AppItem = appItem;
             }
 
             // Change updaterTile on the startpage accordingly
@@ -297,8 +284,8 @@ namespace SlimUpdater
         }
         #endregion
 
-        #region CheckForNonInstalledApps()
-        public void CheckForNonInstalledApps()
+        #region CheckForNewApps()
+        public void CheckForNewApps()
         {
             getNewAppsContentPanel.Controls.Clear();
             notInstalledApps.Clear();
@@ -516,6 +503,26 @@ namespace SlimUpdater
         }
         #endregion
 
+        #endregion
+
+        #region AddUpdatesToContentPanel()
+        private void AddUpdatesToContentPanel()
+        {
+            foreach (App app in updateList)
+            {
+                using (AppItem appItem = new AppItem())
+                {
+                    appItem.Click += (sender, e) =>
+                    {
+                        ShowDetails(app.Name, true, false);
+                    };
+                    appItem.Name = app.Name + " " + app.LatestVersion;
+                    appItem.Version = "Installed: " + app.LocalVersion;
+                    Utilities.AddAppItem(appItem, updateContentPanel);
+                    app.AppItem = appItem;
+                }
+            }
+        }
         #endregion
 
         #region Install Methods
@@ -747,6 +754,7 @@ namespace SlimUpdater
                 updatesStatusLabel.ResetText();
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent);
                 updatesStatusLabel.Visible = true;
+                CheckForUpdates();
             }
 
             refreshUpdatesButton.Enabled = true;
@@ -1609,8 +1617,7 @@ namespace SlimUpdater
         {
             ReadDefenitions();
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
-            {
-                updatePage.BringToFront();
+            {               
                 bool updatesAvailable = CheckForUpdates();
                 if (updatesAvailable == false)
                 {
@@ -1621,7 +1628,9 @@ namespace SlimUpdater
                 {
                     titleButtonLeft.Text = "Updates";
                 }
+                AddUpdatesToContentPanel();
                 titleButtonLeft.ArrowLeft = true;
+                updatePage.BringToFront();
                 topBar.BorderStyle = BorderStyle.None;
             }
         }
@@ -1632,7 +1641,7 @@ namespace SlimUpdater
             titleButtonLeft.Text = "Get New Applications";
             titleButtonLeft.ArrowLeft = true;
             topBar.BorderStyle = BorderStyle.None;
-            CheckForNonInstalledApps();
+            CheckForNewApps();
         }
 
         private void PortableAppsTile_Click(object sender, EventArgs e)
@@ -1734,6 +1743,7 @@ namespace SlimUpdater
             refreshUpdatesButton.Enabled = false;
             ReadDefenitions();
             CheckForUpdates();
+            AddUpdatesToContentPanel();
             refreshUpdatesButton.Enabled = true;
         }
 
@@ -1741,7 +1751,7 @@ namespace SlimUpdater
         {
             InstallUpdates(updateList);
         }
-    #endregion
+        #endregion
 
         #region getNewAppsPage Mouse Events
         private void SelectAllAppsCheckBox_Click(object sender, EventArgs e)
@@ -1779,7 +1789,7 @@ namespace SlimUpdater
         {
             refreshAppsButton.Enabled = false;
             ReadDefenitions();
-            CheckForNonInstalledApps();
+            CheckForNewApps();
             refreshAppsButton.Enabled = true;
         }
         #endregion
@@ -2023,7 +2033,7 @@ namespace SlimUpdater
 
         private void CheckUpdatesTrayIconMenuItem_Click(object sender, EventArgs e)
         {
-            if (offlineLabel.Visible == false)
+            if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
                 CheckForUpdates();
             }
