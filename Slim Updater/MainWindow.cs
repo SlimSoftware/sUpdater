@@ -1537,6 +1537,8 @@ namespace SlimUpdater
                         updatesStatusLabel.Visible = false;
                         newAppsStatusLabel.Visible = false;
                         portableStatusLabel.Visible = false;
+                        aboutButton.Visible = true;
+                        logButton.Visible = true;
                     }
                     else
                     {
@@ -1551,15 +1553,9 @@ namespace SlimUpdater
                         updatesStatusLabel.Visible = false;
                         newAppsStatusLabel.Visible = false;
                         portableStatusLabel.Visible = false;
+                        aboutButton.Visible = true;
+                        logButton.Visible = true;
                     }
-                }
-                if (aboutButton.Visible == false)
-                {
-                    aboutButton.Visible = true;
-                }
-                if (logButton.Visible == false)
-                {
-                    logButton.Visible = true;
                 }
             }
         }
@@ -1674,6 +1670,7 @@ namespace SlimUpdater
                 logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
                 titleButtonRight.Visible = true;
+                topBar.BorderStyle = BorderStyle.None;
                 CheckForInstalledPortableApps();
 
                 if (downloadPortableButton.Enabled == false)
