@@ -51,7 +51,7 @@
             // 
             // backArrowRight
             // 
-            this.backArrowRight.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.backArrowRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.backArrowRight.Image = global::SlimUpdater.Properties.Resources.ArrowGreenRight;
             this.backArrowRight.Location = new System.Drawing.Point(95, 5);
             this.backArrowRight.Name = "backArrowRight";
