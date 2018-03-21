@@ -79,12 +79,13 @@ namespace SlimUpdater
             }
             else
             {
+                // Get last AppItem's location
+                previousY = panel.Controls[panel.Controls.Count - 1].Location.Y;
+                previousHeight = panel.Controls[panel.Controls.Count - 1].Size.Height;
                 appItem.Location = new Point(0, (previousY + previousHeight));
                 separator.Location = new Point(0, (appItem.Location.Y + 45));
                 panel.Controls.Add(appItem);
                 panel.Controls.Add(separator);
-                previousY = appItem.Location.Y;
-                previousHeight = appItem.Height;
             }
         }
 
