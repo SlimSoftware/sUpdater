@@ -10,6 +10,7 @@ namespace SlimUpdater
         public bool MinimizeToTray { get; set; }
         public string DefenitionURL { get; set; }
         public string PortableAppDir { get; set; }
+        public string NotifiedUpdates { get; set; }
 
         public void Load()
         {
@@ -23,8 +24,21 @@ namespace SlimUpdater
                     @"Slim Software\Slim Updater\Settings.xml"));
 
                 // Get content from XML nodes
-                string defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
-                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value;
+                string defenitionURL = null;
+                string portableAppDir = null;
+                string notifiedUpdates = null;
+                try
+                {
+                    defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
+                    portableAppDir = settingXML.Root.Element("PortableAppDir").Value;
+                    notifiedUpdates = settingXML.Root.Element("NotifiedUpdates").Value;
+                }
+                catch
+                {
+                    // One or more elements do not exist, so update xml file
+                    Save();
+                }
+
                 if (settingXML.Root.Element("MinimizeToTray").Value != null)
                 {
                     MinimizeToTray = XmlConvert.ToBoolean(
@@ -37,6 +51,10 @@ namespace SlimUpdater
                 if (portableAppDir != string.Empty)
                 {
                     PortableAppDir = portableAppDir;
+                }
+                if (notifiedUpdates != string.Empty)
+                {
+                    NotifiedUpdates = notifiedUpdates;
                 }
 
                 // Unload XML File
@@ -60,7 +78,8 @@ namespace SlimUpdater
 
             XDocument doc =
             new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
-                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray", "true")));
+                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray", "true"),
+                new XElement("NotifiedUpdates"), string.Empty));
             doc.Save(Path.Combine(Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
             // Unload XML
@@ -78,9 +97,17 @@ namespace SlimUpdater
 
             // Load XML File
             XElement settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")).Element("Settings");
+                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"))
+                .Element("Settings");
 
             // Save values
+            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
+            {
+                settingXML.Descendants("MinimizeToTray").Remove();
+                XElement minimizeToTray = new XElement("MinimizeToTray");
+                minimizeToTray.Value = MinimizeToTray.ToString();
+                settingXML.Add(minimizeToTray);
+            }
             if (DefenitionURL != null)
             {
                 settingXML.Descendants("DefenitionURL").Remove();
@@ -95,12 +122,12 @@ namespace SlimUpdater
                 portableAppDir.Value = PortableAppDir;
                 settingXML.Add(portableAppDir);
             }
-            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
+            if (NotifiedUpdates != null)
             {
-                settingXML.Descendants("MinimizeToTray").Remove();
-                XElement minimizeToTray = new XElement("MinimizeToTray");
-                minimizeToTray.Value = MinimizeToTray.ToString();
-                settingXML.Add(minimizeToTray);
+                settingXML.Descendants("NotifiedUpdates").Remove();
+                XElement notifiedUpdates = new XElement("NotifiedUpdates");
+                notifiedUpdates.Value = NotifiedUpdates;
+                settingXML.Add(notifiedUpdates);
             }
 
             // Save XML File

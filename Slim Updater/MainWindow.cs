@@ -167,7 +167,8 @@ namespace SlimUpdater
         public bool CheckForUpdates()
         {
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            updateList = new List<App>(appList);           
+            updateList = new List<App>(appList);
+            string notifiedUpdates = null;
 
             foreach (App app in updateList.ToArray())
             {
@@ -191,18 +192,46 @@ namespace SlimUpdater
             // Change updaterTile on the startpage accordingly
             if (updateList.Count != 0)
             {
-                // TODO: Balloon tip only once and if more updates are availble then last checked
                 trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
                 updaterTile.BackColor = normalOrange;
+
                 if (updateList.Count > 1)
                 {
                     updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+
+                    foreach (App update in updateList)
+                    {
+                        notifiedUpdates += update.Name + " ";
+                    }
+                    if (notifiedUpdates != settings.NotifiedUpdates)
+                    {
+                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipText = string.Format(
+                            "{0} updates available. Click for details.", updateList.Count);
+                        trayIcon.ShowBalloonTip(5000);
+                    }
+                    settings.NotifiedUpdates = notifiedUpdates;
+                    settings.Save();
+
                     logger.Log(string.Format("{0} updates available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
                 else
                 {
                     updaterTile.Text = String.Format("1 update available");
+
+                    notifiedUpdates = updateList[0].Name;
+                    if (this.Visible == false && trayIconContextMenu.Visible == false &&
+                        notifiedUpdates != settings.NotifiedUpdates)
+                    {
+                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipText = string.Format("An update for {0} is available",
+                            updateList[0].Name);
+                        trayIcon.ShowBalloonTip(5000);
+                    }
+                    settings.NotifiedUpdates = notifiedUpdates;
+                    settings.Save();
+
                     logger.Log(string.Format("1 update available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
