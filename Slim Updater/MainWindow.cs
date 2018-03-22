@@ -2032,6 +2032,11 @@ namespace SlimUpdater
             {
                 settings.DefenitionURL = customURLTextBox.Text;
             }
+            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+            {
+                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+            }
+
             if (autoStartCheckBox.Checked == true)
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
@@ -2042,9 +2047,14 @@ namespace SlimUpdater
                         + "\"" + " /tray");
                 }
             }
-            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+
+            if (minimizeToTrayCheckBox.Checked == true)
             {
-                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+                settings.MinimizeToTray = true;
+            }
+            else
+            {
+                settings.MinimizeToTray = false;
             }
             settings.Save();
         }

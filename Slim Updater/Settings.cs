@@ -105,7 +105,7 @@ namespace SlimUpdater
             {
                 settingXML.Descendants("MinimizeToTray").Remove();
                 XElement minimizeToTray = new XElement("MinimizeToTray");
-                minimizeToTray.Value = MinimizeToTray.ToString();
+                minimizeToTray.Value = MinimizeToTray.ToString().ToLower();
                 settingXML.Add(minimizeToTray);
             }
             if (DefenitionURL != null)
