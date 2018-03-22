@@ -2061,6 +2061,15 @@ namespace SlimUpdater
         #endregion
 
         #region Tray Icon Click Events
+        private void TrayIcon_BalloonTipClicked(object sender, EventArgs e)
+        {
+            OpenTrayIconMenuItem_Click(sender, e);
+            updatePage.BringToFront();
+            AddUpdatesToContentPanel();
+            titleButtonLeft.ArrowLeft = true;
+            topBar.BorderStyle = BorderStyle.None;
+        }
+
         private void TrayIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
