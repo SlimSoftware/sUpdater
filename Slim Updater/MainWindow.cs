@@ -751,6 +751,7 @@ namespace SlimUpdater
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = false;
             }
+
             if (updateFailed == false)
             {
                 updatesStatusLabel.ForeColor = normalGreen;
@@ -759,6 +760,7 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
+                ReadDefenitions();
                 CheckForUpdates();
             }
 
@@ -998,6 +1000,8 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
                 installAppsButton.Enabled = false;
+                ReadDefenitions();
+                CheckForNewApps();
             }
 
             refreshAppsButton.Enabled = true;            
@@ -1346,6 +1350,8 @@ namespace SlimUpdater
                 Utilities.CenterControl(portableStatusLabel, 
                     portableStatusLabel.Parent, Utilities.CenterMode.Horizontal);
                 portableStatusLabel.Visible = true;
+                ReadDefenitions();
+                CheckForPortableApps();
             }
 
             refreshPortableButton.Enabled = true;

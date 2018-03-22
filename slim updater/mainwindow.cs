@@ -221,7 +221,7 @@ namespace SlimUpdater
                 logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
 
                 // Add all apps to updatecontentPanel for details view
-                // Only if page is actually visible and if updates were not just installed
+                // Only if page is actually visible
                 if (this.Controls[0] == updatePage)
                 {
                     foreach (App app in appList)
@@ -751,6 +751,7 @@ namespace SlimUpdater
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = false;
             }
+
             if (updateFailed == false)
             {
                 updatesStatusLabel.ForeColor = normalGreen;
@@ -759,6 +760,7 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
+                ReadDefenitions();
                 CheckForUpdates();
             }
 
@@ -998,6 +1000,8 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
                 installAppsButton.Enabled = false;
+                ReadDefenitions();
+                CheckForNewApps();
             }
 
             refreshAppsButton.Enabled = true;            
@@ -1346,6 +1350,8 @@ namespace SlimUpdater
                 Utilities.CenterControl(portableStatusLabel, 
                     portableStatusLabel.Parent, Utilities.CenterMode.Horizontal);
                 portableStatusLabel.Visible = true;
+                ReadDefenitions();
+                CheckForPortableApps();
             }
 
             refreshPortableButton.Enabled = true;
