@@ -167,7 +167,8 @@ namespace SlimUpdater
         public bool CheckForUpdates()
         {
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            updateList = new List<App>(appList);           
+            updateList = new List<App>(appList);
+            string notifiedUpdates = null;
 
             foreach (App app in updateList.ToArray())
             {
@@ -191,18 +192,46 @@ namespace SlimUpdater
             // Change updaterTile on the startpage accordingly
             if (updateList.Count != 0)
             {
-                // TODO: Balloon tip only once and if more updates are availble then last checked
                 trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
                 updaterTile.BackColor = normalOrange;
+
                 if (updateList.Count > 1)
                 {
                     updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+
+                    foreach (App update in updateList)
+                    {
+                        notifiedUpdates += update.Name + " ";
+                    }
+                    if (notifiedUpdates != settings.NotifiedUpdates)
+                    {
+                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipText = string.Format(
+                            "{0} updates available. Click for details.", updateList.Count);
+                        trayIcon.ShowBalloonTip(5000);
+                    }
+                    settings.NotifiedUpdates = notifiedUpdates;
+                    settings.Save();
+
                     logger.Log(string.Format("{0} updates available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
                 else
                 {
                     updaterTile.Text = String.Format("1 update available");
+
+                    notifiedUpdates = updateList[0].Name;
+                    if (this.ShowInTaskbar == false &&
+                        notifiedUpdates != settings.NotifiedUpdates)
+                    {
+                        trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipText = string.Format("An update for {0} is available",
+                            updateList[0].Name);
+                        trayIcon.ShowBalloonTip(5000);
+                    }
+                    settings.NotifiedUpdates = notifiedUpdates;
+                    settings.Save();
+
                     logger.Log(string.Format("1 update available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
@@ -2003,6 +2032,11 @@ namespace SlimUpdater
             {
                 settings.DefenitionURL = customURLTextBox.Text;
             }
+            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+            {
+                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+            }
+
             if (autoStartCheckBox.Checked == true)
             {
                 using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
@@ -2013,15 +2047,29 @@ namespace SlimUpdater
                         + "\"" + " /tray");
                 }
             }
-            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+
+            if (minimizeToTrayCheckBox.Checked == true)
             {
-                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+                settings.MinimizeToTray = true;
+            }
+            else
+            {
+                settings.MinimizeToTray = false;
             }
             settings.Save();
         }
         #endregion
 
         #region Tray Icon Click Events
+        private void TrayIcon_BalloonTipClicked(object sender, EventArgs e)
+        {
+            OpenTrayIconMenuItem_Click(sender, e);
+            updatePage.BringToFront();
+            AddUpdatesToContentPanel();
+            titleButtonLeft.ArrowLeft = true;
+            topBar.BorderStyle = BorderStyle.None;
+        }
+
         private void TrayIcon_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -2069,176 +2117,6 @@ namespace SlimUpdater
             Application.Exit();
         }
         #endregion
+
     }
-
-    #region App Class
-    public class App
-    {
-        public string Name { get; set; }
-        public AppItem AppItem { get; set; }
-        public string LatestVersion { get; set; }
-        public string LocalVersion { get; set; }
-        public string Changelog { get; set; }
-        public string Description { get; set; }
-        public string Arch { get; set; }
-        public string Type { get; set; }
-        public string DL { get; set; }
-        public string SavePath { get; set; }
-        public string InstallSwitch { get; set; }
-
-        public App(string name, string latestVersion, string localVersion, string arch,
-            string type, string installSwitch, string dl, AppItem appItem = null, 
-            string savePath = null)
-        {
-            Name = name;
-            AppItem = AppItem;
-            LatestVersion = latestVersion;
-            LocalVersion = localVersion;
-            Arch = arch;
-            Type = type;
-            InstallSwitch = installSwitch;
-            DL = dl;
-            SavePath = savePath;
-        }
-    }
-    #endregion
-
-    #region Portable App Class
-    public class PortableApp
-    {
-        public string Name { get; set; }
-        public AppItem AppItem { get; set; }
-        public string LatestVersion { get; set; }
-        public string LocalVersion { get; set; }
-        public string Arch { get; set; }
-        public string DL { get; set; }
-        public string ExtractMode { get; set; }
-        public string SavePath { get; set; }
-        public string Launch { get; set; }
-
-        public PortableApp(string name, string latestVersion, string localVersion, string arch,
-            string launch, string dl, string extractMode, AppItem appItem = null,
-            string savePath = null)
-        {
-            Name = name;
-            AppItem = appItem;
-            LatestVersion = latestVersion;
-            LocalVersion = localVersion;
-            Arch = arch;
-            Launch = launch;
-            DL = dl;
-            ExtractMode = extractMode;
-            SavePath = savePath;
-        }
-    }
-    #endregion
-
-    #region Settings Class
-    public class Settings
-    {
-        public bool MinimizeToTray { get; set; }        
-        public string DefenitionURL { get; set; }
-        public string PortableAppDir { get; set; }       
-
-        public void Load()
-        {
-            // Load XML File
-            if (File.Exists(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), 
-                    @"Slim Software\Slim Updater\Settings.xml")))
-            {
-                XDocument settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), 
-                    @"Slim Software\Slim Updater\Settings.xml"));
-
-                // Get content from XML nodes
-                string defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
-                string portableAppDir = settingXML.Root.Element("PortableAppDir").Value;
-                if (settingXML.Root.Element("MinimizeToTray").Value != null)
-                {
-                    MinimizeToTray = XmlConvert.ToBoolean(
-                        settingXML.Root.Element("MinimizeToTray").Value);
-                }
-                if (defenitionURL != string.Empty)
-                {
-                    DefenitionURL = defenitionURL;
-                }
-                if (portableAppDir != string.Empty)
-                {
-                    PortableAppDir = portableAppDir;
-                }
-
-                // Unload XML File
-                settingXML = null;
-            }
-            else
-            {
-                CreateXMLFile();
-            }
-        }
-        
-        public void CreateXMLFile()
-        {
-            // Check if folder exists
-            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater")))
-            {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater"));
-            }
-
-            XDocument doc =
-            new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
-                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray", "true")));
-            doc.Save(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
-            // Unload XML
-            doc = null;      
-        }
-
-        public void Save()
-        {
-            // Check if XML File exists
-            if (!File.Exists(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")))
-            {
-                CreateXMLFile();
-            }
-
-            // Load XML File
-            XElement settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")).Element("Settings");
-
-            // Save values
-            if (DefenitionURL != null)
-            {
-                settingXML.Descendants("DefenitionURL").Remove();
-                XElement defenitionURL = new XElement("DefenitionURL");
-                defenitionURL.Value = DefenitionURL;
-                settingXML.Add(defenitionURL);
-            }
-            if (PortableAppDir != null)
-            {
-                settingXML.Descendants("PortableAppDir").Remove();
-                XElement portableAppDir = new XElement("PortableAppDir");
-                portableAppDir.Value = PortableAppDir;
-                settingXML.Add(portableAppDir);
-            }
-            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
-            {
-                settingXML.Descendants("MinimizeToTray").Remove();
-                XElement minimizeToTray = new XElement("MinimizeToTray");
-                minimizeToTray.Value = MinimizeToTray.ToString();
-                settingXML.Add(minimizeToTray);
-            }
-
-            // Save XML File
-            settingXML.Save(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
-
-            // Unload XML File
-            settingXML = null;
-        }
-    }
-    #endregion
 }
