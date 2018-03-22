@@ -221,7 +221,7 @@ namespace SlimUpdater
                     updaterTile.Text = String.Format("1 update available");
 
                     notifiedUpdates = updateList[0].Name;
-                    if (this.Visible == false && trayIconContextMenu.Visible == false &&
+                    if (this.ShowInTaskbar == false &&
                         notifiedUpdates != settings.NotifiedUpdates)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
