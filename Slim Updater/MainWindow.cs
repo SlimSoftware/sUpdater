@@ -200,7 +200,7 @@ namespace SlimUpdater
                     {
                         notifiedUpdates += update.Name + " ";
                     }
-                    if (notifiedUpdates != settings.NotifiedUpdates)
+                    if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                         trayIcon.BalloonTipText = string.Format(
