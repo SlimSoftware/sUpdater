@@ -17,12 +17,12 @@ namespace SlimUpdater
 {
     public partial class MainWindow : Form
     {
-        public List<App> appList = new List<App>();
-        public List<App> updateList;
-        public List<App> notInstalledApps = new List<App>();
-        public List<PortableApp> portableAppList = new List<PortableApp>();
-        public Settings settings = new Settings();
-        public Logger logger = new Logger();
+        List<App> appList = new List<App>();
+        List<App> updateList;
+        List<App> notInstalledApps = new List<App>();
+        List<PortableApp> portableAppList = new List<PortableApp>();
+        Settings settings = new Settings();
+        Logger logger = new Logger();
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
@@ -52,10 +52,7 @@ namespace SlimUpdater
             }
 
             ReadDefenitions();
-            if (offlineLabel.Visible == false)
-            {
-                CheckForUpdates();
-            }
+            CheckForUpdates();
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -203,7 +200,7 @@ namespace SlimUpdater
                     {
                         notifiedUpdates += update.Name + " ";
                     }
-                    if (notifiedUpdates != settings.NotifiedUpdates)
+                    if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                         trayIcon.BalloonTipText = string.Format(
