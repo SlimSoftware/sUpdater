@@ -17,15 +17,16 @@ namespace SlimUpdater
 {
     public partial class MainWindow : Form
     {
-        public List<App> appList = new List<App>();
-        public List<App> updateList;
-        public List<App> notInstalledApps = new List<App>();
-        public List<PortableApp> portableAppList = new List<PortableApp>();
-        public Settings settings = new Settings();
-        public Logger logger = new Logger();
+        List<App> appList = new List<App>();
+        List<App> updateList;
+        List<App> notInstalledApps = new List<App>();
+        List<PortableApp> portableAppList = new List<PortableApp>();
+        Settings settings = new Settings();
+        Logger logger = new Logger();
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
+        bool justInstalledUpdates = false;
 
         public MainWindow()
         {
@@ -248,7 +249,7 @@ namespace SlimUpdater
 
                 // Add all apps to updatecontentPanel for details view
                 // Only if page is actually visible
-                if (this.Controls[0] == updatePage)
+                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
                 {
                     foreach (App app in appList)
                     {
@@ -292,6 +293,8 @@ namespace SlimUpdater
                     selectAllUpdatesCheckBox.Visible = false;
                     installUpdatesButton.Visible = false;
                     refreshUpdatesButton.Visible = false;
+
+                    justInstalledUpdates = false;
                 }
                 else
                 {
@@ -304,6 +307,7 @@ namespace SlimUpdater
                     updateContentPanel.Controls.Add(noticeLabel);
                     Utilities.CenterControl(noticeLabel, updateContentPanel, 
                         Utilities.CenterMode.Both);
+                    justInstalledUpdates = false;
                 }                
                 return false;
             }
@@ -786,6 +790,7 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
+                justInstalledUpdates = true;
                 ReadDefenitions();
                 CheckForUpdates();
             }
