@@ -251,6 +251,7 @@ namespace SlimUpdater
                 // Only if page is actually visible
                 if (this.Controls[0] == updatePage && justInstalledUpdates == false)
                 {
+                    updateContentPanel.Controls.Clear();
                     foreach (App app in appList)
                     {
                         AppItem appItem = new AppItem();
