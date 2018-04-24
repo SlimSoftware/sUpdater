@@ -52,10 +52,7 @@ namespace SlimUpdater
             }
 
             ReadDefenitions();
-            if (offlineLabel.Visible == false)
-            {
-                CheckForUpdates();
-            }
+            CheckForUpdates();
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
