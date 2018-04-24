@@ -676,6 +676,7 @@ namespace SlimUpdater
                 });
                 
                 // Do not allow more than 3 downloads at once
+                // TODO: Let the user decide this with a setting
                 while (tasks.Count > 2)
                 {
                     await Task.Delay(1000);
@@ -722,7 +723,7 @@ namespace SlimUpdater
                         }
                         update.AppItem.Status = "Installing...";
                         update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                        p.WaitForExit();
+                        p.WaitForExit(); // TODO: This blocks GUI!!!
                         if (p.ExitCode == 0)
                         {
                             logger.Log("Installer exited with exit code 0.",
@@ -1264,7 +1265,6 @@ namespace SlimUpdater
                         }
                         await Task.Run(() =>
                         {
-                        // TODO: Better watching system if process has exited
                         Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                             while (processes == null | processes.Length != 0)
                             {
@@ -1326,7 +1326,6 @@ namespace SlimUpdater
                                     }
                                     await Task.Run(() =>
                                     {
-                                    // TODO: Better watching system if process has exited
                                     Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                                         while (processes == null | processes.Length != 0)
                                         {
