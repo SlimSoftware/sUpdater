@@ -723,7 +723,12 @@ namespace SlimUpdater
                         }
                         update.AppItem.Status = "Installing...";
                         update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                        p.WaitForExit(); // TODO: This blocks GUI!!!
+                        // Wait on a separate thread so the GUI thread does not get blocked
+                        await Task.Run(() =>
+                        {
+                            p.WaitForExit();
+                        });
+
                         if (p.ExitCode == 0)
                         {
                             logger.Log("Installer exited with exit code 0.",
@@ -966,7 +971,12 @@ namespace SlimUpdater
                         }
                         app.AppItem.Status = "Installing...";
                         app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                        p.WaitForExit();
+                        // Wait on a separate thread so the GUI thread does not get blocked
+                        await Task.Run(() =>
+                        {
+                            p.WaitForExit();
+                        });
+
                         if (p.ExitCode == 0)
                         {
                             logger.Log("Installer exited with exit code 0.",
@@ -1303,7 +1313,12 @@ namespace SlimUpdater
                             logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
                                 app.Name, currentApp, selectedAppList.Count),
                                 Logger.LogLevel.INFO, logTextBox);
-                            p.WaitForExit();
+
+                            // Wait on a separate thread so the GUI thread does not get blocked
+                            await Task.Run(() =>
+                            {
+                                p.WaitForExit();
+                            });
                             if (p.ExitCode == 0)
                             {
                                 logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
