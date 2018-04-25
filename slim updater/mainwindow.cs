@@ -204,6 +204,7 @@ namespace SlimUpdater
                     if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipTitle = "Slim Updater";
                         trayIcon.BalloonTipText = string.Format(
                             "{0} updates available. Click for details.", updateList.Count);
                         trayIcon.ShowBalloonTip(5000);
@@ -223,6 +224,7 @@ namespace SlimUpdater
                         notifiedUpdates != settings.NotifiedUpdates)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipTitle = "Slim Updater";
                         trayIcon.BalloonTipText = string.Format("An update for {0} is available",
                             updateList[0].Name);
                         trayIcon.ShowBalloonTip(5000);
@@ -1515,7 +1517,7 @@ namespace SlimUpdater
         {
             if (topBar.Size.Height != 35)
             {
-                topBar.Size = new Size(topBar.Size.Width, 35);
+                topBar.Size = new Size(topBar.Size.Width, 36);
             }
 
             if (topBar.BorderStyle == BorderStyle.None)
@@ -1540,23 +1542,22 @@ namespace SlimUpdater
                 else
                 {
                     detailsPage.SendToBack();
-                    // TODO: Don't use Controls[0].Name but just Controls[0].
-                    if (this.Controls[0].Name == "updatePage")
+                    if (this.Controls[0] == updatePage)
                     {
                         titleButtonLeft.Text = "Updates";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "getNewAppsPage")
+                    if (this.Controls[0] == getNewAppsPage)
                     {
                         titleButtonLeft.Text = "Get New Applications";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "portableAppsPage")
+                    if (this.Controls[0] == installedPortableAppsPage)
                     {
-                        titleButtonLeft.Text = "Updates";
+                        titleButtonLeft.Text = "Portable Apps";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "getPortableAppsPage")
+                    if (this.Controls[0] == getPortableAppsPage)
                     {
                         topBar.BorderStyle = BorderStyle.None;
                         titleButtonLeft.Text = "Get Portable Apps";
@@ -1657,7 +1658,7 @@ namespace SlimUpdater
 
         private void AboutLabel_Click(object sender, EventArgs e)
         {
-            topBar.Size = new Size(topBar.Size.Width, 35);
+            topBar.Size = new Size(topBar.Size.Width, 36);
             aboutPage.BringToFront();
             titleButtonLeft.Text = "About";
             titleButtonLeft.ArrowLeft = true;
@@ -1719,9 +1720,9 @@ namespace SlimUpdater
             if (settings.PortableAppDir != null)
             {
                 installedPortableAppsPage.BringToFront();
-                titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.ArrowRight = true;
+                titleButtonLeft.Text = "Portable Apps";
                 aboutButton.Visible = false;
                 logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
@@ -2103,6 +2104,7 @@ namespace SlimUpdater
         {
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
+                ReadDefenitions();
                 CheckForUpdates();
             }
         }
