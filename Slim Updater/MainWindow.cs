@@ -1720,9 +1720,9 @@ namespace SlimUpdater
             if (settings.PortableAppDir != null)
             {
                 installedPortableAppsPage.BringToFront();
-                titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.ArrowRight = true;
+                titleButtonLeft.Text = "Portable Apps";
                 aboutButton.Visible = false;
                 logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
