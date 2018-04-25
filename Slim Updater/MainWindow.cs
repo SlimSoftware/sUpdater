@@ -2103,6 +2103,7 @@ namespace SlimUpdater
         {
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
+                ReadDefenitions();
                 CheckForUpdates();
             }
         }
