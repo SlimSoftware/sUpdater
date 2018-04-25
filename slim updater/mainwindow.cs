@@ -26,6 +26,7 @@ namespace SlimUpdater
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
+        bool justInstalledUpdates = false;
 
         public MainWindow()
         {
@@ -248,8 +249,9 @@ namespace SlimUpdater
 
                 // Add all apps to updatecontentPanel for details view
                 // Only if page is actually visible
-                if (this.Controls[0] == updatePage)
+                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
                 {
+                    updateContentPanel.Controls.Clear();
                     foreach (App app in appList)
                     {
                         AppItem appItem = new AppItem();
@@ -292,6 +294,8 @@ namespace SlimUpdater
                     selectAllUpdatesCheckBox.Visible = false;
                     installUpdatesButton.Visible = false;
                     refreshUpdatesButton.Visible = false;
+
+                    justInstalledUpdates = false;
                 }
                 else
                 {
@@ -304,6 +308,7 @@ namespace SlimUpdater
                     updateContentPanel.Controls.Add(noticeLabel);
                     Utilities.CenterControl(noticeLabel, updateContentPanel, 
                         Utilities.CenterMode.Both);
+                    justInstalledUpdates = false;
                 }                
                 return false;
             }
@@ -671,6 +676,7 @@ namespace SlimUpdater
                 });
                 
                 // Do not allow more than 3 downloads at once
+                // TODO: Let the user decide this with a setting
                 while (tasks.Count > 2)
                 {
                     await Task.Delay(1000);
@@ -717,7 +723,12 @@ namespace SlimUpdater
                         }
                         update.AppItem.Status = "Installing...";
                         update.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                        p.WaitForExit();
+                        // Wait on a separate thread so the GUI thread does not get blocked
+                        await Task.Run(() =>
+                        {
+                            p.WaitForExit();
+                        });
+
                         if (p.ExitCode == 0)
                         {
                             logger.Log("Installer exited with exit code 0.",
@@ -786,6 +797,7 @@ namespace SlimUpdater
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
+                justInstalledUpdates = true;
                 ReadDefenitions();
                 CheckForUpdates();
             }
@@ -959,7 +971,12 @@ namespace SlimUpdater
                         }
                         app.AppItem.Status = "Installing...";
                         app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                        p.WaitForExit();
+                        // Wait on a separate thread so the GUI thread does not get blocked
+                        await Task.Run(() =>
+                        {
+                            p.WaitForExit();
+                        });
+
                         if (p.ExitCode == 0)
                         {
                             logger.Log("Installer exited with exit code 0.",
@@ -1258,7 +1275,6 @@ namespace SlimUpdater
                         }
                         await Task.Run(() =>
                         {
-                        // TODO: Better watching system if process has exited
                         Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                             while (processes == null | processes.Length != 0)
                             {
@@ -1297,7 +1313,12 @@ namespace SlimUpdater
                             logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
                                 app.Name, currentApp, selectedAppList.Count),
                                 Logger.LogLevel.INFO, logTextBox);
-                            p.WaitForExit();
+
+                            // Wait on a separate thread so the GUI thread does not get blocked
+                            await Task.Run(() =>
+                            {
+                                p.WaitForExit();
+                            });
                             if (p.ExitCode == 0)
                             {
                                 logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
@@ -1320,7 +1341,6 @@ namespace SlimUpdater
                                     }
                                     await Task.Run(() =>
                                     {
-                                    // TODO: Better watching system if process has exited
                                     Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                                         while (processes == null | processes.Length != 0)
                                         {
@@ -1665,7 +1685,11 @@ namespace SlimUpdater
                 {
                     titleButtonLeft.Text = "Updates";
                 }
-                AddUpdatesToContentPanel();
+
+                if (updateContentPanel.Controls.Count == 0)
+                {
+                    AddUpdatesToContentPanel();
+                }                
                 titleButtonLeft.ArrowLeft = true;                
                 topBar.BorderStyle = BorderStyle.None;
             }
