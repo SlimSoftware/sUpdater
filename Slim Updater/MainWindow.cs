@@ -204,6 +204,7 @@ namespace SlimUpdater
                     if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipTitle = "Slim Updater";
                         trayIcon.BalloonTipText = string.Format(
                             "{0} updates available. Click for details.", updateList.Count);
                         trayIcon.ShowBalloonTip(5000);
@@ -223,6 +224,7 @@ namespace SlimUpdater
                         notifiedUpdates != settings.NotifiedUpdates)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        trayIcon.BalloonTipTitle = "Slim Updater";
                         trayIcon.BalloonTipText = string.Format("An update for {0} is available",
                             updateList[0].Name);
                         trayIcon.ShowBalloonTip(5000);
