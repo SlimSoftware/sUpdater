@@ -1540,23 +1540,22 @@ namespace SlimUpdater
                 else
                 {
                     detailsPage.SendToBack();
-                    // TODO: Don't use Controls[0].Name but just Controls[0].
-                    if (this.Controls[0].Name == "updatePage")
+                    if (this.Controls[0] == updatePage)
                     {
                         titleButtonLeft.Text = "Updates";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "getNewAppsPage")
+                    if (this.Controls[0] == getNewAppsPage)
                     {
                         titleButtonLeft.Text = "Get New Applications";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "portableAppsPage")
+                    if (this.Controls[0] == installedPortableAppsPage)
                     {
-                        titleButtonLeft.Text = "Updates";
+                        titleButtonLeft.Text = "Portable Apps";
                         topBar.BorderStyle = BorderStyle.None;
                     }
-                    if (this.Controls[0].Name == "getPortableAppsPage")
+                    if (this.Controls[0] == getPortableAppsPage)
                     {
                         topBar.BorderStyle = BorderStyle.None;
                         titleButtonLeft.Text = "Get Portable Apps";
