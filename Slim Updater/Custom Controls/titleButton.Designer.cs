@@ -82,8 +82,9 @@
             this.Controls.Add(this.backArrowRight);
             this.Controls.Add(this.backArrowLeft);
             this.Controls.Add(this.titleLabel);
+            this.MinimumSize = new System.Drawing.Size(0, 33);
             this.Name = "TitleButton";
-            this.Size = new System.Drawing.Size(130, 32);
+            this.Size = new System.Drawing.Size(130, 33);
             this.Click += new System.EventHandler(this.TitleButton_Click);
             this.MouseEnter += new System.EventHandler(this.TitleButton_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.TitleButton_MouseLeave);

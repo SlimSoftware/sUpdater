@@ -1517,7 +1517,7 @@ namespace SlimUpdater
         {
             if (topBar.Size.Height != 35)
             {
-                topBar.Size = new Size(topBar.Size.Width, 35);
+                topBar.Size = new Size(topBar.Size.Width, 36);
             }
 
             if (topBar.BorderStyle == BorderStyle.None)
@@ -1658,7 +1658,7 @@ namespace SlimUpdater
 
         private void AboutLabel_Click(object sender, EventArgs e)
         {
-            topBar.Size = new Size(topBar.Size.Width, 35);
+            topBar.Size = new Size(topBar.Size.Width, 36);
             aboutPage.BringToFront();
             titleButtonLeft.Text = "About";
             titleButtonLeft.ArrowLeft = true;

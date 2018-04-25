@@ -214,7 +214,7 @@
             this.topBar.Controls.Add(this.titleButtonRight);
             this.topBar.Location = new System.Drawing.Point(-7, -1);
             this.topBar.Name = "topBar";
-            this.topBar.Size = new System.Drawing.Size(798, 35);
+            this.topBar.Size = new System.Drawing.Size(798, 36);
             this.topBar.TabIndex = 5;
             // 
             // logButton
@@ -238,9 +238,10 @@
             this.titleButtonLeft.AutoSize = true;
             this.titleButtonLeft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.titleButtonLeft.BackColor = System.Drawing.Color.Transparent;
-            this.titleButtonLeft.Location = new System.Drawing.Point(5, 2);
+            this.titleButtonLeft.Location = new System.Drawing.Point(5, 3);
+            this.titleButtonLeft.MinimumSize = new System.Drawing.Size(0, 33);
             this.titleButtonLeft.Name = "titleButtonLeft";
-            this.titleButtonLeft.Size = new System.Drawing.Size(74, 28);
+            this.titleButtonLeft.Size = new System.Drawing.Size(74, 33);
             this.titleButtonLeft.TabIndex = 2;
             this.titleButtonLeft.Click += new System.EventHandler(this.TitleButtonLeft_Click);
             // 
@@ -265,9 +266,10 @@
             this.titleButtonRight.AutoSize = true;
             this.titleButtonRight.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.titleButtonRight.BackColor = System.Drawing.Color.White;
-            this.titleButtonRight.Location = new System.Drawing.Point(577, 2);
+            this.titleButtonRight.Location = new System.Drawing.Point(577, 3);
+            this.titleButtonRight.MinimumSize = new System.Drawing.Size(0, 33);
             this.titleButtonRight.Name = "titleButtonRight";
-            this.titleButtonRight.Size = new System.Drawing.Size(214, 32);
+            this.titleButtonRight.Size = new System.Drawing.Size(214, 33);
             this.titleButtonRight.TabIndex = 3;
             this.titleButtonRight.Visible = false;
             this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
