@@ -1692,11 +1692,7 @@ namespace SlimUpdater
                     titleButtonLeft.Text = "Updates";
                 }
 
-                if (updateContentPanel.Controls.Count == 0)
-                {
-                    AddUpdatesToContentPanel();
-                }                
-                              
+                AddUpdatesToContentPanel();                 
                 topBar.BorderStyle = BorderStyle.None;
             }
 

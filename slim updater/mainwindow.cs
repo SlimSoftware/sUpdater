@@ -1678,6 +1678,7 @@ namespace SlimUpdater
             ReadDefenitions();
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
+                updatesStatusLabel.Visible = false;
                 updatePage.BringToFront();
                 titleButtonLeft.ArrowLeft = true;
                 bool updatesAvailable = CheckForUpdates();
@@ -1691,11 +1692,7 @@ namespace SlimUpdater
                     titleButtonLeft.Text = "Updates";
                 }
 
-                if (updateContentPanel.Controls.Count == 0)
-                {
-                    AddUpdatesToContentPanel();
-                }                
-                              
+                AddUpdatesToContentPanel();                 
                 topBar.BorderStyle = BorderStyle.None;
             }
 
@@ -1707,6 +1704,7 @@ namespace SlimUpdater
 
         private void GetNewAppsTile_Click(object sender, EventArgs e)
         {
+            newAppsStatusLabel.Visible = false;
             getNewAppsPage.BringToFront();
             titleButtonLeft.ArrowLeft = true;
             titleButtonLeft.Text = "Get New Applications";            
@@ -1722,7 +1720,7 @@ namespace SlimUpdater
         private void PortableAppsTile_Click(object sender, EventArgs e)
         {
             if (settings.PortableAppDir != null)
-            {
+            {                
                 installedPortableAppsPage.BringToFront();
                 titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
@@ -1741,6 +1739,7 @@ namespace SlimUpdater
             }
             else
             {
+                portableStatusLabel.Visible = false;
                 setPortableAppFolderPage.BringToFront();
                 locationBox2.Text = Path.Combine(Environment.GetFolderPath(
                     Environment.SpecialFolder.MyDocuments), "Portable Apps");
@@ -1820,6 +1819,7 @@ namespace SlimUpdater
 
         private void RefreshUpdatesButton_Click(object sender, EventArgs e)
         {
+            updatesStatusLabel.Visible = false;
             refreshUpdatesButton.Enabled = false;
             ReadDefenitions();
             CheckForUpdates();
@@ -1867,6 +1867,7 @@ namespace SlimUpdater
 
         private void RefreshAppsButton_Click(object sender, EventArgs e)
         {
+            newAppsStatusLabel.Visible = false;
             refreshAppsButton.Enabled = false;
             ReadDefenitions();
             CheckForNewApps();
@@ -1987,6 +1988,7 @@ namespace SlimUpdater
 
         private void RefreshPortableButton2_Click(object sender, EventArgs e)
         {
+            portableStatusLabel.Visible = false;
             CheckForPortableApps();
         }
     #endregion
