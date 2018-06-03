@@ -701,6 +701,7 @@ namespace SlimUpdater
                     {
                         p.StartInfo.FileName = update.SavePath;
                         p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Verb = "runas";
                         p.StartInfo.Arguments = update.InstallSwitch;
                         try
                         {
@@ -949,6 +950,7 @@ namespace SlimUpdater
                     {
                         p.StartInfo.FileName = app.SavePath;
                         p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Verb = "runas";
                         p.StartInfo.Arguments = app.InstallSwitch;
                         try
                         {
