@@ -701,6 +701,7 @@ namespace SlimUpdater
                     {
                         p.StartInfo.FileName = update.SavePath;
                         p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Verb = "runas";
                         p.StartInfo.Arguments = update.InstallSwitch;
                         try
                         {
@@ -949,6 +950,7 @@ namespace SlimUpdater
                     {
                         p.StartInfo.FileName = app.SavePath;
                         p.StartInfo.UseShellExecute = true;
+                        p.StartInfo.Verb = "runas";
                         p.StartInfo.Arguments = app.InstallSwitch;
                         try
                         {
@@ -1515,7 +1517,7 @@ namespace SlimUpdater
         #region startPage/topBar Mouse Events
         private void TitleButtonLeft_Click(object sender, EventArgs e)
         {
-            if (topBar.Size.Height != 35)
+            if (topBar.Size.Height != 36)
             {
                 topBar.Size = new Size(topBar.Size.Width, 36);
             }
@@ -1530,8 +1532,8 @@ namespace SlimUpdater
                 if (this.Controls[0] == updatePage)
                 {
                     updatePage.SendToBack();
-                    titleButtonLeft.Text = "Home";
                     titleButtonLeft.ArrowLeft = false;
+                    titleButtonLeft.Text = "Home";
                     updateContentPanel.Location = new Point(0, 20);
                     updateContentPanel.Size = new Size(updateContentPanel.Size.Width, 365);
                     selectAllUpdatesCheckBox.Visible = true;
@@ -1583,13 +1585,14 @@ namespace SlimUpdater
                         {
                             updaterTile.BackColor = normalOrange;
                         }
-                        startPage.BringToFront();
-                        titleButtonLeft.Text = "Home";
+                        startPage.BringToFront();                      
                         titleButtonLeft.ArrowLeft = false;
+                        titleButtonLeft.Text = "Home";
                         titleButtonRight.Visible = false;
                         updatesStatusLabel.Visible = false;
                         newAppsStatusLabel.Visible = false;
                         portableStatusLabel.Visible = false;
+                        topBar.BorderStyle = BorderStyle.FixedSingle;
                         aboutButton.Visible = true;
                         logButton.Visible = true;
                     }
@@ -1599,13 +1602,14 @@ namespace SlimUpdater
                         {
                             updaterTile.BackColor = normalOrange;
                         }
-                        startPage.BringToFront();
-                        titleButtonLeft.Text = "Home";
+                        startPage.BringToFront();                        
                         titleButtonLeft.ArrowLeft = false;
-                        titleButtonRight.ArrowRight = false;
+                        titleButtonLeft.Text = "Home";
+                        titleButtonRight.Visible = false;
                         updatesStatusLabel.Visible = false;
                         newAppsStatusLabel.Visible = false;
                         portableStatusLabel.Visible = false;
+                        topBar.BorderStyle = BorderStyle.FixedSingle;
                         aboutButton.Visible = true;
                         logButton.Visible = true;
                     }
@@ -1615,9 +1619,9 @@ namespace SlimUpdater
 
         private void TitleButtonRight_Click(object sender, EventArgs e)
         {
-            getPortableAppsPage.BringToFront();
-            titleButtonLeft.Text = "Portable Apps";
+            getPortableAppsPage.BringToFront();            
             titleButtonLeft.ArrowLeft = true;
+            titleButtonLeft.Text = "Portable Apps";
             titleButtonRight.Visible = false;
             topBar.BorderStyle = BorderStyle.None;
             CheckForPortableApps();
@@ -1625,9 +1629,9 @@ namespace SlimUpdater
 
         private void LogButton_Click(object sender, EventArgs e)
         {
-            logPage.BringToFront();
-            titleButtonLeft.Text = "Log";
+            logPage.BringToFront();            
             titleButtonLeft.ArrowLeft = true;
+            titleButtonLeft.Text = "Log";
             titleButtonLeft.ArrowRight = false;
             titleButtonLeft.Visible = true;
         }
@@ -1659,10 +1663,9 @@ namespace SlimUpdater
         private void AboutLabel_Click(object sender, EventArgs e)
         {
             topBar.Size = new Size(topBar.Size.Width, 36);
-            aboutPage.BringToFront();
-            titleButtonLeft.Text = "About";
+            aboutPage.BringToFront();           
             titleButtonLeft.ArrowLeft = true;
-            aboutButton.Hide();
+            titleButtonLeft.Text = "About";
         }
 
         private void SiteLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1676,6 +1679,7 @@ namespace SlimUpdater
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
                 updatePage.BringToFront();
+                titleButtonLeft.ArrowLeft = true;
                 bool updatesAvailable = CheckForUpdates();
                 if (updatesAvailable == false)
                 {
@@ -1691,7 +1695,7 @@ namespace SlimUpdater
                 {
                     AddUpdatesToContentPanel();
                 }                
-                titleButtonLeft.ArrowLeft = true;                
+                              
                 topBar.BorderStyle = BorderStyle.None;
             }
 
@@ -1704,8 +1708,8 @@ namespace SlimUpdater
         private void GetNewAppsTile_Click(object sender, EventArgs e)
         {
             getNewAppsPage.BringToFront();
-            titleButtonLeft.Text = "Get New Applications";
             titleButtonLeft.ArrowLeft = true;
+            titleButtonLeft.Text = "Get New Applications";            
             topBar.BorderStyle = BorderStyle.None;
             CheckForNewApps();
 
@@ -1720,9 +1724,9 @@ namespace SlimUpdater
             if (settings.PortableAppDir != null)
             {
                 installedPortableAppsPage.BringToFront();
+                titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
                 titleButtonRight.ArrowRight = true;
-                titleButtonLeft.Text = "Portable Apps";
                 aboutButton.Visible = false;
                 logButton.Visible = false;
                 titleButtonRight.Text = "Get Portable Apps";
@@ -1740,8 +1744,8 @@ namespace SlimUpdater
                 setPortableAppFolderPage.BringToFront();
                 locationBox2.Text = Path.Combine(Environment.GetFolderPath(
                     Environment.SpecialFolder.MyDocuments), "Portable Apps");
-                titleButtonLeft.Text = "Portable Apps";
                 titleButtonLeft.ArrowLeft = true;
+                titleButtonLeft.Text = "Portable Apps";
                 topBar.BorderStyle = BorderStyle.None;
             }
         }
@@ -1773,8 +1777,8 @@ namespace SlimUpdater
                 customDefenRadioBtn.Checked = true;
             }                
             settingsPage.BringToFront();
-            titleButtonLeft.Text = "Settings";
             titleButtonLeft.ArrowLeft = true;
+            titleButtonLeft.Text = "Settings";            
             topBar.BorderStyle = BorderStyle.None;           
         }
 
