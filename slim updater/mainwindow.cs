@@ -26,7 +26,6 @@ namespace SlimUpdater
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
-        bool justInstalledUpdates = false;
 
         public MainWindow()
         {
@@ -251,7 +250,7 @@ namespace SlimUpdater
 
                 // Add all apps to updatecontentPanel for details view
                 // Only if page is actually visible
-                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
+                if (this.Controls[0] == updatePage)
                 {
                     updateContentPanel.Controls.Clear();
                     foreach (App app in appList)
@@ -296,8 +295,6 @@ namespace SlimUpdater
                     selectAllUpdatesCheckBox.Visible = false;
                     installUpdatesButton.Visible = false;
                     refreshUpdatesButton.Visible = false;
-
-                    justInstalledUpdates = false;
                 }
                 else
                 {
@@ -310,7 +307,6 @@ namespace SlimUpdater
                     updateContentPanel.Controls.Add(noticeLabel);
                     Utilities.CenterControl(noticeLabel, updateContentPanel, 
                         Utilities.CenterMode.Both);
-                    justInstalledUpdates = false;
                 }                
                 return false;
             }
@@ -768,7 +764,7 @@ namespace SlimUpdater
                 }
             }
 
-            if (updateFailed == true)
+            if (updateFailed)
             {
                 // Only show the failed updates
                 List<AppItem> failedUpdates = new List<AppItem>(); 
@@ -791,18 +787,15 @@ namespace SlimUpdater
                 updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
             }
-
-            if (updateFailed == false)
+            else
             {
-                updatesStatusLabel.ForeColor = normalGreen;
-                updatesStatusLabel.Text = "Succesfully installed all updates";
-                Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
-                    Utilities.CenterMode.Horizontal);
-                updatesStatusLabel.Visible = true;
                 installUpdatesButton.Enabled = true;
-                justInstalledUpdates = true;
                 ReadDefenitions();
-                CheckForUpdates();
+                bool updatesAvailable = CheckForUpdates();
+                if (updatesAvailable)
+                {
+                    AddUpdatesToContentPanel();
+                }
             }
 
             refreshUpdatesButton.Enabled = true;           
@@ -1690,15 +1683,18 @@ namespace SlimUpdater
                 else
                 {
                     titleButtonLeft.Text = "Updates";
+                    if (installUpdatesButton.Enabled == false)
+                    {
+                        installUpdatesButton.Enabled = true;
+                    }
+                    if (selectAllUpdatesCheckBox.Visible == false)
+                    {
+                        selectAllUpdatesCheckBox.Visible = true;
+                    }
                     AddUpdatesToContentPanel();
                 }                             
                 topBar.BorderStyle = BorderStyle.None;
-            }
-
-            if (installUpdatesButton.Enabled == false)
-            {
-                installUpdatesButton.Enabled = true;
-            }
+            }         
         }
 
         private void GetNewAppsTile_Click(object sender, EventArgs e)
