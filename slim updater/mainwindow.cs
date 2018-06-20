@@ -789,7 +789,7 @@ namespace SlimUpdater
                 Utilities.CenterControl(updatesStatusLabel, updatesStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 updatesStatusLabel.Visible = true;
-                installUpdatesButton.Enabled = false;
+                installUpdatesButton.Enabled = true;
             }
 
             if (updateFailed == false)
@@ -1046,7 +1046,7 @@ namespace SlimUpdater
                 Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
                 newAppsStatusLabel.Visible = true;
-                installAppsButton.Enabled = false;
+                installAppsButton.Enabled = true;
                 ReadDefenitions();
                 CheckForNewApps();
             }
