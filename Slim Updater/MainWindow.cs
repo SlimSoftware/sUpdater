@@ -140,13 +140,13 @@ namespace SlimUpdater
                     string exePath = regkeyElement.Value;
                     if (exePath.Contains("%pf32%"))
                     {
-                        exePath.Replace("%pf64", Environment.ExpandEnvironmentVariables(
-                            "%ProgramFiles(x86)%"));
+                        exePath = exePath.Replace("%pf32", Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFilesX86));
                     }
                     if (exePath.Contains("%pf64%"))
                     {
-                        exePath.Replace("%pf32%", Environment.ExpandEnvironmentVariables(
-                            "%ProgramW6432%"));
+                        exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFiles));
                     }
                     localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
                 }
