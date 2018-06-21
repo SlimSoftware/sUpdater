@@ -26,6 +26,7 @@ namespace SlimUpdater
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
+        bool justInstalledUpdates = false;
 
         public MainWindow()
         {
@@ -249,8 +250,8 @@ namespace SlimUpdater
                 logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
 
                 // Add all apps to updatecontentPanel for details view
-                // Only if page is actually visible
-                if (this.Controls[0] == updatePage)
+                // Only if page is actually visible and updates are not just installed
+                if (this.Controls[0] == updatePage && justInstalledUpdates == false)
                 {
                     updateContentPanel.Controls.Clear();
                     foreach (App app in appList)
@@ -296,8 +297,12 @@ namespace SlimUpdater
                     installUpdatesButton.Visible = false;
                     refreshUpdatesButton.Visible = false;
                 }
-                else
+                else if (justInstalledUpdates == true)
                 {
+                    updateContentPanel.Controls.Clear();
+                    selectAllUpdatesCheckBox.Visible = false;
+                    installUpdatesButton.Enabled = false;
+
                     Label noticeLabel = new Label();
                     noticeLabel.Text = "No updates available.";
                     noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
@@ -307,6 +312,9 @@ namespace SlimUpdater
                     updateContentPanel.Controls.Add(noticeLabel);
                     Utilities.CenterControl(noticeLabel, updateContentPanel, 
                         Utilities.CenterMode.Both);
+                    // Compensate for topBar height
+                    noticeLabel.Location = new Point(noticeLabel.Location.X,
+                        noticeLabel.Location.Y - topBar.Height);
                 }                
                 return false;
             }
@@ -349,6 +357,9 @@ namespace SlimUpdater
 
             if (notInstalledApps.Count == 0)
             {
+                selectAllAppsCheckBox.Visible = false;
+                installAppsButton.Enabled = false;
+
                 Label noticeLabel = new Label();
                 noticeLabel.Text = "No new applications to install found.";
                 noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
@@ -358,6 +369,14 @@ namespace SlimUpdater
                 getNewAppsContentPanel.Controls.Add(noticeLabel);
                 Utilities.CenterControl(noticeLabel, getNewAppsContentPanel,
                     Utilities.CenterMode.Both);
+                // Conpensate for topBar height
+                noticeLabel.Location = new Point(noticeLabel.Location.X,
+                    noticeLabel.Location.Y - topBar.Height);
+            }
+            else if(selectAllAppsCheckBox.Visible == false)
+            {              
+                selectAllAppsCheckBox.Visible = true;
+                installAppsButton.Enabled = true;
             }
         }
         #endregion
@@ -421,11 +440,11 @@ namespace SlimUpdater
                         
                         portableApp.AppItem = appItem;
                     }
-            }
-            if (getPortableContentPanel.VerticalScroll.Visible == true)
-            {
-                Utilities.FixScrollbars(getPortableContentPanel.Controls);
-            }
+                }
+                if (getPortableContentPanel.VerticalScroll.Visible == true)
+                {
+                    Utilities.FixScrollbars(getPortableContentPanel.Controls);
+                }
 
                 if (portableAppList.Count == 0)
                 {
@@ -438,6 +457,14 @@ namespace SlimUpdater
                     getPortableContentPanel.Controls.Add(noticeLabel);
                     Utilities.CenterControl(noticeLabel, getPortableContentPanel, 
                         Utilities.CenterMode.Both);
+                    // Conpensate for topBar height
+                    noticeLabel.Location = new Point(noticeLabel.Location.X,
+                        noticeLabel.Location.Y - topBar.Height);
+                }
+                else if (selectAllPortableCheckBox.Visible == false)
+                {
+                    selectAllPortableCheckBox.Visible = true;
+                    downloadPortableButton.Enabled = true;
                 }
             }
         }
@@ -790,6 +817,7 @@ namespace SlimUpdater
             else
             {
                 installUpdatesButton.Enabled = true;
+                justInstalledUpdates = true;
                 ReadDefenitions();
                 bool updatesAvailable = CheckForUpdates();
                 if (updatesAvailable)
@@ -809,6 +837,7 @@ namespace SlimUpdater
             logger.Log("New app installation started...", Logger.LogLevel.INFO, logTextBox);
             refreshAppsButton.Enabled = false;
             installAppsButton.Enabled = false;
+            newAppsStatusLabel.Visible = false;
             List<App> selectedAppList = new List<App>();
 
             foreach (App app in appList)
@@ -1034,11 +1063,8 @@ namespace SlimUpdater
             }
             if (installFailed == false)
             {
-                newAppsStatusLabel.ForeColor = normalGreen;
-                newAppsStatusLabel.ResetText();
                 Utilities.CenterControl(newAppsStatusLabel, newAppsStatusLabel.Parent, 
                     Utilities.CenterMode.Horizontal);
-                newAppsStatusLabel.Visible = true;
                 installAppsButton.Enabled = true;
                 ReadDefenitions();
                 CheckForNewApps();
@@ -1388,11 +1414,6 @@ namespace SlimUpdater
             }
             if (installFailed == false)
             {
-                portableStatusLabel.ForeColor = normalGreen;
-                portableStatusLabel.ResetText();
-                Utilities.CenterControl(portableStatusLabel, 
-                    portableStatusLabel.Parent, Utilities.CenterMode.Horizontal);
-                portableStatusLabel.Visible = true;
                 ReadDefenitions();
                 CheckForPortableApps();
             }
@@ -1705,11 +1726,6 @@ namespace SlimUpdater
             titleButtonLeft.Text = "Get New Applications";            
             topBar.BorderStyle = BorderStyle.None;
             CheckForNewApps();
-
-            if (installAppsButton.Enabled == false)
-            {
-                installAppsButton.Enabled = true;
-            }
         }
 
         private void PortableAppsTile_Click(object sender, EventArgs e)
