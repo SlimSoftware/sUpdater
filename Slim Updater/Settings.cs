@@ -9,35 +9,26 @@ namespace SlimUpdater
     {
         public bool MinimizeToTray { get; set; }
         public string DefenitionURL { get; set; }
+        public string DataDir { get; set; }
         public string PortableAppDir { get; set; }
         public string NotifiedUpdates { get; set; }
+        private string XmlPath = Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml");
+        private string XmlDir = Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater");
 
         public void Load()
         {
             // Load XML File
-            if (File.Exists(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData),
-                    @"Slim Software\Slim Updater\Settings.xml")))
+            if (File.Exists(XmlPath))
             {
-                XDocument settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData),
-                    @"Slim Software\Slim Updater\Settings.xml"));
+                XDocument settingXML = XDocument.Load(XmlPath);
 
                 // Get content from XML nodes
-                string defenitionURL = null;
-                string portableAppDir = null;
-                string notifiedUpdates = null;
-                try
-                {
-                    defenitionURL = settingXML.Root.Element("DefenitionURL").Value;
-                    portableAppDir = settingXML.Root.Element("PortableAppDir").Value;
-                    notifiedUpdates = settingXML.Root.Element("NotifiedUpdates").Value;
-                }
-                catch
-                {
-                    // One or more elements do not exist, so update xml file
-                    Save();
-                }
+                string defenitionURL = settingXML.Root.Element("DefenitionURL")?.Value;
+                string dataDir = settingXML.Root.Element("DataDir")?.Value;
+                string portableAppDir = settingXML.Root.Element("PortableAppDir")?.Value;
+                string notifiedUpdates = settingXML.Root.Element("NotifiedUpdates")?.Value;
 
                 if (settingXML.Root.Element("MinimizeToTray").Value != null)
                 {
@@ -47,6 +38,16 @@ namespace SlimUpdater
                 if (defenitionURL != string.Empty)
                 {
                     DefenitionURL = defenitionURL;
+                }
+                if (dataDir != string.Empty)
+                {
+                    DataDir = dataDir;
+                }
+                else
+                {
+                    // Set to default data dir
+                    DataDir = Path.Combine(Environment.GetFolderPath(
+                        Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater");
                 }
                 if (portableAppDir != string.Empty)
                 {
@@ -69,19 +70,16 @@ namespace SlimUpdater
         public void CreateXMLFile()
         {
             // Check if folder exists
-            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater")))
+            if (!Directory.Exists(XmlDir))
             {
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater"));
+                Directory.CreateDirectory(XmlDir);
             }
 
             XDocument doc =
             new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
-                new XElement("PortableAppDir"), String.Empty, new XElement("MinimizeToTray", "true"),
-                new XElement("NotifiedUpdates"), string.Empty));
-            doc.Save(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+                new XElement("DataDir", string.Empty), new XElement("PortableAppDir"), String.Empty, 
+                new XElement("MinimizeToTray", "true"), new XElement("NotifiedUpdates"), string.Empty));
+            doc.Save(XmlPath);
             // Unload XML
             doc = null;
         }
@@ -89,50 +87,65 @@ namespace SlimUpdater
         public void Save()
         {
             // Check if XML File exists
-            if (!File.Exists(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml")))
+            if (!File.Exists(XmlPath))
             {
                 CreateXMLFile();
             }
 
             // Load XML File
-            XElement settingXML = XDocument.Load(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"))
+            XElement settingXML = XDocument.Load(XmlPath)
                 .Element("Settings");
 
             // Save values
-            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray").Value))
+            if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray")?.Value))
             {
                 settingXML.Descendants("MinimizeToTray").Remove();
                 XElement minimizeToTray = new XElement("MinimizeToTray");
                 minimizeToTray.Value = MinimizeToTray.ToString().ToLower();
                 settingXML.Add(minimizeToTray);
             }
-            if (DefenitionURL != null)
+            if (DefenitionURL != settingXML.Element("DefenitionURL")?.Value)
             {
                 settingXML.Descendants("DefenitionURL").Remove();
-                XElement defenitionURL = new XElement("DefenitionURL");
-                defenitionURL.Value = DefenitionURL;
-                settingXML.Add(defenitionURL);
+                if (DefenitionURL != null)
+                {
+                    XElement defenitionURL = new XElement("DefenitionURL");
+                    defenitionURL.Value = DefenitionURL;
+                    settingXML.Add(defenitionURL);
+                }
             }
-            if (PortableAppDir != null)
+            if (DataDir != settingXML.Element("DataDir")?.Value)
+            {
+                settingXML.Descendants("DataDir").Remove();
+                if (DataDir != null)
+                {
+                    XElement dataDir = new XElement("DataDir");
+                    dataDir.Value = DataDir;
+                    settingXML.Add(dataDir);
+                }
+            }
+            if (PortableAppDir != settingXML.Element("PortableAppDir")?.Value)
             {
                 settingXML.Descendants("PortableAppDir").Remove();
-                XElement portableAppDir = new XElement("PortableAppDir");
-                portableAppDir.Value = PortableAppDir;
-                settingXML.Add(portableAppDir);
+                if (PortableAppDir != null)
+                {
+                    XElement portableAppDir = new XElement("PortableAppDir");
+                    portableAppDir.Value = PortableAppDir;
+                    settingXML.Add(portableAppDir);
+                }
             }
-            if (NotifiedUpdates != null)
+            if (NotifiedUpdates != settingXML.Element("NotifiedUpdates")?.Value)
             {
                 settingXML.Descendants("NotifiedUpdates").Remove();
-                XElement notifiedUpdates = new XElement("NotifiedUpdates");
-                notifiedUpdates.Value = NotifiedUpdates;
-                settingXML.Add(notifiedUpdates);
+                {
+                    XElement notifiedUpdates = new XElement("NotifiedUpdates");
+                    notifiedUpdates.Value = NotifiedUpdates;
+                    settingXML.Add(notifiedUpdates);
+                }
             }
 
             // Save XML File
-            settingXML.Save(Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml"));
+            settingXML.Save(XmlPath);
 
             // Unload XML File
             settingXML = null;

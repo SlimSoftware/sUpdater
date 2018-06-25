@@ -68,18 +68,21 @@
             this.instructionLabel = new System.Windows.Forms.Label();
             this.setPortableAppFolderButton = new System.Windows.Forms.Button();
             this.settingsPage = new System.Windows.Forms.Panel();
-            this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
             this.autoStartCheckBox = new System.Windows.Forms.CheckBox();
+            this.minimizeToTrayCheckBox = new System.Windows.Forms.CheckBox();
+            this.dataFolderLabel = new System.Windows.Forms.Label();
+            this.dataLocationBox = new System.Windows.Forms.TextBox();
+            this.dataBrowseButton = new System.Windows.Forms.Button();
+            this.dataFolderNotWriteableLabel = new System.Windows.Forms.Label();
             this.paFolderLocationLabel = new System.Windows.Forms.Label();
-            this.locationBox1 = new System.Windows.Forms.TextBox();
-            this.browseButton1 = new System.Windows.Forms.Button();
-            this.paFolderNotWriteableLabel1 = new System.Windows.Forms.Label();
+            this.paLocationBox = new System.Windows.Forms.TextBox();
+            this.paBrowseButton = new System.Windows.Forms.Button();
+            this.paFolderNotWriteableLabel = new System.Windows.Forms.Label();
             this.defenitionsGroupBox = new System.Windows.Forms.GroupBox();
             this.warningLabel = new System.Windows.Forms.Label();
             this.customURLTextBox = new System.Windows.Forms.TextBox();
             this.customDefenRadioBtn = new System.Windows.Forms.RadioButton();
             this.officialDefenRadioBtn = new System.Windows.Forms.RadioButton();
-            this.resetButton = new System.Windows.Forms.Button();
             this.saveButton = new System.Windows.Forms.Button();
             this.getPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox = new System.Windows.Forms.CheckBox();
@@ -544,29 +547,22 @@
             // settingsPage
             // 
             this.settingsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.settingsPage.Controls.Add(this.minimizeToTrayCheckBox);
             this.settingsPage.Controls.Add(this.autoStartCheckBox);
+            this.settingsPage.Controls.Add(this.minimizeToTrayCheckBox);
+            this.settingsPage.Controls.Add(this.dataFolderLabel);
+            this.settingsPage.Controls.Add(this.dataLocationBox);
+            this.settingsPage.Controls.Add(this.dataBrowseButton);
+            this.settingsPage.Controls.Add(this.dataFolderNotWriteableLabel);
             this.settingsPage.Controls.Add(this.paFolderLocationLabel);
-            this.settingsPage.Controls.Add(this.locationBox1);
-            this.settingsPage.Controls.Add(this.browseButton1);
-            this.settingsPage.Controls.Add(this.paFolderNotWriteableLabel1);
+            this.settingsPage.Controls.Add(this.paLocationBox);
+            this.settingsPage.Controls.Add(this.paBrowseButton);
+            this.settingsPage.Controls.Add(this.paFolderNotWriteableLabel);
             this.settingsPage.Controls.Add(this.defenitionsGroupBox);
-            this.settingsPage.Controls.Add(this.resetButton);
             this.settingsPage.Controls.Add(this.saveButton);
             this.settingsPage.Location = new System.Drawing.Point(0, 34);
             this.settingsPage.Name = "settingsPage";
             this.settingsPage.Size = new System.Drawing.Size(785, 427);
             this.settingsPage.TabIndex = 14;
-            // 
-            // minimizeToTrayCheckBox
-            // 
-            this.minimizeToTrayCheckBox.AutoSize = true;
-            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(12, 30);
-            this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
-            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(316, 17);
-            this.minimizeToTrayCheckBox.TabIndex = 5;
-            this.minimizeToTrayCheckBox.Text = "Keep running as a system tray icon when I close Slim Updater";
-            this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
             // 
             // autoStartCheckBox
             // 
@@ -578,45 +574,93 @@
             this.autoStartCheckBox.Text = "Auto-start Slim Updater as a system tray icon";
             this.autoStartCheckBox.UseVisualStyleBackColor = true;
             // 
+            // minimizeToTrayCheckBox
+            // 
+            this.minimizeToTrayCheckBox.AutoSize = true;
+            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(12, 30);
+            this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
+            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(316, 17);
+            this.minimizeToTrayCheckBox.TabIndex = 5;
+            this.minimizeToTrayCheckBox.Text = "Keep running as a system tray icon when I close Slim Updater";
+            this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // dataFolderLabel
+            // 
+            this.dataFolderLabel.AutoSize = true;
+            this.dataFolderLabel.Location = new System.Drawing.Point(9, 59);
+            this.dataFolderLabel.Name = "dataFolderLabel";
+            this.dataFolderLabel.Size = new System.Drawing.Size(318, 13);
+            this.dataFolderLabel.TabIndex = 13;
+            this.dataFolderLabel.Text = "Data Folder Location (for storing application installers and settings)";
+            // 
+            // dataLocationBox
+            // 
+            this.dataLocationBox.Location = new System.Drawing.Point(12, 76);
+            this.dataLocationBox.Name = "dataLocationBox";
+            this.dataLocationBox.Size = new System.Drawing.Size(659, 20);
+            this.dataLocationBox.TabIndex = 15;
+            // 
+            // dataBrowseButton
+            // 
+            this.dataBrowseButton.Location = new System.Drawing.Point(687, 75);
+            this.dataBrowseButton.Name = "dataBrowseButton";
+            this.dataBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.dataBrowseButton.TabIndex = 14;
+            this.dataBrowseButton.Text = "Browse";
+            this.dataBrowseButton.UseVisualStyleBackColor = true;
+            this.dataBrowseButton.Click += new System.EventHandler(this.DataBrowseButton_Click);
+            // 
+            // dataFolderNotWriteableLabel
+            // 
+            this.dataFolderNotWriteableLabel.AutoSize = true;
+            this.dataFolderNotWriteableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dataFolderNotWriteableLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.dataFolderNotWriteableLabel.Location = new System.Drawing.Point(93, 97);
+            this.dataFolderNotWriteableLabel.Name = "dataFolderNotWriteableLabel";
+            this.dataFolderNotWriteableLabel.Size = new System.Drawing.Size(515, 15);
+            this.dataFolderNotWriteableLabel.TabIndex = 16;
+            this.dataFolderNotWriteableLabel.Text = "This folder is not writeable by the current user, please choose a different folde" +
+    "r.";
+            this.dataFolderNotWriteableLabel.Visible = false;
+            // 
             // paFolderLocationLabel
             // 
             this.paFolderLocationLabel.AutoSize = true;
-            this.paFolderLocationLabel.Location = new System.Drawing.Point(9, 61);
+            this.paFolderLocationLabel.Location = new System.Drawing.Point(9, 115);
             this.paFolderLocationLabel.Name = "paFolderLocationLabel";
             this.paFolderLocationLabel.Size = new System.Drawing.Size(152, 13);
             this.paFolderLocationLabel.TabIndex = 9;
             this.paFolderLocationLabel.Text = "Portable Apps Folder Location:";
             // 
-            // locationBox1
+            // paLocationBox
             // 
-            this.locationBox1.Location = new System.Drawing.Point(12, 78);
-            this.locationBox1.Name = "locationBox1";
-            this.locationBox1.Size = new System.Drawing.Size(659, 20);
-            this.locationBox1.TabIndex = 11;
-            this.locationBox1.TextChanged += new System.EventHandler(this.LocationBox1_TextChanged);
+            this.paLocationBox.Location = new System.Drawing.Point(12, 132);
+            this.paLocationBox.Name = "paLocationBox";
+            this.paLocationBox.Size = new System.Drawing.Size(659, 20);
+            this.paLocationBox.TabIndex = 11;
             // 
-            // browseButton1
+            // paBrowseButton
             // 
-            this.browseButton1.Location = new System.Drawing.Point(687, 77);
-            this.browseButton1.Name = "browseButton1";
-            this.browseButton1.Size = new System.Drawing.Size(75, 23);
-            this.browseButton1.TabIndex = 10;
-            this.browseButton1.Text = "Browse";
-            this.browseButton1.UseVisualStyleBackColor = true;
-            this.browseButton1.Click += new System.EventHandler(this.BrowseButton1_Click);
+            this.paBrowseButton.Location = new System.Drawing.Point(687, 131);
+            this.paBrowseButton.Name = "paBrowseButton";
+            this.paBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.paBrowseButton.TabIndex = 10;
+            this.paBrowseButton.Text = "Browse";
+            this.paBrowseButton.UseVisualStyleBackColor = true;
+            this.paBrowseButton.Click += new System.EventHandler(this.PA_BrowseButton_Click);
             // 
-            // paFolderNotWriteableLabel1
+            // paFolderNotWriteableLabel
             // 
-            this.paFolderNotWriteableLabel1.AutoSize = true;
-            this.paFolderNotWriteableLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.paFolderNotWriteableLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.paFolderNotWriteableLabel1.Location = new System.Drawing.Point(93, 99);
-            this.paFolderNotWriteableLabel1.Name = "paFolderNotWriteableLabel1";
-            this.paFolderNotWriteableLabel1.Size = new System.Drawing.Size(515, 15);
-            this.paFolderNotWriteableLabel1.TabIndex = 12;
-            this.paFolderNotWriteableLabel1.Text = "This folder is not writeable by the current user, please choose a different folde" +
+            this.paFolderNotWriteableLabel.AutoSize = true;
+            this.paFolderNotWriteableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.paFolderNotWriteableLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.paFolderNotWriteableLabel.Location = new System.Drawing.Point(93, 153);
+            this.paFolderNotWriteableLabel.Name = "paFolderNotWriteableLabel";
+            this.paFolderNotWriteableLabel.Size = new System.Drawing.Size(515, 15);
+            this.paFolderNotWriteableLabel.TabIndex = 12;
+            this.paFolderNotWriteableLabel.Text = "This folder is not writeable by the current user, please choose a different folde" +
     "r.";
-            this.paFolderNotWriteableLabel1.Visible = false;
+            this.paFolderNotWriteableLabel.Visible = false;
             // 
             // defenitionsGroupBox
             // 
@@ -625,7 +669,7 @@
             this.defenitionsGroupBox.Controls.Add(this.customDefenRadioBtn);
             this.defenitionsGroupBox.Controls.Add(this.officialDefenRadioBtn);
             this.defenitionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defenitionsGroupBox.Location = new System.Drawing.Point(12, 122);
+            this.defenitionsGroupBox.Location = new System.Drawing.Point(12, 170);
             this.defenitionsGroupBox.Name = "defenitionsGroupBox";
             this.defenitionsGroupBox.Size = new System.Drawing.Size(761, 108);
             this.defenitionsGroupBox.TabIndex = 1;
@@ -674,18 +718,9 @@
             this.officialDefenRadioBtn.UseVisualStyleBackColor = true;
             this.officialDefenRadioBtn.Click += new System.EventHandler(this.OfficialDefenRadioBtn_Click);
             // 
-            // resetButton
-            // 
-            this.resetButton.Location = new System.Drawing.Point(402, 393);
-            this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(75, 23);
-            this.resetButton.TabIndex = 3;
-            this.resetButton.Text = "Reset";
-            this.resetButton.UseVisualStyleBackColor = true;
-            // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(302, 393);
+            this.saveButton.Location = new System.Drawing.Point(355, 393);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 2;
@@ -915,8 +950,8 @@
             this.Controls.Add(this.installedPortableAppsPage);
             this.Controls.Add(this.getPortableAppsPage);
             this.Controls.Add(this.setPortableAppFolderPage);
-            this.Controls.Add(this.settingsPage);
             this.Controls.Add(this.detailsPage);
+            this.Controls.Add(this.settingsPage);
             this.Controls.Add(this.logPage);
             this.Controls.Add(this.aboutPage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -995,7 +1030,6 @@
         private System.Windows.Forms.Button setPortableAppFolderButton;
         private System.Windows.Forms.Label paFolderNotWriteableLabel2;
         private System.Windows.Forms.Panel settingsPage;
-        private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.GroupBox defenitionsGroupBox;
         private System.Windows.Forms.Label warningLabel;
@@ -1004,10 +1038,10 @@
         private System.Windows.Forms.RadioButton officialDefenRadioBtn;
         private System.Windows.Forms.CheckBox minimizeToTrayCheckBox;
         private System.Windows.Forms.CheckBox autoStartCheckBox;
-        private System.Windows.Forms.Button browseButton1;
+        private System.Windows.Forms.Button paBrowseButton;
         private System.Windows.Forms.Label paFolderLocationLabel;
-        private System.Windows.Forms.TextBox locationBox1;
-        private System.Windows.Forms.Label paFolderNotWriteableLabel1;
+        private System.Windows.Forms.TextBox paLocationBox;
+        private System.Windows.Forms.Label paFolderNotWriteableLabel;
         private TitleButton titleButtonLeft;
         private TitleButton titleButtonRight;
         private System.Windows.Forms.Panel getPortableAppsPage;
@@ -1028,6 +1062,10 @@
         private System.Windows.Forms.Label newAppsStatusLabel;
         private System.Windows.Forms.Label logButton;
         public System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.Label dataFolderLabel;
+        private System.Windows.Forms.TextBox dataLocationBox;
+        private System.Windows.Forms.Button dataBrowseButton;
+        private System.Windows.Forms.Label dataFolderNotWriteableLabel;
     }
 }
 

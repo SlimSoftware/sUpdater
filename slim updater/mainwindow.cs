@@ -140,7 +140,7 @@ namespace SlimUpdater
                     string exePath = regkeyElement.Value;
                     if (exePath.Contains("%pf32%"))
                     {
-                        exePath = exePath.Replace("%pf32", Environment.GetFolderPath(
+                        exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
                             Environment.SpecialFolder.ProgramFilesX86));
                     }
                     if (exePath.Contains("%pf64%"))
@@ -627,9 +627,7 @@ namespace SlimUpdater
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(update.DL);
-                    update.SavePath = Path.Combine(
-                        @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        @"Slim Software\Slim Updater\" + fileName);
+                    update.SavePath = Path.Combine(settings.DataDir, fileName);
                     logger.Log("Saving to: " + update.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
@@ -778,14 +776,10 @@ namespace SlimUpdater
             }
 
             // Cleanup any leftover exe's in appdata dir
-            if (Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
-                "*.exe").Length > 0)
+            if (Directory.GetFiles(settings.DataDir, "*.exe").Length > 0)
             {
                 logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
-                foreach (string exePath in Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
-                "*.exe"))
+                foreach (string exePath in Directory.GetFiles(settings.DataDir, "*.exe"))
                 {
                     File.Delete(exePath);
                 }
@@ -876,9 +870,7 @@ namespace SlimUpdater
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(app.DL);
-                    app.SavePath = Path.Combine(
-                        @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        @"Slim Software\Slim Updater\" + fileName);
+                    app.SavePath = Path.Combine(settings.DataDir, fileName);
                     logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
@@ -1026,14 +1018,10 @@ namespace SlimUpdater
             }
 
             // Cleanup any leftover exe's in appdata dir
-            if (Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
-                "*.exe").Length > 0)
+            if (Directory.GetFiles(settings.DataDir, "*.exe").Length > 0)
             {
                 logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
-                foreach (string exePath in Directory.GetFiles(Path.Combine(@Environment.GetFolderPath(
-                Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\"),
-                "*.exe"))
+                foreach (string exePath in Directory.GetFiles(settings.DataDir, ".exe"))
                 {
                     File.Delete(exePath);
                 }
@@ -1776,9 +1764,13 @@ namespace SlimUpdater
             {
                 minimizeToTrayCheckBox.Checked = true;
             }
+            if (settings.DataDir != null)
+            {
+                dataLocationBox.Text = settings.DataDir;
+            }
             if (settings.PortableAppDir != null)
             {
-                locationBox1.Text = settings.PortableAppDir;
+                paLocationBox.Text = settings.PortableAppDir;
             }
             if (settings.DefenitionURL != null)
             {
@@ -2002,31 +1994,30 @@ namespace SlimUpdater
             portableStatusLabel.Visible = false;
             CheckForPortableApps();
         }
-    #endregion
+        #endregion
 
         #region settingsPage Events
-        private void LocationBox1_TextChanged(object sender, EventArgs e)
-        {
-            if (saveButton.Enabled == false)
-            {
-                saveButton.Enabled = true;
-            }
-        }
-
-        private void BrowseButton1_Click(object sender, EventArgs e)
+        private void DataBrowseButton_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
                 fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    locationBox1.Text = fbd.SelectedPath;
+                    dataLocationBox.Text = fbd.SelectedPath;
                 }
             }
+        }
 
-            if (saveButton.Enabled == false)
+        private void PA_BrowseButton_Click(object sender, EventArgs e)
+        {
+            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
             {
-                saveButton.Enabled = true;
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    paLocationBox.Text = fbd.SelectedPath;
+                }
             }
         }
 
@@ -2042,31 +2033,71 @@ namespace SlimUpdater
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            // Test if the folder is accessible without admin rights
+            if (!Directory.Exists(paLocationBox.Text) && paLocationBox.Text != "")
+            {
+                try
+                {
+                    Directory.CreateDirectory(paLocationBox.Text);
+                }
+                catch
+                {
+                    paFolderNotWriteableLabel.Visible = true;
+                    return;
+                }
+            }
+
+            // Test if the portable apps folder is accessible without admin rights
             try
             {
-                File.Create(Path.Combine(locationBox1.Text, "Slim Updater Tempfile")).Close();
-                // Enable ok button and hide error label if the folder is writeable
-                if (setPortableAppFolderButton.Enabled == false)
-                {
-                    saveButton.Enabled = true;
-                    paFolderNotWriteableLabel1.Visible = false;
-                    File.Delete(Path.Combine(locationBox1.Text, "Slim Updater Tempfile"));
-                }
+                File.Create(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile")).Close();
+                // Hide error label if the folder is writeable
+                paFolderNotWriteableLabel.Visible = false;
+                File.Delete(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile"));
             }
             catch (Exception)
             {
-                saveButton.Enabled = false;
-                paFolderLocationLabel.ResetText();
-                paFolderNotWriteableLabel1.Visible = true;
+                paFolderNotWriteableLabel.Visible = true;
+                return;
             }
 
-            if (!Directory.Exists(locationBox1.Text) && locationBox1.Text != "")
+            if (!Directory.Exists(dataLocationBox.Text) && dataLocationBox.Text != "")
             {
-                Directory.CreateDirectory(locationBox1.Text);
+                try
+                {
+                    Directory.CreateDirectory(dataLocationBox.Text);
+                }
+                catch
+                {
+                    dataFolderNotWriteableLabel.Visible = true;
+                    return;
+                }
+            }
+            // Test if the data folder is accessible without admin rights
+            try
+            {
+                File.Create(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile")).Close();
+                // Hide error label if the folder is writeable
+                dataFolderNotWriteableLabel.Visible = false;
+                File.Delete(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile"));
+            }
+            catch (Exception)
+            {
+                dataFolderNotWriteableLabel.Visible = true;
+                return;
+            }
+            // Move data folder
+            if (dataLocationBox.Text != settings.DataDir)
+            {
+                foreach (string file in Directory.GetFiles(Path.Combine(
+                        @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        @"Slim Software\Slim Updater\")))
+                {
+                    File.Copy(file, dataLocationBox.Text);
+                }
             }
 
-            settings.PortableAppDir = locationBox1.Text;
+            settings.PortableAppDir = paLocationBox.Text;
+            settings.DataDir = dataLocationBox.Text;
             if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
             {
                 settings.DefenitionURL = customURLTextBox.Text;
