@@ -92,6 +92,7 @@
             this.customDefenRadioBtn = new System.Windows.Forms.RadioButton();
             this.officialDefenRadioBtn = new System.Windows.Forms.RadioButton();
             this.saveButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.getPortableAppsPage = new System.Windows.Forms.Panel();
             this.selectAllPortableCheckBox = new System.Windows.Forms.CheckBox();
             this.portableStatusLabel = new System.Windows.Forms.Label();
@@ -638,6 +639,7 @@
             this.settingsPage.Controls.Add(this.paFolderNotWriteableLabel);
             this.settingsPage.Controls.Add(this.defenitionsGroupBox);
             this.settingsPage.Controls.Add(this.saveButton);
+            this.settingsPage.Controls.Add(this.resetButton);
             this.settingsPage.Location = new System.Drawing.Point(0, 34);
             this.settingsPage.Name = "settingsPage";
             this.settingsPage.Size = new System.Drawing.Size(785, 427);
@@ -819,13 +821,23 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(355, 393);
+            this.saveButton.Location = new System.Drawing.Point(311, 393);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 2;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(399, 393);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(75, 23);
+            this.resetButton.TabIndex = 19;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.ResetButton_Click);
             // 
             // getPortableAppsPage
             // 
@@ -1092,6 +1104,7 @@
         private System.Windows.Forms.Label dataFolderNotWriteableLabel;
         private System.Windows.Forms.Button openDataDirButton;
         private System.Windows.Forms.Button openPAFolderButton;
+        private System.Windows.Forms.Button resetButton;
     }
 }
 

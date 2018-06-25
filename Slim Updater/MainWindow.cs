@@ -2134,6 +2134,13 @@ namespace SlimUpdater
             }
             settings.Save();
         }
+
+        private void ResetButton_Click(object sender, EventArgs e)
+        {
+            settings.CreateXMLFile();
+            // Update control states with the default settings from xml
+            SettingsTile_Click(sender, e);
+        }
         #endregion
 
         #region Tray Icon Click Events
