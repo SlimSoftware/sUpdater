@@ -2101,16 +2101,6 @@ namespace SlimUpdater
                 dataFolderNotWriteableLabel.Visible = true;
                 return;
             }
-            // Move data folder
-            if (dataLocationBox.Text != settings.DataDir)
-            {
-                foreach (string file in Directory.GetFiles(Path.Combine(
-                        @Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        @"Slim Software\Slim Updater\")))
-                {
-                    File.Copy(file, dataLocationBox.Text);
-                }
-            }
 
             settings.PortableAppDir = paLocationBox.Text;
             settings.DataDir = dataLocationBox.Text;
