@@ -2009,6 +2009,14 @@ namespace SlimUpdater
             }
         }
 
+        private void OpenDataDirButton_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(dataLocationBox.Text))
+            {
+                Process.Start("explorer.exe", dataLocationBox.Text);
+            }
+        }
+
         private void PA_BrowseButton_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
@@ -2018,6 +2026,14 @@ namespace SlimUpdater
                 {
                     paLocationBox.Text = fbd.SelectedPath;
                 }
+            }
+        }
+
+        private void OpenPAFolderButton_Click(object sender, EventArgs e)
+        {
+            if (Directory.Exists(paLocationBox.Text))
+            {
+                Process.Start("explorer.exe", paLocationBox.Text);
             }
         }
 
@@ -2188,6 +2204,5 @@ namespace SlimUpdater
             Application.Exit();
         }
         #endregion
-
     }
 }
