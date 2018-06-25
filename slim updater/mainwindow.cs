@@ -123,10 +123,11 @@ namespace SlimUpdater
                 XElement dlElement = appElement.Element("dl");
                 XElement regkeyElement = appElement.Element("regkey");
                 XElement regvalueElement = appElement.Element("regvalue");
+                XElement exePathElement = appElement.Element("exePath");
 
                 // Get local version if installed
                 string localVersion = null;
-                if (regkeyElement.Value.StartsWith("HKEY"))
+                if (regkeyElement?.Value != null)
                 {
                     var regValue = Registry.GetValue(regkeyElement.Value, 
                         regvalueElement.Value, null);
@@ -135,9 +136,9 @@ namespace SlimUpdater
                         localVersion = regValue.ToString();
                     }
                 }
-                else
+                if (exePathElement?.Value != null)
                 {
-                    string exePath = regkeyElement.Value;
+                    string exePath = exePathElement.Value;
                     if (exePath.Contains("%pf32%"))
                     {
                         exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
