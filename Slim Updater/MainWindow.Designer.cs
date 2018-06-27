@@ -319,7 +319,7 @@
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(115, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 3.2.4";
+            this.versionLabel.Text = "Version 3.2.5";
             // 
             // aboutTitle
             // 
