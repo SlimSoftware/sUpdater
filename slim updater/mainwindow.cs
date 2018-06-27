@@ -30,8 +30,7 @@ namespace SlimUpdater
 
         public MainWindow()
         {
-            InitializeComponent();           
-
+            InitializeComponent();
             string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("/tray"))
             {
@@ -43,6 +42,12 @@ namespace SlimUpdater
         }
 
         #region MainWindow Events
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            logger.Log("Slim Updater v" + ProductVersion + " " + "started on " +
+                Utilities.GetFriendlyOSName(), Logger.LogLevel.INFO, logTextBox);
+        }
+
         private void MainWindow_Shown(object sender, EventArgs e)
         {
             if (this.Controls[0] == updatePage | this.Controls[0] == getNewAppsPage |
@@ -73,6 +78,7 @@ namespace SlimUpdater
         #region ReadDefenitions()
         public void ReadDefenitions()
         {
+            logger.Log("Loading definitions file", Logger.LogLevel.INFO, logTextBox);
             appList = new List<App>();
             XDocument defenitions = new XDocument();
 
@@ -81,15 +87,20 @@ namespace SlimUpdater
             {
                 if (settings.DefenitionURL != null)
                 {
+                    logger.Log("Using custom definition file from " + settings.DefenitionURL,
+                        Logger.LogLevel.INFO, logTextBox);
                     defenitions = XDocument.Load(settings.DefenitionURL);
                 }
                 else
                 {
+                    logger.Log("Using official definitions", Logger.LogLevel.INFO, logTextBox);
                     defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
                 }
             }
             catch (Exception e)
             {
+                logger.Log("Cannot check for updates: " + e.Message, 
+                    Logger.LogLevel.ERROR, logTextBox);
                 trayIcon.Icon = Properties.Resources.Slim_UpdaterIcon_Grey;
                 trayIcon.Text = e.Message;
                 updaterTile.BackColor = normalGrey;
