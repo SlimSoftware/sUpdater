@@ -301,6 +301,7 @@ namespace SlimUpdater
                 else if (justInstalledUpdates == true)
                 {
                     updateContentPanel.Controls.Clear();
+                    justInstalledUpdates = false;
                     selectAllUpdatesCheckBox.Visible = false;
                     installUpdatesButton.Enabled = false;
 
