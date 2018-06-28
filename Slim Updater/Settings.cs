@@ -39,7 +39,7 @@ namespace SlimUpdater
                 {
                     DefenitionURL = defenitionURL;
                 }
-                if (dataDir != string.Empty)
+                if (dataDir != string.Empty && dataDir != null)
                 {
                     DataDir = dataDir;
                 }
