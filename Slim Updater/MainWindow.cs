@@ -160,7 +160,11 @@ namespace SlimUpdater
                         exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
                             Environment.SpecialFolder.ProgramFiles));
                     }
-                    localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+
+                    if (File.Exists(exePath))
+                    {
+                        localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                    }
                 }
 
                 // Add app to appList
