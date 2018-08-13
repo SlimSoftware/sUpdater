@@ -215,7 +215,15 @@ namespace SlimUpdater
 
                     foreach (App update in updateList)
                     {
-                        notifiedUpdates += update.Name + " ";
+                        if (update.Equals(updateList.Last()))
+                        {
+                            // Do not add a space after the last app name
+                            notifiedUpdates += update.Name;
+                        }
+                        else
+                        {
+                            notifiedUpdates += update.Name + " ";
+                        }                        
                     }
                     if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
                     {
