@@ -987,15 +987,19 @@ namespace SlimUpdater
                         currentUpdate, selectedAppList.Count), Logger.LogLevel.INFO, logTextBox);
                     using (var p = new Process())
                     {
-                        p.StartInfo.FileName = app.SavePath;
-                        p.StartInfo.UseShellExecute = true;
-                        p.StartInfo.Verb = "runas";
-                        p.StartInfo.Arguments = app.InstallSwitch;
+                        if (app.DL.EndsWith(".exe"))
+                        {
+                            p.StartInfo.FileName = app.SavePath;
+                            p.StartInfo.UseShellExecute = true;
+                            p.StartInfo.Verb = "runas";
+                            p.StartInfo.Arguments = app.InstallSwitch;
+                        }
+
                         try
                         {
                             p.Start();
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             var result = MessageBox.Show(
                                 "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
