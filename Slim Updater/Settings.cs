@@ -137,6 +137,7 @@ namespace SlimUpdater
             if (NotifiedUpdates != settingXML.Element("NotifiedUpdates")?.Value)
             {
                 settingXML.Descendants("NotifiedUpdates").Remove();
+                if (NotifiedUpdates != null)
                 {
                     XElement notifiedUpdates = new XElement("NotifiedUpdates");
                     notifiedUpdates.Value = NotifiedUpdates;
