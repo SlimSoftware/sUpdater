@@ -2080,17 +2080,25 @@ namespace SlimUpdater
             }
 
             // Test if the portable apps folder is accessible without admin rights
-            try
+            if (paLocationBox.Text != "")
             {
-                File.Create(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile")).Close();
-                // Hide error label if the folder is writeable
+                try
+                {
+                    File.Create(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile")).Close();                  
+                }
+                catch (Exception)
+                {
+                    paFolderNotWriteableLabel.Visible = true;
+                    return;
+                }
+                // Hide previously shown error label if the folder is writeable
                 paFolderNotWriteableLabel.Visible = false;
                 File.Delete(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile"));
+                settings.PortableAppDir = paLocationBox.Text;
             }
-            catch (Exception)
+            else
             {
-                paFolderNotWriteableLabel.Visible = true;
-                return;
+                settings.PortableAppDir = null;
             }
 
             if (!Directory.Exists(dataLocationBox.Text) && dataLocationBox.Text != "")
@@ -2105,22 +2113,29 @@ namespace SlimUpdater
                     return;
                 }
             }
+
             // Test if the data folder is accessible without admin rights
-            try
+            if (dataLocationBox.Text != "")
             {
-                File.Create(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile")).Close();
-                // Hide error label if the folder is writeable
+                try
+                {
+                    File.Create(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile")).Close();
+                }
+                catch (Exception)
+                {
+                    dataFolderNotWriteableLabel.Visible = true;
+                    return;
+                }
+                // Hide previously shown error label if the folder is writeable
                 dataFolderNotWriteableLabel.Visible = false;
                 File.Delete(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile"));
+                settings.DataDir = dataLocationBox.Text;
             }
-            catch (Exception)
+            else
             {
-                dataFolderNotWriteableLabel.Visible = true;
-                return;
-            }
-
-            settings.PortableAppDir = paLocationBox.Text;
-            settings.DataDir = dataLocationBox.Text;
+                settings.DataDir = null;
+            }            
+            
             if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
             {
                 settings.DefenitionURL = customURLTextBox.Text;
