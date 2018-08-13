@@ -745,10 +745,21 @@ namespace SlimUpdater
                         currentUpdate, selectedUpdateList.Count), Logger.LogLevel.INFO, logTextBox);
                     using (var p = new Process())
                     {
-                        p.StartInfo.FileName = update.SavePath;
-                        p.StartInfo.UseShellExecute = true;
-                        p.StartInfo.Verb = "runas";
-                        p.StartInfo.Arguments = update.InstallSwitch;
+                        if (update.DL.EndsWith(".exe"))
+                        {
+                            p.StartInfo.FileName = update.SavePath;
+                            p.StartInfo.UseShellExecute = true;
+                            p.StartInfo.Verb = "runas";
+                            p.StartInfo.Arguments = update.InstallSwitch;
+                        }
+                        else if (update.DL.EndsWith(".msi"))
+                        {
+                            p.StartInfo.FileName = "msiexec";
+                            p.StartInfo.UseShellExecute = true;
+                            p.StartInfo.Verb = "runas";
+                            p.StartInfo.Arguments = "\"" + update.InstallSwitch + "\""
+                                + " " + update.SavePath;
+                        }
                         try
                         {
                             p.Start();
@@ -994,12 +1005,19 @@ namespace SlimUpdater
                             p.StartInfo.Verb = "runas";
                             p.StartInfo.Arguments = app.InstallSwitch;
                         }
-
+                        else if (app.DL.EndsWith(".msi"))
+                        {
+                            p.StartInfo.FileName = "msiexec";
+                            p.StartInfo.UseShellExecute = true;
+                            p.StartInfo.Verb = "runas";
+                            p.StartInfo.Arguments = "\"" + app.InstallSwitch + "\"" 
+                                + " " + app.SavePath;
+                        }
                         try
                         {
                             p.Start();
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             var result = MessageBox.Show(
                                 "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
