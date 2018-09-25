@@ -34,9 +34,7 @@ namespace SlimUpdater
             string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("/tray"))
             {
-                this.Hide();
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
+                Utilities.MinimizeToTray(this);
             }
             settings.Load();
         }
@@ -58,7 +56,7 @@ namespace SlimUpdater
             }
 
             ReadDefenitions();
-            CheckForUpdates();
+            CheckForUpdates();    
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -68,9 +66,7 @@ namespace SlimUpdater
                 e.CloseReason != CloseReason.FormOwnerClosing))
             {
                 e.Cancel = true;
-                this.Hide();
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
+                Utilities.MinimizeToTray(this);
             }
         }
         #endregion
@@ -112,7 +108,7 @@ namespace SlimUpdater
                 return;
             }
 
-            if (trayIcon.Icon == Properties.Resources.Slim_UpdaterIcon_Grey)
+            if (updaterTile.BackColor == normalGrey)
             {
                 trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
                 trayIcon.Text = "Slim Updater";
@@ -180,6 +176,11 @@ namespace SlimUpdater
         #region CheckForUpdates()
         public bool CheckForUpdates()
         {
+            if (updaterTile.BackColor == normalGrey)
+            {
+                return false;
+            }
+
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
             updateList = new List<App>(appList);
             string notifiedUpdates = null;
@@ -1836,6 +1837,7 @@ namespace SlimUpdater
             offlineLabel.Visible = false;
             offlineRetryLink.Visible = false;
             ReadDefenitions();
+            CheckForUpdates();
         }
         #endregion
 
@@ -2234,9 +2236,8 @@ namespace SlimUpdater
 
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Normal;
-            this.ShowInTaskbar = true;
             ReadDefenitions();
+            Utilities.ShowFromTray(this);
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
                 CheckForUpdates();
@@ -2244,16 +2245,13 @@ namespace SlimUpdater
                 AutoUpdater.ShowSkipButton = false;
                 AutoUpdater.Start("https://www.slimsoft.tk/slimupdater/update.xml");
             }
-            this.Show();
         }
 
         private void SettingsTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             if (this.Visible == false | this.WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.ShowInTaskbar = true;
-                this.Show();
+                Utilities.ShowFromTray(this);
             }
             SettingsTile_Click(sender, e);
         }
