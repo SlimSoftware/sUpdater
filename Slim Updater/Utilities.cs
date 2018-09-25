@@ -71,7 +71,7 @@ namespace SlimUpdater
                 separator = new Separator()
                 {
                     Location = new Point(0, 45)
-                };                
+                };
                 panel.Controls.Add(appItem);
                 panel.Controls.Add(separator);
                 previousY = appItem.Location.Y;
@@ -106,8 +106,8 @@ namespace SlimUpdater
             if (centerMode == CenterMode.Vertical)
             {
                 control.Top = (parent.Height - control.Height) / 2;
-            } 
-            
+            }
+
             if (centerMode == CenterMode.Both)
             {
                 control.Left = (parent.Width - control.Width) / 2;
@@ -157,6 +157,24 @@ namespace SlimUpdater
                     break;
             }
             return osName;
+        }
+
+        public static void MinimizeToTray(MainWindow mainWindow)
+        {
+            mainWindow.Hide();
+            mainWindow.ShowInTaskbar = false;
+            // Hide Slim Updater in Alt+Tab menu
+            mainWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            mainWindow.WindowState = FormWindowState.Minimized;
+        }
+
+        public static void ShowFromTray(MainWindow mainWindow)
+        {
+            mainWindow.Show();
+            mainWindow.ShowInTaskbar = true;
+            // Show Slim Updater in Alt+Tab menu
+            mainWindow.FormBorderStyle = FormBorderStyle.FixedSingle;
+            mainWindow.WindowState = FormWindowState.Normal;
         }
     }
 }

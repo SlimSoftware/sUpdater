@@ -34,9 +34,7 @@ namespace SlimUpdater
             string[] args = Environment.GetCommandLineArgs();
             if (args.Contains("/tray"))
             {
-                this.Hide();
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
+                Utilities.MinimizeToTray(this);
             }
             settings.Load();
         }
@@ -68,9 +66,7 @@ namespace SlimUpdater
                 e.CloseReason != CloseReason.FormOwnerClosing))
             {
                 e.Cancel = true;
-                this.Hide();
-                this.ShowInTaskbar = false;
-                this.WindowState = FormWindowState.Minimized;
+                Utilities.MinimizeToTray(this);
             }
         }
         #endregion
@@ -2234,9 +2230,8 @@ namespace SlimUpdater
 
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Normal;
-            this.ShowInTaskbar = true;
             ReadDefenitions();
+            Utilities.ShowFromTray(this);
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
                 CheckForUpdates();
@@ -2244,16 +2239,13 @@ namespace SlimUpdater
                 AutoUpdater.ShowSkipButton = false;
                 AutoUpdater.Start("https://www.slimsoft.tk/slimupdater/update.xml");
             }
-            this.Show();
         }
 
         private void SettingsTrayIconMenuItem_Click(object sender, EventArgs e)
         {
             if (this.Visible == false | this.WindowState == FormWindowState.Minimized)
             {
-                this.WindowState = FormWindowState.Normal;
-                this.ShowInTaskbar = true;
-                this.Show();
+                Utilities.ShowFromTray(this);
             }
             SettingsTile_Click(sender, e);
         }
