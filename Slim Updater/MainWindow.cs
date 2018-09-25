@@ -56,7 +56,7 @@ namespace SlimUpdater
             }
 
             ReadDefenitions();
-            CheckForUpdates();
+            CheckForUpdates();    
         }
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
@@ -176,6 +176,11 @@ namespace SlimUpdater
         #region CheckForUpdates()
         public bool CheckForUpdates()
         {
+            if (updaterTile.BackColor == normalGrey)
+            {
+                return false;
+            }
+
             logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
             updateList = new List<App>(appList);
             string notifiedUpdates = null;
