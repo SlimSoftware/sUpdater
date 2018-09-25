@@ -1,7 +1,7 @@
-﻿<Application x:Class="Slim_Updater_WPF.App"
+﻿<Application x:Class="SlimUpdater.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Slim_Updater_WPF"
+             xmlns:local="clr-namespace:SlimUpdater"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

@@ -1,9 +1,9 @@
-﻿<Window x:Class="Slim_Updater_WPF.MainWindow"
+﻿<Window x:Class="SlimUpdater.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Slim_Updater_WPF"
+        xmlns:local="clr-namespace:SlimUpdater"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>

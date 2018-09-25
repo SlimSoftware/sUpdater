@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Slim_Updater_WPF
+namespace SlimUpdater
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Slim_Updater_WPF
+namespace SlimUpdater
 {
     /// <summary>
     /// Interaction logic for App.xaml

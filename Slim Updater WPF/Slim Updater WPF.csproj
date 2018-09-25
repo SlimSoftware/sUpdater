@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A5090076-0BBD-4220-ACE1-F90520F2D683}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Slim_Updater_WPF</RootNamespace>
+    <RootNamespace>SlimUpdater</RootNamespace>
     <AssemblyName>Slim Updater</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
