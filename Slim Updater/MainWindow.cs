@@ -108,7 +108,7 @@ namespace SlimUpdater
                 return;
             }
 
-            if (trayIcon.Icon == Properties.Resources.Slim_UpdaterIcon_Grey)
+            if (updaterTile.BackColor == normalGrey)
             {
                 trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
                 trayIcon.Text = "Slim Updater";
@@ -1837,6 +1837,7 @@ namespace SlimUpdater
             offlineLabel.Visible = false;
             offlineRetryLink.Visible = false;
             ReadDefenitions();
+            CheckForUpdates();
         }
         #endregion
 
