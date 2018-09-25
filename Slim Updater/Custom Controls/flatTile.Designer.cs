@@ -35,10 +35,11 @@
             // 
             // statusLabel
             // 
+            this.statusLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.statusLabel.AutoSize = true;
             this.statusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.statusLabel.Location = new System.Drawing.Point(70, 122);
+            this.statusLabel.Location = new System.Drawing.Point(70, 121);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Size = new System.Drawing.Size(161, 17);
             this.statusLabel.TabIndex = 4;
@@ -49,8 +50,9 @@
             // 
             // tileIcon
             // 
+            this.tileIcon.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.tileIcon.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
-            this.tileIcon.Location = new System.Drawing.Point(118, 22);
+            this.tileIcon.Location = new System.Drawing.Point(118, 21);
             this.tileIcon.Name = "tileIcon";
             this.tileIcon.Size = new System.Drawing.Size(64, 64);
             this.tileIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;

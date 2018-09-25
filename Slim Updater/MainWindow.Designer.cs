@@ -133,10 +133,9 @@
             this.startPage.Controls.Add(this.portableAppsTile);
             this.startPage.Controls.Add(this.settingsTile);
             this.startPage.ForeColor = System.Drawing.SystemColors.Control;
-            this.startPage.Location = new System.Drawing.Point(0, 42);
-            this.startPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.startPage.Location = new System.Drawing.Point(0, 34);
             this.startPage.Name = "startPage";
-            this.startPage.Size = new System.Drawing.Size(981, 534);
+            this.startPage.Size = new System.Drawing.Size(785, 427);
             this.startPage.TabIndex = 1;
             // 
             // offlineRetryLink
@@ -145,10 +144,9 @@
             this.offlineRetryLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.offlineRetryLink.ForeColor = System.Drawing.Color.Red;
             this.offlineRetryLink.LinkColor = System.Drawing.Color.Red;
-            this.offlineRetryLink.Location = new System.Drawing.Point(600, 12);
-            this.offlineRetryLink.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.offlineRetryLink.Location = new System.Drawing.Point(480, 10);
             this.offlineRetryLink.Name = "offlineRetryLink";
-            this.offlineRetryLink.Size = new System.Drawing.Size(176, 20);
+            this.offlineRetryLink.Size = new System.Drawing.Size(153, 17);
             this.offlineRetryLink.TabIndex = 10;
             this.offlineRetryLink.TabStop = true;
             this.offlineRetryLink.Text = "Click here to retry...";
@@ -161,10 +159,9 @@
             this.offlineLabel.AutoSize = true;
             this.offlineLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.offlineLabel.ForeColor = System.Drawing.Color.Red;
-            this.offlineLabel.Location = new System.Drawing.Point(205, 12);
-            this.offlineLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.offlineLabel.Location = new System.Drawing.Point(164, 10);
             this.offlineLabel.Name = "offlineLabel";
-            this.offlineLabel.Size = new System.Drawing.Size(367, 20);
+            this.offlineLabel.Size = new System.Drawing.Size(319, 17);
             this.offlineLabel.TabIndex = 9;
             this.offlineLabel.Text = "Could not connect to the defenition server.";
             this.offlineLabel.Visible = false;
@@ -177,20 +174,18 @@
             this.topBar.Controls.Add(this.titleButtonLeft);
             this.topBar.Controls.Add(this.aboutButton);
             this.topBar.Controls.Add(this.titleButtonRight);
-            this.topBar.Location = new System.Drawing.Point(-9, -1);
-            this.topBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.topBar.Location = new System.Drawing.Point(-7, -1);
             this.topBar.Name = "topBar";
-            this.topBar.Size = new System.Drawing.Size(997, 44);
+            this.topBar.Size = new System.Drawing.Size(798, 36);
             this.topBar.TabIndex = 5;
             // 
             // logButton
             // 
             this.logButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.logButton.Location = new System.Drawing.Point(862, 11);
-            this.logButton.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.logButton.Location = new System.Drawing.Point(690, 9);
             this.logButton.Name = "logButton";
-            this.logButton.Size = new System.Drawing.Size(44, 21);
+            this.logButton.Size = new System.Drawing.Size(35, 17);
             this.logButton.TabIndex = 5;
             this.logButton.Text = "Log";
             this.logButton.Click += new System.EventHandler(this.LogButton_Click);
@@ -201,10 +196,9 @@
             // 
             this.aboutButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.aboutButton.Location = new System.Drawing.Point(911, 11);
-            this.aboutButton.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aboutButton.Location = new System.Drawing.Point(729, 9);
             this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(62, 21);
+            this.aboutButton.Size = new System.Drawing.Size(50, 17);
             this.aboutButton.TabIndex = 1;
             this.aboutButton.Text = "About";
             this.aboutButton.Click += new System.EventHandler(this.AboutLabel_Click);
@@ -216,10 +210,9 @@
             this.selectAllUpdatesCheckBox.AutoSize = true;
             this.selectAllUpdatesCheckBox.Checked = true;
             this.selectAllUpdatesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.selectAllUpdatesCheckBox.Location = new System.Drawing.Point(8, 2);
-            this.selectAllUpdatesCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.selectAllUpdatesCheckBox.Location = new System.Drawing.Point(6, 2);
             this.selectAllUpdatesCheckBox.Name = "selectAllUpdatesCheckBox";
-            this.selectAllUpdatesCheckBox.Size = new System.Drawing.Size(104, 21);
+            this.selectAllUpdatesCheckBox.Size = new System.Drawing.Size(82, 17);
             this.selectAllUpdatesCheckBox.TabIndex = 1;
             this.selectAllUpdatesCheckBox.Text = "Unselect All";
             this.selectAllUpdatesCheckBox.UseVisualStyleBackColor = true;
@@ -228,10 +221,9 @@
             // updateContentPanel
             // 
             this.updateContentPanel.AutoScroll = true;
-            this.updateContentPanel.Location = new System.Drawing.Point(0, 25);
-            this.updateContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.updateContentPanel.Location = new System.Drawing.Point(0, 20);
             this.updateContentPanel.Name = "updateContentPanel";
-            this.updateContentPanel.Size = new System.Drawing.Size(981, 456);
+            this.updateContentPanel.Size = new System.Drawing.Size(785, 365);
             this.updateContentPanel.TabIndex = 0;
             // 
             // updatePage
@@ -242,10 +234,9 @@
             this.updatePage.Controls.Add(this.installUpdatesButton);
             this.updatePage.Controls.Add(this.refreshUpdatesButton);
             this.updatePage.Controls.Add(this.updateContentPanel);
-            this.updatePage.Location = new System.Drawing.Point(0, 44);
-            this.updatePage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.updatePage.Location = new System.Drawing.Point(0, 35);
             this.updatePage.Name = "updatePage";
-            this.updatePage.Size = new System.Drawing.Size(981, 534);
+            this.updatePage.Size = new System.Drawing.Size(785, 427);
             this.updatePage.TabIndex = 6;
             // 
             // updatesStatusLabel
@@ -253,20 +244,18 @@
             this.updatesStatusLabel.AutoSize = true;
             this.updatesStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.updatesStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.updatesStatusLabel.Location = new System.Drawing.Point(340, 2);
-            this.updatesStatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.updatesStatusLabel.Location = new System.Drawing.Point(272, 2);
             this.updatesStatusLabel.Name = "updatesStatusLabel";
-            this.updatesStatusLabel.Size = new System.Drawing.Size(281, 20);
+            this.updatesStatusLabel.Size = new System.Drawing.Size(241, 17);
             this.updatesStatusLabel.TabIndex = 3;
             this.updatesStatusLabel.Text = "Succesfully installed all updates";
             this.updatesStatusLabel.Visible = false;
             // 
             // installUpdatesButton
             // 
-            this.installUpdatesButton.Location = new System.Drawing.Point(498, 492);
-            this.installUpdatesButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.installUpdatesButton.Location = new System.Drawing.Point(398, 394);
             this.installUpdatesButton.Name = "installUpdatesButton";
-            this.installUpdatesButton.Size = new System.Drawing.Size(116, 29);
+            this.installUpdatesButton.Size = new System.Drawing.Size(93, 23);
             this.installUpdatesButton.TabIndex = 2;
             this.installUpdatesButton.Text = "Install Selected";
             this.installUpdatesButton.UseVisualStyleBackColor = true;
@@ -274,10 +263,9 @@
             // 
             // refreshUpdatesButton
             // 
-            this.refreshUpdatesButton.Location = new System.Drawing.Point(368, 492);
-            this.refreshUpdatesButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.refreshUpdatesButton.Location = new System.Drawing.Point(294, 394);
             this.refreshUpdatesButton.Name = "refreshUpdatesButton";
-            this.refreshUpdatesButton.Size = new System.Drawing.Size(94, 29);
+            this.refreshUpdatesButton.Size = new System.Drawing.Size(75, 23);
             this.refreshUpdatesButton.TabIndex = 0;
             this.refreshUpdatesButton.Text = "Refresh";
             this.refreshUpdatesButton.UseVisualStyleBackColor = true;
@@ -291,10 +279,9 @@
             this.aboutPage.Controls.Add(this.versionLabel);
             this.aboutPage.Controls.Add(this.aboutTitle);
             this.aboutPage.Controls.Add(this.slimUpdaterLogo);
-            this.aboutPage.Location = new System.Drawing.Point(0, 42);
-            this.aboutPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.aboutPage.Location = new System.Drawing.Point(0, 34);
             this.aboutPage.Name = "aboutPage";
-            this.aboutPage.Size = new System.Drawing.Size(981, 534);
+            this.aboutPage.Size = new System.Drawing.Size(785, 427);
             this.aboutPage.TabIndex = 9;
             // 
             // siteLink
@@ -303,10 +290,9 @@
             this.siteLink.AutoSize = true;
             this.siteLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siteLink.LinkColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.siteLink.Location = new System.Drawing.Point(428, 484);
-            this.siteLink.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.siteLink.Location = new System.Drawing.Point(342, 387);
             this.siteLink.Name = "siteLink";
-            this.siteLink.Size = new System.Drawing.Size(125, 20);
+            this.siteLink.Size = new System.Drawing.Size(101, 17);
             this.siteLink.TabIndex = 4;
             this.siteLink.TabStop = true;
             this.siteLink.Text = "www.slimsoft.tk";
@@ -318,10 +304,9 @@
             this.slimsoftwareLabel.AutoSize = true;
             this.slimsoftwareLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.slimsoftwareLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.slimsoftwareLabel.Location = new System.Drawing.Point(242, 456);
-            this.slimsoftwareLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.slimsoftwareLabel.Location = new System.Drawing.Point(194, 365);
             this.slimsoftwareLabel.Name = "slimsoftwareLabel";
-            this.slimsoftwareLabel.Size = new System.Drawing.Size(492, 24);
+            this.slimsoftwareLabel.Size = new System.Drawing.Size(396, 18);
             this.slimsoftwareLabel.TabIndex = 3;
             this.slimsoftwareLabel.Text = "Open Source Software developped by SlimSoftware\r\n";
             // 
@@ -330,10 +315,9 @@
             this.versionLabel.AutoSize = true;
             this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.versionLabel.Location = new System.Drawing.Point(419, 256);
-            this.versionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.versionLabel.Location = new System.Drawing.Point(335, 205);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(140, 25);
+            this.versionLabel.Size = new System.Drawing.Size(115, 20);
             this.versionLabel.TabIndex = 2;
             this.versionLabel.Text = "Version 3.2.8";
             // 
@@ -342,20 +326,18 @@
             this.aboutTitle.AutoSize = true;
             this.aboutTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.aboutTitle.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.aboutTitle.Location = new System.Drawing.Point(396, 215);
-            this.aboutTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.aboutTitle.Location = new System.Drawing.Point(317, 172);
             this.aboutTitle.Name = "aboutTitle";
-            this.aboutTitle.Size = new System.Drawing.Size(182, 31);
+            this.aboutTitle.Size = new System.Drawing.Size(151, 26);
             this.aboutTitle.TabIndex = 1;
             this.aboutTitle.Text = "Slim Updater";
             // 
             // slimUpdaterLogo
             // 
             this.slimUpdaterLogo.Image = global::SlimUpdater.Properties.Resources.SlimUpdater;
-            this.slimUpdaterLogo.Location = new System.Drawing.Point(410, 24);
-            this.slimUpdaterLogo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.slimUpdaterLogo.Location = new System.Drawing.Point(328, 19);
             this.slimUpdaterLogo.Name = "slimUpdaterLogo";
-            this.slimUpdaterLogo.Size = new System.Drawing.Size(160, 160);
+            this.slimUpdaterLogo.Size = new System.Drawing.Size(128, 128);
             this.slimUpdaterLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.slimUpdaterLogo.TabIndex = 0;
             this.slimUpdaterLogo.TabStop = false;
@@ -366,10 +348,9 @@
             this.detailsPage.Controls.Add(this.detailText);
             this.detailsPage.Controls.Add(this.actionLink);
             this.detailsPage.Controls.Add(this.detailLabel);
-            this.detailsPage.Location = new System.Drawing.Point(0, 41);
-            this.detailsPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.detailsPage.Location = new System.Drawing.Point(0, 33);
             this.detailsPage.Name = "detailsPage";
-            this.detailsPage.Size = new System.Drawing.Size(981, 534);
+            this.detailsPage.Size = new System.Drawing.Size(785, 427);
             this.detailsPage.TabIndex = 10;
             // 
             // detailText
@@ -378,11 +359,10 @@
             this.detailText.BackColor = System.Drawing.Color.White;
             this.detailText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.detailText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.detailText.Location = new System.Drawing.Point(8, 36);
-            this.detailText.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.detailText.Location = new System.Drawing.Point(6, 29);
             this.detailText.Name = "detailText";
             this.detailText.ReadOnly = true;
-            this.detailText.Size = new System.Drawing.Size(974, 499);
+            this.detailText.Size = new System.Drawing.Size(779, 399);
             this.detailText.TabIndex = 15;
             this.detailText.Text = "";
             // 
@@ -390,10 +370,9 @@
             // 
             this.actionLink.AutoSize = true;
             this.actionLink.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.actionLink.Location = new System.Drawing.Point(4, 506);
-            this.actionLink.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.actionLink.Location = new System.Drawing.Point(3, 405);
             this.actionLink.Name = "actionLink";
-            this.actionLink.Size = new System.Drawing.Size(48, 17);
+            this.actionLink.Size = new System.Drawing.Size(37, 13);
             this.actionLink.TabIndex = 13;
             this.actionLink.TabStop = true;
             this.actionLink.Text = "Ingore";
@@ -405,10 +384,9 @@
             this.detailLabel.BackColor = System.Drawing.Color.Transparent;
             this.detailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.detailLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.detailLabel.Location = new System.Drawing.Point(4, 5);
-            this.detailLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.detailLabel.Location = new System.Drawing.Point(3, 4);
             this.detailLabel.Name = "detailLabel";
-            this.detailLabel.Size = new System.Drawing.Size(112, 24);
+            this.detailLabel.Size = new System.Drawing.Size(88, 18);
             this.detailLabel.TabIndex = 12;
             this.detailLabel.Text = "Changelog";
             // 
@@ -420,10 +398,9 @@
             this.getNewAppsPage.Controls.Add(this.installAppsButton);
             this.getNewAppsPage.Controls.Add(this.refreshAppsButton);
             this.getNewAppsPage.Controls.Add(this.getNewAppsContentPanel);
-            this.getNewAppsPage.Location = new System.Drawing.Point(0, 44);
-            this.getNewAppsPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getNewAppsPage.Location = new System.Drawing.Point(0, 35);
             this.getNewAppsPage.Name = "getNewAppsPage";
-            this.getNewAppsPage.Size = new System.Drawing.Size(981, 534);
+            this.getNewAppsPage.Size = new System.Drawing.Size(785, 427);
             this.getNewAppsPage.TabIndex = 11;
             // 
             // newAppsStatusLabel
@@ -431,10 +408,9 @@
             this.newAppsStatusLabel.AutoSize = true;
             this.newAppsStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.newAppsStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.newAppsStatusLabel.Location = new System.Drawing.Point(340, 2);
-            this.newAppsStatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.newAppsStatusLabel.Location = new System.Drawing.Point(272, 2);
             this.newAppsStatusLabel.Name = "newAppsStatusLabel";
-            this.newAppsStatusLabel.Size = new System.Drawing.Size(316, 20);
+            this.newAppsStatusLabel.Size = new System.Drawing.Size(270, 17);
             this.newAppsStatusLabel.TabIndex = 4;
             this.newAppsStatusLabel.Text = "Succesfully installed all applications";
             this.newAppsStatusLabel.Visible = false;
@@ -442,10 +418,9 @@
             // selectAllAppsCheckBox
             // 
             this.selectAllAppsCheckBox.AutoSize = true;
-            this.selectAllAppsCheckBox.Location = new System.Drawing.Point(8, 2);
-            this.selectAllAppsCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.selectAllAppsCheckBox.Location = new System.Drawing.Point(6, 2);
             this.selectAllAppsCheckBox.Name = "selectAllAppsCheckBox";
-            this.selectAllAppsCheckBox.Size = new System.Drawing.Size(88, 21);
+            this.selectAllAppsCheckBox.Size = new System.Drawing.Size(70, 17);
             this.selectAllAppsCheckBox.TabIndex = 1;
             this.selectAllAppsCheckBox.Text = "Select All";
             this.selectAllAppsCheckBox.UseVisualStyleBackColor = true;
@@ -453,10 +428,9 @@
             // 
             // installAppsButton
             // 
-            this.installAppsButton.Location = new System.Drawing.Point(498, 492);
-            this.installAppsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.installAppsButton.Location = new System.Drawing.Point(398, 394);
             this.installAppsButton.Name = "installAppsButton";
-            this.installAppsButton.Size = new System.Drawing.Size(116, 29);
+            this.installAppsButton.Size = new System.Drawing.Size(93, 23);
             this.installAppsButton.TabIndex = 2;
             this.installAppsButton.Text = "Install Selected";
             this.installAppsButton.UseVisualStyleBackColor = true;
@@ -464,10 +438,9 @@
             // 
             // refreshAppsButton
             // 
-            this.refreshAppsButton.Location = new System.Drawing.Point(368, 492);
-            this.refreshAppsButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.refreshAppsButton.Location = new System.Drawing.Point(294, 394);
             this.refreshAppsButton.Name = "refreshAppsButton";
-            this.refreshAppsButton.Size = new System.Drawing.Size(94, 29);
+            this.refreshAppsButton.Size = new System.Drawing.Size(75, 23);
             this.refreshAppsButton.TabIndex = 0;
             this.refreshAppsButton.Text = "Refresh";
             this.refreshAppsButton.UseVisualStyleBackColor = true;
@@ -476,10 +449,9 @@
             // getNewAppsContentPanel
             // 
             this.getNewAppsContentPanel.AutoScroll = true;
-            this.getNewAppsContentPanel.Location = new System.Drawing.Point(0, 25);
-            this.getNewAppsContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getNewAppsContentPanel.Location = new System.Drawing.Point(0, 20);
             this.getNewAppsContentPanel.Name = "getNewAppsContentPanel";
-            this.getNewAppsContentPanel.Size = new System.Drawing.Size(981, 456);
+            this.getNewAppsContentPanel.Size = new System.Drawing.Size(785, 365);
             this.getNewAppsContentPanel.TabIndex = 0;
             // 
             // installedPortableAppsPage
@@ -487,18 +459,16 @@
             this.installedPortableAppsPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.installedPortableAppsPage.Controls.Add(this.refreshPortableButton);
             this.installedPortableAppsPage.Controls.Add(this.installedPortableContentPanel);
-            this.installedPortableAppsPage.Location = new System.Drawing.Point(0, 44);
-            this.installedPortableAppsPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.installedPortableAppsPage.Location = new System.Drawing.Point(0, 35);
             this.installedPortableAppsPage.Name = "installedPortableAppsPage";
-            this.installedPortableAppsPage.Size = new System.Drawing.Size(981, 534);
+            this.installedPortableAppsPage.Size = new System.Drawing.Size(785, 427);
             this.installedPortableAppsPage.TabIndex = 12;
             // 
             // refreshPortableButton
             // 
-            this.refreshPortableButton.Location = new System.Drawing.Point(444, 492);
-            this.refreshPortableButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.refreshPortableButton.Location = new System.Drawing.Point(355, 394);
             this.refreshPortableButton.Name = "refreshPortableButton";
-            this.refreshPortableButton.Size = new System.Drawing.Size(94, 29);
+            this.refreshPortableButton.Size = new System.Drawing.Size(75, 23);
             this.refreshPortableButton.TabIndex = 0;
             this.refreshPortableButton.Text = "Refresh";
             this.refreshPortableButton.UseVisualStyleBackColor = true;
@@ -508,9 +478,8 @@
             // 
             this.installedPortableContentPanel.AutoScroll = true;
             this.installedPortableContentPanel.Location = new System.Drawing.Point(0, 0);
-            this.installedPortableContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.installedPortableContentPanel.Name = "installedPortableContentPanel";
-            this.installedPortableContentPanel.Size = new System.Drawing.Size(981, 482);
+            this.installedPortableContentPanel.Size = new System.Drawing.Size(785, 386);
             this.installedPortableContentPanel.TabIndex = 0;
             // 
             // setPortableAppFolderPage
@@ -521,10 +490,9 @@
             this.setPortableAppFolderPage.Controls.Add(this.locationBox2);
             this.setPortableAppFolderPage.Controls.Add(this.instructionLabel);
             this.setPortableAppFolderPage.Controls.Add(this.setPortableAppFolderButton);
-            this.setPortableAppFolderPage.Location = new System.Drawing.Point(0, 42);
-            this.setPortableAppFolderPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.setPortableAppFolderPage.Location = new System.Drawing.Point(0, 34);
             this.setPortableAppFolderPage.Name = "setPortableAppFolderPage";
-            this.setPortableAppFolderPage.Size = new System.Drawing.Size(981, 534);
+            this.setPortableAppFolderPage.Size = new System.Drawing.Size(785, 427);
             this.setPortableAppFolderPage.TabIndex = 13;
             // 
             // paFolderNotWriteableLabel2
@@ -532,10 +500,9 @@
             this.paFolderNotWriteableLabel2.AutoSize = true;
             this.paFolderNotWriteableLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.paFolderNotWriteableLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.paFolderNotWriteableLabel2.Location = new System.Drawing.Point(115, 259);
-            this.paFolderNotWriteableLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paFolderNotWriteableLabel2.Location = new System.Drawing.Point(92, 207);
             this.paFolderNotWriteableLabel2.Name = "paFolderNotWriteableLabel2";
-            this.paFolderNotWriteableLabel2.Size = new System.Drawing.Size(606, 18);
+            this.paFolderNotWriteableLabel2.Size = new System.Drawing.Size(515, 15);
             this.paFolderNotWriteableLabel2.TabIndex = 7;
             this.paFolderNotWriteableLabel2.Text = "This folder is not writeable by the current user, please choose a different folde" +
     "r.";
@@ -543,10 +510,9 @@
             // 
             // browseButton2
             // 
-            this.browseButton2.Location = new System.Drawing.Point(784, 229);
-            this.browseButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.browseButton2.Location = new System.Drawing.Point(627, 183);
             this.browseButton2.Name = "browseButton2";
-            this.browseButton2.Size = new System.Drawing.Size(94, 29);
+            this.browseButton2.Size = new System.Drawing.Size(75, 23);
             this.browseButton2.TabIndex = 6;
             this.browseButton2.Text = "Browse";
             this.browseButton2.UseVisualStyleBackColor = true;
@@ -554,10 +520,9 @@
             // 
             // locationBox2
             // 
-            this.locationBox2.Location = new System.Drawing.Point(111, 231);
-            this.locationBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.locationBox2.Location = new System.Drawing.Point(89, 185);
             this.locationBox2.Name = "locationBox2";
-            this.locationBox2.Size = new System.Drawing.Size(649, 22);
+            this.locationBox2.Size = new System.Drawing.Size(520, 20);
             this.locationBox2.TabIndex = 5;
             this.locationBox2.TextChanged += new System.EventHandler(this.LocationBox2_TextChanged);
             // 
@@ -566,19 +531,17 @@
             this.instructionLabel.AutoSize = true;
             this.instructionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.instructionLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.instructionLabel.Location = new System.Drawing.Point(126, 50);
-            this.instructionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.instructionLabel.Location = new System.Drawing.Point(101, 40);
             this.instructionLabel.Name = "instructionLabel";
-            this.instructionLabel.Size = new System.Drawing.Size(692, 54);
+            this.instructionLabel.Size = new System.Drawing.Size(582, 45);
             this.instructionLabel.TabIndex = 3;
             this.instructionLabel.Text = resources.GetString("instructionLabel.Text");
             // 
             // setPortableAppFolderButton
             // 
-            this.setPortableAppFolderButton.Location = new System.Drawing.Point(444, 491);
-            this.setPortableAppFolderButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.setPortableAppFolderButton.Location = new System.Drawing.Point(355, 393);
             this.setPortableAppFolderButton.Name = "setPortableAppFolderButton";
-            this.setPortableAppFolderButton.Size = new System.Drawing.Size(92, 29);
+            this.setPortableAppFolderButton.Size = new System.Drawing.Size(74, 23);
             this.setPortableAppFolderButton.TabIndex = 4;
             this.setPortableAppFolderButton.Text = "OK";
             this.setPortableAppFolderButton.UseVisualStyleBackColor = true;
@@ -602,19 +565,17 @@
             this.settingsPage.Controls.Add(this.defenitionsGroupBox);
             this.settingsPage.Controls.Add(this.saveButton);
             this.settingsPage.Controls.Add(this.resetButton);
-            this.settingsPage.Location = new System.Drawing.Point(0, 42);
-            this.settingsPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.settingsPage.Location = new System.Drawing.Point(0, 34);
             this.settingsPage.Name = "settingsPage";
-            this.settingsPage.Size = new System.Drawing.Size(981, 534);
+            this.settingsPage.Size = new System.Drawing.Size(785, 427);
             this.settingsPage.TabIndex = 14;
             // 
             // autoStartCheckBox
             // 
             this.autoStartCheckBox.AutoSize = true;
-            this.autoStartCheckBox.Location = new System.Drawing.Point(15, 8);
-            this.autoStartCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.autoStartCheckBox.Location = new System.Drawing.Point(12, 6);
             this.autoStartCheckBox.Name = "autoStartCheckBox";
-            this.autoStartCheckBox.Size = new System.Drawing.Size(314, 21);
+            this.autoStartCheckBox.Size = new System.Drawing.Size(235, 17);
             this.autoStartCheckBox.TabIndex = 4;
             this.autoStartCheckBox.Text = "Auto-start Slim Updater as a system tray icon";
             this.autoStartCheckBox.UseVisualStyleBackColor = true;
@@ -622,10 +583,9 @@
             // minimizeToTrayCheckBox
             // 
             this.minimizeToTrayCheckBox.AutoSize = true;
-            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(15, 38);
-            this.minimizeToTrayCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.minimizeToTrayCheckBox.Location = new System.Drawing.Point(12, 30);
             this.minimizeToTrayCheckBox.Name = "minimizeToTrayCheckBox";
-            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(418, 21);
+            this.minimizeToTrayCheckBox.Size = new System.Drawing.Size(316, 17);
             this.minimizeToTrayCheckBox.TabIndex = 5;
             this.minimizeToTrayCheckBox.Text = "Keep running as a system tray icon when I close Slim Updater";
             this.minimizeToTrayCheckBox.UseVisualStyleBackColor = true;
@@ -633,27 +593,24 @@
             // dataFolderLabel
             // 
             this.dataFolderLabel.AutoSize = true;
-            this.dataFolderLabel.Location = new System.Drawing.Point(11, 74);
-            this.dataFolderLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.dataFolderLabel.Location = new System.Drawing.Point(9, 59);
             this.dataFolderLabel.Name = "dataFolderLabel";
-            this.dataFolderLabel.Size = new System.Drawing.Size(431, 17);
+            this.dataFolderLabel.Size = new System.Drawing.Size(318, 13);
             this.dataFolderLabel.TabIndex = 13;
             this.dataFolderLabel.Text = "Data Folder Location (for storing application installers and settings)";
             // 
             // dataLocationBox
             // 
-            this.dataLocationBox.Location = new System.Drawing.Point(15, 95);
-            this.dataLocationBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataLocationBox.Location = new System.Drawing.Point(12, 76);
             this.dataLocationBox.Name = "dataLocationBox";
-            this.dataLocationBox.Size = new System.Drawing.Size(722, 22);
+            this.dataLocationBox.Size = new System.Drawing.Size(578, 20);
             this.dataLocationBox.TabIndex = 15;
             // 
             // dataBrowseButton
             // 
-            this.dataBrowseButton.Location = new System.Drawing.Point(760, 92);
-            this.dataBrowseButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataBrowseButton.Location = new System.Drawing.Point(608, 74);
             this.dataBrowseButton.Name = "dataBrowseButton";
-            this.dataBrowseButton.Size = new System.Drawing.Size(94, 29);
+            this.dataBrowseButton.Size = new System.Drawing.Size(75, 23);
             this.dataBrowseButton.TabIndex = 14;
             this.dataBrowseButton.Text = "Browse";
             this.dataBrowseButton.UseVisualStyleBackColor = true;
@@ -661,10 +618,9 @@
             // 
             // openDataDirButton
             // 
-            this.openDataDirButton.Location = new System.Drawing.Point(871, 92);
-            this.openDataDirButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.openDataDirButton.Location = new System.Drawing.Point(697, 74);
             this.openDataDirButton.Name = "openDataDirButton";
-            this.openDataDirButton.Size = new System.Drawing.Size(94, 29);
+            this.openDataDirButton.Size = new System.Drawing.Size(75, 23);
             this.openDataDirButton.TabIndex = 17;
             this.openDataDirButton.Text = "Open Folder";
             this.openDataDirButton.UseVisualStyleBackColor = true;
@@ -675,10 +631,9 @@
             this.dataFolderNotWriteableLabel.AutoSize = true;
             this.dataFolderNotWriteableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dataFolderNotWriteableLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.dataFolderNotWriteableLabel.Location = new System.Drawing.Point(59, 121);
-            this.dataFolderNotWriteableLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.dataFolderNotWriteableLabel.Location = new System.Drawing.Point(47, 97);
             this.dataFolderNotWriteableLabel.Name = "dataFolderNotWriteableLabel";
-            this.dataFolderNotWriteableLabel.Size = new System.Drawing.Size(606, 18);
+            this.dataFolderNotWriteableLabel.Size = new System.Drawing.Size(515, 15);
             this.dataFolderNotWriteableLabel.TabIndex = 16;
             this.dataFolderNotWriteableLabel.Text = "This folder is not writeable by the current user, please choose a different folde" +
     "r.";
@@ -687,27 +642,24 @@
             // paFolderLocationLabel
             // 
             this.paFolderLocationLabel.AutoSize = true;
-            this.paFolderLocationLabel.Location = new System.Drawing.Point(11, 144);
-            this.paFolderLocationLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paFolderLocationLabel.Location = new System.Drawing.Point(9, 115);
             this.paFolderLocationLabel.Name = "paFolderLocationLabel";
-            this.paFolderLocationLabel.Size = new System.Drawing.Size(203, 17);
+            this.paFolderLocationLabel.Size = new System.Drawing.Size(152, 13);
             this.paFolderLocationLabel.TabIndex = 9;
             this.paFolderLocationLabel.Text = "Portable Apps Folder Location:";
             // 
             // paLocationBox
             // 
-            this.paLocationBox.Location = new System.Drawing.Point(15, 165);
-            this.paLocationBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.paLocationBox.Location = new System.Drawing.Point(12, 132);
             this.paLocationBox.Name = "paLocationBox";
-            this.paLocationBox.Size = new System.Drawing.Size(722, 22);
+            this.paLocationBox.Size = new System.Drawing.Size(578, 20);
             this.paLocationBox.TabIndex = 11;
             // 
             // paBrowseButton
             // 
-            this.paBrowseButton.Location = new System.Drawing.Point(760, 165);
-            this.paBrowseButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.paBrowseButton.Location = new System.Drawing.Point(608, 132);
             this.paBrowseButton.Name = "paBrowseButton";
-            this.paBrowseButton.Size = new System.Drawing.Size(94, 29);
+            this.paBrowseButton.Size = new System.Drawing.Size(75, 23);
             this.paBrowseButton.TabIndex = 10;
             this.paBrowseButton.Text = "Browse";
             this.paBrowseButton.UseVisualStyleBackColor = true;
@@ -715,10 +667,9 @@
             // 
             // openPAFolderButton
             // 
-            this.openPAFolderButton.Location = new System.Drawing.Point(871, 165);
-            this.openPAFolderButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.openPAFolderButton.Location = new System.Drawing.Point(697, 132);
             this.openPAFolderButton.Name = "openPAFolderButton";
-            this.openPAFolderButton.Size = new System.Drawing.Size(94, 29);
+            this.openPAFolderButton.Size = new System.Drawing.Size(75, 23);
             this.openPAFolderButton.TabIndex = 18;
             this.openPAFolderButton.Text = "Open Folder";
             this.openPAFolderButton.UseVisualStyleBackColor = true;
@@ -729,10 +680,9 @@
             this.paFolderNotWriteableLabel.AutoSize = true;
             this.paFolderNotWriteableLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.paFolderNotWriteableLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(186)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.paFolderNotWriteableLabel.Location = new System.Drawing.Point(59, 192);
-            this.paFolderNotWriteableLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.paFolderNotWriteableLabel.Location = new System.Drawing.Point(47, 154);
             this.paFolderNotWriteableLabel.Name = "paFolderNotWriteableLabel";
-            this.paFolderNotWriteableLabel.Size = new System.Drawing.Size(606, 18);
+            this.paFolderNotWriteableLabel.Size = new System.Drawing.Size(515, 15);
             this.paFolderNotWriteableLabel.TabIndex = 12;
             this.paFolderNotWriteableLabel.Text = "This folder is not writeable by the current user, please choose a different folde" +
     "r.";
@@ -745,11 +695,9 @@
             this.defenitionsGroupBox.Controls.Add(this.customDefenRadioBtn);
             this.defenitionsGroupBox.Controls.Add(this.officialDefenRadioBtn);
             this.defenitionsGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.defenitionsGroupBox.Location = new System.Drawing.Point(15, 212);
-            this.defenitionsGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defenitionsGroupBox.Location = new System.Drawing.Point(12, 170);
             this.defenitionsGroupBox.Name = "defenitionsGroupBox";
-            this.defenitionsGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.defenitionsGroupBox.Size = new System.Drawing.Size(951, 135);
+            this.defenitionsGroupBox.Size = new System.Drawing.Size(761, 108);
             this.defenitionsGroupBox.TabIndex = 1;
             this.defenitionsGroupBox.TabStop = false;
             this.defenitionsGroupBox.Text = "Defenitions";
@@ -758,29 +706,26 @@
             // 
             this.warningLabel.AutoSize = true;
             this.warningLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.warningLabel.Location = new System.Drawing.Point(8, 110);
-            this.warningLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.warningLabel.Location = new System.Drawing.Point(6, 88);
             this.warningLabel.Name = "warningLabel";
-            this.warningLabel.Size = new System.Drawing.Size(405, 17);
+            this.warningLabel.Size = new System.Drawing.Size(302, 13);
             this.warningLabel.TabIndex = 3;
             this.warningLabel.Text = "Make sure to only use custom Defenitions from trusted sources";
             // 
             // customURLTextBox
             // 
             this.customURLTextBox.Enabled = false;
-            this.customURLTextBox.Location = new System.Drawing.Point(8, 81);
-            this.customURLTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.customURLTextBox.Location = new System.Drawing.Point(6, 65);
             this.customURLTextBox.Name = "customURLTextBox";
-            this.customURLTextBox.Size = new System.Drawing.Size(362, 23);
+            this.customURLTextBox.Size = new System.Drawing.Size(290, 20);
             this.customURLTextBox.TabIndex = 2;
             // 
             // customDefenRadioBtn
             // 
             this.customDefenRadioBtn.AutoSize = true;
-            this.customDefenRadioBtn.Location = new System.Drawing.Point(8, 52);
-            this.customDefenRadioBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.customDefenRadioBtn.Location = new System.Drawing.Point(6, 42);
             this.customDefenRadioBtn.Name = "customDefenRadioBtn";
-            this.customDefenRadioBtn.Size = new System.Drawing.Size(240, 21);
+            this.customDefenRadioBtn.Size = new System.Drawing.Size(185, 17);
             this.customDefenRadioBtn.TabIndex = 1;
             this.customDefenRadioBtn.Text = "Use the following Defenition URL:";
             this.customDefenRadioBtn.UseVisualStyleBackColor = true;
@@ -790,10 +735,9 @@
             // 
             this.officialDefenRadioBtn.AutoSize = true;
             this.officialDefenRadioBtn.Checked = true;
-            this.officialDefenRadioBtn.Location = new System.Drawing.Point(8, 24);
-            this.officialDefenRadioBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.officialDefenRadioBtn.Location = new System.Drawing.Point(6, 19);
             this.officialDefenRadioBtn.Name = "officialDefenRadioBtn";
-            this.officialDefenRadioBtn.Size = new System.Drawing.Size(386, 21);
+            this.officialDefenRadioBtn.Size = new System.Drawing.Size(290, 17);
             this.officialDefenRadioBtn.TabIndex = 0;
             this.officialDefenRadioBtn.TabStop = true;
             this.officialDefenRadioBtn.Text = "Use the official Slim Updater Defenitions (recommended)";
@@ -802,10 +746,9 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(389, 491);
-            this.saveButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.saveButton.Location = new System.Drawing.Point(311, 393);
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(94, 29);
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 2;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
@@ -813,10 +756,9 @@
             // 
             // resetButton
             // 
-            this.resetButton.Location = new System.Drawing.Point(499, 491);
-            this.resetButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.resetButton.Location = new System.Drawing.Point(399, 393);
             this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(94, 29);
+            this.resetButton.Size = new System.Drawing.Size(75, 23);
             this.resetButton.TabIndex = 19;
             this.resetButton.Text = "Reset";
             this.resetButton.UseVisualStyleBackColor = true;
@@ -830,19 +772,17 @@
             this.getPortableAppsPage.Controls.Add(this.downloadPortableButton);
             this.getPortableAppsPage.Controls.Add(this.refreshPortableButton2);
             this.getPortableAppsPage.Controls.Add(this.getPortableContentPanel);
-            this.getPortableAppsPage.Location = new System.Drawing.Point(0, 44);
-            this.getPortableAppsPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getPortableAppsPage.Location = new System.Drawing.Point(0, 35);
             this.getPortableAppsPage.Name = "getPortableAppsPage";
-            this.getPortableAppsPage.Size = new System.Drawing.Size(981, 534);
+            this.getPortableAppsPage.Size = new System.Drawing.Size(785, 427);
             this.getPortableAppsPage.TabIndex = 15;
             // 
             // selectAllPortableCheckBox
             // 
             this.selectAllPortableCheckBox.AutoSize = true;
-            this.selectAllPortableCheckBox.Location = new System.Drawing.Point(8, 2);
-            this.selectAllPortableCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.selectAllPortableCheckBox.Location = new System.Drawing.Point(6, 2);
             this.selectAllPortableCheckBox.Name = "selectAllPortableCheckBox";
-            this.selectAllPortableCheckBox.Size = new System.Drawing.Size(88, 21);
+            this.selectAllPortableCheckBox.Size = new System.Drawing.Size(70, 17);
             this.selectAllPortableCheckBox.TabIndex = 1;
             this.selectAllPortableCheckBox.Text = "Select All";
             this.selectAllPortableCheckBox.UseVisualStyleBackColor = true;
@@ -853,20 +793,18 @@
             this.portableStatusLabel.AutoSize = true;
             this.portableStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.portableStatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
-            this.portableStatusLabel.Location = new System.Drawing.Point(312, 2);
-            this.portableStatusLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.portableStatusLabel.Location = new System.Drawing.Point(250, 2);
             this.portableStatusLabel.Name = "portableStatusLabel";
-            this.portableStatusLabel.Size = new System.Drawing.Size(333, 20);
+            this.portableStatusLabel.Size = new System.Drawing.Size(285, 17);
             this.portableStatusLabel.TabIndex = 3;
             this.portableStatusLabel.Text = "Succesfully installed all Portable Apps";
             this.portableStatusLabel.Visible = false;
             // 
             // downloadPortableButton
             // 
-            this.downloadPortableButton.Location = new System.Drawing.Point(482, 492);
-            this.downloadPortableButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.downloadPortableButton.Location = new System.Drawing.Point(386, 394);
             this.downloadPortableButton.Name = "downloadPortableButton";
-            this.downloadPortableButton.Size = new System.Drawing.Size(146, 29);
+            this.downloadPortableButton.Size = new System.Drawing.Size(117, 23);
             this.downloadPortableButton.TabIndex = 2;
             this.downloadPortableButton.Text = "Download Selected";
             this.downloadPortableButton.UseVisualStyleBackColor = true;
@@ -874,10 +812,9 @@
             // 
             // refreshPortableButton2
             // 
-            this.refreshPortableButton2.Location = new System.Drawing.Point(351, 492);
-            this.refreshPortableButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.refreshPortableButton2.Location = new System.Drawing.Point(281, 394);
             this.refreshPortableButton2.Name = "refreshPortableButton2";
-            this.refreshPortableButton2.Size = new System.Drawing.Size(94, 29);
+            this.refreshPortableButton2.Size = new System.Drawing.Size(75, 23);
             this.refreshPortableButton2.TabIndex = 0;
             this.refreshPortableButton2.Text = "Refresh";
             this.refreshPortableButton2.UseVisualStyleBackColor = true;
@@ -886,10 +823,9 @@
             // getPortableContentPanel
             // 
             this.getPortableContentPanel.AutoScroll = true;
-            this.getPortableContentPanel.Location = new System.Drawing.Point(0, 25);
-            this.getPortableContentPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.getPortableContentPanel.Location = new System.Drawing.Point(0, 20);
             this.getPortableContentPanel.Name = "getPortableContentPanel";
-            this.getPortableContentPanel.Size = new System.Drawing.Size(981, 456);
+            this.getPortableContentPanel.Size = new System.Drawing.Size(785, 365);
             this.getPortableContentPanel.TabIndex = 0;
             // 
             // trayIcon
@@ -910,13 +846,13 @@
             this.exitTrayIconMenuItem});
             this.trayIconContextMenu.Name = "trayIconContextMenu";
             this.trayIconContextMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.trayIconContextMenu.Size = new System.Drawing.Size(198, 100);
+            this.trayIconContextMenu.Size = new System.Drawing.Size(171, 92);
             // 
             // checkUpdatesTrayIconMenuItem
             // 
             this.checkUpdatesTrayIconMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.checkUpdatesTrayIconMenuItem.Name = "checkUpdatesTrayIconMenuItem";
-            this.checkUpdatesTrayIconMenuItem.Size = new System.Drawing.Size(197, 24);
+            this.checkUpdatesTrayIconMenuItem.Size = new System.Drawing.Size(170, 22);
             this.checkUpdatesTrayIconMenuItem.Text = "Check for &updates";
             this.checkUpdatesTrayIconMenuItem.Click += new System.EventHandler(this.CheckUpdatesTrayIconMenuItem_Click);
             // 
@@ -924,7 +860,7 @@
             // 
             this.openTrayIconMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.openTrayIconMenuItem.Name = "openTrayIconMenuItem";
-            this.openTrayIconMenuItem.Size = new System.Drawing.Size(197, 24);
+            this.openTrayIconMenuItem.Size = new System.Drawing.Size(170, 22);
             this.openTrayIconMenuItem.Text = "&Open ";
             this.openTrayIconMenuItem.Click += new System.EventHandler(this.OpenTrayIconMenuItem_Click);
             // 
@@ -932,7 +868,7 @@
             // 
             this.settingsTrayIconMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.settingsTrayIconMenuItem.Name = "settingsTrayIconMenuItem";
-            this.settingsTrayIconMenuItem.Size = new System.Drawing.Size(197, 24);
+            this.settingsTrayIconMenuItem.Size = new System.Drawing.Size(170, 22);
             this.settingsTrayIconMenuItem.Text = "&Settings";
             this.settingsTrayIconMenuItem.Click += new System.EventHandler(this.SettingsTrayIconMenuItem_Click);
             // 
@@ -940,7 +876,7 @@
             // 
             this.exitTrayIconMenuItem.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.exitTrayIconMenuItem.Name = "exitTrayIconMenuItem";
-            this.exitTrayIconMenuItem.Size = new System.Drawing.Size(197, 24);
+            this.exitTrayIconMenuItem.Size = new System.Drawing.Size(170, 22);
             this.exitTrayIconMenuItem.Text = "E&xit";
             this.exitTrayIconMenuItem.Click += new System.EventHandler(this.ExitTrayIconMenuItem_Click);
             // 
@@ -948,20 +884,18 @@
             // 
             this.logPage.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.logPage.Controls.Add(this.logTextBox);
-            this.logPage.Location = new System.Drawing.Point(0, 42);
-            this.logPage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logPage.Location = new System.Drawing.Point(0, 34);
             this.logPage.Name = "logPage";
-            this.logPage.Size = new System.Drawing.Size(981, 534);
+            this.logPage.Size = new System.Drawing.Size(785, 427);
             this.logPage.TabIndex = 16;
             // 
             // logTextBox
             // 
             this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.logTextBox.Location = new System.Drawing.Point(-1, 0);
-            this.logTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(982, 532);
+            this.logTextBox.Size = new System.Drawing.Size(786, 426);
             this.logTextBox.TabIndex = 0;
             this.logTextBox.Text = "";
             // 
@@ -973,11 +907,11 @@
             this.titleButtonLeft.AutoSize = true;
             this.titleButtonLeft.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.titleButtonLeft.BackColor = System.Drawing.Color.Transparent;
-            this.titleButtonLeft.Location = new System.Drawing.Point(6, 4);
-            this.titleButtonLeft.Margin = new System.Windows.Forms.Padding(5);
-            this.titleButtonLeft.MinimumSize = new System.Drawing.Size(0, 41);
+            this.titleButtonLeft.Location = new System.Drawing.Point(5, 3);
+            this.titleButtonLeft.Margin = new System.Windows.Forms.Padding(4);
+            this.titleButtonLeft.MinimumSize = new System.Drawing.Size(0, 33);
             this.titleButtonLeft.Name = "titleButtonLeft";
-            this.titleButtonLeft.Size = new System.Drawing.Size(91, 41);
+            this.titleButtonLeft.Size = new System.Drawing.Size(74, 33);
             this.titleButtonLeft.TabIndex = 2;
             this.titleButtonLeft.Click += new System.EventHandler(this.TitleButtonLeft_Click);
             // 
@@ -989,11 +923,11 @@
             this.titleButtonRight.AutoSize = true;
             this.titleButtonRight.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.titleButtonRight.BackColor = System.Drawing.Color.White;
-            this.titleButtonRight.Location = new System.Drawing.Point(721, 4);
-            this.titleButtonRight.Margin = new System.Windows.Forms.Padding(5);
-            this.titleButtonRight.MinimumSize = new System.Drawing.Size(0, 41);
+            this.titleButtonRight.Location = new System.Drawing.Point(722, 3);
+            this.titleButtonRight.Margin = new System.Windows.Forms.Padding(4);
+            this.titleButtonRight.MinimumSize = new System.Drawing.Size(0, 33);
             this.titleButtonRight.Name = "titleButtonRight";
-            this.titleButtonRight.Size = new System.Drawing.Size(268, 41);
+            this.titleButtonRight.Size = new System.Drawing.Size(69, 33);
             this.titleButtonRight.TabIndex = 3;
             this.titleButtonRight.Visible = false;
             this.titleButtonRight.Click += new System.EventHandler(this.TitleButtonRight_Click);
@@ -1002,10 +936,10 @@
             // 
             this.updaterTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
             this.updaterTile.Image = global::SlimUpdater.Properties.Resources.Updates_Icon;
-            this.updaterTile.Location = new System.Drawing.Point(81, 58);
-            this.updaterTile.Margin = new System.Windows.Forms.Padding(5);
+            this.updaterTile.Location = new System.Drawing.Point(65, 47);
+            this.updaterTile.Margin = new System.Windows.Forms.Padding(4);
             this.updaterTile.Name = "updaterTile";
-            this.updaterTile.Size = new System.Drawing.Size(375, 188);
+            this.updaterTile.Size = new System.Drawing.Size(300, 150);
             this.updaterTile.TabIndex = 5;
             this.updaterTile.Text = "No updates available";
             this.updaterTile.Click += new System.EventHandler(this.UpdaterTile_Click);
@@ -1014,10 +948,10 @@
             // 
             this.getNewAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
             this.getNewAppsTile.Image = global::SlimUpdater.Properties.Resources.GetNewApps_Icon;
-            this.getNewAppsTile.Location = new System.Drawing.Point(524, 58);
-            this.getNewAppsTile.Margin = new System.Windows.Forms.Padding(5);
+            this.getNewAppsTile.Location = new System.Drawing.Point(419, 47);
+            this.getNewAppsTile.Margin = new System.Windows.Forms.Padding(4);
             this.getNewAppsTile.Name = "getNewAppsTile";
-            this.getNewAppsTile.Size = new System.Drawing.Size(375, 188);
+            this.getNewAppsTile.Size = new System.Drawing.Size(300, 150);
             this.getNewAppsTile.TabIndex = 7;
             this.getNewAppsTile.Text = "Get New Applications";
             this.getNewAppsTile.Click += new System.EventHandler(this.GetNewAppsTile_Click);
@@ -1026,10 +960,10 @@
             // 
             this.portableAppsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
             this.portableAppsTile.Image = global::SlimUpdater.Properties.Resources.PortableApps_Icon;
-            this.portableAppsTile.Location = new System.Drawing.Point(81, 285);
-            this.portableAppsTile.Margin = new System.Windows.Forms.Padding(5);
+            this.portableAppsTile.Location = new System.Drawing.Point(65, 229);
+            this.portableAppsTile.Margin = new System.Windows.Forms.Padding(4);
             this.portableAppsTile.Name = "portableAppsTile";
-            this.portableAppsTile.Size = new System.Drawing.Size(375, 188);
+            this.portableAppsTile.Size = new System.Drawing.Size(300, 150);
             this.portableAppsTile.TabIndex = 6;
             this.portableAppsTile.Text = "Portable Apps";
             this.portableAppsTile.Click += new System.EventHandler(this.PortableAppsTile_Click);
@@ -1038,20 +972,20 @@
             // 
             this.settingsTile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(186)))), ((int)(((byte)(0)))));
             this.settingsTile.Image = global::SlimUpdater.Properties.Resources.Settings_Icon;
-            this.settingsTile.Location = new System.Drawing.Point(524, 285);
-            this.settingsTile.Margin = new System.Windows.Forms.Padding(5);
+            this.settingsTile.Location = new System.Drawing.Point(419, 229);
+            this.settingsTile.Margin = new System.Windows.Forms.Padding(4);
             this.settingsTile.Name = "settingsTile";
-            this.settingsTile.Size = new System.Drawing.Size(375, 188);
+            this.settingsTile.Size = new System.Drawing.Size(300, 150);
             this.settingsTile.TabIndex = 8;
             this.settingsTile.Text = "Settings";
             this.settingsTile.Click += new System.EventHandler(this.SettingsTile_Click);
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(980, 576);
+            this.ClientSize = new System.Drawing.Size(784, 461);
             this.Controls.Add(this.topBar);
             this.Controls.Add(this.startPage);
             this.Controls.Add(this.updatePage);
@@ -1065,7 +999,6 @@
             this.Controls.Add(this.aboutPage);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
