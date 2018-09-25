@@ -18,7 +18,7 @@ namespace SlimUpdater
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color hoverOrange = Color.FromArgb(254, 164, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
-        Color hoverGrey = Color.FromArgb(141, 181, 141);
+        Color hoverGrey = Color.FromArgb(141, 171, 141);
 
         // Required for the text to display correctly
         [Browsable(true), EditorBrowsable(EditorBrowsableState.Always)]
