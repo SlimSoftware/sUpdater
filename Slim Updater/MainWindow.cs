@@ -361,7 +361,6 @@ namespace SlimUpdater
                     ShowDetails(app.Name, false, false);
                 };
                 appItem.Checked = false;
-                Separator separator = new Separator();
 
                 // Make sure installed apps are not included
                 if (app.LocalVersion == null)
@@ -437,7 +436,6 @@ namespace SlimUpdater
                 portableAppList.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
                     extractModeElement.Value));
-                Separator separator = new Separator();
 
                 foreach (PortableApp portableApp in portableAppList.ToArray())
                 {
