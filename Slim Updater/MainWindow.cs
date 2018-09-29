@@ -21,7 +21,6 @@ namespace SlimUpdater
         List<App> updateList;
         List<App> notInstalledApps = new List<App>();
         List<PortableApp> portableAppList = new List<PortableApp>();
-        Settings settings = new Settings();
         Logger logger = new Logger();
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
@@ -36,7 +35,7 @@ namespace SlimUpdater
             {
                 Utilities.MinimizeToTray(this);
             }
-            settings.Load();
+            Settings.Load();
         }
 
         #region MainWindow Events
@@ -61,7 +60,7 @@ namespace SlimUpdater
 
         private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (settings.MinimizeToTray == true && (e.CloseReason != CloseReason.TaskManagerClosing &&
+            if (Settings.MinimizeToTray == true && (e.CloseReason != CloseReason.TaskManagerClosing &&
                 e.CloseReason != CloseReason.ApplicationExitCall &&
                 e.CloseReason != CloseReason.FormOwnerClosing))
             {
@@ -81,11 +80,11 @@ namespace SlimUpdater
             // Load XML File
             try
             {
-                if (settings.DefenitionURL != null)
+                if (Settings.DefenitionURL != null)
                 {
-                    logger.Log("Using custom definition file from " + settings.DefenitionURL,
+                    logger.Log("Using custom definition file from " + Settings.DefenitionURL,
                         Logger.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load(settings.DefenitionURL);
+                    defenitions = XDocument.Load(Settings.DefenitionURL);
                 }
                 else
                 {
@@ -226,7 +225,7 @@ namespace SlimUpdater
                             notifiedUpdates += update.Name + " ";
                         }                        
                     }
-                    if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
+                    if (notifiedUpdates != Settings.NotifiedUpdates && this.Visible == false)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                         trayIcon.BalloonTipTitle = "Slim Updater";
@@ -234,8 +233,8 @@ namespace SlimUpdater
                             "{0} updates available. Click for details.", updateList.Count);
                         trayIcon.ShowBalloonTip(5000);
                     }
-                    settings.NotifiedUpdates = notifiedUpdates;
-                    settings.Save();
+                    Settings.NotifiedUpdates = notifiedUpdates;
+                    Settings.Save();
 
                     logger.Log(string.Format("{0} updates available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
@@ -246,7 +245,7 @@ namespace SlimUpdater
 
                     notifiedUpdates = updateList[0].Name;
                     if (this.ShowInTaskbar == false &&
-                        notifiedUpdates != settings.NotifiedUpdates)
+                        notifiedUpdates != Settings.NotifiedUpdates)
                     {
                         trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                         trayIcon.BalloonTipTitle = "Slim Updater";
@@ -254,8 +253,8 @@ namespace SlimUpdater
                             updateList[0].Name);
                         trayIcon.ShowBalloonTip(5000);
                     }
-                    settings.NotifiedUpdates = notifiedUpdates;
-                    settings.Save();
+                    Settings.NotifiedUpdates = notifiedUpdates;
+                    Settings.Save();
 
                     logger.Log(string.Format("1 update available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
@@ -501,9 +500,9 @@ namespace SlimUpdater
             installedPortableContentPanel.Controls.Clear();
 
             string[] installedAppPaths = null;
-            if (settings.PortableAppDir != null)
+            if (Settings.PortableAppDir != null)
             {
-                installedAppPaths = Directory.GetDirectories(settings.PortableAppDir);
+                installedAppPaths = Directory.GetDirectories(Settings.PortableAppDir);
             }
 
             if (installedAppPaths.Length == 0)
@@ -546,7 +545,7 @@ namespace SlimUpdater
                         try
                         {
                             p.StartInfo.FileName = Path.Combine(
-                                settings.PortableAppDir, portableApp.Name, portableApp.Launch);
+                                Settings.PortableAppDir, portableApp.Name, portableApp.Launch);
                             p.Start();
                         }
                         catch
@@ -561,12 +560,12 @@ namespace SlimUpdater
                 {
                     DialogResult result = MessageBox.Show(string.Format("Are you sure that you " +
                         "want to delete {0}," + Environment.NewLine +
-                        "including its settings and other data?", appItem.Name), "Slim Updater", 
+                        "including its Settings and other data?", appItem.Name), "Slim Updater", 
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.Yes)
                     {
                         appItem.Status = "Deleting...";
-                        Directory.Delete(Path.Combine(settings.PortableAppDir, appItem.Name), true);
+                        Directory.Delete(Path.Combine(Settings.PortableAppDir, appItem.Name), true);
                         CheckForInstalledPortableApps();
                     }
                 };
@@ -651,7 +650,7 @@ namespace SlimUpdater
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(update.DL);
-                    update.SavePath = Path.Combine(settings.DataDir, fileName);
+                    update.SavePath = Path.Combine(Settings.DataDir, fileName);
                     logger.Log("Saving to: " + update.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
@@ -811,10 +810,10 @@ namespace SlimUpdater
             }
 
             // Cleanup any leftover exe's in appdata dir
-            if (Directory.GetFiles(settings.DataDir, "*.exe").Length > 0)
+            if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
             {
                 logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
-                foreach (string exePath in Directory.GetFiles(settings.DataDir, "*.exe"))
+                foreach (string exePath in Directory.GetFiles(Settings.DataDir, "*.exe"))
                 {
                     File.Delete(exePath);
                 }
@@ -905,7 +904,7 @@ namespace SlimUpdater
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(app.DL);
-                    app.SavePath = Path.Combine(settings.DataDir, fileName);
+                    app.SavePath = Path.Combine(Settings.DataDir, fileName);
                     logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
@@ -1064,10 +1063,10 @@ namespace SlimUpdater
             }
 
             // Cleanup any leftover exe's in appdata dir
-            if (Directory.GetFiles(settings.DataDir, "*.exe").Length > 0)
+            if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
             {
                 logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
-                foreach (string exePath in Directory.GetFiles(settings.DataDir, ".exe"))
+                foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
                 {
                     File.Delete(exePath);
                 }
@@ -1182,9 +1181,9 @@ namespace SlimUpdater
                         }));
                     }
 
-                    Directory.CreateDirectory(Path.Combine(settings.PortableAppDir, app.Name));
+                    Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, app.Name));
                     string fileName = @Path.GetFileName(app.DL);
-                    app.SavePath = @Path.Combine(settings.PortableAppDir, app.Name, fileName);
+                    app.SavePath = @Path.Combine(Settings.PortableAppDir, app.Name, fileName);
                     logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if portable app is already downloaded
@@ -1326,7 +1325,7 @@ namespace SlimUpdater
                         using (var ro = new Process())
                         {
                             ro.StartInfo.FileName = Path.Combine(
-                                settings.PortableAppDir, app.Name, app.Launch);
+                                Settings.PortableAppDir, app.Name, app.Launch);
                             // TODO: Add support for optional arguments and use shell execute here
                             ro.Start();
                         }
@@ -1342,7 +1341,7 @@ namespace SlimUpdater
                         logger.Log("All processes exited. Cleaning up...", Logger.LogLevel.INFO, logTextBox);
 
                         // Cleanup
-                        Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
+                        Directory.Delete(Path.Combine(Settings.PortableAppDir, app.Name), true);
                     }
 
                     if (app.ExtractMode == "folder")
@@ -1351,7 +1350,7 @@ namespace SlimUpdater
                         {
                             p.StartInfo.FileName = sevenZipPath;
                             p.StartInfo.Arguments = "e \"" + app.SavePath + "\" -o\""
-                                + Path.Combine(settings.PortableAppDir, app.Name) + "\" -aoa";
+                                + Path.Combine(Settings.PortableAppDir, app.Name) + "\" -aoa";
                             p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                             try
                             {
@@ -1392,7 +1391,7 @@ namespace SlimUpdater
                                     using (var ro = new Process())
                                     {
                                         ro.StartInfo.FileName = Path.Combine(
-                                            settings.PortableAppDir, app.Name, app.Launch);
+                                            Settings.PortableAppDir, app.Name, app.Launch);
                                         // TODO: Add support for optional arguments and use shell execute here
                                         ro.Start();
                                     }
@@ -1407,7 +1406,7 @@ namespace SlimUpdater
                                     });
                                     logger.Log("All processes exited. Cleaning up...",
                                         Logger.LogLevel.INFO, logTextBox);
-                                    Directory.Delete(Path.Combine(settings.PortableAppDir, app.Name), true);
+                                    Directory.Delete(Path.Combine(Settings.PortableAppDir, app.Name), true);
                                 }
                             }
                             if (p.ExitCode != 0)
@@ -1464,9 +1463,9 @@ namespace SlimUpdater
             string changelogText = null;
             string descriptionText = null;
             string defenitionURL = null;
-            if (settings.DefenitionURL != null)
+            if (Settings.DefenitionURL != null)
             {
-                defenitionURL = settings.DefenitionURL;
+                defenitionURL = Settings.DefenitionURL;
             }
             else
             {
@@ -1764,7 +1763,7 @@ namespace SlimUpdater
 
         private void PortableAppsTile_Click(object sender, EventArgs e)
         {
-            if (settings.PortableAppDir != null)
+            if (Settings.PortableAppDir != null)
             {                
                 installedPortableAppsPage.BringToFront();
                 titleButtonLeft.Text = "Portable Apps";
@@ -1796,7 +1795,7 @@ namespace SlimUpdater
 
         private void SettingsTile_Click(object sender, EventArgs e)
         {
-            settings.Load();
+            Settings.Load();
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run") ??
                 Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
@@ -1806,21 +1805,21 @@ namespace SlimUpdater
                     autoStartCheckBox.Checked = true;
                 }
             }
-            if (settings.MinimizeToTray == true)
+            if (Settings.MinimizeToTray == true)
             {
                 minimizeToTrayCheckBox.Checked = true;
             }
-            if (settings.DataDir != null)
+            if (Settings.DataDir != null)
             {
-                dataLocationBox.Text = settings.DataDir;
+                dataLocationBox.Text = Settings.DataDir;
             }
-            if (settings.PortableAppDir != null)
+            if (Settings.PortableAppDir != null)
             {
-                paLocationBox.Text = settings.PortableAppDir;
+                paLocationBox.Text = Settings.PortableAppDir;
             }
-            if (settings.DefenitionURL != null)
+            if (Settings.DefenitionURL != null)
             {
-                customURLTextBox.Text = settings.DefenitionURL;
+                customURLTextBox.Text = Settings.DefenitionURL;
                 officialDefenRadioBtn.Checked = false;
                 customDefenRadioBtn.Checked = true;
             }                
@@ -1977,8 +1976,8 @@ namespace SlimUpdater
                     }
 
                     File.Delete(Path.Combine(locationBox2.Text, "Slim Updater Tempfile"));
-                    settings.PortableAppDir = locationBox2.Text;
-                    settings.Save();
+                    Settings.PortableAppDir = locationBox2.Text;
+                    Settings.Save();
                 }
                 catch (Exception)
                 {
@@ -2043,7 +2042,7 @@ namespace SlimUpdater
         }
         #endregion
 
-        #region settingsPage Events
+        #region SettingsPage Events
         private void DataBrowseButton_Click(object sender, EventArgs e)
         {
             using (FolderBrowserDialog fbd = new FolderBrowserDialog())
@@ -2124,11 +2123,11 @@ namespace SlimUpdater
                 // Hide previously shown error label if the folder is writeable
                 paFolderNotWriteableLabel.Visible = false;
                 File.Delete(Path.Combine(paLocationBox.Text, "Slim Updater Tempfile"));
-                settings.PortableAppDir = paLocationBox.Text;
+                Settings.PortableAppDir = paLocationBox.Text;
             }
             else
             {
-                settings.PortableAppDir = null;
+                Settings.PortableAppDir = null;
             }
 
             if (!Directory.Exists(dataLocationBox.Text) && dataLocationBox.Text != "")
@@ -2159,16 +2158,16 @@ namespace SlimUpdater
                 // Hide previously shown error label if the folder is writeable
                 dataFolderNotWriteableLabel.Visible = false;
                 File.Delete(Path.Combine(dataLocationBox.Text, "Slim Updater Tempfile"));
-                settings.DataDir = dataLocationBox.Text;
+                Settings.DataDir = dataLocationBox.Text;
             }
             else
             {
-                settings.DataDir = null;
+                Settings.DataDir = null;
             }            
             
             if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
             {
-                settings.DefenitionURL = customURLTextBox.Text;
+                Settings.DefenitionURL = customURLTextBox.Text;
             }
             if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
             {
@@ -2188,19 +2187,19 @@ namespace SlimUpdater
 
             if (minimizeToTrayCheckBox.Checked == true)
             {
-                settings.MinimizeToTray = true;
+                Settings.MinimizeToTray = true;
             }
             else
             {
-                settings.MinimizeToTray = false;
+                Settings.MinimizeToTray = false;
             }
-            settings.Save();
+            Settings.Save();
         }
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            settings.CreateXMLFile();
-            // Update control states with the default settings from xml
+            Settings.CreateXMLFile();
+            // Update control states with the default Settings from xml
             SettingsTile_Click(sender, e);
         }
         #endregion

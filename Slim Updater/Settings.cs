@@ -5,19 +5,19 @@ using System.Xml.Linq;
 
 namespace SlimUpdater
 {
-    public class Settings
+    public static class Settings
     {
-        public bool MinimizeToTray { get; set; }
-        public string DefenitionURL { get; set; }
-        public string DataDir { get; set; }
-        public string PortableAppDir { get; set; }
-        public string NotifiedUpdates { get; set; }
-        private string XmlPath = Path.Combine(Environment.GetFolderPath(
+        public static bool MinimizeToTray { get; set; }
+        public static string DefenitionURL { get; set; }
+        public static string DataDir { get; set; }
+        public static string PortableAppDir { get; set; }
+        public static string NotifiedUpdates { get; set; }
+        private static string XmlPath = Path.Combine(Environment.GetFolderPath(
             Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml");
-        private string XmlDir = Path.Combine(Environment.GetFolderPath(
+        private static string XmlDir = Path.Combine(Environment.GetFolderPath(
             Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater");
 
-        public void Load()
+        public static void Load()
         {
             // Load XML File
             if (File.Exists(XmlPath))
@@ -67,7 +67,7 @@ namespace SlimUpdater
             }
         }
 
-        public void CreateXMLFile()
+        public static void CreateXMLFile()
         {
             // Check if folder exists
             if (!Directory.Exists(XmlDir))
@@ -84,7 +84,7 @@ namespace SlimUpdater
             doc = null;
         }
 
-        public void Save()
+        public static void Save()
         {
             // Check if XML File exists
             if (!File.Exists(XmlPath))
