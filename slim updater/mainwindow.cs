@@ -373,11 +373,11 @@ namespace SlimUpdater
 
                     app.AppItem = appItem;
                 }
+            }
 
-                if (getNewAppsContentPanel.VerticalScroll.Visible == true)
-                {
-                    Utilities.FixScrollbars(getNewAppsContentPanel.Controls);
-                }
+            if (getNewAppsContentPanel.VerticalScroll.Visible == true)
+            {
+                Utilities.FixScrollbars(getNewAppsContentPanel.Controls);
             }
 
             if (notInstalledApps.Count == 0)
