@@ -1875,8 +1875,11 @@ namespace SlimUpdater
             updatesStatusLabel.Visible = false;
             refreshUpdatesButton.Enabled = false;
             ReadDefenitions();
-            CheckForUpdates();
-            AddUpdatesToContentPanel();
+            bool updatesAvailable = CheckForUpdates();
+            if (updatesAvailable)
+            {
+                AddUpdatesToContentPanel();
+            }            
             refreshUpdatesButton.Enabled = true;
         }
 
