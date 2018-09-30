@@ -21,7 +21,6 @@ namespace SlimUpdater
         List<App> updateList;
         List<App> notInstalledApps = new List<App>();
         List<PortableApp> portableAppList = new List<PortableApp>();
-        Logger logger = new Logger();
         Color normalGreen = Color.FromArgb(0, 186, 0);
         Color normalOrange = Color.FromArgb(254, 124, 35);
         Color normalGrey = Color.FromArgb(141, 141, 141);
@@ -41,7 +40,7 @@ namespace SlimUpdater
         #region MainWindow Events
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            logger.Log("Slim Updater v" + ProductVersion + " " + "started on " +
+            Logger.Log("Slim Updater v" + ProductVersion + " " + "started on " +
                 Utilities.GetFriendlyOSName(), Logger.LogLevel.INFO, logTextBox);
         }
 
@@ -73,7 +72,7 @@ namespace SlimUpdater
         #region ReadDefenitions()
         public void ReadDefenitions()
         {
-            logger.Log("Loading definitions file", Logger.LogLevel.INFO, logTextBox);
+            Logger.Log("Loading definitions file", Logger.LogLevel.INFO, logTextBox);
             appList = new List<App>();
             XDocument defenitions = new XDocument();
 
@@ -82,19 +81,19 @@ namespace SlimUpdater
             {
                 if (Settings.DefenitionURL != null)
                 {
-                    logger.Log("Using custom definition file from " + Settings.DefenitionURL,
+                    Logger.Log("Using custom definition file from " + Settings.DefenitionURL,
                         Logger.LogLevel.INFO, logTextBox);
                     defenitions = XDocument.Load(Settings.DefenitionURL);
                 }
                 else
                 {
-                    logger.Log("Using official definitions", Logger.LogLevel.INFO, logTextBox);
+                    Logger.Log("Using official definitions", Logger.LogLevel.INFO, logTextBox);
                     defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
                 }
             }
             catch (Exception e)
             {
-                logger.Log("Cannot check for updates: " + e.Message, 
+                Logger.Log("Cannot check for updates: " + e.Message, 
                     Logger.LogLevel.ERROR, logTextBox);
                 trayIcon.Icon = Properties.Resources.Slim_UpdaterIcon_Grey;
                 trayIcon.Text = e.Message;
@@ -180,7 +179,7 @@ namespace SlimUpdater
                 return false;
             }
 
-            logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
+            Logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
             updateList = new List<App>(appList);
             string notifiedUpdates = null;
 
@@ -238,7 +237,7 @@ namespace SlimUpdater
                     Settings.NotifiedUpdates = notifiedUpdates;
                     Settings.Save();
 
-                    logger.Log(string.Format("{0} updates available", updateList.Count),
+                    Logger.Log(string.Format("{0} updates available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
                 else
@@ -259,7 +258,7 @@ namespace SlimUpdater
                     Settings.NotifiedUpdates = notifiedUpdates;
                     Settings.Save();
 
-                    logger.Log(string.Format("1 update available", updateList.Count),
+                    Logger.Log(string.Format("1 update available", updateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
                 }
 
@@ -275,7 +274,7 @@ namespace SlimUpdater
                 trayIcon.Text = "Slim Updater\nNo updates available";
                 updaterTile.BackColor = normalGreen;
                 updaterTile.Text = "No updates available";
-                logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
+                Logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
 
                 // Add all apps to updatecontentPanel for details view
                 // Only if page is actually visible and updates are not just installed
@@ -616,7 +615,7 @@ namespace SlimUpdater
         public async void InstallUpdates(List<App> updateList)
         {
             bool updateFailed = false;
-            logger.Log("Update started...", Logger.LogLevel.INFO, logTextBox);
+            Logger.Log("Update started...", Logger.LogLevel.INFO, logTextBox);
             refreshUpdatesButton.Enabled = false;
             installUpdatesButton.Enabled = false;
             List<App> selectedUpdateList = new List<App>();
@@ -636,7 +635,7 @@ namespace SlimUpdater
             if (selectedUpdateList.Count == 0)
             {
                 MessageBox.Show("You have not selected any updates.");
-                logger.Log("No updates selected to install, aborting...",
+                Logger.Log("No updates selected to install, aborting...",
                     Logger.LogLevel.WARN, logTextBox);
             }
 
@@ -649,13 +648,13 @@ namespace SlimUpdater
                 currentUpdate++;
                 Task downloadTask = Task.Run(async () =>
                 {
-                    logger.Log(string.Format("Downloading {0} ({1} of {2}) ...", 
+                    Logger.Log(string.Format("Downloading {0} ({1} of {2}) ...", 
                         update.Name, currentUpdate, selectedUpdateList.Count),
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(update.DL);
                     update.SavePath = Path.Combine(Settings.DataDir, fileName);
-                    logger.Log("Saving to: " + update.SavePath, Logger.LogLevel.INFO, logTextBox);
+                    Logger.Log("Saving to: " + update.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
                     if (!File.Exists(update.SavePath))
@@ -695,7 +694,7 @@ namespace SlimUpdater
                             catch (Exception e)
                             {
                                 updateFailed = true;
-                                logger.Log("An error occurred when attempting to download " +
+                                Logger.Log("An error occurred when attempting to download " +
                                     "the update." + e.Message, Logger.LogLevel.ERROR, logTextBox);
                                 if (InvokeRequired)
                                 {
@@ -743,7 +742,7 @@ namespace SlimUpdater
                 launchInstaller:
                 if (File.Exists(update.SavePath))
                 {
-                    logger.Log(string.Format("Installing {0} ({1} of {2}) ...", update.Name,
+                    Logger.Log(string.Format("Installing {0} ({1} of {2}) ...", update.Name,
                         currentUpdate, selectedUpdateList.Count), Logger.LogLevel.INFO, logTextBox);
                     using (var p = new Process())
                     {
@@ -770,16 +769,16 @@ namespace SlimUpdater
                         {
                             var result = MessageBox.Show(
                                 "Launching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            logger.Log("Launching the installer failed. Asking user for retry.",
+                            Logger.Log("Launching the installer failed. Asking user for retry.",
                                 Logger.LogLevel.INFO, logTextBox);
                             if (result == DialogResult.Yes)
                             {
-                                logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
+                                Logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
                                 goto launchInstaller;
                             }
                             else
                             {
-                                logger.Log("User chose no. Skipping this update.", Logger.LogLevel.INFO, logTextBox);
+                                Logger.Log("User chose no. Skipping this update.", Logger.LogLevel.INFO, logTextBox);
                                 continue;
                             }
                         }
@@ -793,7 +792,7 @@ namespace SlimUpdater
 
                         if (p.ExitCode == 0)
                         {
-                            logger.Log("Installer exited with exit code 0.",
+                            Logger.Log("Installer exited with exit code 0.",
                                 Logger.LogLevel.INFO, logTextBox);
                             File.Delete(update.SavePath);
                             update.AppItem.Status = "Install complete";
@@ -802,7 +801,7 @@ namespace SlimUpdater
                         }
                         if (p.ExitCode != 0)
                         {
-                            logger.Log(string.Format("Installation failed. Installer exited with " +
+                            Logger.Log(string.Format("Installation failed. Installer exited with " +
                                 "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
                             update.AppItem.Status = string.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
@@ -816,7 +815,7 @@ namespace SlimUpdater
             // Cleanup any leftover exe's in appdata dir
             if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
             {
-                logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
+                Logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
                 foreach (string exePath in Directory.GetFiles(Settings.DataDir, "*.exe"))
                 {
                     File.Delete(exePath);
@@ -866,7 +865,7 @@ namespace SlimUpdater
         public async void InstallNewApps(List<App> appList)
         {
             bool installFailed = false;
-            logger.Log("New app installation started...", Logger.LogLevel.INFO, logTextBox);
+            Logger.Log("New app installation started...", Logger.LogLevel.INFO, logTextBox);
             refreshAppsButton.Enabled = false;
             installAppsButton.Enabled = false;
             newAppsStatusLabel.Visible = false;
@@ -890,7 +889,7 @@ namespace SlimUpdater
             if (selectedAppList.Count == 0)
             {
                 MessageBox.Show("You have not selected any applications.");
-                logger.Log("No applications selected to install, aborting...",
+                Logger.Log("No applications selected to install, aborting...",
                     Logger.LogLevel.WARN, logTextBox);
             }
 
@@ -903,13 +902,13 @@ namespace SlimUpdater
                 currentUpdate++;
                 Task downloadTask = Task.Run(async () =>
                 {
-                    logger.Log(string.Format("Downloading {0} ({1} of {2}) ...",
+                    Logger.Log(string.Format("Downloading {0} ({1} of {2}) ...",
                         app.Name, currentUpdate, selectedAppList.Count),
                         Logger.LogLevel.INFO, logTextBox);
 
                     string fileName = Path.GetFileName(app.DL);
                     app.SavePath = Path.Combine(Settings.DataDir, fileName);
-                    logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
+                    Logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if installer is already downloaded
                     if (!File.Exists(app.SavePath))
@@ -949,7 +948,7 @@ namespace SlimUpdater
                             }
                             catch (Exception e)
                             {
-                                logger.Log("An error occurred when attempting to download " +
+                                Logger.Log("An error occurred when attempting to download " +
                                     "the installer." + e.Message, Logger.LogLevel.ERROR, logTextBox);
                                 if (InvokeRequired)
                                 {
@@ -996,7 +995,7 @@ namespace SlimUpdater
                 launchInstaller:
                 if (File.Exists(app.SavePath))
                 {
-                    logger.Log(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
+                    Logger.Log(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
                         currentUpdate, selectedAppList.Count), Logger.LogLevel.INFO, logTextBox);
                     using (var p = new Process())
                     {
@@ -1023,16 +1022,16 @@ namespace SlimUpdater
                         {
                             var result = MessageBox.Show(
                                 "Lauching the installer failed. \nWould you like to try again?", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                            logger.Log("Launching the installer failed. Asking user for retry.",
+                            Logger.Log("Launching the installer failed. Asking user for retry.",
                                 Logger.LogLevel.INFO, logTextBox);
                             if (result == DialogResult.Yes)
                             {
-                                logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
+                                Logger.Log("User chose yes.", Logger.LogLevel.INFO, logTextBox);
                                 goto launchInstaller;
                             }
                             else
                             {
-                                logger.Log("User chose no. Skipping this app.", Logger.LogLevel.INFO, logTextBox);
+                                Logger.Log("User chose no. Skipping this app.", Logger.LogLevel.INFO, logTextBox);
                                 continue;
                             }
                         }
@@ -1046,7 +1045,7 @@ namespace SlimUpdater
 
                         if (p.ExitCode == 0)
                         {
-                            logger.Log("Installer exited with exit code 0.",
+                            Logger.Log("Installer exited with exit code 0.",
                                 Logger.LogLevel.INFO, logTextBox);
                             File.Delete(app.SavePath);
                             app.AppItem.Status = "Install complete";
@@ -1055,7 +1054,7 @@ namespace SlimUpdater
                         }
                         if (p.ExitCode != 0)
                         {
-                            logger.Log(string.Format("Installation failed. Installer exited with " +
+                            Logger.Log(string.Format("Installation failed. Installer exited with " +
                                 "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
                             app.AppItem.Status = string.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
@@ -1069,7 +1068,7 @@ namespace SlimUpdater
             // Cleanup any leftover exe's in appdata dir
             if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
             {
-                logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
+                Logger.Log("Cleaning up leftover installers...", Logger.LogLevel.INFO, logTextBox);
                 foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
                 {
                     File.Delete(exePath);
@@ -1117,12 +1116,12 @@ namespace SlimUpdater
             bool installFailed = false;
             if (runOnce == true)
             {
-                logger.Log("Run Once Portable App install started...", 
+                Logger.Log("Run Once Portable App install started...", 
                     Logger.LogLevel.INFO, logTextBox);
             }
             else
             {
-                logger.Log("Portable App installation started...",
+                Logger.Log("Portable App installation started...",
                     Logger.LogLevel.INFO, logTextBox);
             }
             refreshPortableButton.Enabled = false;
@@ -1147,7 +1146,7 @@ namespace SlimUpdater
                 if (selectedAppList.Count == 0)
                 {
                     MessageBox.Show("You have not selected any Portable Apps.");
-                    logger.Log("No Portable Apps selected to install, aborting...",
+                    Logger.Log("No Portable Apps selected to install, aborting...",
                         Logger.LogLevel.WARN, logTextBox);
                 }
             }
@@ -1159,7 +1158,7 @@ namespace SlimUpdater
                 if (selectedAppList.Count == 0)
                 {
                     MessageBox.Show("You have not selected any Portable Apps.");
-                    logger.Log("No Portable Apps selected to install, aborting...",
+                    Logger.Log("No Portable Apps selected to install, aborting...",
                         Logger.LogLevel.WARN, logTextBox);
                 }
             }
@@ -1173,7 +1172,7 @@ namespace SlimUpdater
                 currentApp++;
                 Task downloadTask = Task.Run(async () =>
                 {
-                    logger.Log(string.Format("Downloading {0} ({1} of {2}) ...",
+                    Logger.Log(string.Format("Downloading {0} ({1} of {2}) ...",
                         app.Name, currentApp, selectedAppList.Count), 
                         Logger.LogLevel.INFO, logTextBox);
 
@@ -1188,7 +1187,7 @@ namespace SlimUpdater
                     Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, app.Name));
                     string fileName = @Path.GetFileName(app.DL);
                     app.SavePath = @Path.Combine(Settings.PortableAppDir, app.Name, fileName);
-                    logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
+                    Logger.Log("Saving to: " + app.SavePath, Logger.LogLevel.INFO, logTextBox);
 
                     // Check if portable app is already downloaded
                     if (!File.Exists(app.SavePath))
@@ -1236,7 +1235,7 @@ namespace SlimUpdater
                             }
                             catch (Exception e)
                             {
-                                logger.Log("An error occurred when attempting to download " +
+                                Logger.Log("An error occurred when attempting to download " +
                                     "the Portable App." + e.Message, Logger.LogLevel.ERROR, logTextBox);
                                 if (InvokeRequired)
                                 {
@@ -1316,7 +1315,7 @@ namespace SlimUpdater
             {
                 sevenZipPath = Path.Combine(Application.StartupPath, "7z.exe");
             }
-            logger.Log("7-Zip path: " + sevenZipPath, Logger.LogLevel.INFO, logTextBox);
+            Logger.Log("7-Zip path: " + sevenZipPath, Logger.LogLevel.INFO, logTextBox);
 
             foreach (PortableApp app in selectedAppList)
             {
@@ -1324,7 +1323,7 @@ namespace SlimUpdater
                 {
                     if (runOnce == true && app.ExtractMode == "single")
                     {
-                        logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
+                        Logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
                         app.AppItem.Status = "Running";
                         using (var ro = new Process())
                         {
@@ -1342,7 +1341,7 @@ namespace SlimUpdater
                                 processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                             }
                         });
-                        logger.Log("All processes exited. Cleaning up...", Logger.LogLevel.INFO, logTextBox);
+                        Logger.Log("All processes exited. Cleaning up...", Logger.LogLevel.INFO, logTextBox);
 
                         // Cleanup
                         Directory.Delete(Path.Combine(Settings.PortableAppDir, app.Name), true);
@@ -1363,14 +1362,14 @@ namespace SlimUpdater
                             catch (Exception e)
                             {
                                 app.AppItem.Status = "Extracting failed: " + e.InnerException;
-                                logger.Log("Extracting failed" + e.Message,
+                                Logger.Log("Extracting failed" + e.Message,
                                     Logger.LogLevel.ERROR, logTextBox);
                                 return;
                             }
 
                             app.AppItem.Status = "Extracting...";
                             app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
-                            logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
+                            Logger.Log(string.Format("Extracting {0} ({1} of {2}) ...",
                                 app.Name, currentApp, selectedAppList.Count),
                                 Logger.LogLevel.INFO, logTextBox);
 
@@ -1381,7 +1380,7 @@ namespace SlimUpdater
                             });
                             if (p.ExitCode == 0)
                             {
-                                logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
+                                Logger.Log("Extract succesful.", Logger.LogLevel.INFO, logTextBox);
                                 File.Delete(app.SavePath);
                                 app.AppItem.Status = "Install complete";
                                 app.AppItem.Progress = 100;
@@ -1390,7 +1389,7 @@ namespace SlimUpdater
 
                                 if (runOnce == true)
                                 {
-                                    logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
+                                    Logger.Log("Launching " + app.Name, Logger.LogLevel.INFO, logTextBox);
                                     app.AppItem.Status = "Running";
                                     using (var ro = new Process())
                                     {
@@ -1408,7 +1407,7 @@ namespace SlimUpdater
                                             processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(app.Launch));
                                         }
                                     });
-                                    logger.Log("All processes exited. Cleaning up...",
+                                    Logger.Log("All processes exited. Cleaning up...",
                                         Logger.LogLevel.INFO, logTextBox);
                                     Directory.Delete(Path.Combine(Settings.PortableAppDir, app.Name), true);
                                 }
@@ -1418,7 +1417,7 @@ namespace SlimUpdater
                                 app.AppItem.Status = string.Format(
                                     "Extract failed. Exit code: {0}", p.ExitCode);
                                 app.AppItem.Progress = 0;
-                                logger.Log("Extract failed. Exit code: " + p.ExitCode,
+                                Logger.Log("Extract failed. Exit code: " + p.ExitCode,
                                     Logger.LogLevel.ERROR, logTextBox);
                             }
                         }
