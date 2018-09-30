@@ -211,7 +211,7 @@ namespace SlimUpdater
 
                 if (updateList.Count > 1)
                 {
-                    updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                    updaterTile.Text = string.Format("{0} updates available", updateList.Count);
                     trayIcon.Text = string.Format("Slim Updater\n{0} updates available",
                         updateList.Count);
 
@@ -673,7 +673,7 @@ namespace SlimUpdater
                                     Invoke(new MethodInvoker(() =>
                                     {
                                         update.AppItem.Progress = e.ProgressPercentage / 2;
-                                        update.AppItem.Status = String.Format(
+                                        update.AppItem.Status = string.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                                     }));
                                 }
@@ -804,7 +804,7 @@ namespace SlimUpdater
                         {
                             logger.Log(string.Format("Installation failed. Installer exited with " +
                                 "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
-                            update.AppItem.Status = String.Format(
+                            update.AppItem.Status = string.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             update.AppItem.Progress = 0;
                             update.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
@@ -927,7 +927,7 @@ namespace SlimUpdater
                                     Invoke(new MethodInvoker(() =>
                                     {
                                         app.AppItem.Progress = e.ProgressPercentage / 2;
-                                        app.AppItem.Status = String.Format(
+                                        app.AppItem.Status = string.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                                     }));
                                 }
@@ -1057,7 +1057,7 @@ namespace SlimUpdater
                         {
                             logger.Log(string.Format("Installation failed. Installer exited with " +
                                 "exit code {0}.", p.ExitCode), Logger.LogLevel.ERROR, logTextBox);
-                            app.AppItem.Status = String.Format(
+                            app.AppItem.Status = string.Format(
                                 "Install failed. Exit code: {0}", p.ExitCode);
                             app.AppItem.Progress = 0;
                             app.AppItem.ProgressBarStyle = ProgressBarStyle.Continuous;
@@ -1214,7 +1214,7 @@ namespace SlimUpdater
                                         {
                                             app.AppItem.Progress = e.ProgressPercentage / 2;
                                         }
-                                        app.AppItem.Status = String.Format(
+                                        app.AppItem.Status = string.Format(
                                             "Downloading... {0:0.0} MB/{1:0.0} MB",
                                             recievedSize, totalSize);
                                     }));
@@ -1415,7 +1415,7 @@ namespace SlimUpdater
                             }
                             if (p.ExitCode != 0)
                             {
-                                app.AppItem.Status = String.Format(
+                                app.AppItem.Status = string.Format(
                                     "Extract failed. Exit code: {0}", p.ExitCode);
                                 app.AppItem.Progress = 0;
                                 logger.Log("Extract failed. Exit code: " + p.ExitCode,
