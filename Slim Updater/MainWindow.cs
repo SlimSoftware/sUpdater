@@ -212,6 +212,8 @@ namespace SlimUpdater
                 if (updateList.Count > 1)
                 {
                     updaterTile.Text = String.Format("{0} updates available", updateList.Count);
+                    trayIcon.Text = string.Format("Slim Updater\n{0} updates available",
+                        updateList.Count);
 
                     foreach (App update in updateList)
                     {
@@ -242,6 +244,7 @@ namespace SlimUpdater
                 else
                 {
                     updaterTile.Text = String.Format("1 update available");
+                    trayIcon.Text = "Slim Updater\n1 update available";
 
                     notifiedUpdates = updateList[0].Name;
                     if (this.ShowInTaskbar == false &&
@@ -269,6 +272,7 @@ namespace SlimUpdater
             else
             {
                 trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
+                trayIcon.Text = "Slim Updater\nNo updates available";
                 updaterTile.BackColor = normalGreen;
                 updaterTile.Text = "No updates available";
                 logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
