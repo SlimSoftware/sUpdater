@@ -243,7 +243,7 @@ namespace SlimUpdater
                 }
                 else
                 {
-                    updaterTile.Text = String.Format("1 update available");
+                    updaterTile.Text = "1 update available";
                     trayIcon.Text = "Slim Updater\n1 update available";
 
                     notifiedUpdates = updateList[0].Name;
