@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace SlimUpdater
 {
-    public static class Logger
+    public static class Log
     {
-        public static void Log(string text, LogLevel logLevel, RichTextBox textBox)
+        public static void Append(string text, LogLevel logLevel, RichTextBox textBox)
         {
             textBox.Invoke(new Action(() =>
             {
