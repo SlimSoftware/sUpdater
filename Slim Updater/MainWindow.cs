@@ -1281,7 +1281,16 @@ namespace SlimUpdater
                     sevenZipPath = Path.Combine(Application.StartupPath, "7z.exe");
                 }
 #endif
-                Log.Append("7-Zip path: " + sevenZipPath, Log.LogLevel.INFO, logTextBox);
+                if (sevenZipPath == null)
+                {
+                    Log.Append("7-Zip not present under: " + sevenZipPath + ". Cancelling...",
+                        Log.LogLevel.ERROR, logTextBox);
+                    return;
+                }
+                else
+                {
+                    Log.Append("7-Zip path: " + sevenZipPath, Log.LogLevel.INFO, logTextBox);
+                }
 
                 foreach (PortableApp app in selectedAppList)
                 {
