@@ -438,60 +438,60 @@ namespace SlimUpdater
                 portableAppList.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
                     extractModeElement.Value));
+            }
 
-                foreach (PortableApp portableApp in portableAppList.ToArray())
+            foreach (PortableApp portableApp in portableAppList.ToArray())
+            {
+                AppItem appItem = new AppItem();
+                appItem.Click += (sender, e) =>
                 {
-                    AppItem appItem = new AppItem();
-                    appItem.Click += (sender, e) =>
-                    {
-                        ShowDetails(portableApp.Name, false, true);
-                    };
-                    appItem.Link2Clicked += (sender, e) =>
-                    {
-                        List<PortableApp> selectedAppList = new List<PortableApp>();
-                        selectedAppList.Add(portableAppList.Find(x => x.Name == appItem.Name));
-                        InstallPortableApps(selectedAppList, true);
-                    };
-                    appItem.Checked = false;
+                    ShowDetails(portableApp.Name, false, true);
+                };
+                appItem.Link2Clicked += (sender, e) =>
+                {
+                    List<PortableApp> selectedAppList = new List<PortableApp>();
+                    selectedAppList.Add(portableAppList.Find(x => x.Name == appItem.Name));
+                    InstallPortableApps(selectedAppList, true);
+                };
+                appItem.Checked = false;
 
-                    // Make sure only not installed apps are included
-                    if (portableApp.LocalVersion == "-")
-                    {
-                        // Add app to the content panel
-                        appItem.Name = portableApp.Name;
-                        appItem.Version = portableApp.LatestVersion;
-                        appItem.Link2Text = "Run";
-                        appItem.ShowLink2 = true;
-                        Utilities.AddAppItem(appItem, getPortableContentPanel);
+                // Make sure only not installed apps are included
+                if (portableApp.LocalVersion == "-")
+                {
+                    // Add app to the content panel
+                    appItem.Name = portableApp.Name;
+                    appItem.Version = portableApp.LatestVersion;
+                    appItem.Link2Text = "Run";
+                    appItem.ShowLink2 = true;
+                    Utilities.AddAppItem(appItem, getPortableContentPanel);
                         
-                        portableApp.AppItem = appItem;
-                    }
+                    portableApp.AppItem = appItem;
                 }
-                if (getPortableContentPanel.VerticalScroll.Visible == true)
-                {
-                    Utilities.FixScrollbars(getPortableContentPanel.Controls);
-                }
+            }
+            if (getPortableContentPanel.VerticalScroll.Visible == true)
+            {
+                Utilities.FixScrollbars(getPortableContentPanel.Controls);
+            }
 
-                if (portableAppList.Count == 0)
-                {
-                    Label noticeLabel = new Label();
-                    noticeLabel.Text = "No new Portable Apps to install found.";
-                    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
-                    // Center
-                    noticeLabel.AutoSize = true;
-                    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
-                    getPortableContentPanel.Controls.Add(noticeLabel);
-                    Utilities.CenterControl(noticeLabel, getPortableContentPanel, 
-                        Utilities.CenterMode.Both);
-                    // Conpensate for topBar height
-                    noticeLabel.Location = new Point(noticeLabel.Location.X,
-                        noticeLabel.Location.Y - topBar.Height);
-                }
-                else if (selectAllPortableCheckBox.Visible == false)
-                {
-                    selectAllPortableCheckBox.Visible = true;
-                    downloadPortableButton.Enabled = true;
-                }
+            if (portableAppList.Count == 0)
+            {
+                Label noticeLabel = new Label();
+                noticeLabel.Text = "No new Portable Apps to install found.";
+                noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
+                // Center
+                noticeLabel.AutoSize = true;
+                noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
+                getPortableContentPanel.Controls.Add(noticeLabel);
+                Utilities.CenterControl(noticeLabel, getPortableContentPanel, 
+                    Utilities.CenterMode.Both);
+                // Conpensate for topBar height
+                noticeLabel.Location = new Point(noticeLabel.Location.X,
+                    noticeLabel.Location.Y - topBar.Height);
+            }
+            else if (selectAllPortableCheckBox.Visible == false)
+            {
+                selectAllPortableCheckBox.Visible = true;
+                downloadPortableButton.Enabled = true;
             }
         }
         #endregion
