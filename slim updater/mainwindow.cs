@@ -1275,36 +1275,12 @@ namespace SlimUpdater
                     sevenZipPath = Path.Combine(Environment.GetFolderPath(
                         Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
                 }
-                else
-                {
-                    sevenZipPath = Path.Combine(Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
-                }
 #else
-                    if (Directory.Exists(Path.Combine(Environment.GetFolderPath(
-                        Environment.SpecialFolder.ProgramFiles), "7-Zip")))
-                    {
-                        sevenZipPath = Path.Combine(Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
-                    }
-                    else
-                    {
-                        sevenZipPath = Path.Combine(Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
-                    }
-#endif
-
-                // Prefer 7-Zip in Program Files if installed
-                if (Directory.Exists(Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ProgramFiles), "7-Zip")))
-                {
-                    sevenZipPath = Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
-                }
-                else
+                if (File.Exists(Path.Combine(Application.StartupPath), "7-Zip")))
                 {
                     sevenZipPath = Path.Combine(Application.StartupPath, "7z.exe");
                 }
+#endif
                 Log.Append("7-Zip path: " + sevenZipPath, Log.LogLevel.INFO, logTextBox);
 
                 foreach (PortableApp app in selectedAppList)
