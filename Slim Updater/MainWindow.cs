@@ -1999,7 +1999,7 @@ namespace SlimUpdater
 
         private void DownloadPortableButton_Click(object sender, EventArgs e)
         {
-            InstallPortableApps(portableAppList, true);
+            InstallPortableApps(portableAppList, false);
         }
 
         private void RefreshPortableButton2_Click(object sender, EventArgs e)
