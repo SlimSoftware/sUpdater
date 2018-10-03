@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="500" Width="800">
         <DockPanel>
-        <StackPanel x:Name="header" DockPanel.Dock="Top" Height="38" Orientation="Horizontal"></StackPanel>
+        <StackPanel x:Name="header" DockPanel.Dock="Top" Height="38" Orientation="Horizontal">
+            <Label x:Name="headerLabel" Content="Home" FontSize="18" FontWeight="Bold"
+                   Foreground="#00ba00" VerticalAlignment="Center"/>
+        </StackPanel>
             <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
