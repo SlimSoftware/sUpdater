@@ -165,16 +165,14 @@ namespace SlimUpdater
             mainWindow.ShowInTaskbar = false;
             // Hide Slim Updater in Alt+Tab menu
             mainWindow.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            mainWindow.WindowState = FormWindowState.Minimized;
         }
 
         public static void ShowFromTray(MainWindow mainWindow)
         {
-            mainWindow.Show();
             mainWindow.ShowInTaskbar = true;
             // Show Slim Updater in Alt+Tab menu
             mainWindow.FormBorderStyle = FormBorderStyle.FixedSingle;
-            mainWindow.WindowState = FormWindowState.Normal;
+            mainWindow.Show();
         }
     }
 }

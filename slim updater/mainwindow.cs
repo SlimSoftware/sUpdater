@@ -29,11 +29,6 @@ namespace SlimUpdater
         public MainWindow()
         {
             InitializeComponent();
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Contains("/tray"))
-            {
-                Utilities.MinimizeToTray(this);
-            }
             Settings.Load();
         }
 
@@ -42,6 +37,12 @@ namespace SlimUpdater
         {
             Log.Append("Slim Updater v" + ProductVersion + " " + "started on " +
                 Utilities.GetFriendlyOSName(), Log.LogLevel.INFO, logTextBox);
+
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Contains("/tray"))
+            {
+                Utilities.MinimizeToTray(this);
+            }
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
