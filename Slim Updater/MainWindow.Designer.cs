@@ -398,9 +398,9 @@
             this.versionLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.versionLabel.Location = new System.Drawing.Point(342, 205);
             this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(100, 20);
+            this.versionLabel.Size = new System.Drawing.Size(115, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 3.3";
+            this.versionLabel.Text = "Version 3.3.1";
             // 
             // aboutTitle
             // 
