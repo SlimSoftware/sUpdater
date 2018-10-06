@@ -110,5 +110,8 @@
     <Resource Include="Icons\portable_icon.png" />
     <Resource Include="Icons\settings_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\slimupdater.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
