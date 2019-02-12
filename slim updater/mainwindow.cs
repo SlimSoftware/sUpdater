@@ -741,11 +741,15 @@ namespace SlimUpdater
                 // TODO: Let the user decide this with a setting
                 while (tasks.Count > 2)
                 {
-                    await Task.Delay(1000);
+                    // Wait until a task finishes
+                    await Task.WhenAny(tasks);
+                    // Remove all completed tasks from the task list
+                    tasks.RemoveAll(x => x.IsCompleted);
                 }
                 tasks.Add(downloadTask);
             }
             await Task.WhenAll(tasks.ToArray());
+            
 
             // Install
             if (!updateFailed)
