@@ -78,29 +78,18 @@ namespace SlimUpdater
             XDocument defenitions = new XDocument();
 
             // Load XML File
-            HttpWebRequest rq;
-            XmlTextReader xmlReader;
-            if (Settings.DefenitionURL == null)
-            {
-                Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
-                rq = (HttpWebRequest)WebRequest.Create(
-                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
-            }
-            else
-            {
-                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
-                    Log.LogLevel.INFO, logTextBox);
-                rq = (HttpWebRequest)WebRequest.Create(
-                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
-            }
-            rq.Timeout = 10000;
-            
             try
             {
-                HttpWebResponse response = rq.GetResponse() as HttpWebResponse;
-                using (Stream responseStream = response.GetResponseStream())
+                if (Settings.DefenitionURL != null)
                 {
-                    xmlReader = new XmlTextReader(responseStream);
+                    Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                        Log.LogLevel.INFO, logTextBox);
+                    defenitions = XDocument.Load(Settings.DefenitionURL);
+                }
+                else
+                {
+                    Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
+                    defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
                 }
             }
             catch (Exception e)
@@ -117,8 +106,6 @@ namespace SlimUpdater
                 offlineRetryLink.Visible = true;
                 return;
             }
-
-            defenitions = XDocument.Load(xmlReader);
 
             if (updaterTile.BackColor == normalGrey)
             {
