@@ -2246,9 +2246,8 @@ namespace SlimUpdater
         }
 
         private void OpenTrayIconMenuItem_Click(object sender, EventArgs e)
-        {
-            ReadDefenitions();
-            Utilities.ShowFromTray(this);
+        {          
+            ReadDefenitions();           
             if (trayIcon.Icon != Properties.Resources.Slim_UpdaterIcon_Grey)
             {
                 CheckForUpdates();
@@ -2256,6 +2255,7 @@ namespace SlimUpdater
                 AutoUpdater.ShowSkipButton = false;
                 AutoUpdater.Start("https://www.slimsoft.tk/slimupdater/update.xml");
             }
+            Utilities.ShowFromTray(this);
         }
 
         private void SettingsTrayIconMenuItem_Click(object sender, EventArgs e)

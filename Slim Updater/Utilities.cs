@@ -169,12 +169,12 @@ namespace SlimUpdater
 
         public static void ShowFromTray(MainWindow mainWindow)
         {
-            mainWindow.ShowInTaskbar = true;
             // Show Slim Updater in Alt+Tab menu
-            mainWindow.FormBorderStyle = FormBorderStyle.FixedSingle;
+            mainWindow.FormBorderStyle = FormBorderStyle.FixedSingle;            
             mainWindow.Show();
+            mainWindow.ShowInTaskbar = true;
             // Make sure that the window is focused
-            mainWindow.Focus();
+            mainWindow.Activate();
         }
     }
 }
