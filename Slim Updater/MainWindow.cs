@@ -832,6 +832,27 @@ namespace SlimUpdater
                     }
                 }
 
+                // Remove succesful updates from Settings.NotifiedUpdates
+                string[] notifiedUpdates = Settings.NotifiedUpdates.Split(' ');
+                foreach (Control control in updateContentPanel.Controls)
+                {
+                    if (control is AppItem appItem)
+                    {
+                        if (appItem.Status == "Install complete")
+                        {
+                            // Remove this app's name from the notifiedUpdates array
+                            notifiedUpdates = notifiedUpdates.Where(w => w != appItem.Name).ToArray();
+                        }
+                    }
+                }
+                string notifiedUpdatesString = string.Join(" ", notifiedUpdates);
+                // Check if the notified updates setting should be saved
+                if (notifiedUpdatesString != Settings.NotifiedUpdates)
+                {
+                    Settings.NotifiedUpdates = notifiedUpdatesString;
+                    Settings.Save();
+                }
+
                 // Cleanup any leftover exe's in appdata dir
                 if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
                 {
