@@ -26,11 +26,10 @@ namespace SlimUpdater
         }
 
         public static void SecondInstanceHandler(object sender, StartupNextInstanceEventArgs e)
-        {
-            e.BringToForeground = true;
-            MainForm.Show();
-            MainForm.ShowInTaskbar = true;
-            MainForm.WindowState = FormWindowState.Normal;
+        {           
+            Utilities.ShowFromTray(MainForm);
+            // Required to make sure that the window opens on the foreground
+            MainForm.Activate();  
         }
 
         public class SingleInstanceApplication : WindowsFormsApplicationBase
