@@ -2094,6 +2094,7 @@ namespace SlimUpdater
 
         private void OfficialDefenRadioBtn_Click(object sender, EventArgs e)
         {
+            customURLTextBox.Text = "";
             customURLTextBox.Enabled = false;
         }
 
