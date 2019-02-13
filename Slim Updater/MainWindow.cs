@@ -697,7 +697,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        update.AppItem.Status = "Download complete";                                       
+                                        update.AppItem.Status = "Waiting for installation...";                                       
                                     }));
                                 }
                             };
@@ -977,7 +977,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        app.AppItem.Status = "Download complete";
+                                        app.AppItem.Status = "Waiting for installation...";
                                         app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                                     }));
                                 }
@@ -1255,7 +1255,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        app.AppItem.Status = "Download complete";                                        
+                                        app.AppItem.Status = "Waiting for installation...";                                        
                                     }));
                                 }
                             };
