@@ -78,19 +78,29 @@ namespace SlimUpdater
             XDocument defenitions = new XDocument();
 
             // Load XML File
+            HttpWebRequest rq;
+            XmlTextReader xmlReader;
+            if (Settings.DefenitionURL == null)
+            {
+                Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
+                rq = (HttpWebRequest)WebRequest.Create(
+                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
+            else
+            {
+                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                    Log.LogLevel.INFO, logTextBox);
+                rq = (HttpWebRequest)WebRequest.Create(
+                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
+            rq.Timeout = 10000;
+            
             try
             {
-                if (Settings.DefenitionURL != null)
-                {
-                    Log.Append("Using custom definition file from " + Settings.DefenitionURL,
-                        Log.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load(Settings.DefenitionURL);
-                }
-                else
-                {
-                    Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
-                }
+                HttpWebResponse response = rq.GetResponse() as HttpWebResponse;
+                Stream responseStream = response.GetResponseStream();
+                xmlReader = new XmlTextReader(responseStream);
+                defenitions = XDocument.Load(xmlReader);
             }
             catch (Exception e)
             {
@@ -106,6 +116,8 @@ namespace SlimUpdater
                 offlineRetryLink.Visible = true;
                 return;
             }
+
+            
 
             if (updaterTile.BackColor == normalGrey)
             {
@@ -638,6 +650,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any updates.");
                 Log.Append("No updates selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -684,7 +697,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        update.AppItem.Status = "Download complete";                                       
+                                        update.AppItem.Status = "Waiting for installation...";                                       
                                     }));
                                 }
                             };
@@ -819,6 +832,27 @@ namespace SlimUpdater
                     }
                 }
 
+                // Remove succesful updates from Settings.NotifiedUpdates
+                string[] notifiedUpdates = Settings.NotifiedUpdates.Split(' ');
+                foreach (Control control in updateContentPanel.Controls)
+                {
+                    if (control is AppItem appItem)
+                    {
+                        if (appItem.Status == "Install complete")
+                        {
+                            // Remove this app's name from the notifiedUpdates array
+                            notifiedUpdates = notifiedUpdates.Where(w => w != appItem.Name).ToArray();
+                        }
+                    }
+                }
+                string notifiedUpdatesString = string.Join(" ", notifiedUpdates);
+                // Check if the notified updates setting should be saved
+                if (notifiedUpdatesString != Settings.NotifiedUpdates)
+                {
+                    Settings.NotifiedUpdates = notifiedUpdatesString;
+                    Settings.Save();
+                }
+
                 // Cleanup any leftover exe's in appdata dir
                 if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
                 {
@@ -896,6 +930,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any applications.");
                 Log.Append("No applications selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -942,7 +977,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        app.AppItem.Status = "Download complete";
+                                        app.AppItem.Status = "Waiting for installation...";
                                         app.AppItem.ProgressBarStyle = ProgressBarStyle.Marquee;
                                     }));
                                 }
@@ -1141,6 +1176,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
             else
@@ -1153,6 +1189,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
 
@@ -1218,7 +1255,7 @@ namespace SlimUpdater
                                 {
                                     Invoke(new MethodInvoker(() =>
                                     {
-                                        app.AppItem.Status = "Download complete";                                        
+                                        app.AppItem.Status = "Waiting for installation...";                                        
                                     }));
                                 }
                             };
@@ -2057,6 +2094,7 @@ namespace SlimUpdater
 
         private void OfficialDefenRadioBtn_Click(object sender, EventArgs e)
         {
+            customURLTextBox.Text = "";
             customURLTextBox.Enabled = false;
         }
 
@@ -2137,13 +2175,17 @@ namespace SlimUpdater
                 Settings.DataDir = null;
             }            
             
-            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
+            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != "")
             {
                 Settings.DefenitionURL = customURLTextBox.Text;
             }
-            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text == "")
             {
-                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+                MessageBox.Show("You must specify a custom defenition URL or use the official defentions");
+            }
+            if (officialDefenRadioBtn.Checked == true)
+            {
+                Settings.DefenitionURL = null;
             }
 
             if (autoStartCheckBox.Checked == true)
