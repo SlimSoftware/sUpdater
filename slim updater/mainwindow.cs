@@ -98,10 +98,9 @@ namespace SlimUpdater
             try
             {
                 HttpWebResponse response = rq.GetResponse() as HttpWebResponse;
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    xmlReader = new XmlTextReader(responseStream);
-                }
+                Stream responseStream = response.GetResponseStream();
+                xmlReader = new XmlTextReader(responseStream);
+                defenitions = XDocument.Load(xmlReader);
             }
             catch (Exception e)
             {
@@ -118,7 +117,7 @@ namespace SlimUpdater
                 return;
             }
 
-            defenitions = XDocument.Load(xmlReader);
+            
 
             if (updaterTile.BackColor == normalGrey)
             {
