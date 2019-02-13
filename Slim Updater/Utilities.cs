@@ -173,6 +173,8 @@ namespace SlimUpdater
             // Show Slim Updater in Alt+Tab menu
             mainWindow.FormBorderStyle = FormBorderStyle.FixedSingle;
             mainWindow.Show();
+            // Make sure that the window is focused
+            mainWindow.Focus();
         }
     }
 }
