@@ -2175,13 +2175,17 @@ namespace SlimUpdater
                 Settings.DataDir = null;
             }            
             
-            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != null)
+            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text != "")
             {
                 Settings.DefenitionURL = customURLTextBox.Text;
             }
-            if (customDefenRadioBtn.Checked == true && customURLTextBox == null)
+            if (customDefenRadioBtn.Checked == true && customURLTextBox.Text == "")
             {
-                MessageBox.Show("You must specify a custom Defenition URL or use the official Defentions");
+                MessageBox.Show("You must specify a custom defenition URL or use the official defentions");
+            }
+            if (officialDefenRadioBtn.Checked == true)
+            {
+                Settings.DefenitionURL = null;
             }
 
             if (autoStartCheckBox.Checked == true)
