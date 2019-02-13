@@ -651,6 +651,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any updates.");
                 Log.Append("No updates selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -909,6 +910,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any applications.");
                 Log.Append("No applications selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -1154,6 +1156,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
             else
@@ -1166,6 +1169,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
 

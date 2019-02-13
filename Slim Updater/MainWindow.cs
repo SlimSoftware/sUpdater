@@ -78,18 +78,29 @@ namespace SlimUpdater
             XDocument defenitions = new XDocument();
 
             // Load XML File
+            HttpWebRequest rq;
+            XmlTextReader xmlReader;
+            if (Settings.DefenitionURL == null)
+            {
+                Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
+                rq = (HttpWebRequest)WebRequest.Create(
+                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
+            else
+            {
+                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                    Log.LogLevel.INFO, logTextBox);
+                rq = (HttpWebRequest)WebRequest.Create(
+                    "https://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
+            rq.Timeout = 10000;
+            
             try
             {
-                if (Settings.DefenitionURL != null)
+                HttpWebResponse response = rq.GetResponse() as HttpWebResponse;
+                using (Stream responseStream = response.GetResponseStream())
                 {
-                    Log.Append("Using custom definition file from " + Settings.DefenitionURL,
-                        Log.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load(Settings.DefenitionURL);
-                }
-                else
-                {
-                    Log.Append("Using official definitions", Log.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+                    xmlReader = new XmlTextReader(responseStream);
                 }
             }
             catch (Exception e)
@@ -106,6 +117,8 @@ namespace SlimUpdater
                 offlineRetryLink.Visible = true;
                 return;
             }
+
+            defenitions = XDocument.Load(xmlReader);
 
             if (updaterTile.BackColor == normalGrey)
             {
@@ -638,6 +651,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any updates.");
                 Log.Append("No updates selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -896,6 +910,7 @@ namespace SlimUpdater
                 MessageBox.Show("You have not selected any applications.");
                 Log.Append("No applications selected to install, aborting...",
                     Log.LogLevel.WARN, logTextBox);
+                return;
             }
 
             // Download
@@ -1141,6 +1156,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
             else
@@ -1153,6 +1169,7 @@ namespace SlimUpdater
                     MessageBox.Show("You have not selected any Portable Apps.");
                     Log.Append("No Portable Apps selected to install, aborting...",
                         Log.LogLevel.WARN, logTextBox);
+                    return;
                 }
             }
 
