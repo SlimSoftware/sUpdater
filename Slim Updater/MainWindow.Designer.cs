@@ -371,12 +371,12 @@
             this.siteLink.AutoSize = true;
             this.siteLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.siteLink.LinkColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.siteLink.Location = new System.Drawing.Point(342, 387);
+            this.siteLink.Location = new System.Drawing.Point(337, 387);
             this.siteLink.Name = "siteLink";
-            this.siteLink.Size = new System.Drawing.Size(101, 17);
+            this.siteLink.Size = new System.Drawing.Size(110, 17);
             this.siteLink.TabIndex = 4;
             this.siteLink.TabStop = true;
-            this.siteLink.Text = "www.slimsoft.tk";
+            this.siteLink.Text = "Visit our website";
             this.siteLink.VisitedLinkColor = System.Drawing.SystemColors.ButtonHighlight;
             this.siteLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.SiteLink_LinkClicked);
             // 
@@ -385,22 +385,22 @@
             this.slimsoftwareLabel.AutoSize = true;
             this.slimsoftwareLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.slimsoftwareLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.slimsoftwareLabel.Location = new System.Drawing.Point(194, 365);
+            this.slimsoftwareLabel.Location = new System.Drawing.Point(199, 365);
             this.slimsoftwareLabel.Name = "slimsoftwareLabel";
-            this.slimsoftwareLabel.Size = new System.Drawing.Size(396, 18);
+            this.slimsoftwareLabel.Size = new System.Drawing.Size(387, 18);
             this.slimsoftwareLabel.TabIndex = 3;
-            this.slimsoftwareLabel.Text = "Open Source Software developped by SlimSoftware\r\n";
+            this.slimsoftwareLabel.Text = "Open Source Software developed by SlimSoftware\r\n";
             // 
             // versionLabel
             // 
             this.versionLabel.AutoSize = true;
             this.versionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.versionLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.versionLabel.Location = new System.Drawing.Point(342, 205);
+            this.versionLabel.Location = new System.Drawing.Point(335, 205);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(115, 20);
             this.versionLabel.TabIndex = 2;
-            this.versionLabel.Text = "Version 3.3.1";
+            this.versionLabel.Text = "Version 3.3.2";
             // 
             // aboutTitle
             // 
