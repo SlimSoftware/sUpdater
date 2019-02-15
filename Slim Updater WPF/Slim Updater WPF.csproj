@@ -120,5 +120,8 @@
   <ItemGroup>
     <Resource Include="Icons\slimupdater.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\arrow_green.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

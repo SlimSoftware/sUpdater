@@ -8,18 +8,37 @@
         Title="Slim Updater" Height="500" Width="800" Icon="Icons/SlimUpdater.ico">
 
     <Window.Resources>
+        <Style x:Key="ArrowButton" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Transparent">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
         <ControlTemplate x:Key="customNavUI" TargetType="Frame">
             <DockPanel>
                 <StackPanel x:Name="header" DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
+                    <Button Command="{x:Static NavigationCommands.BrowseBack}" 
+                        IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource ArrowButton}" 
+                        BorderThickness="0" Margin="5 0 0 0">
+                        <Image Source="Icons\arrow_green.png" Width="24" Height="24" />
+                    </Button>
                     <Label x:Name="headerLabel" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Title}" FontSize="20" FontWeight="Bold"
-                        Foreground="#00ba00" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                        Foreground="#00ba00" VerticalAlignment="Center" Margin="2 -2 0 0"/>
                 </StackPanel>
                 <ContentPresenter />
-                <!--<Button Content="Back" Command="{x:Static NavigationCommands.BrowseBack}" 
-                        IsEnabled="{TemplateBinding CanGoBack}" />
-                    <Button Content="Forward" 
-                    Command="{x:Static NavigationCommands.BrowseForward}" IsEnabled="{TemplateBinding CanGoForward}" />-->
-            <!--<ContentPresenter />-->
             </DockPanel>
         </ControlTemplate>
     </Window.Resources>
