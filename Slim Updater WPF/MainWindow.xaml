@@ -3,39 +3,28 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:SlimUpdater.Controls" x:Class="SlimUpdater.MainWindow"
+    x:Class="SlimUpdater.MainWindow"
         mc:Ignorable="d"
         Title="Slim Updater" Height="500" Width="800" Icon="Icons/SlimUpdater.ico">
-    <DockPanel>
-        <StackPanel x:Name="header" DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
-            <Label x:Name="headerLabel" Content="Home" FontSize="20" FontWeight="Bold"
-                   Foreground="#00ba00" VerticalAlignment="Center" Margin="5 0 0 0"/>
-        </StackPanel>
-        <Grid MaxHeight="500" MaxWidth="800">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Controls:FlatTile x:Name="updaterTile" Grid.Column="0" Grid.Row="0" 
-                               Background="#00ba00" Image="Icons/updater_icon.png" 
-                               Title="No updates available" MaxWidth="300" MaxHeight="150"
-                               Margin="50 0 0 0"/>
-            <Controls:FlatTile x:Name="getNewAppsTile" Grid.Column="1" Grid.Row="0"
-                               Background="#00ba00" Image="Icons/getapps_icon.png"
-                               Title="Get New Applications" MaxWidth="300" MaxHeight="150"
-                               Margin="0 0 50 0"/>
-            <Controls:FlatTile x:Name="portableAppsTile" Grid.Column="0" Grid.Row="1"
-                               Background="#00ba00" Image="Icons/portable_icon.png"
-                               Title="Portable Apps" MaxWidth="300" MaxHeight="150"
-                               Margin="50 0 0 0"/>
-            <Controls:FlatTile x:Name="settingsTile" Grid.Column="1" Grid.Row="1"
-                               Background="#00ba00" Image="Icons/settings_icon.png"
-                               Title="Settings" MaxWidth="300" MaxHeight="150"
-                               Margin="0 0 50 0"/>
-        </Grid>
-    </DockPanel>
+
+    <Window.Resources>
+        <ControlTemplate x:Key="customNavUI" TargetType="Frame">
+            <DockPanel>
+                <StackPanel x:Name="header" DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
+                    <Label x:Name="headerLabel" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Title}" FontSize="20" FontWeight="Bold"
+                        Foreground="#00ba00" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                </StackPanel>
+                <ContentPresenter />
+                <!--<Button Content="Back" Command="{x:Static NavigationCommands.BrowseBack}" 
+                        IsEnabled="{TemplateBinding CanGoBack}" />
+                    <Button Content="Forward" 
+                    Command="{x:Static NavigationCommands.BrowseForward}" IsEnabled="{TemplateBinding CanGoForward}" />-->
+            <!--<ContentPresenter />-->
+            </DockPanel>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Frame Template="{StaticResource customNavUI}" Source="StartPage.xaml">
+
+    </Frame>
 </Window>
