@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace SlimUpdater
 {
@@ -10,6 +11,12 @@ namespace SlimUpdater
         public StartPage()
         {
             InitializeComponent();
+        }
+
+        private void UpdaterTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            UpdaterPage updaterPage = new UpdaterPage();
+            NavigationService.Navigate(updaterPage);
         }
     }
 }
