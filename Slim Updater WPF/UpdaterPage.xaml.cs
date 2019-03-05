@@ -122,5 +122,13 @@ namespace SlimUpdater
             }
         }
         #endregion
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (Application app in updateListView.SelectedItems)
+            {
+
+            }
+        }
     }
 }
