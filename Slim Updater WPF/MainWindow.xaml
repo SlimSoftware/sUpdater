@@ -8,7 +8,7 @@
         Title="Slim Updater" Height="500" Width="800" Icon="Icons/SlimUpdater.ico">
 
     <Window.Resources>
-        <Style x:Key="ArrowButton" TargetType="{x:Type Button}">
+        <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -18,20 +18,22 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-
-            <Setter Property="Visibility" Value="Collapsed"/>
+            
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Visibility" Value="Collapsed"/>
-                </DataTrigger>
+                </Trigger>
             </Style.Triggers>
         </Style>
         
         <ControlTemplate x:Key="customNavUI" TargetType="Frame">
             <DockPanel>
                 <StackPanel x:Name="header" DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
-                    <Button Command="{x:Static NavigationCommands.BrowseBack}" 
-                        IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource ArrowButton}" 
+                    <Button x:Name="headerBackArrow" Command="{x:Static NavigationCommands.BrowseBack}" 
+                        IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource headerBackArrow}" 
                         BorderThickness="0" Margin="5 0 0 0">
                         <Image Source="Icons\arrow_green.png" Width="24" Height="24" />
                     </Button>
@@ -44,6 +46,5 @@
     </Window.Resources>
 
     <Frame Template="{StaticResource customNavUI}" Source="StartPage.xaml">
-
     </Frame>
 </Window>
