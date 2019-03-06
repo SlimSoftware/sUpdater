@@ -42,7 +42,7 @@ namespace SlimUpdater
             //    else
             //    {
                     //logger.Log("Using official definitions", Logger.LogLevel.INFO, logTextBox);
-                    defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+                    defenitions = XDocument.Load("defenitions.xml");
             //    }
             //}
             //catch (Exception e)
