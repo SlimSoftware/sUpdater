@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<defenitions version="1.0">
+  <app name="7-Zip">
+    <arch>x64</arch>
+    <changelog>19.00          2019-02-21
+	-------------------------
+	- Encryption strength for 7z archives was increased:
+	  the size of random initialization vector was increased from 64-bit to 128-bit,
+	  and the pseudo-random number generator was improved.
+	- Some bugs were fixed.</changelog>
+    <dl>https://www.7-zip.org/a/7z1900-x64.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>19.00</version>
+  </app>
+  <app name="Audacity">
+    <arch>*</arch>
+    <changelog>Easier zooming in and out with mousewheel, new Zoom Toggle command, and context menu for vertical rulers (thanks to James Crook)
+	Easy access to change keyboard bindings of menu commands by holding Shift key
+	Detection of dropout errors while recording with overburdened CPU
+	Improved contrasts in Light and Dark themes
+	Half-wave display option
+	Several bugs/annoyances in 2.2.1 are now fixed</changelog>
+    <dl>http://slimsoft.tk/slimupdater/audacity-win-2.3.0.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Audacity_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/verysilent</switch>
+    <type>setup</type>
+    <version>2.3.0</version>
+  </app>
+  <app name="Box Drive">
+    <arch>x64</arch>
+    <dl>https://e3.boxcdn.net/box-installers/desktop/releases/win/Box-x64.msi</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{1105BD01-869D-41E7-86A6-BFC122DB42C0}</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/quiet</switch>
+    <type>noupdate</type>
+    <version>1.18.104</version>
+  </app>
+   <app name="Capitalizer">
+    <arch>*</arch>
+	<changelog>- New toolbar icons that are the same on every OS, unlike the previous icons that had different variations for different operating system
+    - Added: more capitalization modes (caps, lowercase and like in a sentence) and a dropdown list in the toolbar to choose the current mode. When you change the mode, the new names in the list will update too
+    - Improved: Capitalizer will now remember the folder you last used (this is not retained yet after you close Capitalizer, but this will be implemented in a future version)
+    - Improved: Capitalizer will now default to the documents folder if you have not added files or a folder before since you launched Capitalizer</changelog>
+    <dl>http://slimsoft.tk/slimupdater/capitalizer-setup-1.1.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{A772FDD9-7143-4988-A05A-34CEE8259BC3}_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/verysilent</switch>
+    <type>setup</type>
+    <version>1.1</version>
+  </app>
+  <app name="CCleaner">
+    <arch>*</arch>
+    <changelog>Browser Cleaning
+
+    Internet Explorer: Cookies are now cleaned from the INetCache folder in Windows 10
+    Firefox: Fixed a cleaning compatibility issue with the Malwarebytes extension
+
+	Subscription Management
+
+    Added helpful reminders for expired CCleaner Professional subscriptions</changelog>
+    <description>A quick and easy to use program which makes your computer faster, more secure and more reliable. CCleaner removes cookies, temporary files and various other unused data that clogs up your operating system. This frees up valuable hard disk space allowing your system to run faster. Removing this data also protects your anonymity meaning you can browse online more securely. The built in Registry Cleaner fixes errors and broken settings to make your computer more stable. The simple, intuitive UI and rapid but powerful cleaning make CCleaner a favourite among novices and techies alike. Professional, Network, Business and Technician Editions of CCleaner are also available for serious users.
+    </description>
+    <dl>https://download.ccleaner.com/ccsetup554.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\CCleaner</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>5.54</version>
+  </app>
+  <app name="CDBurnerXP">
+    <arch>*</arch>
+    <dl>https://www.slimsoft.tk/slimupdater/cdbxp_setup_4.5.8.7041_x64_minimal.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{7E265513-8CDA-4631-B696-F40D983F3B07}_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/VERYSILENT /COMPONENTS="main" /TASKS="fileassoc"</switch>
+    <type>noupdate</type>
+    <version>4.5.8.7041</version>
+  </app>
+  <app name="Firefox">
+    <arch>x64</arch>
+    <dl>https://download-installer.cdn.mozilla.net/pub/firefox/releases/64.0.2/win64/en-US/Firefox%20Setup%2064.0.2.exe</dl>
+    <exePath>%pf64%\Mozilla Firefox\firefox.exe</exePath>
+    <switch>/S /DesktopShortcut=false</switch>
+    <type>noupdate</type>
+    <version>64.0.2</version>
+  </app>
+  <app name="FireZilla Client">
+    <arch>x64</arch>
+    <dl>https://www.slimsoft.tk/slimupdater/FileZilla_3.41.0_win64-setup.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\FileZilla Client</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>3.41.0</version>
+  </app>
+  <app name="Foxit Reader">
+    <arch>*</arch>
+    <dl>http://cdn09.foxitsoftware.com/product/reader/desktop/win/9.4/FoxitReader941_enu_Setup_Clean.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Foxit Reader_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/verysilent ADDLOCAL="FX_PDFVIEWER,FX_SPELLCHECK,FX_SE"</switch>
+    <type>setup</type>
+    <version>9.4.1.16828</version>
+  </app>
+  <app name="GIMP">
+    <arch>*</arch>
+    <dl>https://download.gimp.org/mirror/pub/gimp/v2.10/windows/gimp-2.10.6-setup.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\GIMP-2_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/VERYSILENT /COMPONENTS="!loc,gimp64,deps64,deps64\wimp,gs,mypaint,gimp32on64,gimp32on64\py,gimp32on64\compat"</switch>
+    <type>setup</type>
+    <version>2.10.6</version>
+  </app>
+  <app name="Greenshot">
+    <arch>x64</arch>
+    <dl>https://github.com/greenshot/greenshot/releases/download/Greenshot-RELEASE-1.2.10.6/Greenshot-INSTALLER-1.2.10.6-RELEASE.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Greenshot_is1</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/verysilent"</switch>
+    <type>setup</type>
+    <version>1.2.10.6</version>
+  </app>
+  <app name="Minitool Partition Wizard">
+    <arch>*</arch>
+    <dl>http://download3.minitool.com/10.2.2/pw102-free.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{05D996FA-ADCB-4D23-BA3C-A7C184A8FAC6}_is1</regkey>
+    <regvalue>DisplayName</regvalue>
+    <switch>/VERYSILENT</switch>
+    <type>setup</type>
+    <version>10.2.2</version>
+  </app>
+  <app name="Mp3tag">
+    <arch>*</arch>
+    <dl>http://download.mp3tag.de/mp3tagv294setup.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Mp3tag</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>2.94</version>
+  </app>
+  <app name="Notepad++">
+    <arch>*</arch>
+    <dl>https://notepad-plus-plus.org/repository/7.x/7.6.3/npp.7.6.3.Installer.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Notepad++</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>7.6.3</version>
+  </app>
+  <app name="Paint.NET">
+    <arch>*</arch>
+    <dl>https://www.slimsoft.tk/slimupdater/paint.net.4.1.1.install.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{E8FA8815-3817-4128-A814-E2EAC456ADF0}</regkey>
+    <regvalue>DisplayVersion</regvalue>
+    <switch>/auto</switch>
+    <type>setup</type>
+    <version>4.1.1</version>
+  </app>
+  <app name="Thunderbird">
+    <arch>*</arch>
+    <dl>https://download-installer.cdn.mozilla.net/pub/thunderbird/releases/60.4.0/win32/en-US/Thunderbird%20Setup%2060.4.0.exe</dl>
+    <exePath>%pf32%\Mozilla Thunderbird\thunderbird.exe</exePath>                    
+    <switch>/S</switch>
+    <type>noupdate</type>
+    <version>60.4.0</version>
+  </app>
+  <app name="VLC Media Player">
+    <arch>x86</arch>
+    <dl>https://get.videolan.org/vlc/3.0.6/win32/vlc-3.0.6-win32.exe</dl>
+    <regkey>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\VideoLAN\VLC</regkey>
+    <regvalue>Version</regvalue>
+    <switch>/S</switch>
+    <type>setup</type>
+    <version>3.0.6</version>
+  </app>
+  <portable name="AdwCleaner">
+    <arch>*</arch>
+    <dl>http://www.slimsoft.tk/slimupdater/adwcleaner_7.0.8.0.exe</dl>
+    <extractmode>single</extractmode>
+    <launch>adwcleaner_7.0.8.0.exe</launch>
+    <version>7.0.8.0</version>
+  </portable>
+  <portable name="CCleaner Portable">
+    <arch>*</arch>
+    <description>A quick and easy to use program which makes your computer faster, more secure and more reliable. CCleaner removes cookies, temporary files and various other unused data that clogs up your operating system. This frees up valuable hard disk space allowing your system to run faster. Removing this data also protects your anonymity meaning you can browse online more securely. The built in Registry Cleaner fixes errors and broken settings to make your computer more stable. The simple, intuitive UI and rapid but powerful cleaning make CCleaner a favourite among novices and techies alike. Professional, Network, Business and Technician Editions of CCleaner are also available for serious users.</description>
+    <dl>https://download.ccleaner.com/portable/ccsetup554.zip</dl>
+    <extractmode>folder</extractmode>
+    <launch>CCleaner64.exe</launch>
+    <version>5.54</version>
+  </portable>
+</defenitions>
