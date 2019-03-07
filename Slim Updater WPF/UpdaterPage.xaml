@@ -13,12 +13,16 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25px" />
             <RowDefinition/>
             <RowDefinition Height="50px"/>
         </Grid.RowDefinitions>
 
+        <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
+                  Click="SelectAllCheckBox_Click">Select All</CheckBox>
+        
         <ListView x:Name="updateListView" HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch">
+                  HorizontalContentAlignment="Stretch" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="50px">
@@ -46,9 +50,16 @@
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <!-- Set Focusable property to false to prevent items 
+                    getting highlighted in blue when clicked on-->
+                    <Setter Property="Focusable" Value="False"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
         
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="1">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
             <Button Height="21" Width="100" Click="Button_Click">Install Selected</Button>
         </StackPanel>

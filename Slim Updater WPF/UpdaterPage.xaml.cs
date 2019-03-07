@@ -21,6 +21,7 @@ namespace SlimUpdater
             InitializeComponent();
             ReadDefenitions();
             updateListView.ItemsSource = appList;
+            updateListView.SelectAll();
         }
 
         #region ReadDefenitions()
@@ -128,6 +129,27 @@ namespace SlimUpdater
             foreach (Application app in updateListView.SelectedItems)
             {
 
+            }
+        }
+
+        private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectAllCheckBox.IsChecked == true)
+            {
+                // Select all unselected apps
+                foreach (Application app in updateListView.Items)
+                {
+                    // Check if the app is not selected, if so check it
+                    if (!updateListView.SelectedItems.Contains(app))
+                    {
+                        updateListView.SelectedItems.Add(app);
+                    }
+                }
+            }
+            else
+            {
+                // Unselect all selected apps                
+                updateListView.SelectedItems.Clear();    
             }
         }
     }
