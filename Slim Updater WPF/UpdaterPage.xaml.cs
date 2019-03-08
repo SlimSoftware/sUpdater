@@ -152,5 +152,22 @@ namespace SlimUpdater
                 updateListView.SelectedItems.Clear();    
             }
         }
+
+        private void ListViewItem_Clicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Get app associated with the listview item
+            Application app = ((ListViewItem)sender).Content as Application;
+
+            // Check if app is selected
+            if (updateListView.SelectedItems.Contains(app))
+            {
+                updateListView.SelectedItems.Remove(app);
+            }
+            else
+            {
+                updateListView.SelectedItems.Add(app);
+            }
+            
+        }
     }
 }

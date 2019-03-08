@@ -55,6 +55,8 @@
                     <!-- Set Focusable property to false to prevent items 
                     getting highlighted in blue when clicked on-->
                     <Setter Property="Focusable" Value="False"/>
+                    <!-- Event that will be triggered when a listview item is clicked-->
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_Clicked" />
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
