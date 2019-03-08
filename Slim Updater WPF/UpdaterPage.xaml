@@ -22,7 +22,7 @@
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
         
         <ListView x:Name="updateListView" HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch" Grid.Row="1">
+                  HorizontalContentAlignment="Stretch" Grid.Row="1" SelectionChanged="UpdateListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="50px">

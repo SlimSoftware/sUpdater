@@ -158,7 +158,6 @@ namespace SlimUpdater
             // Get app associated with the listview item
             Application app = ((ListViewItem)sender).Content as Application;
 
-            // Check if app is selected
             if (updateListView.SelectedItems.Contains(app))
             {
                 updateListView.SelectedItems.Remove(app);
@@ -168,6 +167,24 @@ namespace SlimUpdater
                 updateListView.SelectedItems.Add(app);
             }
             
+        }
+
+        private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (updateListView.SelectedItems.Count == appList.Count)
+            {
+                if (selectAllCheckBox.IsChecked == false)
+                {
+                    selectAllCheckBox.IsChecked = true;
+                }
+            }
+            else
+            {
+                if (selectAllCheckBox.IsChecked == true)
+                {
+                    selectAllCheckBox.IsChecked = false;
+                }
+            }
         }
     }
 }
