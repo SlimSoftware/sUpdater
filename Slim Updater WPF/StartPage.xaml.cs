@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Xml.Linq;
 
@@ -14,20 +14,90 @@ namespace SlimUpdater
     /// </summary>
     public partial class StartPage : Page
     {
-        private List<Application> AppList;
-        private List<Application> UpdateList;
+        private static bool firstLaunch = true;
 
         public StartPage()
         {
             InitializeComponent();
-            AppList = new List<Application>();
-            ReadDefenitions();
-            CheckForUpdates();
+            if (firstLaunch)
+            {
+                firstLaunch = false;
+
+                ReadDefenitions();
+                bool updatesAvailable = CheckForUpdates();
+
+                // Change updaterTile accordingly
+                if (updatesAvailable)
+                {
+                    string notifiedUpdates = "";
+                    // trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
+                    updaterTile.Background = Colors.normalOrangeBrush;
+
+                    if (Apps.Updates.Count > 1)
+                    {
+                        updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
+
+                        foreach (Application update in Apps.Updates)
+                        {
+                            if (update.Equals(Apps.Updates.Last()))
+                            {
+                                // Do not add a space after the last app name
+                                notifiedUpdates += update.Name;
+                            }
+                            else
+                            {
+                                notifiedUpdates += update.Name + " ";
+                            }
+                        }
+
+                        //if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
+                        //{
+                        //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        //    trayIcon.BalloonTipTitle = "Slim Updater";
+                        //    trayIcon.BalloonTipText = string.Format(
+                        //        "{0} updates available. Click for details.", AppInfo.UpdateList.Count);
+                        //    trayIcon.ShowBalloonTip(5000);
+                        //}
+                        //settings.NotifiedUpdates = notifiedUpdates;
+                        //settings.Save();
+
+                        //logger.Log(string.Format("{0} updates available", AppInfo.UpdateList.Count),
+                        //    Logger.LogLevel.INFO, logTextBox);
+                    }
+                    else
+                    {
+                        updaterTile.Title = string.Format("1 update available");
+
+                        //notifiedUpdates = AppInfo.UpdateList[0].Name;
+                        //if (this.ShowInTaskbar == false &&
+                        //    notifiedUpdates != settings.NotifiedUpdates)
+                        //{
+                        //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                        //    trayIcon.BalloonTipTitle = "Slim Updater";
+                        //    trayIcon.BalloonTipText = string.Format("An update for {0} is available",
+                        //        AppInfo.UpdateList[0].Name);
+                        //    trayIcon.ShowBalloonTip(5000);
+                        //}
+                        //settings.NotifiedUpdates = notifiedUpdates;
+                        //settings.Save();
+
+                        //logger.Log(string.Format("1 update available", AppInfo.UpdateList.Count),
+                        //    Logger.LogLevel.INFO, logTextBox);
+                    }
+                }
+                else
+                {
+                    //trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
+                    updaterTile.Background = Colors.normalGreenBrush;
+                    updaterTile.Title = "No updates available";
+                    //logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
+                }
+            }
         }
 
         private void UpdaterTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            UpdaterPage updaterPage = new UpdaterPage(AppList);
+            UpdaterPage updaterPage = new UpdaterPage();
             NavigationService.Navigate(updaterPage);
         }
 
@@ -35,7 +105,7 @@ namespace SlimUpdater
         public void ReadDefenitions()
         {
             //logger.Log("Loading definitions file", Logger.LogLevel.INFO, logTextBox);
-            AppList = new List<Application>();
+            Apps.Regular = new List<Application>();
             XDocument defenitions = new XDocument();
 
             // Load XML File
@@ -123,8 +193,8 @@ namespace SlimUpdater
                     }
                 }
 
-                // Add app to appList
-                AppList.Add(new Application(nameAttribute.Value.ToString(), versionElement.Value,
+                // Add app to AppList
+                Apps.Regular.Add(new Application(nameAttribute.Value.ToString(), versionElement.Value,
                     localVersion, archElement.Value, typeElement.Value, switchElement.Value,
                     dlElement.Value, null));
             }
@@ -134,151 +204,41 @@ namespace SlimUpdater
         #region CheckForUpdates()
         public bool CheckForUpdates()
         {
-            //if (updaterTile.BackColor == normalGrey)
-            //{
-            //    return false;
-            //}
+            if (Apps.Regular.Count == 0)
+            {
+                return false;
+            }
 
             //logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            UpdateList = new List<Application>(AppList);
-            string notifiedUpdates = null;
+            Apps.Updates = new List<Application>(Apps.Regular);
 
-            foreach (Application app in UpdateList.ToArray())
+            foreach (Application app in Apps.Updates.ToArray())
             {
-                // Remove not installed apps from the UpdateList so it doesn't get added
-                if (app.LocalVersion == null | app.Type == "noupdate")
+                // Remove non-installed apps or apps with the noupdate type from the AppInfo.UpdateList
+                if (app.LocalVersion == null || app.Type == "noupdate")
                 {
-                    UpdateList.Remove(app);
+                    Apps.Updates.Remove(app);
                     continue;
                 }
                 else
                 {
-                    // Remove up to date apps from the UpdateList and don't its add AppItem to panel
+                    // Remove up to date apps from the AppInfo.UpdateList
                     if (Utilities.IsUpToDate(app.LatestVersion, app.LocalVersion))
                     {
-                        UpdateList.Remove(app);
+                        Apps.Updates.Remove(app);
                         continue;
                     }
                 }
             }
 
-            // Change updaterTile on the startpage accordingly
-            if (UpdateList.Count != 0)
+            if (Apps.Updates.Count != 0)
             {
-                //    trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
-                //    updaterTile.BackColor = normalOrange;
-
-                //    if (UpdateList.Count > 1)
-                //    {
-                //        updaterTile.Text = String.Format("{0} updates available", UpdateList.Count);
-
-                //        foreach (App update in UpdateList)
-                //        {
-                //            if (update.Equals(UpdateList.Last()))
-                //            {
-                //                // Do not add a space after the last app name
-                //                notifiedUpdates += update.Name;
-                //            }
-                //            else
-                //            {
-                //                notifiedUpdates += update.Name + " ";
-                //            }
-                //        }
-                //        if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
-                //        {
-                //            trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                //            trayIcon.BalloonTipTitle = "Slim Updater";
-                //            trayIcon.BalloonTipText = string.Format(
-                //                "{0} updates available. Click for details.", UpdateList.Count);
-                //            trayIcon.ShowBalloonTip(5000);
-                //        }
-                //        settings.NotifiedUpdates = notifiedUpdates;
-                //        settings.Save();
-
-                //        logger.Log(string.Format("{0} updates available", UpdateList.Count),
-                //            Logger.LogLevel.INFO, logTextBox);
-                //    }
-                //    else
-                //    {
-                //        updaterTile.Text = String.Format("1 update available");
-
-                //        notifiedUpdates = UpdateList[0].Name;
-                //        if (this.ShowInTaskbar == false &&
-                //            notifiedUpdates != settings.NotifiedUpdates)
-                //        {
-                //            trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                //            trayIcon.BalloonTipTitle = "Slim Updater";
-                //            trayIcon.BalloonTipText = string.Format("An update for {0} is available",
-                //                UpdateList[0].Name);
-                //            trayIcon.ShowBalloonTip(5000);
-                //        }
-                //        settings.NotifiedUpdates = notifiedUpdates;
-                //        settings.Save();
-
-                //        logger.Log(string.Format("1 update available", UpdateList.Count),
-                //            Logger.LogLevel.INFO, logTextBox);
-                //    }
-
                 return true;
             }
             else
             {
-                //trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
-                //updaterTile.BackColor = normalGreen;
-                //updaterTile.Text = "No updates available";
-                //logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
-
-                //// Add all apps to updatecontentPanel for details view
-                //// Only if page is actually visible and updates are not just installed
-                //if (this.Controls[0] == updatePage && justInstalledUpdates == false)
-                //{
-                //    foreach (App a in AppList)
-                //    {
-                //        Application app = a;
-                //        app.Checkbox = false;
-
-                //        if (app.LocalVersion != null)
-                //        {
-                //            app.Name = app.Name + " " + app.LatestVersion;
-                //            if (app.Type == "noupdate")
-                //            {
-                //                app.Version = "Installed: " + app.LocalVersion + " (Using own updater)";
-                //            }
-                //            else
-                //            {
-                //                app.Version = "Installed: " + app.LocalVersion;
-                //            }
-                //        }
-                //        else
-                //        {
-                //            app.Name = app.Name + " " + app.LatestVersion;
-                //            app.Version = "Not Found";
-                //        }
-                //        UpdateList.Add(app);
-                //    }
-
-                    // Hide select all checkbox and bottom buttons for details view
-                    //selectAllCheckBox.Visible = false;
-                    //installUpdatesButton.Visible = false;
-                    //refreshUpdatesButton.Visible = false;
-             }
-                //else if (justInstalledUpdates == true)
-                //{
-                //    justInstalledUpdates = false;
-                //    selectAllUpdatesCheckBox.Visible = false;
-                //    installUpdatesButton.Enabled = false;
-
-                //    Label noticeLabel = new Label();
-                //    noticeLabel.Text = "No updates available.";
-                //    noticeLabel.Font = new Font("Microsoft Sans Serif", 10);
-                //    // Center
-                //    noticeLabel.AutoSize = true;
-                //    noticeLabel.TextAlign = ContentAlignment.MiddleCenter;
-                //    updateContentPanel.Controls.Add(noticeLabel);
-                //    Utilities.CenterControl(noticeLabel, updateContentPanel,
-                //        Utilities.CenterMode.Both);
-                //}
-                return false;
+                return false;            
+            }
         }
         #endregion
     }

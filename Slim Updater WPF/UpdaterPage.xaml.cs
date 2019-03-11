@@ -14,14 +14,44 @@ namespace SlimUpdater
     /// </summary>
     public partial class UpdaterPage : Page
     {
-        private List<Application> UpdateList;
-
-        public UpdaterPage(List<Application> updateList)
+        public UpdaterPage()
         {
             InitializeComponent();
-            UpdateList = updateList;
-            updateListView.ItemsSource = updateList;
+            updateListView.ItemsSource = Apps.Updates;
             updateListView.SelectAll();
+
+            //// Add all apps to updatecontentPanel for details view 
+            //if (detailsView)
+            //{
+            //    foreach (App a in AppList)
+            //    {
+            //        Application app = a;
+            //        app.Checkbox = false;
+
+            //        if (app.LocalVersion != null)
+            //        {
+            //            app.Name = app.Name + " " + app.LatestVersion;
+            //            if (app.Type == "noupdate")
+            //            {
+            //                app.Version = "Installed: " + app.LocalVersion + " (Using own updater)";
+            //            }
+            //            else
+            //            {
+            //                app.Version = "Installed: " + app.LocalVersion;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            app.Name = app.Name + " " + app.LatestVersion;
+            //            app.Version = "Not Found";
+            //        }
+            //        UpdateList.Add(app);
+            //    }
+
+            // Hide select all checkbox and bottom buttons for details view
+            //selectAllCheckBox.Visible = false;
+            //installUpdatesButton.Visible = false;
+            //refreshUpdatesButton.Visible = false;
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -71,7 +101,7 @@ namespace SlimUpdater
 
         private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (updateListView.SelectedItems.Count == UpdateList.Count)
+            if (updateListView.SelectedItems.Count == Apps.Updates.Count)
             {
                 if (selectAllCheckBox.IsChecked == false)
                 {
