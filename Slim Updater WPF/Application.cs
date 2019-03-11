@@ -1,6 +1,6 @@
 ﻿namespace SlimUpdater
 {
-    class Application
+    public class Application
     {
         public string Name { get; set; }
         public string LatestVersion { get; set; }
