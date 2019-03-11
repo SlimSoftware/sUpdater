@@ -12,6 +12,7 @@
         public string DL { get; set; }
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
+        public bool Checkbox { get; set; }
 
         public Application(string name, string latestVersion, string localVersion, string arch,
             string type, string installSwitch, string dl, string savePath = null)

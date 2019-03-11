@@ -27,20 +27,25 @@
                 <DataTemplate>
                     <Grid Height="50px">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="20px"></ColumnDefinition>
+                            <ColumnDefinition x:Name="checkColumn" Width="20px"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <CheckBox Grid.Column="0" VerticalAlignment="Center"
+                        <CheckBox x:Name="checkBox" VerticalAlignment="Center"
                                   IsChecked="{Binding Path=IsSelected, 
                                   RelativeSource={RelativeSource FindAncestor, 
                                   AncestorType={x:Type ListViewItem}}}"/>
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
                             <Label MaxWidth="{Binding ElementName=Test, Path=Width}"
-                                   Content="{Binding Name}" FontSize="14"></Label>
-                            <Label Content="{Binding LatestVersion}" Margin="0,-5,0,0"></Label>
+                                   Content="{Binding Name}" FontSize="14">
+                            </Label>
+                            <Label Content="{Binding LocalVersion}" Margin="0,-5,0,0">
+                                <Label.Foreground>
+                                    <SolidColorBrush Color="#8d8d8d" />
+                                </Label.Foreground>
+                            </Label>
                         </StackPanel>
                         <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Right"
                                     VerticalAlignment="Center">
@@ -48,6 +53,14 @@
                             <Label HorizontalAlignment="Center" Content="Downloading..."></Label>
                         </StackPanel>
                     </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Checkbox}" Value="True">
+                            <Setter TargetName="checkColumn" Property="Width" Value="20px"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Checkbox}" Value="False">
+                            <Setter TargetName="checkColumn" Property="Width" Value="0"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.ItemContainerStyle>
@@ -62,8 +75,8 @@
         </ListView>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
-            <Button Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
-            <Button Height="21" Width="100" Click="Button_Click">Install Selected</Button>
+            <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
+            <Button x:Name="refreshButton" Height="21" Width="100" Click="Button_Click">Install Selected</Button>
         </StackPanel>
     </Grid>
 </Page>
