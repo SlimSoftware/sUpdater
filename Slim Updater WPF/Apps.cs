@@ -19,6 +19,12 @@ namespace SlimUpdater
         public static List<Application> Updates;
 
         /// <summary>
+        /// A temporary List used for the details mode of the UpdatePage
+        /// when no updates are available
+        /// </summary>
+        public static List<Application> Details;
+
+        /// <summary>
         /// A List that contains all Portable Apps
         /// </summary>
         public static List<Application> Portable;

@@ -20,38 +20,94 @@ namespace SlimUpdater
             updateListView.ItemsSource = Apps.Updates;
             updateListView.SelectAll();
 
-            //// Add all apps to updatecontentPanel for details view 
-            //if (detailsView)
-            //{
-            //    foreach (App a in AppList)
-            //    {
-            //        Application app = a;
-            //        app.Checkbox = false;
+            // Add all apps to Apps.Details for details view when there no updates are available
+            // and the details list has not already been filled
+            if (Apps.Updates.Count == 0 && (Apps.Details == null || Apps.Details?.Count == 0))
+            {
+                Apps.Details = new List<Application>();
 
-            //        if (app.LocalVersion != null)
-            //        {
-            //            app.Name = app.Name + " " + app.LatestVersion;
-            //            if (app.Type == "noupdate")
-            //            {
-            //                app.Version = "Installed: " + app.LocalVersion + " (Using own updater)";
-            //            }
-            //            else
-            //            {
-            //                app.Version = "Installed: " + app.LocalVersion;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            app.Name = app.Name + " " + app.LatestVersion;
-            //            app.Version = "Not Found";
-            //        }
-            //        UpdateList.Add(app);
-            //    }
+                foreach (Application a in Apps.Regular)
+                {
+                    Application app = a;
+                    app.Checkbox = false;
+
+                    if (app.LocalVersion != null)
+                    {
+                        app.Name = app.Name + " " + app.LatestVersion;
+                        if (app.Type == "noupdate")
+                        {
+                            app.LocalVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
+                        }
+                        else
+                        {
+                            app.LocalVersion = "Installed: " + app.LocalVersion;
+                        }
+                    }
+                    else
+                    {
+                        app.Name = app.Name + " " + app.LatestVersion;
+                        app.LocalVersion = "Not Found";
+                    }
+
+                    Apps.Details.Add(app);
+                }
+
+                updateListView.ItemsSource = Apps.Details;
+                Title = "Details";
+
+                // Hide select all checkbox and bottom buttons for details view
+                selectAllCheckBox.Visibility = Visibility.Hidden;
+                installButton.Visibility = Visibility.Hidden;
+                refreshButton.Visibility = Visibility.Hidden;
+
+                // Set height of the other rows to 0 so that the row of the listview 
+                // takes up all the available space
+                selectAllRow.Height = new GridLength(0);
+                buttonsRow.Height = new GridLength(0);
+                listViewRow.Height = new GridLength(1, GridUnitType.Star);
+            }
+            else if (Apps.Details?.Count != 0)
+            {
+                updateListView.ItemsSource = Apps.Details;
+                Title = "Details";
+
+                // Hide select all checkbox and bottom buttons for details view
+                selectAllCheckBox.Visibility = Visibility.Hidden;
+                installButton.Visibility = Visibility.Hidden;
+                refreshButton.Visibility = Visibility.Hidden;
+
+                // Set height of the other rows to 0 so that the row of the listview 
+                // takes up all the available space
+                selectAllRow.Height = new GridLength(0);
+                buttonsRow.Height = new GridLength(0);
+                listViewRow.Height = new GridLength(1, GridUnitType.Star);
+            }
+            else
+            {
+                // Clear detail list if updates are available and the details mode
+                // has been shown before to free memory
+                Apps.Details.Clear();        
+            }
+        }
+
+        /// <summary>
+        /// Sets up some visual tweaks for the details mode
+        /// </summary>
+        private void SetDetailsMode()
+        {
+            updateListView.ItemsSource = Apps.Details;
+            Title = "Details";
 
             // Hide select all checkbox and bottom buttons for details view
-            //selectAllCheckBox.Visible = false;
-            //installUpdatesButton.Visible = false;
-            //refreshUpdatesButton.Visible = false;
+            selectAllCheckBox.Visibility = Visibility.Hidden;
+            installButton.Visibility = Visibility.Hidden;
+            refreshButton.Visibility = Visibility.Hidden;
+
+            // Set height of the other rows to 0 so that the row of the listview 
+            // takes up all the available space
+            selectAllRow.Height = new GridLength(0);
+            buttonsRow.Height = new GridLength(0);
+            listViewRow.Height = new GridLength(1, GridUnitType.Star);
         }
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -88,15 +144,17 @@ namespace SlimUpdater
             // Get app associated with the listview item
             Application app = ((ListViewItem)sender).Content as Application;
 
-            if (updateListView.SelectedItems.Contains(app))
+            if (app.Checkbox == true)
             {
-                updateListView.SelectedItems.Remove(app);
+                if (updateListView.SelectedItems.Contains(app))
+                {
+                    updateListView.SelectedItems.Remove(app);
+                }
+                else
+                {
+                    updateListView.SelectedItems.Add(app);
+                }
             }
-            else
-            {
-                updateListView.SelectedItems.Add(app);
-            }
-            
         }
 
         private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
