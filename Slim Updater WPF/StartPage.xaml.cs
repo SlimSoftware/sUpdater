@@ -14,15 +14,14 @@ namespace SlimUpdater
     /// </summary>
     public partial class StartPage : Page
     {
-        private static bool firstLaunch = true;
-
         public StartPage()
         {
             InitializeComponent();
-            if (firstLaunch)
-            {
-                firstLaunch = false;
 
+            // Only read the defenitions and check for updates the first time 
+            // Slim Updater is started (initially the Apps.Regular property is unassigned)
+            if (Apps.Regular == null)
+            {
                 ReadDefenitions();
                 bool updatesAvailable = CheckForUpdates();
 
