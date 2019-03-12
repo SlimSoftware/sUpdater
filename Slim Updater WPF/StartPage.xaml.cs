@@ -162,6 +162,13 @@ namespace SlimUpdater
                 XElement regvalueElement = appElement.Element("regvalue");
                 XElement exePathElement = appElement.Element("exePath");
 
+                // Check whether this app run on the system
+                if (!Environment.Is64BitOperatingSystem && archElement?.Value == "x64")
+                {
+                    // This app cannot run on the system, so skip it
+                    continue;
+                }
+
                 // Get local version if installed
                 string localVersion = null;
                 if (regkeyElement?.Value != null)
@@ -178,13 +185,30 @@ namespace SlimUpdater
                     string exePath = exePathElement.Value;
                     if (exePath.Contains("%pf32%"))
                     {
-                        exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFilesX86));
-                    }
-                    if (exePath.Contains("%pf64%"))
-                    {
-                        exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
+                        if (Environment.Is64BitOperatingSystem)
+                        {
+                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                                Environment.SpecialFolder.ProgramFilesX86));
+                        }
+                        else
+                        {
+                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
                             Environment.SpecialFolder.ProgramFiles));
+                        }
+                    }
+                    else if (exePath.Contains("%pf64%"))
+                    {
+                        if (Environment.Is64BitOperatingSystem)
+                        {
+                            exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
+                            Environment.SpecialFolder.ProgramFiles));
+                        }
+                        else
+                        {
+                            // Do not add the app to the list because it is a 64 bit app
+                            // on a 32 bit system
+                            continue;
+                        }
                     }
 
                     if (File.Exists(exePath))
