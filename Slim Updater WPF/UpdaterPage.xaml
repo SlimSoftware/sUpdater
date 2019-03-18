@@ -20,9 +20,11 @@
 
         <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
-        
+
         <ListView x:Name="updateListView" HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch" Grid.Row="1" SelectionChanged="UpdateListView_SelectionChanged">
+                  HorizontalContentAlignment="Stretch" Grid.Row="1" 
+                  SelectionChanged="UpdateListView_SelectionChanged"
+                  VirtualizingPanel.ScrollUnit="Pixel">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="50px">
@@ -73,7 +75,7 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
             <Button x:Name="refreshButton" Height="21" Width="100" Click="Button_Click">Install Selected</Button>
