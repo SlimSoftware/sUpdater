@@ -24,7 +24,7 @@
         <Controls:FlatTile x:Name="getNewAppsTile" Grid.Column="1" Grid.Row="0"
                                Background="#00ba00" Image="Icons/getapps_icon.png"
                                Title="Get New Applications" MaxWidth="300" MaxHeight="150"
-                               Margin="0 0 50 0"/>
+                               Margin="0 0 50 0" MouseDown="GetNewAppsTile_MouseDown"/>
         <Controls:FlatTile x:Name="portableAppsTile" Grid.Column="0" Grid.Row="1"
                                Background="#00ba00" Image="Icons/portable_icon.png"
                                Title="Portable Apps" MaxWidth="300" MaxHeight="150"

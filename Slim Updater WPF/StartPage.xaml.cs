@@ -94,12 +94,6 @@ namespace SlimUpdater
             }
         }
 
-        private void UpdaterTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            UpdaterPage updaterPage = new UpdaterPage();
-            NavigationService.Navigate(updaterPage);
-        }
-
         #region ReadDefenitions()
         public void ReadDefenitions()
         {
@@ -264,5 +258,18 @@ namespace SlimUpdater
             }
         }
         #endregion
+
+        private void UpdaterTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            UpdaterPage updaterPage = new UpdaterPage();
+            NavigationService.Navigate(updaterPage);
+        }
+
+
+        private void GetNewAppsTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            GetAppsPage getAppsPage = new GetAppsPage();
+            NavigationService.Navigate(getAppsPage);
+        }
     }
 }
