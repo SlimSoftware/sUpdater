@@ -21,55 +21,10 @@
         <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
 
-        <ListView x:Name="updateListView" HorizontalAlignment="Stretch"
-                  HorizontalContentAlignment="Stretch" Grid.Row="1" 
-                  SelectionChanged="UpdateListView_SelectionChanged"
-                  VirtualizingPanel.ScrollUnit="Pixel">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Height="50px">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="checkColumn" Width="20px"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-
-                        <CheckBox x:Name="checkBox" VerticalAlignment="Center"
-                                  IsChecked="{Binding Path=IsSelected, 
-                                  RelativeSource={RelativeSource FindAncestor, 
-                                  AncestorType={x:Type ListViewItem}}}"/>
-                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
-                            <Label MaxWidth="{Binding ElementName=Test, Path=Width}"
-                                   Content="{Binding Name}" FontSize="14">
-                            </Label>
-                            <Label Content="{Binding LocalVersion}" Margin="0,-5,0,0">
-                                <Label.Foreground>
-                                    <SolidColorBrush Color="#8d8d8d" />
-                                </Label.Foreground>
-                            </Label>
-                        </StackPanel>
-                        <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Right"
-                                    VerticalAlignment="Center">
-                            <ProgressBar Height="20px" Width="225px" Margin="0,10,0,0" Value="50"></ProgressBar>
-                            <Label HorizontalAlignment="Center" Content="Downloading..."></Label>
-                        </StackPanel>
-                    </Grid>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Checkbox}" Value="True">
-                            <Setter TargetName="checkColumn" Property="Width" Value="20px"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Checkbox}" Value="False">
-                            <Setter TargetName="checkColumn" Property="Width" Value="0"/>
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+        <ListView x:Name="updateListView" Grid.Row="1"
+            SelectionChanged="UpdateListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
-                    <!-- Set Focusable property to false to prevent items 
-                    getting highlighted in blue when clicked on -->
-                    <Setter Property="Focusable" Value="False"/>
                     <!-- Event that will be triggered when a listview item is clicked-->
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_Clicked" />
                 </Style>

@@ -5,6 +5,7 @@
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
+        public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public string Changelog { get; set; }
         public string Description { get; set; }
         public string Arch { get; set; }
@@ -25,6 +26,11 @@
             InstallSwitch = installSwitch;
             DL = dl;
             SavePath = savePath;
+        }
+
+        public Application Clone()
+        {
+            return (Application)MemberwiseClone();
         }
     }
 }

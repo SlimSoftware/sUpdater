@@ -21,11 +21,13 @@ namespace SlimUpdater
         /// <summary>
         /// Fills the notInstalledApps list with apps that are not installed
         /// </summary>
-        /// <returns></returns>
         public void GetNotInstalledApps()
         {
-            foreach (Application app in Apps.Regular)
+            foreach (Application a in Apps.Regular)
             {
+                // Create a copy of the app so that the app in the list does not get modified
+                Application app = a.Clone();
+
                 // If the LocalVersion is null, then the app is not installed
                 if (app.LocalVersion == null)
                 {
@@ -34,7 +36,8 @@ namespace SlimUpdater
                     {
                         app.Checkbox = true;
                     }
-                    
+
+                    app.DisplayedVersion = app.LatestVersion;                    
                     notInstalledApps.Add(app);
                 }
             }

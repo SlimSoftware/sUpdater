@@ -28,7 +28,8 @@ namespace SlimUpdater
 
                 foreach (Application a in Apps.Regular)
                 {
-                    Application app = a;
+                    // Create a copy of the app so that the app in the list does not get modified
+                    Application app = a.Clone();
                     app.Checkbox = false;
 
                     if (app.LocalVersion != null)
@@ -36,17 +37,17 @@ namespace SlimUpdater
                         app.Name = app.Name + " " + app.LatestVersion;
                         if (app.Type == "noupdate")
                         {
-                            app.LocalVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
+                            app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
                         }
                         else
                         {
-                            app.LocalVersion = "Installed: " + app.LocalVersion;
+                            app.DisplayedVersion = "Installed: " + app.LocalVersion;
                         }
                     }
                     else
                     {
                         app.Name = app.Name + " " + app.LatestVersion;
-                        app.LocalVersion = "Not Found";
+                        app.DisplayedVersion = "Not Found";
                     }
 
                     Apps.Details.Add(app);

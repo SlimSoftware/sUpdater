@@ -64,6 +64,10 @@
       <DependentUpon>GetAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Page Include="Controls\CustomListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\FlatTile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
