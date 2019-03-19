@@ -6,6 +6,7 @@
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
+        public int Progress { get; set; }
         public string Changelog { get; set; }
         public string Description { get; set; }
         public string Arch { get; set; }
