@@ -63,6 +63,7 @@
     <Compile Include="GetAppsPage.xaml.cs">
       <DependentUpon>GetAppsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Log.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="Controls\CustomListViewStyle.xaml">
       <SubType>Designer</SubType>
