@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace SlimUpdater
 {
@@ -9,6 +10,19 @@ namespace SlimUpdater
         {
             textBox.Dispatcher.BeginInvoke(new Action(() =>
             {
+                if (logLevel == LogLevel.INFO && textBox.Foreground != Brushes.Black)
+                {
+                    textBox.Foreground = Brushes.Black;
+                }
+                else if (logLevel == LogLevel.WARN && textBox.Foreground != Brushes.Orange)
+                {
+                    textBox.Foreground = Brushes.Orange;
+                }
+                else if (logLevel == LogLevel.ERROR && textBox.Foreground != Brushes.Red)
+                {
+                    textBox.Foreground = Brushes.Red;
+                }
+
                 textBox.AppendText(string.Format("[{0}] [{1}] {2}",
                      DateTime.Now.ToLongTimeString(), logLevel, text + Environment.NewLine));
             }));
