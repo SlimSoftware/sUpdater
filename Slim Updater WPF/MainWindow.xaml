@@ -36,15 +36,28 @@
         
         <ControlTemplate x:Key="customNavUI" TargetType="Frame">
             <DockPanel>
-                <StackPanel x:Name="header" DockPanel.Dock="Top" Height="35" Orientation="Horizontal">
-                    <Button x:Name="headerBackArrow" Command="{x:Static NavigationCommands.BrowseBack}" 
-                        IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource headerBackArrow}" 
-                        BorderThickness="0" Margin="5 0 0 0">
-                        <Image Source="Icons\arrow_green.png" Width="24" Height="24" />
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="50px"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel x:Name="header" Height="35" Orientation="Horizontal" Grid.Row="0">
+                        <Button x:Name="headerBackArrow" Command="{x:Static NavigationCommands.BrowseBack}" 
+                            IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource headerBackArrow}" 
+                            BorderThickness="0" Margin="5 0 0 0">
+                            <Image Source="Icons\arrow_green.png" Width="24" Height="24" />
+                        </Button>
+                        <Label x:Name="headerLabel" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Title}" FontSize="20" FontWeight="Bold"
+                            Foreground="#00ba00" VerticalAlignment="Center" Margin="2 -2 0 0"/>
+                    </StackPanel>
+
+                    <Button x:Name="menuButton" Grid.Column="2"  MaxWidth="20px" MaxHeight="20px"
+                            BorderThickness="0" Background="White">
+                        <Image Source="Icons\menu_icon.png"></Image>
                     </Button>
-                    <Label x:Name="headerLabel" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content.Title}" FontSize="20" FontWeight="Bold"
-                        Foreground="#00ba00" VerticalAlignment="Center" Margin="2 -2 0 0"/>
-                </StackPanel>
+                </Grid>
                 <ContentPresenter />
             </DockPanel>
         </ControlTemplate>
