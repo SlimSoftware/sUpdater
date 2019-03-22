@@ -18,7 +18,7 @@
             <RowDefinition x:Name="buttonsRow" Height="50px"/>
         </Grid.RowDefinitions>
 
-        <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
+        <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="False"
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
 
         <ListView x:Name="getAppsListView" HorizontalAlignment="Stretch"
