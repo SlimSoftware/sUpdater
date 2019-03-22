@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
-using System.Xml.Linq;
 
 namespace SlimUpdater
 {
@@ -13,6 +11,14 @@ namespace SlimUpdater
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu menu = FindResource("menu") as ContextMenu;
+            menu.PlacementTarget = sender as Button;
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+            menu.IsOpen = true;
         }
     }
 }

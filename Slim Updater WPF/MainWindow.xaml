@@ -52,13 +52,19 @@
                     </StackPanel>
 
                     <Button x:Name="menuButton" Grid.Column="2" MaxWidth="16px" MaxHeight="16px"
-                            BorderThickness="0" Background="White">
-                        <Image Source="Icons\menu_icon.png"></Image>
+                            BorderThickness="0" Background="White" Click="MenuButton_Click">
+                        <Image Source="Icons\menu_icon.png"/>
                     </Button>
                 </Grid>
                 <ContentPresenter/>
             </DockPanel>
         </ControlTemplate>
+
+        <Menu x:Key="menu">
+            <MenuItem Header="Settings"/>
+            <MenuItem Header="Log"/>
+            <MenuItem Header="About"/>
+        </Menu>
     </Window.Resources>
 
     <Frame Template="{StaticResource customNavUI}" Source="StartPage.xaml">
