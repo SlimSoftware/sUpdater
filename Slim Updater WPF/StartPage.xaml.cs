@@ -266,7 +266,7 @@ namespace SlimUpdater
         }
 
 
-        private void GetNewAppsTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void GetAppsTile_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             GetAppsPage getAppsPage = new GetAppsPage();
             NavigationService.Navigate(getAppsPage);
