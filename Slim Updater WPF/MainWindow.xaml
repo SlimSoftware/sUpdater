@@ -51,7 +51,7 @@
                             VerticalAlignment="Center" Style="{StaticResource headerLabel}"/>
                     </StackPanel>
 
-                    <Button x:Name="menuButton" Grid.Column="2"  MaxWidth="20px" MaxHeight="20px"
+                    <Button x:Name="menuButton" Grid.Column="2" MaxWidth="16px" MaxHeight="16px"
                             BorderThickness="0" Background="White">
                         <Image Source="Icons\menu_icon.png"></Image>
                     </Button>
