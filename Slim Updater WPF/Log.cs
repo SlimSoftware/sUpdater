@@ -1,38 +1,38 @@
 ﻿using System;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace SlimUpdater
 {
     public static class Log
     {
-        public static void Append(string text, LogLevel logLevel, RichTextBox textBox)
-        {
-            textBox.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                if (logLevel == LogLevel.INFO && textBox.Foreground != Brushes.Black)
-                {
-                    textBox.Foreground = Brushes.Black;
-                }
-                else if (logLevel == LogLevel.WARN && textBox.Foreground != Brushes.Orange)
-                {
-                    textBox.Foreground = Brushes.Orange;
-                }
-                else if (logLevel == LogLevel.ERROR && textBox.Foreground != Brushes.Red)
-                {
-                    textBox.Foreground = Brushes.Red;
-                }
+        private static string _logText { get; set; }
 
-                textBox.AppendText(string.Format("[{0}] [{1}] {2}",
-                     DateTime.Now.ToLongTimeString(), logLevel, text + Environment.NewLine));
-            }));
-        }
+        public static event EventHandler<LogAppendEventArgs> LogAppend;
+
+        public static string LogText { get { return _logText; } }
 
         public enum LogLevel
         {
             INFO,
             WARN,
-            ERROR,
+            ERROR
         }
+
+        public static void Append(string text, LogLevel logLevel)
+        {
+            string logLine = string.Format("[{0}] [{1}] {2}",
+                DateTime.Now.ToLongTimeString(), logLevel, text + Environment.NewLine);
+            _logText += logLine;
+
+            // Fire the LogAppendEvent
+            LogAppend?.Invoke(null, new LogAppendEventArgs() { AppendedLine = logLine });
+        }
+    }
+
+    public class LogAppendEventArgs
+    {
+        /// <summary>
+        /// The line that was appended to the log.
+        /// </summary>
+        public string AppendedLine { get; set; }
     }
 }

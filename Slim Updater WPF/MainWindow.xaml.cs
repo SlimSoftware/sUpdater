@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Reflection;
 
 namespace SlimUpdater
 {
@@ -11,6 +12,9 @@ namespace SlimUpdater
         public MainWindow()
         {
             InitializeComponent();
+
+            Log.Append("Slim Updater v" + Assembly.GetEntryAssembly().GetName().Version + " " + 
+                "started on " + Utilities.GetFriendlyOSName(), Log.LogLevel.INFO);
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
@@ -19,6 +23,12 @@ namespace SlimUpdater
             menu.PlacementTarget = sender as Button;
             menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             menu.IsOpen = true;
+        }
+
+        private void LogMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            LogPage logPage = new LogPage();
+            frame.Navigate(logPage);
         }
     }
 }

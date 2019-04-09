@@ -60,13 +60,11 @@
             </DockPanel>
         </ControlTemplate>
 
-        <Menu x:Key="menu">
-            <MenuItem Header="Settings"/>
-            <MenuItem Header="Log"/>
+        <ContextMenu x:Key="menu">
+            <MenuItem Header="Log" Click="LogMenuItem_Click"/>
             <MenuItem Header="About"/>
-        </Menu>
+        </ContextMenu>
     </Window.Resources>
 
-    <Frame Template="{StaticResource customNavUI}" Source="StartPage.xaml">
-    </Frame>
+    <Frame x:Name="frame" Template="{StaticResource customNavUI}" Source="StartPage.xaml"/>
 </Window>

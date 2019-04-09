@@ -60,12 +60,12 @@ namespace SlimUpdater
                         //settings.NotifiedUpdates = notifiedUpdates;
                         //settings.Save();
 
-                        //logger.Log(string.Format("{0} updates available", AppInfo.UpdateList.Count),
-                        //    Logger.LogLevel.INFO, logTextBox);
+                        Log.Append(string.Format("{0} updates available", Apps.Updates.Count),
+                            Log.LogLevel.INFO);
                     }
                     else
                     {
-                        updaterTile.Title = string.Format("1 update available");
+                        updaterTile.Title = "1 update available";
 
                         //notifiedUpdates = AppInfo.UpdateList[0].Name;
                         //if (this.ShowInTaskbar == false &&
@@ -80,8 +80,7 @@ namespace SlimUpdater
                         //settings.NotifiedUpdates = notifiedUpdates;
                         //settings.Save();
 
-                        //logger.Log(string.Format("1 update available", AppInfo.UpdateList.Count),
-                        //    Logger.LogLevel.INFO, logTextBox);
+                        Log.Append("1 update available", Log.LogLevel.INFO);
                     }
                 }
                 else
@@ -89,7 +88,7 @@ namespace SlimUpdater
                     //trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
                     updaterTile.Background = Colors.normalGreenBrush;
                     updaterTile.Title = "No updates available";
-                    //logger.Log("No updates available", Logger.LogLevel.INFO, logTextBox);
+                    Log.Append("No updates available", Log.LogLevel.INFO);
                 }
             }
         }
@@ -97,7 +96,7 @@ namespace SlimUpdater
         #region ReadDefenitions()
         public void ReadDefenitions()
         {
-            //logger.Log("Loading definitions file", Logger.LogLevel.INFO, logTextBox);
+            Log.Append("Reading definitions file", Log.LogLevel.INFO);
             Apps.Regular = new List<Application>();
             XDocument defenitions = new XDocument();
 
@@ -106,13 +105,13 @@ namespace SlimUpdater
             //{
             //    if (settings.DefenitionURL != null)
             //    {
-            //        logger.Log("Using custom definition file from " + settings.DefenitionURL,
-            //            Logger.LogLevel.INFO, logTextBox);
+            //        Log.Append("Using custom definition file from " + settings.DefenitionURL,
+            //            Log.LogLevel.INFO);
             //        defenitions = XDocument.Load(settings.DefenitionURL);
             //    }
             //    else
             //    {
-            //logger.Log("Using official definitions", Logger.LogLevel.INFO, logTextBox);
+            Log.Append("Using official definitions", Log.LogLevel.INFO);
             defenitions = XDocument.Load("defenitions.xml");
             //    }
             //}
