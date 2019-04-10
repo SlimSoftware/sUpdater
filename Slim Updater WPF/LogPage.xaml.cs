@@ -77,11 +77,6 @@ namespace SlimUpdater
             tr.ApplyPropertyValue(TextElement.ForegroundProperty, color);
         }
 
-        private void ClearButton_Click(object sender, RoutedEventArgs e)
-        {
-            textBox.Document = new FlowDocument();
-        }
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog saveDialog = new SaveFileDialog();

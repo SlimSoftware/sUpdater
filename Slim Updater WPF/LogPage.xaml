@@ -23,9 +23,7 @@
             </RichTextBox.Resources>
         </RichTextBox>
 
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="1">
-            <Button x:Name="clearButton"  Height="21px" Width="45px" Content="Clear" Click="ClearButton_Click"/>
-            <Button x:Name="saveButton" Height="21px" Width="80px" Margin="20 0 0 0" Content="Save to File" Click="SaveButton_Click"/>
-        </StackPanel>
+        <Button x:Name="saveButton" Grid.Row="1" Height="21px" Width="80px"
+                Content="Save to File" Click="SaveButton_Click"/>
     </Grid>
 </Page>
