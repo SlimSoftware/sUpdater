@@ -13,7 +13,7 @@ namespace SlimUpdater
         {
             InitializeComponent();
 
-            Log.Append("Slim Updater v" + Assembly.GetEntryAssembly().GetName().Version + " " + 
+            Log.Append("Slim Updater v" + Utilities.GetFriendlyVersion() + " " + 
                 "started on " + Utilities.GetFriendlyOSName(), Log.LogLevel.INFO);
         }
 

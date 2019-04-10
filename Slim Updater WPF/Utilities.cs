@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace SlimUpdater
 {
@@ -58,6 +59,43 @@ namespace SlimUpdater
                     break;
             }
             return osName;
+        }
+
+        public static string GetFriendlyVersion()
+        {
+            Version version = Assembly.GetEntryAssembly().GetName().Version;
+            if (version.Minor == 0 && version.Build == 0 && version.Revision == 0)
+            {
+                return string.Format("{0}.{1}", version.Major.ToString(), 0);
+            }
+            else if (version.Minor != 0 && version.Build == 0 && version.Revision == 0)
+            {
+                return string.Format("{0}.{1}", version.Major.ToString(), version.Minor.ToString());
+            }
+            else if (version.Minor != 0 && version.Build != 0 && version.Revision == 0)
+            {
+                return string.Format("{0}.{1}.{2}", version.Major.ToString(), version.Minor.ToString(),
+                    version.Build.ToString());
+            }
+            else if (version.Minor == 0 && version.Build != 0 && version.Revision == 0)
+            {
+                return string.Format("{0}.{1}.{2}", version.Major.ToString(), 
+                    version.Build.ToString(), 0);
+            }
+            //else if (version.Minor == 0 && version.Build == 0 && version.Revision != 0)
+            //{
+            //    return string.Format("{0}.{1}.{2}", version.Major.ToString(), 0,
+            //        version.Build.ToString(), version.Revision);
+            //}
+            //else if (version.Minor == 0 && version.Build != 0 && version.Revision != 0)
+            //{
+            //    return string.Format("{0}.{1}.{2}.{", version.Major.ToString(), 0,
+            //        version.Build.ToString(), version.Revision);
+            //}
+            else
+            {
+                return version.ToString();
+            }
         }
 
         public static void MinimizeToTray(MainWindow mainWindow)
