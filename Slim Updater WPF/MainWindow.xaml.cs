@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Reflection;
 
 namespace SlimUpdater
 {
@@ -15,6 +14,7 @@ namespace SlimUpdater
 
             Log.Append("Slim Updater v" + Utilities.GetFriendlyVersion() + " " + 
                 "started on " + Utilities.GetFriendlyOSName(), Log.LogLevel.INFO);
+            Settings.Load();
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)

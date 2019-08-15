@@ -85,6 +85,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Utilities.cs" />
     <Page Include="LicensePage.xaml">
       <Generator>MSBuild:Compile</Generator>
