@@ -23,11 +23,10 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 -5 0 0">
                 <Label x:Name="siteLink" Foreground="White" HorizontalAlignment="Center" 
                        MouseLeftButtonDown="SiteLink_MouseLeftButtonDown">
-                    <TextBlock TextDecorations="Underline">Visit our website</TextBlock>
+                    <TextBlock TextDecorations="Underline" Cursor="Hand">Visit our website</TextBlock>
                 </Label>
-                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center" 
-                       MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
-                    <TextBlock TextDecorations="Underline">Credits</TextBlock>
+                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center">
+                    <TextBlock TextDecorations="Underline" Cursor="Hand">Credits</TextBlock>
                 </Label>
             </StackPanel>
         </StackPanel>

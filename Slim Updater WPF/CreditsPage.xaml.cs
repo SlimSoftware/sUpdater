@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace SlimUpdater
@@ -32,6 +33,7 @@ namespace SlimUpdater
                 authorLabel.Foreground = Brushes.White;
 
                 TextBlock licenseLink = CreateUnderlinedTextBlock("License");
+                licenseLink.Cursor = Cursors.Hand;
                 licenseLink.VerticalAlignment = VerticalAlignment.Center;
                 licenseLink.Margin = new Thickness(0, -15, 0, 0);
                 licenseLink.MouseLeftButtonDown += (sender, e) =>
@@ -41,6 +43,7 @@ namespace SlimUpdater
                 };
 
                 TextBlock siteLink = CreateUnderlinedTextBlock("Website");
+                siteLink.Cursor = Cursors.Hand;
                 siteLink.VerticalAlignment = VerticalAlignment.Center;
                 siteLink.Margin = new Thickness(10, -15, 0, 0);
                 siteLink.MouseLeftButtonDown += (sender, e) =>
