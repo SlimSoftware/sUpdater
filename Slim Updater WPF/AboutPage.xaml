@@ -21,10 +21,12 @@
             <Label Name="openSourceLabel" Foreground="White" HorizontalAlignment="Center" Margin="0 -10 0 0"
                    FontSize="15px" FontWeight="Bold">Open Source Software by SlimSoftware</Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 -5 0 0">
-                <Label x:Name="siteLink" Foreground="White" HorizontalAlignment="Center">
+                <Label x:Name="siteLink" Foreground="White" HorizontalAlignment="Center" 
+                       MouseLeftButtonDown="SiteLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline">Visit our website</TextBlock>
                 </Label>
-                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center" MouseDown="CreditsLink_MouseDown">
+                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center" 
+                       MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline">Credits</TextBlock>
                 </Label>
             </StackPanel>
