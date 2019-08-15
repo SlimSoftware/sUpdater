@@ -54,6 +54,10 @@ namespace SlimUpdater
                 }
 
                 updateListView.ItemsSource = Apps.Details;
+                updateListView.SelectionChanged += (sender, e) =>
+                {
+                    updateListView.SelectedItems.Clear();
+                };
                 Title = "Details";
 
                 // Hide select all checkbox and bottom buttons for details view

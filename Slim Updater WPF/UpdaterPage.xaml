@@ -22,14 +22,8 @@
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
 
         <ListView x:Name="updateListView" Grid.Row="1"
-            SelectionChanged="UpdateListView_SelectionChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <!-- Event that will be triggered when a listview item is clicked-->
-                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_Clicked" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+                  SelectionChanged="UpdateListView_SelectionChanged" 
+                  Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
