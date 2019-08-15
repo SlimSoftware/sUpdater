@@ -62,7 +62,7 @@
 
         <ContextMenu x:Key="menu">
             <MenuItem Header="Log" Click="LogMenuItem_Click"/>
-            <MenuItem Header="About"/>
+            <MenuItem Header="About" Click="AboutMenuItem_Click"/>
         </ContextMenu>
     </Window.Resources>
 

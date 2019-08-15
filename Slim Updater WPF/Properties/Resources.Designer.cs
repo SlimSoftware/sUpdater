@@ -59,5 +59,70 @@ namespace SlimUpdater.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MIT License
+        ///
+        ///Copyright (c) 2012-2019 RBSoft
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software is
+        ///furnished to do so, subject to the following conditions:
+        ///
+        ///The above copyright no [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AutoUpdaterNETLicense {
+            get {
+                return ResourceManager.GetString("AutoUpdaterNETLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inno Setup License
+        ///==================
+        ///
+        ///Except where otherwise noted, all of the documentation and software included in the Inno Setup
+        ///package is copyrighted by Jordan Russell.
+        ///
+        ///Copyright (C) 1997-2019 Jordan Russell. All rights reserved.
+        ///Portions Copyright (C) 2000-2019 Martijn Laan. All rights reserved.
+        ///
+        ///This software is provided &quot;as-is,&quot; without any express or implied warranty. In no event shall the
+        ///author be held liable for any damages arising from the use of this software.
+        ///
+        ///Permission is gra [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string InnoSetupLicense {
+            get {
+                return ResourceManager.GetString("InnoSetupLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to   7-Zip
+        ///  ~~~~~
+        ///  License for use and distribution
+        ///  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        ///
+        ///  7-Zip Copyright (C) 1999-2019 Igor Pavlov.
+        ///
+        ///  The licenses for files are:
+        ///
+        ///    1) 7z.dll:
+        ///         - The &quot;GNU LGPL&quot; as main license for most of the code
+        ///         - The &quot;GNU LGPL&quot; with &quot;unRAR license restriction&quot; for some code
+        ///         - The &quot;BSD 3-clause License&quot; for some code
+        ///    2) All other files: the &quot;GNU LGPL&quot;.
+        ///
+        ///  Redistributions in binary form must reproduce related license information from this fil [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SevenZipLicense {
+            get {
+                return ResourceManager.GetString("SevenZipLicense", resourceCulture);
+            }
+        }
     }
 }

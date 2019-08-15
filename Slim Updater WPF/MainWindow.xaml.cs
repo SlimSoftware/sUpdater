@@ -30,5 +30,11 @@ namespace SlimUpdater
             LogPage logPage = new LogPage();
             frame.Navigate(logPage);
         }
+
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            AboutPage aboutPage = new AboutPage();
+            frame.Navigate(aboutPage);
+        }
     }
 }
