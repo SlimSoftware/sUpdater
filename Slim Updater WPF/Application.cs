@@ -39,7 +39,16 @@ namespace SlimUpdater
             }
         }
 
-        public bool IsWaiting { get; set; }
+        private bool isWaiting;
+        public bool IsWaiting
+        {
+            get { return isWaiting; }
+            set
+            {
+                isWaiting = value;
+                OnPropertyChanged("IsWaiting");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
