@@ -5,10 +5,10 @@
     <DataTemplate x:Key="CustomItemTemplate">
         <Grid Height="50px">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="checkColumn" Width="20px"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition x:Name="checkColumn" Width="20px"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <CheckBox x:Name="checkBox" VerticalAlignment="Center"
@@ -17,19 +17,16 @@
                       AncestorType={x:Type ListViewItem}}}" Grid.Column="0"/>
 
             <StackPanel Grid.Column="1" Orientation="Vertical" Margin="5,0,0,0">
-                <Label x:Name="appNameLabel" FontSize="14" Content="{Binding Name}"/>
-                <Label x:Name="versionLabel" Margin="0,-5,0,0" Content="{Binding DisplayedVersion}">
-                    <Label.Foreground>
-                        <SolidColorBrush Color="#8d8d8d" />
-                    </Label.Foreground>
-                </Label>
+                <Label FontSize="14" Content="{Binding Name}"/>
+                <Label Margin="0,-5,0,0" Content="{Binding DisplayedVersion}" Foreground="#8d8d8d"/>
             </StackPanel>
 
             <StackPanel Grid.Column="3" Orientation="Vertical" HorizontalAlignment="Right"
                         VerticalAlignment="Center">
-                <ProgressBar x:Name="progressBar" Height="20px" Width="225px" Margin="0,10,0,0" 
+                <ProgressBar x:Name="progressBar"  Height="20px" Width="225px" Margin="0,10,0,0" 
                              Minimum="0" Maximum="100" Value="{Binding Progress}"/>
-                <Label HorizontalAlignment="Center"></Label>
+                <Label Foreground="#00ba00" FontWeight="Bold" 
+                       HorizontalAlignment="Center" Content="{Binding Status}"/>
             </StackPanel>
         </Grid>
 
@@ -41,26 +38,28 @@
             <DataTrigger Binding="{Binding Checkbox}" Value="False">
                 <Setter TargetName="checkColumn" Property="Width" Value="0"/>
             </DataTrigger>
-            
+
             <!-- Hide the progress bar if the Progress property is set to 0 or it is unassigned -->
             <DataTrigger Binding="{Binding Progress}" Value="0">
                 <Setter TargetName="progressBar" Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
+
+            <!-- Set the progress bar to the Indeterminate mode if the IsWaiting property is set to true -->
+            <DataTrigger Binding="{Binding IsWaiting}" Value="True">
+                <Setter TargetName="progressBar" Property="IsIndeterminate" Value="True"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsWaiting}" Value="False">
+                <Setter TargetName="progressBar" Property="IsIndeterminate" Value="False"/>
+            </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <Style x:Key="CustomItemContainerStyle" TargetType="{x:Type ListViewItem}">
-        <!-- Set Focusable property to false to prevent items 
-        getting highlighted in when clicked on -->
-        <Setter Property="Focusable" Value="False"/>
-    </Style>
-    
-    <Style TargetType="ListView">
+    <Style x:Key="CustomListViewStyle" TargetType="ListView">
         <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="SelectionMode" Value="Multiple"/>
 
         <Setter Property="ItemTemplate" Value="{StaticResource CustomItemTemplate}"/>
-        <Setter Property="ItemContainerStyle" Value="{StaticResource CustomItemContainerStyle}"/>
     </Style>
 </ResourceDictionary>

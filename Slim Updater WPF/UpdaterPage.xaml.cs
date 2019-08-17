@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -24,7 +25,7 @@ namespace SlimUpdater
             // and the details list has not already been filled
             if (Apps.Updates.Count == 0 && (Apps.Details == null || Apps.Details?.Count == 0))
             {
-                Apps.Details = new List<Application>();
+                Apps.Details = new ObservableCollection<Application>();
 
                 foreach (Application a in Apps.Regular)
                 {

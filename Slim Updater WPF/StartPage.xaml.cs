@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -94,10 +95,10 @@ namespace SlimUpdater
         }
 
         #region ReadDefenitions()
-        public void ReadDefenitions()
+        public static void ReadDefenitions()
         {
             Log.Append("Reading definitions file", Log.LogLevel.INFO);
-            Apps.Regular = new List<Application>();
+            Apps.Regular = new ObservableCollection<Application>();
             XDocument defenitions = new XDocument();
 
             // Load XML File
@@ -226,7 +227,7 @@ namespace SlimUpdater
             }
 
             //logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            Apps.Updates = new List<Application>(Apps.Regular);
+            Apps.Updates = new ObservableCollection<Application>(Apps.Regular);
 
             foreach (Application app in Apps.Updates.ToArray())
             {
