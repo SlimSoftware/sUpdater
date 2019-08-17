@@ -1,6 +1,8 @@
-﻿namespace SlimUpdater
+﻿using System.ComponentModel;
+
+namespace SlimUpdater
 {
-    public class Application
+    public class Application : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string LatestVersion { get; set; }
@@ -11,13 +13,17 @@
         public string Description { get; set; }
         public string Arch { get; set; }
         public string Type { get; set; }
-        public string DL { get; set; }
+        public string DownloadLink { get; set; }
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
         public bool Checkbox { get; set; }
+        public string Status { get; set; }
+        public bool IsWaiting { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Application(string name, string latestVersion, string localVersion, string arch,
-            string type, string installSwitch, string dl, string savePath = null)
+            string type, string installSwitch, string downloadLink, string savePath = null)
         {
             Name = name;
             LatestVersion = latestVersion;
@@ -25,13 +31,18 @@
             Arch = arch;
             Type = type;
             InstallSwitch = installSwitch;
-            DL = dl;
+            DownloadLink = downloadLink;
             SavePath = savePath;
         }
 
         public Application Clone()
         {
             return (Application)MemberwiseClone();
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
