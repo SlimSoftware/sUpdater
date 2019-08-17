@@ -8,7 +8,6 @@ namespace SlimUpdater
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
-        public int Progress { get; set; }
         public string Changelog { get; set; }
         public string Description { get; set; }
         public string Arch { get; set; }
@@ -17,7 +16,29 @@ namespace SlimUpdater
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
         public bool Checkbox { get; set; }
-        public string Status { get; set; }
+
+        private int progress;
+        public int Progress
+        {
+            get { return progress; }
+            set
+            {
+                progress = value;
+                OnPropertyChanged("Progress");
+            }
+        }
+
+        private string status;
+        public string Status
+        {
+            get { return status; }
+            set
+            {
+                status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+
         public bool IsWaiting { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
