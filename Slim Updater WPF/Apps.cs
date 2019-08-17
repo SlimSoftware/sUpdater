@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace SlimUpdater
 {
@@ -11,22 +12,22 @@ namespace SlimUpdater
         /// <summary>
         /// A List that contains all apps, except for portable apps
         /// </summary>
-        public static List<Application> Regular;
+        public static ObservableCollection<Application> Regular;
 
         /// <summary>
         /// A List that contains all updates that are currently available
         /// </summary>
-        public static List<Application> Updates;
+        public static ObservableCollection<Application> Updates;
 
         /// <summary>
         /// A temporary List used for the details mode of the UpdatePage
         /// when no updates are available
         /// </summary>
-        public static List<Application> Details;
+        public static ObservableCollection<Application> Details;
 
         /// <summary>
         /// A List that contains all Portable Apps
         /// </summary>
-        public static List<Application> Portable;
+        public static ObservableCollection<Application> Portable;
     }
 }
