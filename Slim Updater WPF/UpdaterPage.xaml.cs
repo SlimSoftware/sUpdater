@@ -20,91 +20,59 @@ namespace SlimUpdater
         public UpdaterPage()
         {
             InitializeComponent();
-
-            // Add all apps to detailsList to show the details view if there no updates are available
-            if (Apps.Updates.Count == 0)
-            {
-                detailsList = new ObservableCollection<Application>();
-
-                foreach (Application a in Apps.Regular)
-                {
-                    // Create a copy of the app so that the app in the list does not get modified
-                    Application app = a.Clone();
-                    app.Checkbox = false;
-
-                    if (app.LocalVersion != null)
-                    {
-                        app.Name = app.Name + " " + app.LatestVersion;
-                        if (app.Type == "noupdate")
-                        {
-                            app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
-                        }
-                        else
-                        {
-                            app.DisplayedVersion = "Installed: " + app.LocalVersion;
-                        }
-                    }
-                    else
-                    {
-                        app.Name = app.Name + " " + app.LatestVersion;
-                        app.DisplayedVersion = "Not Found";
-                    }
-
-                    detailsList.Add(app);
-                }
-
-                updateListView.ItemsSource = detailsList;
-                updateListView.SelectionChanged += (sender, e) =>
-                {
-                    updateListView.SelectedItems.Clear();
-                };
-                Title = "Details";
-
-                // Hide select all checkbox and bottom buttons for details view
-                selectAllCheckBox.Visibility = Visibility.Hidden;
-                installButton.Visibility = Visibility.Hidden;
-                refreshButton.Visibility = Visibility.Hidden;
-
-                // Set height of the other rows to 0 so that the row of the listview 
-                // takes up all the available space
-                selectAllRow.Height = new GridLength(0);
-                buttonsRow.Height = new GridLength(0);
-                listViewRow.Height = new GridLength(1, GridUnitType.Star);
-            }
-            else if (detailsList?.Count != 0)
+            
+            if (Apps.Updates.Count != 0)
             {
                 updateListView.ItemsSource = Apps.Updates;
-                updateListView.SelectAll();
-
-                updateListView.ItemsSource = detailsList;
-                Title = "Details";
-
-                // Hide select all checkbox and bottom buttons for details view
-                selectAllCheckBox.Visibility = Visibility.Hidden;
-                installButton.Visibility = Visibility.Hidden;
-                refreshButton.Visibility = Visibility.Hidden;
-
-                // Set height of the other rows to 0 so that the row of the listview 
-                // takes up all the available space
-                selectAllRow.Height = new GridLength(0);
-                buttonsRow.Height = new GridLength(0);
-                listViewRow.Height = new GridLength(1, GridUnitType.Star);
             }
             else
             {
-                // Clear detail list if updates are available and the details mode
-                // has been shown before to free memory
-                detailsList.Clear();        
+                SetupDetailsMode();
             }
         }
 
         /// <summary>
         /// Sets up some visual tweaks for the details mode
         /// </summary>
-        private void SetDetailsMode()
+        private void SetupDetailsMode()
         {
+            detailsList = new ObservableCollection<Application>();
+
+            foreach (Application a in Apps.Regular)
+            {
+                // Create a copy of the app so that the app in the list does not get modified
+                Application app = a.Clone();
+                app.Checkbox = false;
+
+                if (app.LocalVersion != null)
+                {
+                    app.Name = app.Name + " " + app.LatestVersion;
+                    if (app.Type == "noupdate")
+                    {
+                        app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
+                    }
+                    else
+                    {
+                        app.DisplayedVersion = "Installed: " + app.LocalVersion;
+                    }
+                }
+                else
+                {
+                    app.Name = app.Name + " " + app.LatestVersion;
+                    app.DisplayedVersion = "Not Found";
+                }
+
+                detailsList.Add(app);
+            }
+
             updateListView.ItemsSource = detailsList;
             Title = "Details";
+
+            // Do not allow the user to select items by clicking on them
+            updateListView.SelectionChanged += (sender, e) =>
+            {
+                updateListView.SelectedItems.Clear();
+            };
 
             // Hide select all checkbox and bottom buttons for details view
             selectAllCheckBox.Visibility = Visibility.Hidden;
