@@ -219,7 +219,7 @@ namespace SlimUpdater
         #endregion
 
         #region CheckForUpdates()
-        public bool CheckForUpdates()
+        public static bool CheckForUpdates()
         {
             if (Apps.Regular.Count == 0)
             {
