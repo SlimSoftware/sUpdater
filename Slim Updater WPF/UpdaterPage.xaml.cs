@@ -15,17 +15,16 @@ namespace SlimUpdater
     /// </summary>
     public partial class UpdaterPage : Page
     {
+        private ObservableCollection<Application> detailsList;
+
         public UpdaterPage()
         {
             InitializeComponent();
-            updateListView.ItemsSource = Apps.Updates;
-            updateListView.SelectAll();
 
-            // Add all apps to Apps.Details for details view when there no updates are available
-            // and the details list has not already been filled
-            if (Apps.Updates.Count == 0 && (Apps.Details == null || Apps.Details?.Count == 0))
+            // Add all apps to detailsList to show the details view if there no updates are available
+            if (Apps.Updates.Count == 0)
             {
-                Apps.Details = new ObservableCollection<Application>();
+                detailsList = new ObservableCollection<Application>();
 
                 foreach (Application a in Apps.Regular)
                 {
@@ -51,10 +50,10 @@ namespace SlimUpdater
                         app.DisplayedVersion = "Not Found";
                     }
 
-                    Apps.Details.Add(app);
+                    detailsList.Add(app);
                 }
 
-                updateListView.ItemsSource = Apps.Details;
+                updateListView.ItemsSource = detailsList;
                 updateListView.SelectionChanged += (sender, e) =>
                 {
                     updateListView.SelectedItems.Clear();
@@ -72,9 +71,12 @@ namespace SlimUpdater
                 buttonsRow.Height = new GridLength(0);
                 listViewRow.Height = new GridLength(1, GridUnitType.Star);
             }
-            else if (Apps.Details?.Count != 0)
+            else if (detailsList?.Count != 0)
             {
-                updateListView.ItemsSource = Apps.Details;
+                updateListView.ItemsSource = Apps.Updates;
+                updateListView.SelectAll();
+
+                updateListView.ItemsSource = detailsList;
                 Title = "Details";
 
                 // Hide select all checkbox and bottom buttons for details view
@@ -92,7 +94,7 @@ namespace SlimUpdater
             {
                 // Clear detail list if updates are available and the details mode
                 // has been shown before to free memory
-                Apps.Details.Clear();        
+                detailsList.Clear();        
             }
         }
 
@@ -101,7 +103,7 @@ namespace SlimUpdater
         /// </summary>
         private void SetDetailsMode()
         {
-            updateListView.ItemsSource = Apps.Details;
+            updateListView.ItemsSource = detailsList;
             Title = "Details";
 
             // Hide select all checkbox and bottom buttons for details view
