@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:SlimUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Updates">
+      Title="Updates" Background="White">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -20,6 +20,8 @@
 
         <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
                   Click="SelectAllCheckBox_Click">Select All</CheckBox>
+        <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Row="0" HorizontalAlignment="Center"
+                   FontWeight="Bold" FontSize="13" DockPanel.Dock="Top" Visibility="Hidden" />
 
         <ListView x:Name="updateListView" Grid.Row="1"
                   SelectionChanged="UpdateListView_SelectionChanged" 
@@ -27,7 +29,7 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
-            <Button x:Name="refreshButton" Height="21" Width="100" Click="Button_Click">Install Selected</Button>
+            <Button x:Name="refreshButton" Height="21" Width="100" Click="InstallButton_Click">Install Selected</Button>
         </StackPanel>
     </Grid>
 </Page>

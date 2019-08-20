@@ -1,12 +1,10 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml.Linq;
+using System.Windows.Media;
 
 namespace SlimUpdater
 {
@@ -86,11 +84,92 @@ namespace SlimUpdater
             listViewRow.Height = new GridLength(1, GridUnitType.Star);
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async Task InstallButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            foreach (Application app in updateListView.SelectedItems)
-            {
+            bool installFailed = false;
+            Log.Append("Update installation started...", Log.LogLevel.INFO);
+            refreshButton.IsEnabled = false;
+            installButton.IsEnabled = false;
+            statusLabel.Visibility = Visibility.Hidden;
 
+            if (updateListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("You have not selected any updates.");
+                Log.Append("No update(s) selected to install, aborting...", Log.LogLevel.WARN);
+            }
+            else
+            {
+                // Download
+                List<Task> tasks = new List<Task>();
+                int currentApp = 0;
+
+                foreach (Application app in updateListView.SelectedItems)
+                {
+                    currentApp++;
+                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                        app.Name, currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
+
+                    // Do not allow more than 3 downloads at once
+                    while (tasks.Count > 2)
+                    {
+                        await Task.Delay(1000);
+                    }
+                    tasks.Add(app.Download());
+                }
+                await Task.WhenAll(tasks);
+
+                // Install
+                currentApp = 0;
+                foreach (Application app in updateListView.SelectedItems)
+                {
+                    currentApp++;
+                    if (File.Exists(app.SavePath))
+                    {
+                        Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
+                            currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
+                        await app.Install();
+                    }
+                }
+
+                // Cleanup any leftover exe's in appdata dir
+                if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
+                {
+                    Log.Append("Cleaning up leftover installers...", Log.LogLevel.INFO);
+                    foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
+                    {
+                        File.Delete(exePath);
+                    }
+                }
+
+                if (installFailed == true)
+                {
+                    // Only show the failed apps
+                    List<Application> failedApps = new List<Application>();
+                    foreach (Application app in updateListView.SelectedItems)
+                    {
+                        if (app.Status != "Install complete")
+                        {
+                            failedApps.Add(app);
+                        }
+                    }
+                    updateListView.ItemsSource = failedApps;
+                    statusLabel.Foreground = Brushes.Red;
+                    statusLabel.Content = "Some applications failed to install.";
+                    statusLabel.Visibility = Visibility.Visible;
+                }
+                if (installFailed == false)
+                {
+                    installButton.IsEnabled = true;
+                    StartPage.ReadDefenitions();
+                    StartPage.CheckForUpdates();
+
+                    if (updateListView.ItemsSource != Apps.Updates)
+                    {
+                        updateListView.ItemsSource = Apps.Updates;
+                    }
+                }
+
+                refreshButton.IsEnabled = true;
             }
         }
 
