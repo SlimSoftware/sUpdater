@@ -10,7 +10,7 @@
     <StackPanel Background="#00ba00">
         <Label DockPanel.Dock="Top" Foreground="White" FontWeight="Bold" 
                FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,20">
-            The following applications and libraries are used by Slim Updater:
+            The following applications and libraries are used by sUpdater:
         </Label>
 
         <Grid x:Name="grid">
