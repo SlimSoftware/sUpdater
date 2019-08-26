@@ -207,8 +207,5 @@
   <ItemGroup>
     <None Include="Resources\Inno Setup license.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="definitions.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

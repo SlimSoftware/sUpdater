@@ -113,7 +113,7 @@ namespace sUpdater
             //    else
             //    {
             Log.Append("Using official definitions", Log.LogLevel.INFO);
-            defenitions = XDocument.Load("defenitions.xml");
+            defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
             //    }
             //}
             //catch (Exception e)
