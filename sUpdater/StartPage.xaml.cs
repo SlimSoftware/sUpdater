@@ -235,7 +235,6 @@ namespace sUpdater
                 if (app.LocalVersion == null || app.Type == "noupdate")
                 {
                     Apps.Updates.Remove(app);
-                    continue;
                 }
                 else
                 {
@@ -243,7 +242,11 @@ namespace sUpdater
                     if (Utilities.IsUpToDate(app.LatestVersion, app.LocalVersion))
                     {
                         Apps.Updates.Remove(app);
-                        continue;
+                    }
+                    else
+                    {
+                        // Set the DisplayedVersion of the remaining apps to the LatestVersion
+                        app.DisplayedVersion = app.LocalVersion;
                     }
                 }
             }
