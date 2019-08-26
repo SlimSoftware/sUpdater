@@ -32,6 +32,6 @@
         <Controls:FlatTile x:Name="settingsTile" Grid.Column="1" Grid.Row="1"
                                Background="#00ba00" Image="Icons/settings_icon.png"
                                Title="Settings" MaxWidth="300" MaxHeight="150"
-                               Margin="0 0 50 0"/>
+                               Margin="0 0 50 0" MouseLeftButtonDown="SettingsTile_MouseLeftButtonDown"/>
     </Grid>
 </Page>

@@ -271,5 +271,11 @@ namespace SlimUpdater
             GetAppsPage getAppsPage = new GetAppsPage();
             NavigationService.Navigate(getAppsPage);
         }
+
+        private void SettingsTile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            SettingsPage settingsPage = new SettingsPage();
+            NavigationService.Navigate(settingsPage);
+        }
     }
 }
