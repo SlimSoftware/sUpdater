@@ -22,6 +22,7 @@ namespace sUpdater
             if (Apps.Updates.Count != 0)
             {
                 updateListView.ItemsSource = Apps.Updates;
+                updateListView.SelectAll();
             }
             else
             {
