@@ -84,7 +84,7 @@ namespace SlimUpdater
             listViewRow.Height = new GridLength(1, GridUnitType.Star);
         }
 
-        private async Task InstallButton_ClickAsync(object sender, RoutedEventArgs e)
+        private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
             bool installFailed = false;
             Log.Append("Update installation started...", Log.LogLevel.INFO);
