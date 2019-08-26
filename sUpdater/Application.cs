@@ -22,7 +22,7 @@ namespace sUpdater
         public string DownloadLink { get; set; }
         public string SavePath { get; set; }
         public string InstallSwitch { get; set; }
-        public bool Checkbox { get; set; }
+        public bool Checkbox { get; set; } = true;
 
         private int progress;
         public int Progress
