@@ -100,22 +100,22 @@ namespace sUpdater
         {
             Log.Append("Reading definitions file", Log.LogLevel.INFO);
             Apps.Regular = new ObservableCollection<Application>();
-            XDocument defenitions = new XDocument();
+            XDocument defenitions;
 
             // Load XML File
             //try
             //{
-            //    if (settings.DefenitionURL != null)
-            //    {
-            //        Log.Append("Using custom definition file from " + settings.DefenitionURL,
-            //            Log.LogLevel.INFO);
-            //        defenitions = XDocument.Load(settings.DefenitionURL);
-            //    }
-            //    else
-            //    {
-            Log.Append("Using official definitions", Log.LogLevel.INFO);
-            defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
-            //    }
+            if (Settings.DefenitionURL != null)
+            {
+                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                    Log.LogLevel.INFO);
+                defenitions = XDocument.Load(Settings.DefenitionURL);
+            }
+            else
+            {
+                Log.Append("Using official definitions", Log.LogLevel.INFO);
+                defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+            }
             //}
             //catch (Exception e)
             //{
