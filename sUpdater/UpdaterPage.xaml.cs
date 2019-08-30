@@ -28,6 +28,8 @@ namespace sUpdater
             {
                 SetupDetailsMode();
             }
+
+            updateListView.Focus();
         }
 
         /// <summary>
