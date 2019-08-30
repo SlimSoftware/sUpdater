@@ -24,7 +24,8 @@
                    FontWeight="Bold" FontSize="13" DockPanel.Dock="Top" Visibility="Hidden" />
 
         <ListView x:Name="updateListView" Grid.Row="1"
-                  SelectionChanged="UpdateListView_SelectionChanged" 
+                  SelectionChanged="UpdateListView_SelectionChanged"
+                  TextBlock.MouseLeftButtonDown = "ListViewItem_LinkClicked"
                   Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">

@@ -232,5 +232,10 @@ namespace sUpdater
                 }
             }
         }
+
+        private void ListViewItem_LinkClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Hi");
+        }
     }
 }
