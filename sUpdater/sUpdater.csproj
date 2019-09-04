@@ -63,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="PortableApp.cs" />
+    <Compile Include="PortableAppPage.xaml.cs">
+      <DependentUpon>PortableAppPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LicensePage.xaml.cs">
       <DependentUpon>LicensePage.xaml</DependentUpon>
     </Compile>
@@ -91,6 +95,10 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
+    <Page Include="PortableAppPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="LicensePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

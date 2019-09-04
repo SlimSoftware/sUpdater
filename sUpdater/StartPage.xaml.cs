@@ -38,7 +38,7 @@ namespace sUpdater
                     {
                         updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
 
-                        foreach (Application update in Apps.Updates)
+                        foreach (PortableApp update in Apps.Updates)
                         {
                             if (update.Equals(Apps.Updates.Last()))
                             {
@@ -99,7 +99,7 @@ namespace sUpdater
         public static void ReadDefenitions()
         {
             Log.Append("Reading definitions file", Log.LogLevel.INFO);
-            Apps.Regular = new ObservableCollection<Application>();
+            Apps.Regular = new ObservableCollection<PortableApp>();
             XDocument defenitions;
 
             // Load XML File
@@ -212,7 +212,7 @@ namespace sUpdater
                 }
 
                 // Add app to AppList
-                Apps.Regular.Add(new Application(nameAttribute.Value.ToString(), versionElement.Value,
+                Apps.Regular.Add(new PortableApp(nameAttribute.Value.ToString(), versionElement.Value,
                     localVersion, archElement.Value, typeElement.Value, switchElement.Value,
                     dlElement.Value, null));
             }
@@ -228,9 +228,9 @@ namespace sUpdater
             }
 
             //logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
-            Apps.Updates = new ObservableCollection<Application>(Apps.Regular);
+            Apps.Updates = new ObservableCollection<PortableApp>(Apps.Regular);
 
-            foreach (Application app in Apps.Updates.ToArray())
+            foreach (PortableApp app in Apps.Updates.ToArray())
             {
                 // Remove non-installed apps or apps with the noupdate type from the AppInfo.UpdateList
                 if (app.LocalVersion == null || app.Type == "noupdate")
