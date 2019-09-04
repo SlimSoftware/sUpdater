@@ -17,10 +17,5 @@ namespace sUpdater
         /// Contains all updates that are currently available
         /// </summary>
         public static ObservableCollection<Application> Updates;
-
-        /// <summary>
-        /// Contains all Portable Apps
-        /// </summary>
-        public static ObservableCollection<Application> Portable;
     }
 }
