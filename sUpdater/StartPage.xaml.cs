@@ -155,6 +155,8 @@ namespace sUpdater
                 XElement regkeyElement = appElement.Element("regkey");
                 XElement regvalueElement = appElement.Element("regvalue");
                 XElement exePathElement = appElement.Element("exePath");
+                XElement descriptionElement = appElement.Element("description");
+                XElement changelogElement = appElement.Element("changelog");
 
                 // Check whether this app run on the system
                 if (!Environment.Is64BitOperatingSystem && archElement?.Value == "x64")
@@ -211,10 +213,13 @@ namespace sUpdater
                     }
                 }
 
-                // Add app to AppList
-                Apps.Regular.Add(new Application(nameAttribute.Value.ToString(), versionElement.Value,
+                Application appToAdd = new Application(nameAttribute.Value.ToString(), versionElement.Value,
                     localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                    dlElement.Value, null));
+                    dlElement.Value);
+                appToAdd.HasChangelog = changelogElement?.Value != null;
+                appToAdd.HasDescription = descriptionElement?.Value != null;
+
+                Apps.Regular.Add(appToAdd);
             }
         }
         #endregion

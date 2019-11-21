@@ -233,9 +233,21 @@ namespace sUpdater
             }
         }
 
-        private void ListViewItem_LinkClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ItemChangelog_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hi");
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+
+            string changelog = app.GetChangelog();
+            if (changelog != "")
+            {
+                InfoPage infoPage = new InfoPage(changelog, InfoPage.InfoType.Changelog);
+                NavigationService.Navigate(infoPage);
+            }
+            else
+            {
+                MessageBox.Show("No changelog is available for this application");
+            }
         }
     }
 }
