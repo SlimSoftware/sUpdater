@@ -1,4 +1,6 @@
-﻿namespace sUpdater
+﻿using System.Threading.Tasks;
+
+namespace sUpdater
 {
     class PortableApp
     {
@@ -23,6 +25,16 @@
             DL = dl;
             ExtractMode = extractMode;
             SavePath = savePath;
+        }
+
+        public async Task Download()
+        {
+
+        }
+
+        public async Task Install()
+        {
+
         }
     }
 }
