@@ -28,7 +28,7 @@
                   Style="{StaticResource ResourceKey=CustomListViewStyle}">
             <ListView.Resources>
                 <ContextMenu x:Key="itemContextMenu">
-                    <MenuItem Header="Changelog" Click="ItemChangelog_Click"/>
+                    <MenuItem Header="Changelog" Click="ItemChangelog_Click" IsEnabled="{Binding HasChangelog}"/>
                 </ContextMenu>
             </ListView.Resources>
         </ListView>

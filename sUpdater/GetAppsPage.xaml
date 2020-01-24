@@ -27,7 +27,7 @@
                   Style="{StaticResource ResourceKey=CustomListViewStyle}">
             <ListView.Resources>
                 <ContextMenu x:Key="itemContextMenu">
-                    <MenuItem Header="Description" Click="ItemDescription_Click"   />
+                    <MenuItem Header="Description" Click="ItemDescription_Click" IsEnabled="{Binding HasDescription}"/>
                 </ContextMenu>
             </ListView.Resources>
         </ListView>
