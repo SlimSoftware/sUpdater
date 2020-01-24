@@ -281,5 +281,11 @@ namespace sUpdater
             SettingsPage settingsPage = new SettingsPage();
             NavigationService.Navigate(settingsPage);
         }
+
+        private void PortableAppsTile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            InstalledPortableAppPage portableAppPage = new InstalledPortableAppPage();
+            NavigationService.Navigate(portableAppPage);
+        }
     }
 }

@@ -28,7 +28,7 @@
         <Controls:FlatTile x:Name="portableAppsTile" Grid.Column="0" Grid.Row="1"
                                Background="#00ba00" Image="Icons/portable_icon.png"
                                Title="Portable Apps" MaxWidth="300" MaxHeight="150"
-                               Margin="50 0 0 0"/>
+                               Margin="50 0 0 0" MouseLeftButtonDown="PortableAppsTile_MouseLeftButtonDown"/>
         <Controls:FlatTile x:Name="settingsTile" Grid.Column="1" Grid.Row="1"
                                Background="#00ba00" Image="Icons/settings_icon.png"
                                Title="Settings" MaxWidth="300" MaxHeight="150"

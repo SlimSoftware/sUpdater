@@ -24,6 +24,7 @@ namespace sUpdater
         public string InstallSwitch { get; set; }
         public bool Checkbox { get; set; } = true;
         public string LinkText { get; set; }
+        public LinkClickCommand LinkClickCommand { get; set; }
 
         private int progress;
         public int Progress

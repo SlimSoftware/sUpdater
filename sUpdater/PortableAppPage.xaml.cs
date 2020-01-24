@@ -9,40 +9,30 @@ using System.Xml.Linq;
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for PortableAppPage.xaml
+    /// Interaction logic for Page1.xaml
     /// </summary>
-    public partial class PortableAppPage : Page
+    public partial class PortableAppsPage : Page
     {
-        private List<PortableApp> installedPortableApps = new List<PortableApp>();
+        private List<PortableApp> portableApps = new List<PortableApp>();
 
-        public PortableAppPage()
+        public PortableAppsPage()
         {
             InitializeComponent();
-            GetInstalledPortableApps();
-            portableAppsListView.ItemsSource = installedPortableApps;
-            portableAppsListView.Focus();
+            portableApps = GetPortableApps();
+            portableAppsListView.ItemsSource = portableApps;
         }
 
         /// <summary>
-        /// Fills the installedPortableApps list with portable apps that are installed
+        /// Fills the portableApps list with all Portable Apps from the definitions
         /// </summary>
-        public void GetInstalledPortableApps()
+        public static List<PortableApp> GetPortableApps()
         {
-            installedPortableApps.Clear();
-            XDocument defenitions;
+            List<PortableApp> apps = new List<PortableApp>();
 
             // Load XML File
-            if (Settings.DefenitionURL != null)
-            {
-                defenitions = XDocument.Load(Settings.DefenitionURL);
-            }
-            else
-            {
-                Log.Append("Using official definitions", Log.LogLevel.INFO);
-                defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
-            }
+            XElement definitions = XElement.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
 
-            foreach (XElement portableAppElement in defenitions.Elements("portable"))
+            foreach (XElement portableAppElement in definitions.Descendants("portable"))
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = portableAppElement.Attribute("name");
@@ -59,13 +49,12 @@ namespace sUpdater
                 // TODO: Get local version of portable app if installed
                 string localVersion = "-";
 
-                // Add app to portableAppList
-                installedPortableApps.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
+                apps.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                    extractModeElement.Value));
+                    extractModeElement.Value));             
             }
 
-            portableAppsListView.Items.Refresh();
+            return apps;
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -73,7 +62,7 @@ namespace sUpdater
             if (selectAllCheckBox.IsChecked == true)
             {
                 // Select all unselected apps
-                foreach (PortableApp app in portableAppsListView.Items)
+                foreach (Application app in portableAppsListView.Items)
                 {
                     // Check if the app is not selected, if so check it
                     if (!portableAppsListView.SelectedItems.Contains(app))
@@ -89,94 +78,33 @@ namespace sUpdater
             }
         }
 
+        private void GetAppsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (portableAppsListView.SelectedItems.Count == portableApps.Count)
+            {
+                if (selectAllCheckBox.IsChecked == false)
+                {
+                    selectAllCheckBox.IsChecked = true;
+                }
+            }
+            else
+            {
+                if (selectAllCheckBox.IsChecked == true)
+                {
+                    selectAllCheckBox.IsChecked = false;
+                }
+            }
+        }
+
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            StartPage.ReadDefenitions();
-            GetInstalledPortableApps();
+            GetPortableApps();
+            portableAppsListView.Items.Refresh();
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            bool installFailed = false;
-            Log.Append("New app installation started...", Log.LogLevel.INFO);
-            refreshButton.IsEnabled = false;
-            installButton.IsEnabled = false;
-            statusLabel.Visibility = Visibility.Hidden;
-
-            if (portableAppsListView.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("You have not selected any applications.");
-                Log.Append("No application(s) selected to install, aborting...", Log.LogLevel.WARN);
-            }
-            else
-            {
-                // Download
-                List<Task> tasks = new List<Task>();
-                int currentApp = 0;
-
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
-                {
-                    currentApp++;
-                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
-                    {
-                        await Task.Delay(1000);
-                    }
-                    tasks.Add(app.Download());
-                }
-                await Task.WhenAll(tasks);
-
-                // Install
-                currentApp = 0;
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
-                {
-                    currentApp++;
-                    if (File.Exists(app.SavePath))
-                    {
-                        Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
-                            currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-                        await app.Install();
-                    }
-                }
-
-                // Cleanup any leftover exe's in appdata dir
-                if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
-                {
-                    Log.Append("Cleaning up leftover installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
-                    {
-                        File.Delete(exePath);
-                    }
-                }
-
-                if (installFailed == true)
-                {
-                    // Only show the failed apps
-                    List<PortableApp> failedApps = new List<PortableApp>();
-                    foreach (PortableApp app in portableAppsListView.SelectedItems)
-                    {
-                        if (app.Status != "Install complete")
-                        {
-                            failedApps.Add(app);
-                        }
-                    }
-                    portableAppsListView.ItemsSource = failedApps;
-                    statusLabel.Foreground = Brushes.Red;
-                    statusLabel.Content = "Some applications failed to install.";
-                    statusLabel.Visibility = Visibility.Visible;
-                }
-                if (installFailed == false)
-                {
-                    installButton.IsEnabled = true;
-                    StartPage.ReadDefenitions();
-                    GetInstalledPortableApps();
-                }
-
-                refreshButton.IsEnabled = true;
-            }
+            
         }
     }
 }

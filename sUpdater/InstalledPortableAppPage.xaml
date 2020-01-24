@@ -1,0 +1,34 @@
+﻿<Page x:Class="sUpdater.InstalledPortableAppPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:Controls="clr-namespace:sUpdater.Controls"
+      mc:Ignorable="d" 
+      d:DesignHeight="435" d:DesignWidth="800"
+      Title="Portable Apps" Background="White">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25px" />
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Row="0" HorizontalAlignment="Center"
+                   FontWeight="Bold" FontSize="13" Visibility="Hidden" />
+        <Label x:Name="getPortableAppsLink" MouseLeftButtonDown="GetPortableAppsLink_MouseLeftButtonDown" HorizontalAlignment="Right" Margin="0,0,5,0" >
+            <TextBlock TextDecorations="Underline" Cursor="Hand">Get Portable Apps -></TextBlock>
+        </Label>
+
+            <ListView x:Name="portableAppsListView" Grid.Row="1" 
+                  Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
+        
+        <Label x:Name="noAppsInstalledLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" 
+               VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+            No installed Portable Apps found. You can install Portable Apps by clicking on the link in the top right corner.
+        </Label>
+    </Grid>
+</Page>
