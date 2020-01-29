@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace sUpdater
@@ -170,6 +171,11 @@ namespace sUpdater
                     {
                         updateListView.ItemsSource = Apps.Updates;
                     }
+
+                    if (Apps.Updates.Count == 0)
+                    {
+                        noUpdatesAvailablePanel.Visibility = Visibility.Visible;
+                    }
                 }
 
                 refreshButton.IsEnabled = true;
@@ -248,6 +254,12 @@ namespace sUpdater
             {
                 MessageBox.Show("No changelog is available for this application");
             }
+        }
+
+        private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
+            SetupDetailsMode();
         }
     }
 }

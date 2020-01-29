@@ -32,6 +32,14 @@
                 </ContextMenu>
             </ListView.Resources>
         </ListView>
+        <StackPanel x:Name="noUpdatesAvailablePanel" Orientation="Vertical" VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" Grid.Row="1" Visibility="Collapsed">
+            <Label FontWeight="Bold" FontSize="13">No updates available</Label>
+            <Label x:Name="detailsLink" Foreground="#00ba00" HorizontalAlignment="Center" 
+                   MouseLeftButtonDown="DetailsLink_MouseLeftButtonDown">
+                <TextBlock TextDecorations="Underline" Cursor="Hand">View details</TextBlock>
+            </Label>
+        </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>

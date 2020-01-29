@@ -19,6 +19,11 @@ namespace sUpdater
             InitializeComponent();
             GetNotInstalledApps();
             getAppsListView.ItemsSource = notInstalledApps;
+
+            if (notInstalledApps.Count == 0)
+            {
+                noAppsAvailableLabel.Visibility = Visibility.Visible;
+            }
         }
 
         /// <summary>
@@ -93,6 +98,15 @@ namespace sUpdater
         {
             StartPage.ReadDefenitions();
             GetNotInstalledApps();
+
+            if (notInstalledApps.Count == 0)
+            {
+                noAppsAvailableLabel.Visibility = Visibility.Visible;
+            }
+            else if (noAppsAvailableLabel.Visibility == Visibility.Visible)
+            {
+                noAppsAvailableLabel.Visibility = Visibility.Collapsed;
+            }
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
