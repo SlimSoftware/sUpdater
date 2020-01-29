@@ -232,7 +232,7 @@ namespace sUpdater
                 return false;
             }
 
-            //logger.Log("Checking for updates...", Logger.LogLevel.INFO, logTextBox);
+            Log.Append("Checking for updates...", Log.LogLevel.INFO);
             Apps.Updates = new ObservableCollection<Application>(Apps.Regular);
 
             foreach (Application app in Apps.Updates.ToArray())
@@ -251,8 +251,8 @@ namespace sUpdater
                     }
                     else
                     {
-                        // Set the DisplayedVersion of the remaining apps to the LatestVersion
-                        app.DisplayedVersion = app.LocalVersion;
+                        app.Name += $" {app.LatestVersion}";
+                        app.DisplayedVersion = $"Installed: {app.LocalVersion}";
                     }
                 }
             }
