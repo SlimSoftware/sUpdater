@@ -1,4 +1,4 @@
-﻿<Page x:Class="sUpdater.InstalledPortableAppPage"
+﻿<Page x:Class="sUpdater.InstalledPortableAppsPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,12 +19,12 @@
 
         <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Row="0" HorizontalAlignment="Center"
                    FontWeight="Bold" FontSize="13" Visibility="Hidden" />
-        <Label x:Name="getPortableAppsLink" MouseLeftButtonDown="GetPortableAppsLink_MouseLeftButtonDown" HorizontalAlignment="Right" Margin="0,0,5,0" >
-            <TextBlock TextDecorations="Underline" Cursor="Hand">Get Portable Apps -></TextBlock>
+        <Label x:Name="getPortableAppsLink" MouseLeftButtonDown="GetPortableAppsLink_MouseLeftButtonDown" HorizontalAlignment="Right" Margin="0,-2,5,0" >
+            <TextBlock TextDecorations="Underline" Cursor="Hand" FontSize="14" Foreground="#00ba00">Get Portable Apps -></TextBlock>
         </Label>
 
-            <ListView x:Name="portableAppsListView" Grid.Row="1" 
-                  Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
+        <ListView x:Name="portableAppsListView" Grid.Row="1" 
+                Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
         
         <Label x:Name="noAppsInstalledLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" 
                VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">

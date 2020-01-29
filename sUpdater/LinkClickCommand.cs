@@ -6,11 +6,11 @@ namespace sUpdater
     public class LinkClickCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private Action excute;
+        private Action execute;
 
-        public LinkClickCommand(Action excute)
+        public LinkClickCommand(Action execute)
         {
-            this.excute = excute;
+            this.execute = execute;
         }
 
         public bool CanExecute(object parameter)
@@ -20,7 +20,7 @@ namespace sUpdater
 
         public void Execute(object parameter)
         {
-            excute.Invoke();
+            execute?.Invoke();
         }
     }
 }

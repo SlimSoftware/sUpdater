@@ -284,7 +284,7 @@ namespace sUpdater
 
         private void PortableAppsTile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            InstalledPortableAppPage portableAppPage = new InstalledPortableAppPage();
+            InstalledPortableAppsPage portableAppPage = new InstalledPortableAppsPage();
             NavigationService.Navigate(portableAppPage);
         }
     }

@@ -1,9 +1,15 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace sUpdater
 {
-    public class PortableApp
+    public class PortableApp : IEquatable<PortableApp>
     {
         public string Name { get; set; }
         public string LatestVersion { get; set; }
@@ -74,17 +80,164 @@ namespace sUpdater
 
         public async Task Download()
         {
+            Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
+            string fileName = @Path.GetFileName(DL);
+            SavePath = @Path.Combine(Settings.PortableAppDir, Name, fileName);
+            Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
 
+            // Check if portable app is already downloaded
+            if (!File.Exists(SavePath))
+            {
+                using (var wc = new WebClient())
+                {
+                    wc.DownloadProgressChanged += (s, e) =>
+                    {
+                        // Convert download size to MB
+                        double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
+                        double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
+
+                        // Set the progress
+                        if (ExtractMode == "single")
+                        {
+                            Progress = e.ProgressPercentage;
+                        }
+                        else
+                        {
+                            Progress = e.ProgressPercentage / 2;
+                        }
+                        Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
+                    };
+                    wc.DownloadFileCompleted += (s, e) =>
+                    {
+                        Status = "Waiting for installation...";
+                        IsWaiting = true;
+                    };
+                    try
+                    {
+                        await wc.DownloadFileTaskAsync(new Uri(DL), SavePath);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Append("An error occurred when attempting to download " +
+                            "the Portable App." + e.Message, Log.LogLevel.ERROR);
+                            Status = e.Message;
+
+                        if (File.Exists(SavePath))
+                        {
+                            File.Delete(SavePath);
+                        }
+                    }
+                }
+            }
         }
 
-        public async Task Install()
+        public async Task Install(bool runOnce)
         {
+            if (File.Exists(SavePath))
+            {
+                if (ExtractMode == "folder")
+                {
+                    string sevenZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "7z.exe");
+                    if (!File.Exists(sevenZipPath))
+                    {
+                        Log.Append("7-Zip not present at: " + sevenZipPath + ". Cancelling...", Log.LogLevel.ERROR);
+                        return;
+                    }
+                    else
+                    {
+                        Log.Append("7-Zip path: " + sevenZipPath, Log.LogLevel.INFO);
+                    }
 
+                    using (var p = new Process())
+                    {
+                        p.StartInfo.FileName = sevenZipPath;
+                        p.StartInfo.Arguments = "e \"" + SavePath + "\" -o\""
+                            + Path.Combine(Settings.PortableAppDir, Name) + "\" -aoa";
+                        p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                        try
+                        {
+                            p.Start();
+                        }
+                        catch (Exception e)
+                        {
+                            Status = "Extracting failed: " + e.Message;
+                            Log.Append("Extracting failed" + e.Message, Log.LogLevel.ERROR);
+                        }
+
+                        Status = "Extracting...";
+                        IsWaiting = true;
+
+                        // Wait on a separate thread so the GUI thread does not get blocked
+                        await Task.Run(() =>
+                        {
+                            p.WaitForExit();
+                        });
+                        if (p.ExitCode == 0)
+                        {
+                            Log.Append("Extracting succesful.", Log.LogLevel.INFO);
+                            File.Delete(SavePath);
+                            Status = "Install complete";
+                            Progress = 100;
+                            IsWaiting = false;
+                            await Task.Delay(1000);                       
+                        }
+                        if (p.ExitCode != 0)
+                        {
+                            Status = string.Format("Extract failed. Exit code: {0}", p.ExitCode);
+                            Progress = 0;
+                            Log.Append("Extract failed. Exit code: " + p.ExitCode, Log.LogLevel.ERROR);
+                        }
+                    }
+                }
+
+                if (runOnce == true)
+                {
+                    Log.Append("Launching " + Name, Log.LogLevel.INFO);
+                    Status = "Running";
+                    using (var ro = new Process())
+                    {
+                        ro.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
+                        // TODO: Add support for optional arguments and use shell execute here
+                        ro.Start();
+                    }
+                    await Task.Run(() =>
+                    {
+                        Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                        while (processes == null | processes.Length != 0)
+                        {
+                            Thread.Sleep(1000);
+                            processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                        }
+                    });
+                    Log.Append("All processes exited. Cleaning up...", Log.LogLevel.INFO);
+
+                    // Cleanup
+                    Directory.Delete(Path.Combine(Settings.PortableAppDir, Name), true);
+                }
+            }
         }
 
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as PortableApp);
+        }
+
+        public bool Equals(PortableApp app)
+        {
+            return Name == app.Name && LatestVersion == app.LatestVersion;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1183558336;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
+            return hashCode;
         }
     }
 }

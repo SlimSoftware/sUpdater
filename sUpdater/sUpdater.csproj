@@ -63,13 +63,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="PortableAppPage.xaml.cs">
-      <DependentUpon>PortableAppPage.xaml</DependentUpon>
+    <Compile Include="GetPortableAppsPage.xaml.cs">
+      <DependentUpon>GetPortableAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LinkClickCommand.cs" />
     <Compile Include="PortableApp.cs" />
-    <Compile Include="InstalledPortableAppPage.xaml.cs">
-      <DependentUpon>InstalledPortableAppPage.xaml</DependentUpon>
+    <Compile Include="InstalledPortableAppsPage.xaml.cs">
+      <DependentUpon>InstalledPortableAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LicensePage.xaml.cs">
       <DependentUpon>LicensePage.xaml</DependentUpon>
@@ -99,11 +99,11 @@
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Page Include="PortableAppPage.xaml">
+    <Page Include="GetPortableAppsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InstalledPortableAppPage.xaml">
+    <Page Include="InstalledPortableAppsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
