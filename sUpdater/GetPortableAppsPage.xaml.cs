@@ -151,6 +151,9 @@ namespace sUpdater
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             notInstalledPortableApps = GetNotInstalledPortableApps();
+            // TODO: Properly refresh
+            portableAppsListView.ItemsSource = null;
+            portableAppsListView.ItemsSource = notInstalledPortableApps;
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
@@ -172,7 +175,7 @@ namespace sUpdater
                 List<Task> tasks = new List<Task>();
                 int currentApp = 0;
 
-                foreach (Application app in portableAppsListView.SelectedItems)
+                foreach (PortableApp app in portableAppsListView.SelectedItems)
                 {
                     currentApp++;
                     Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
@@ -189,7 +192,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in portableAppsListView.SelectedItems)
+                foreach (PortableApp app in portableAppsListView.SelectedItems)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -219,6 +222,9 @@ namespace sUpdater
                 else
                 {                   
                     notInstalledPortableApps = GetNotInstalledPortableApps();
+                    // TODO: Properly refresh
+                    portableAppsListView.ItemsSource = null;
+                    portableAppsListView.ItemsSource = notInstalledPortableApps;
                 }
 
                 installButton.IsEnabled = true;

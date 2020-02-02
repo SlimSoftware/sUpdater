@@ -92,6 +92,7 @@ namespace sUpdater
 
         public async Task Download()
         {
+            LinkText = "";
             Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
             SavePath = @Path.Combine(Settings.PortableAppDir, Name, fileName);
@@ -154,6 +155,8 @@ namespace sUpdater
                         Log.Append($"7-Zip not present at: {sevenZipPath}. Cancelling...", Log.LogLevel.ERROR);
                         MessageBox.Show("Could not find 7-Zip in the installation directory. Try reinstalling sUpdater.",
                             "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                        IsWaiting = false;
+                        Status = "";
                         return;
                     }
                     else
@@ -255,7 +258,7 @@ namespace sUpdater
 
         public bool Equals(PortableApp app)
         {
-            return Name == app.Name && LatestVersion == app.LatestVersion;
+            return app != null && Name == app.Name && LatestVersion == app.LatestVersion;
         }
 
         public override int GetHashCode()

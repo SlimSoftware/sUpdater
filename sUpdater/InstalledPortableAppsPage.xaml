@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Portable Apps" Background="White">
+      Title="Portable Apps" Background="White" Loaded="Page_Loaded" >
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -24,8 +24,14 @@
         </Label>
 
         <ListView x:Name="portableAppsListView" Grid.Row="1" 
-                Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
-        
+                Style="{StaticResource ResourceKey=CustomListViewStyle}">
+            <ListView.Resources>
+                <ContextMenu x:Key="itemContextMenu">
+                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click" IsEnabled="{Binding HasDescription}"/>
+                </ContextMenu>
+            </ListView.Resources>
+        </ListView>
+
         <Label x:Name="noAppsInstalledLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" 
                VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
             No installed Portable Apps found. You can install Portable Apps by clicking on the link in the top right corner.

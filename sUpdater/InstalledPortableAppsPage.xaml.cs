@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace sUpdater
 {
@@ -69,6 +70,50 @@ namespace sUpdater
         {
             GetPortableAppsPage portableAppsPage = new GetPortableAppsPage();
             NavigationService.Navigate(portableAppsPage);
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            PortableApp app = (PortableApp)menuItem.DataContext;
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {app.Name}, including all of its settings and data?", 
+                "sUpdater", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Log.Append($"Deleting Portable App: {app.Name}", Log.LogLevel.INFO);
+                string appDir = Path.Combine(Settings.PortableAppDir, app.Name);
+                if (Directory.Exists(Path.Combine(appDir)))
+                {
+                    Directory.Delete(appDir, true);
+                }
+            }
+
+            installedPortableApps = GetInstalledPortableApps();
+            // TODO: Properly refresh
+            portableAppsListView.ItemsSource = null;
+            portableAppsListView.ItemsSource = installedPortableApps;
+
+            if (installedPortableApps.Count == 0)
+            {
+                noAppsInstalledLabel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigating += NavigationService_Navigating;
+        }
+
+        private void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                // Refresh list when going back from other page
+                installedPortableApps = GetInstalledPortableApps();
+                portableAppsListView.ItemsSource = installedPortableApps;
+            }
         }
     }
 }
