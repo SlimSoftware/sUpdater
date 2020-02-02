@@ -29,6 +29,8 @@ namespace sUpdater
                 {
                     Log.Append($"Starting run once installation for {app.Name}", Log.LogLevel.INFO);
 
+                    installButton.IsEnabled = false;
+                    refreshButton.IsEnabled = false;
                     string linkText = app.LinkText;
                     app.LinkText = "";
 
@@ -44,6 +46,8 @@ namespace sUpdater
                     }
 
                     app.LinkText = linkText;
+                    installButton.IsEnabled = true;
+                    refreshButton.IsEnabled = true;
                 }));
             }
 
