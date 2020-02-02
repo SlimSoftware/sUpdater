@@ -20,7 +20,6 @@ namespace sUpdater
             InitializeComponent();
             installedPortableApps = GetInstalledPortableApps();
             portableAppsListView.ItemsSource = installedPortableApps;
-            portableAppsListView.Focus();
 
             if (installedPortableApps.Count == 0)
             {
@@ -50,23 +49,14 @@ namespace sUpdater
                 // Find associated PortableApp
                 PortableApp app = portableApps.Find(x => x.Name == pAppListItem.Name);
 
-                pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(() =>
+                pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {
-                    using (Process p = new Process())
-                    {
-                        // TODO: Add support for optional arguments and use shell execute here
-                        try
-                        {
-                            p.StartInfo.FileName = Path.Combine(
-                                Settings.PortableAppDir, pAppListItem.Name, app.Launch);
-                            p.Start();
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Could not run the application. Try reinstalling the app.",
-                                "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
-                        }
-                    }
+                    string linkText = pAppListItem.LinkText;
+                    pAppListItem.LinkText = "";
+                    pAppListItem.Status = "Running...";
+                    await app.Run();
+                    pAppListItem.Status = "";
+                    pAppListItem.LinkText = linkText;
                 }));               
             }
 

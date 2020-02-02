@@ -27,8 +27,12 @@ namespace sUpdater
 
                 app.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {
+                    string linkText = app.LinkText;
+                    app.LinkText = "";
                     await app.Download();
-                    await app.Install(true);
+                    await app.Install();
+                    await app.Run();
+                    app.LinkText = linkText;
                 }));
             }
 

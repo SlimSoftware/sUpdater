@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace sUpdater
 {
-    public class PortableApp : IEquatable<PortableApp>
+    public class PortableApp : IEquatable<PortableApp>, INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string LatestVersion { get; set; }
@@ -20,9 +20,20 @@ namespace sUpdater
         public string DL { get; set; }
         public string ExtractMode { get; set; }
         public string SavePath { get; set; }
-        public string Launch { get; set; }
-        public string LinkText { get; set; } = "Run";
+        public string Launch { get; set; }      
         public LinkClickCommand LinkClickCommand { get; set; }
+
+        private string linkText = "Run";
+
+        public string LinkText
+        {
+            get { return linkText; }
+            set
+            {
+                linkText = value;
+                OnPropertyChanged("LinkText");
+            }
+        }
 
         private int progress;
         public int Progress
@@ -131,7 +142,7 @@ namespace sUpdater
             }
         }
 
-        public async Task Install(bool runOnce)
+        public async Task Install()
         {
             if (File.Exists(SavePath))
             {
@@ -176,7 +187,7 @@ namespace sUpdater
                         {
                             Log.Append("Extracting succesful.", Log.LogLevel.INFO);
                             File.Delete(SavePath);
-                            Status = "Install complete";
+                            Status = "Extracting complete";
                             Progress = 100;
                             IsWaiting = false;
                             await Task.Delay(1000);                       
@@ -185,41 +196,45 @@ namespace sUpdater
                         {
                             Status = string.Format("Extract failed. Exit code: {0}", p.ExitCode);
                             Progress = 0;
+                            IsWaiting = false;
                             Log.Append("Extract failed. Exit code: " + p.ExitCode, Log.LogLevel.ERROR);
                         }
                     }
                 }
-
-                if (runOnce == true)
-                {
-                    Log.Append("Launching " + Name, Log.LogLevel.INFO);
-                    Status = "Running";
-                    using (var ro = new Process())
-                    {
-                        ro.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
-                        // TODO: Add support for optional arguments and use shell execute here
-                        ro.Start();
-                    }
-                    await Task.Run(() =>
-                    {
-                        Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
-                        while (processes == null | processes.Length != 0)
-                        {
-                            Thread.Sleep(1000);
-                            processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
-                        }
-                    });
-                    Log.Append("All processes exited. Cleaning up...", Log.LogLevel.INFO);
-
-                    // Cleanup
-                    Directory.Delete(Path.Combine(Settings.PortableAppDir, Name), true);
-                }
             }
         }
 
-        protected void OnPropertyChanged(string name)
+        public async Task Run()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            Log.Append($"Launching {Name}", Log.LogLevel.INFO);
+            if (Progress != 0)
+            {
+                Progress = 0;
+            }
+
+            Status = "Running...";
+
+            using (var ro = new Process())
+            {
+                ro.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
+                // TODO: Add support for optional arguments and use shell execute here
+                ro.Start();
+            }
+            await Task.Run(() =>
+            {
+                Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                while (processes == null | processes.Length != 0)
+                {
+                    Thread.Sleep(1000);
+                    processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                }
+            });
+            Status = "";
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public override bool Equals(object obj)
