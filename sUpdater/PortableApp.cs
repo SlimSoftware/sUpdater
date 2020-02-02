@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace sUpdater
 {
@@ -214,11 +215,20 @@ namespace sUpdater
 
             Status = "Running...";
 
-            using (var ro = new Process())
+            using (var p = new Process())
             {
-                ro.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
-                // TODO: Add support for optional arguments and use shell execute here
-                ro.Start();
+                p.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
+                // TODO: Add support for optional arguments and using shell execute here
+                try
+                {
+                    p.Start();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred when trying to run the app:\n{ex.Message}", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Log.Append($"An error occurred when trying to run the Portable App {Name}: {ex.Message}", Log.LogLevel.ERROR);
+                    Status = "";
+                }
             }
             await Task.Run(() =>
             {

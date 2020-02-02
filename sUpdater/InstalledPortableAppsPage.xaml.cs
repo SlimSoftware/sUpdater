@@ -32,6 +32,7 @@ namespace sUpdater
         /// </summary>
         public static List<PortableApp> GetInstalledPortableApps()
         {
+            Log.Append("Checking for installed Portable Apps", Log.LogLevel.INFO);
             List<PortableApp> apps = new List<PortableApp>();
 
             string[] installedAppPaths = null;
@@ -55,6 +56,7 @@ namespace sUpdater
                     pAppListItem.LinkText = "";
                     pAppListItem.Status = "Running...";
                     await app.Run();
+
                     pAppListItem.Status = "";
                     pAppListItem.LinkText = linkText;
                 }));               

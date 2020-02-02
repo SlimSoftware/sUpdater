@@ -27,11 +27,22 @@ namespace sUpdater
 
                 app.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {
+                    Log.Append($"Starting run once installation for {app.Name}", Log.LogLevel.INFO);
+
                     string linkText = app.LinkText;
                     app.LinkText = "";
+
                     await app.Download();
                     await app.Install();
                     await app.Run();
+
+                    Log.Append("All processes exited. Cleaning up...", Log.LogLevel.INFO);
+                    string appDir = Path.Combine(Settings.PortableAppDir, app.Name);
+                    if (Directory.Exists(Path.Combine(appDir)))
+                    {
+                        Directory.Delete(appDir, true);
+                    }
+
                     app.LinkText = linkText;
                 }));
             }
@@ -44,19 +55,18 @@ namespace sUpdater
         /// </summary>
         public static List<PortableApp> GetPortableApps()
         {
+            Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
+
             List<PortableApp> apps = new List<PortableApp>();
             XDocument definitions;
 
             // Load XML File
             if (Settings.DefenitionURL != null)
             {
-                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
-                    Log.LogLevel.INFO);
                 definitions = XDocument.Load(Settings.DefenitionURL);
             }
             else
-            {
-                Log.Append("Using official definitions", Log.LogLevel.INFO);
+            {            
                 definitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
             }
 
