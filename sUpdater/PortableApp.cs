@@ -130,9 +130,8 @@ namespace sUpdater
                     }
                     catch (Exception e)
                     {
-                        Log.Append("An error occurred when attempting to download " +
-                            "the Portable App." + e.Message, Log.LogLevel.ERROR);
-                            Status = e.Message;
+                        Log.Append($"An error occurred while downloading {e.Message}", Log.LogLevel.ERROR);
+                            Status = $"Download failed: {e.Message}";
 
                         if (File.Exists(SavePath))
                         {
@@ -152,12 +151,14 @@ namespace sUpdater
                     string sevenZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "7z.exe");
                     if (!File.Exists(sevenZipPath))
                     {
-                        Log.Append("7-Zip not present at: " + sevenZipPath + ". Cancelling...", Log.LogLevel.ERROR);
+                        Log.Append($"7-Zip not present at: {sevenZipPath}. Cancelling...", Log.LogLevel.ERROR);
+                        MessageBox.Show("Could not find 7-Zip in the installation directory. Try reinstalling sUpdater.",
+                            "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
                     else
                     {
-                        Log.Append("7-Zip path: " + sevenZipPath, Log.LogLevel.INFO);
+                        Log.Append($"7-Zip path: {sevenZipPath}", Log.LogLevel.INFO);
                     }
 
                     using (var p = new Process())
@@ -172,8 +173,8 @@ namespace sUpdater
                         }
                         catch (Exception e)
                         {
-                            Status = "Extracting failed: " + e.Message;
-                            Log.Append("Extracting failed" + e.Message, Log.LogLevel.ERROR);
+                            Status = $"Extracting failed: {e.Message}";
+                            Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
                         }
 
                         Status = "Extracting...";
@@ -195,10 +196,10 @@ namespace sUpdater
                         }
                         if (p.ExitCode != 0)
                         {
-                            Status = string.Format("Extract failed. Exit code: {0}", p.ExitCode);
+                            Status = $"Extracting failed. Exit code: {p.ExitCode}";
                             Progress = 0;
                             IsWaiting = false;
-                            Log.Append("Extract failed. Exit code: " + p.ExitCode, Log.LogLevel.ERROR);
+                            Log.Append($"Extracting failed. Exit code: {p.ExitCode}", Log.LogLevel.ERROR);
                         }
                     }
                 }
