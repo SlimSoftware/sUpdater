@@ -24,7 +24,16 @@
                    FontWeight="Bold" FontSize="13" DockPanel.Dock="Top" Visibility="Hidden" />
 
         <ListView x:Name="getAppsListView" Grid.Row="1" 
-                  Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
+                  Style="{StaticResource ResourceKey=CustomListViewStyle}">
+            <ListView.Resources>
+                <ContextMenu x:Key="itemContextMenu">
+                    <MenuItem Header="Description" Click="ItemDescription_Click" IsEnabled="{Binding HasDescription}"/>
+                </ContextMenu>
+            </ListView.Resources>
+        </ListView>
+
+        <Label x:Name="noAppsAvailableLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Visibility="Collapsed">No new applications available</Label>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="refreshButton" Height="21" Width="60" Margin="0 0 20 0" Click="RefreshButton_Click">Refresh</Button>

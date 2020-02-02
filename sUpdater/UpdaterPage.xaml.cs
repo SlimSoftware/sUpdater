@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace sUpdater
@@ -170,6 +171,11 @@ namespace sUpdater
                     {
                         updateListView.ItemsSource = Apps.Updates;
                     }
+
+                    if (Apps.Updates.Count == 0)
+                    {
+                        noUpdatesAvailablePanel.Visibility = Visibility.Visible;
+                    }
                 }
 
                 refreshButton.IsEnabled = true;
@@ -233,9 +239,27 @@ namespace sUpdater
             }
         }
 
-        private void ListViewItem_LinkClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void ItemChangelog_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Hi");
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+
+            string changelog = app.GetChangelog();
+            if (changelog != "")
+            {
+                InfoPage infoPage = new InfoPage(changelog, InfoPage.InfoType.Changelog);
+                NavigationService.Navigate(infoPage);
+            }
+            else
+            {
+                MessageBox.Show("No changelog is available for this application");
+            }
+        }
+
+        private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
+            SetupDetailsMode();
         }
     }
 }

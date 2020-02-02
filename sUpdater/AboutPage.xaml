@@ -25,7 +25,8 @@
                        MouseLeftButtonDown="SiteLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Visit our website</TextBlock>
                 </Label>
-                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center">
+                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center"
+                       MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Credits</TextBlock>
                 </Label>
             </StackPanel>
