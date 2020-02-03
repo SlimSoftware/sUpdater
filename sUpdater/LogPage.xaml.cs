@@ -53,9 +53,9 @@ namespace sUpdater
             {
                 color = Brushes.Black;
             }
-            else if (line.Contains("[WARN]") && textBox.Foreground != Brushes.Orange)
+            else if (line.Contains("[WARN]") && textBox.Foreground != Colors.normalOrangeBrush)
             {
-                color = Brushes.Orange;
+                color = Colors.normalOrangeBrush;
             }
             else if (line.Contains("[ERROR]") && textBox.Foreground != Brushes.Red)
             {
