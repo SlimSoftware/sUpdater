@@ -166,8 +166,11 @@ namespace sUpdater
 
             if (portableAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any Portable Apps.");
-                Log.Append("No Portable Apps(s) selected to install, aborting...", Log.LogLevel.WARN);
+                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                Log.Append("No Portable Apps selected to install, aborting...", Log.LogLevel.WARN);
+
+                refreshButton.IsEnabled = false;
+                installButton.IsEnabled = false;
             }
             else
             {
