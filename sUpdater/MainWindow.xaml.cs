@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
@@ -9,12 +10,16 @@ namespace sUpdater
     /// </summary>
     public partial class MainWindow : Window
     {
+        public TaskbarIcon TaskbarIcon { get; private set; }
+
         public MainWindow()
         {
             InitializeComponent();
 
             Log.Append("Slim Updater v" + Utilities.GetFriendlyVersion() + " " + 
                 "started on " + Utilities.GetFriendlyOSName(), Log.LogLevel.INFO);
+
+            TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             Settings.Load();
         }
 
