@@ -21,77 +21,77 @@ namespace sUpdater
             InitializeComponent();
 
             // Only read the defenitions and check for updates the first time 
-            // Slim Updater is started (initially the Apps.Regular property is unassigned)
+            // Slim Updater is started (initially the Apps.Regular property is null)
             if (Apps.Regular == null)
             {
                 ReadDefenitions();
-                bool updatesAvailable = CheckForUpdates();
+                CheckForUpdates();              
+            }
 
-                // Change updaterTile accordingly
-                if (updatesAvailable)
+            // Change updaterTile accordingly
+            if (Apps.Updates.Count > 0)
+            {
+                string notifiedUpdates = "";
+                // trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
+                updaterTile.Background = Colors.normalOrangeBrush;
+
+                if (Apps.Updates.Count > 1)
                 {
-                    string notifiedUpdates = "";
-                    // trayIcon.Icon = Properties.Resources.SlimUpdaterIcon_Orange;
-                    updaterTile.Background = Colors.normalOrangeBrush;
+                    updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
 
-                    if (Apps.Updates.Count > 1)
+                    foreach (Application update in Apps.Updates)
                     {
-                        updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
-
-                        foreach (Application update in Apps.Updates)
+                        if (update.Equals(Apps.Updates.Last()))
                         {
-                            if (update.Equals(Apps.Updates.Last()))
-                            {
-                                // Do not add a space after the last app name
-                                notifiedUpdates += update.Name;
-                            }
-                            else
-                            {
-                                notifiedUpdates += update.Name + " ";
-                            }
+                            // Do not add a space after the last app name
+                            notifiedUpdates += update.Name;
                         }
-
-                        //if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
-                        //{
-                        //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                        //    trayIcon.BalloonTipTitle = "Slim Updater";
-                        //    trayIcon.BalloonTipText = string.Format(
-                        //        "{0} updates available. Click for details.", AppInfo.UpdateList.Count);
-                        //    trayIcon.ShowBalloonTip(5000);
-                        //}
-                        //settings.NotifiedUpdates = notifiedUpdates;
-                        //settings.Save();
-
-                        Log.Append(string.Format("{0} updates available", Apps.Updates.Count),
-                            Log.LogLevel.INFO);
+                        else
+                        {
+                            notifiedUpdates += update.Name + " ";
+                        }
                     }
-                    else
-                    {
-                        updaterTile.Title = "1 update available";
 
-                        //notifiedUpdates = AppInfo.UpdateList[0].Name;
-                        //if (this.ShowInTaskbar == false &&
-                        //    notifiedUpdates != settings.NotifiedUpdates)
-                        //{
-                        //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
-                        //    trayIcon.BalloonTipTitle = "Slim Updater";
-                        //    trayIcon.BalloonTipText = string.Format("An update for {0} is available",
-                        //        AppInfo.UpdateList[0].Name);
-                        //    trayIcon.ShowBalloonTip(5000);
-                        //}
-                        //settings.NotifiedUpdates = notifiedUpdates;
-                        //settings.Save();
+                    //if (notifiedUpdates != settings.NotifiedUpdates && this.Visible == false)
+                    //{
+                    //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                    //    trayIcon.BalloonTipTitle = "Slim Updater";
+                    //    trayIcon.BalloonTipText = string.Format(
+                    //        "{0} updates available. Click for details.", AppInfo.UpdateList.Count);
+                    //    trayIcon.ShowBalloonTip(5000);
+                    //}
+                    //settings.NotifiedUpdates = notifiedUpdates;
+                    //settings.Save();
 
-                        Log.Append("1 update available", Log.LogLevel.INFO);
-                    }
+                    Log.Append(string.Format("{0} updates available", Apps.Updates.Count),
+                        Log.LogLevel.INFO);
                 }
                 else
                 {
-                    //trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
-                    updaterTile.Background = Colors.normalGreenBrush;
-                    updaterTile.Title = "No updates available";
-                    Log.Append("No updates available", Log.LogLevel.INFO);
+                    updaterTile.Title = "1 update available";
+
+                    //notifiedUpdates = AppInfo.UpdateList[0].Name;
+                    //if (this.ShowInTaskbar == false &&
+                    //    notifiedUpdates != settings.NotifiedUpdates)
+                    //{
+                    //    trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                    //    trayIcon.BalloonTipTitle = "Slim Updater";
+                    //    trayIcon.BalloonTipText = string.Format("An update for {0} is available",
+                    //        AppInfo.UpdateList[0].Name);
+                    //    trayIcon.ShowBalloonTip(5000);
+                    //}
+                    //settings.NotifiedUpdates = notifiedUpdates;
+                    //settings.Save();
+
+                    Log.Append("1 update available", Log.LogLevel.INFO);
                 }
+            }
+            else
+            {
+                //trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
+                updaterTile.Background = Colors.normalGreenBrush;
+                updaterTile.Title = "No updates available";
+                Log.Append("No updates available", Log.LogLevel.INFO);
             }
         }
 
@@ -225,13 +225,8 @@ namespace sUpdater
         #endregion
 
         #region CheckForUpdates()
-        public static bool CheckForUpdates()
+        public static void CheckForUpdates()
         {
-            if (Apps.Regular.Count == 0)
-            {
-                return false;
-            }
-
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
             Apps.Updates = new ObservableCollection<Application>(Apps.Regular);
 
@@ -255,15 +250,6 @@ namespace sUpdater
                         app.DisplayedVersion = $"Installed: {app.LocalVersion}";
                     }
                 }
-            }
-
-            if (Apps.Updates.Count != 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;            
             }
         }
         #endregion
