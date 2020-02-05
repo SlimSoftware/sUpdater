@@ -19,18 +19,15 @@ namespace sUpdater
         public UpdaterPage()
         {
             InitializeComponent();
-            
+
             if (Apps.Updates.Count != 0)
             {
                 updateListView.ItemsSource = Apps.Updates;
-                updateListView.SelectAll();
             }
             else
             {
                 SetupDetailsMode();
             }
-
-            updateListView.Focus();
         }
 
         /// <summary>
@@ -189,20 +186,11 @@ namespace sUpdater
         {
             if (selectAllCheckBox.IsChecked == true)
             {
-                // Select all unselected apps
-                foreach (Application app in updateListView.Items)
-                {
-                    // Check if the app is not selected, if so check it
-                    if (!updateListView.SelectedItems.Contains(app))
-                    {
-                        updateListView.SelectedItems.Add(app);
-                    }
-                }
+                updateListView.SelectAll();
             }
             else
             {
-                // Unselect all selected apps                
-                updateListView.SelectedItems.Clear();    
+                updateListView.UnselectAll();
             }
         }
 
@@ -226,19 +214,13 @@ namespace sUpdater
 
         private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (updateListView.SelectedItems.Count == Apps.Updates.Count)
+            if (updateListView.SelectedItems.Count == Apps.Updates.Count && selectAllCheckBox.IsChecked == false)
             {
-                if (selectAllCheckBox.IsChecked == false)
-                {
-                    selectAllCheckBox.IsChecked = true;
-                }
+                selectAllCheckBox.IsChecked = true;
             }
-            else
+            else if (updateListView.SelectedItems.Count != Apps.Updates.Count && selectAllCheckBox.IsChecked == true)
             {
-                if (selectAllCheckBox.IsChecked == true)
-                {
-                    selectAllCheckBox.IsChecked = false;
-                }
+                selectAllCheckBox.IsChecked = false;
             }
         }
 
@@ -263,6 +245,12 @@ namespace sUpdater
         {
             noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
             SetupDetailsMode();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
+            updateListView.SelectAll();
         }
     }
 }

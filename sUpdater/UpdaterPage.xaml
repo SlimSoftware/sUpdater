@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Updates" Background="White">
+      Title="Updates" Background="White" Loaded="Page_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
