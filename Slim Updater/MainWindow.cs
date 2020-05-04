@@ -1318,7 +1318,7 @@ namespace SlimUpdater
                         Environment.SpecialFolder.ProgramFiles), "7-Zip", "7z.exe");
                 }
 #else
-                if (File.Exists(Path.Combine(Application.StartupPath), "7-Zip")))
+                if (File.Exists(Path.Combine(Application.StartupPath, "7-Zip")))
                 {
                     sevenZipPath = Path.Combine(Application.StartupPath, "7z.exe");
                 }
