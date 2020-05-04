@@ -240,7 +240,7 @@ namespace sUpdater
                 else
                 {
                     // Remove up to date apps from the AppInfo.UpdateList
-                    if (Utilities.IsUpToDate(app.LatestVersion, app.LocalVersion))
+                    if (!Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                     {
                         Apps.Updates.Remove(app);
                     }
