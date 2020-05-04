@@ -207,7 +207,7 @@ namespace SlimUpdater
                 else
                 {
                     // Remove up to date apps from the updateList and don't its add AppItem to panel
-                    if (Utilities.IsUpToDate(app.LatestVersion, app.LocalVersion))
+                    if (!Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                     {
                         updateList.Remove(app);
                         continue;

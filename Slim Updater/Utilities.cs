@@ -8,23 +8,12 @@ namespace SlimUpdater
 {
     public static class Utilities
     {
-        public static bool IsUpToDate(string latestVersion, string localVersion)
+        public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
-            if (string.Compare(latestVersion, localVersion) == -1)
-            {
-                // localVersion is higher than latestVersion
+            if (float.Parse(latestVersion) > float.Parse(localVersion))
                 return true;
-            }
-            if (string.Compare(latestVersion, localVersion) == 0)
-            {
-                // localVersion is equal to latestVersion
-                return true;
-            }
             else
-            {
-                // latestVersion is higer than localVersion
                 return false;
-            }
         }
 
         public static void AddAppItems(List<AppItem> appItemList, Panel panel)
