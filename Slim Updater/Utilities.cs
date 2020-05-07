@@ -11,10 +11,43 @@ namespace SlimUpdater
     {
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
-            if (float.Parse(latestVersion, CultureInfo.InvariantCulture) > float.Parse(localVersion, CultureInfo.InvariantCulture))
-                return true;
-            else
-                return false;
+            string[] latestVersionSplit = latestVersion.Split('.');
+            string[] localVersionSplit = localVersion.Split('.');
+
+            for (int i = 0; i < Math.Max(latestVersionSplit.Length, localVersionSplit.Length); i++)
+            {
+                int v1; 
+                int v2;
+                bool v1IsNumber = int.TryParse(i < latestVersionSplit.Length ? latestVersionSplit[i] : "0", out v1);
+                bool v2IsNumber = int.TryParse(i < localVersionSplit.Length ? localVersionSplit[i] : "0", out v2);
+
+                if (v1IsNumber && v2IsNumber)
+                {
+                    if (v1.CompareTo(v2) > 0)
+                    {
+                        return true;
+                    }
+                    else if (v1.CompareTo(v2) < 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    string v1String = i < latestVersionSplit.Length ? latestVersionSplit[i] : "0";
+                    string v2String = i < localVersionSplit.Length ? localVersionSplit[i] : "0";
+                    if (v1String.CompareTo(v2String) > 0)
+                    {
+                        return true;
+                    }
+                    else if (v2String.CompareTo(v1String) < 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public static void AddAppItems(List<AppItem> appItemList, Panel panel)
