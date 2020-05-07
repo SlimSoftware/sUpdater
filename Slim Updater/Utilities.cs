@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -10,7 +11,7 @@ namespace SlimUpdater
     {
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
-            if (float.Parse(latestVersion) > float.Parse(localVersion))
+            if (float.Parse(latestVersion, CultureInfo.InvariantCulture) > float.Parse(localVersion, CultureInfo.InvariantCulture))
                 return true;
             else
                 return false;
