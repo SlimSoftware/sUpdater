@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
-      Title="Settings">
+      Title="Settings" Background="White">
 
     <StackPanel Orientation="Vertical" Margin="10">
         <CheckBox x:Name="autoStartCheckBox">Auto-start sUpdater as a system tray icon</CheckBox>
