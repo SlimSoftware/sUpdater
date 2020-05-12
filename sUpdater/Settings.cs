@@ -12,17 +12,17 @@ namespace sUpdater
         public static string DataDir { get; set; }
         public static string PortableAppDir { get; set; }
         public static string NotifiedUpdates { get; set; }
-        private static string XmlPath = Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater\Settings.xml");
-        private static string XmlDir = Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater");
+
+        private static string xmlDir = Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
+        private static string xmlPath = Path.Combine(xmlDir, "settings.xml");
 
         public static void Load()
         {
             // Load XML File
-            if (File.Exists(XmlPath))
+            if (File.Exists(xmlPath))
             {
-                XDocument settingXML = XDocument.Load(XmlPath);
+                XDocument settingXML = XDocument.Load(xmlPath);
 
                 // Get content from XML nodes
                 string defenitionURL = settingXML.Root.Element("DefenitionURL")?.Value;
@@ -69,32 +69,28 @@ namespace sUpdater
 
         public static void CreateXMLFile()
         {
-            // Check if folder exists
-            if (!Directory.Exists(XmlDir))
+            if (!Directory.Exists(xmlDir))
             {
-                Directory.CreateDirectory(XmlDir);
+                Directory.CreateDirectory(xmlDir);
             }
 
-            XDocument doc =
-            new XDocument(new XElement("Settings", new XElement("DefenitionURL", String.Empty),
-                new XElement("DataDir", string.Empty), new XElement("PortableAppDir"), String.Empty,
-                new XElement("MinimizeToTray", "true"), new XElement("NotifiedUpdates"), string.Empty));
-            doc.Save(XmlPath);
+            XDocument doc = new XDocument(new XElement("Settings", new XElement("DefenitionURL", string.Empty),
+                new XElement("DataDir", string.Empty), new XElement("PortableAppDir", string.Empty),
+                new XElement("MinimizeToTray", "true"), new XElement("NotifiedUpdates", string.Empty)));
+            doc.Save(xmlPath);
+
             // Unload XML
             doc = null;
         }
 
         public static void Save()
         {
-            // Check if XML File exists
-            if (!File.Exists(XmlPath))
+            if (!File.Exists(xmlPath))
             {
                 CreateXMLFile();
             }
 
-            // Load XML File
-            XElement settingXML = XDocument.Load(XmlPath)
-                .Element("Settings");
+            XElement settingXML = XDocument.Load(xmlPath).Element("Settings");
 
             // Save values
             if (MinimizeToTray != XmlConvert.ToBoolean(settingXML.Element("MinimizeToTray")?.Value))
@@ -145,8 +141,7 @@ namespace sUpdater
                 }
             }
 
-            // Save XML File
-            settingXML.Save(XmlPath);
+            settingXML.Save(xmlPath);
 
             // Unload XML File
             settingXML = null;
