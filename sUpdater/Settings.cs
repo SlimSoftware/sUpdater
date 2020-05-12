@@ -47,11 +47,16 @@ namespace sUpdater
                 {
                     // Set to default data dir
                     DataDir = Path.Combine(Environment.GetFolderPath(
-                        Environment.SpecialFolder.ApplicationData), @"Slim Software\Slim Updater");
+                        Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
                 }
                 if (portableAppDir != string.Empty)
                 {
                     PortableAppDir = portableAppDir;
+                }
+                else
+                {
+                    PortableAppDir = Path.Combine(Environment.GetFolderPath(
+                        Environment.SpecialFolder.MyDocuments), "Portable Apps");
                 }
                 if (notifiedUpdates != string.Empty)
                 {
@@ -64,6 +69,7 @@ namespace sUpdater
             else
             {
                 CreateXMLFile();
+                Load();
             }
         }
 
