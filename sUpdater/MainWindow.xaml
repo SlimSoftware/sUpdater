@@ -6,7 +6,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         x:Class="sUpdater.MainWindow"
         mc:Ignorable="d"
-        Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico">
+        Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing">
 
     <Window.Resources>
         <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
@@ -64,6 +64,13 @@
         <ContextMenu x:Key="menu">
             <MenuItem Header="Log" Click="LogMenuItem_Click"/>
             <MenuItem Header="About" Click="AboutMenuItem_Click"/>
+        </ContextMenu>
+
+        <ContextMenu x:Key="trayMenu">
+            <MenuItem Header="Check for updates" Click="TrayCheckUpdatesMenuItem_Click"/>
+            <MenuItem Header="Open" Click="TrayOpenMenuItem_Click"/>
+            <MenuItem Header="Settings" Click="TraySettingsMenuItem_Click"/>
+            <MenuItem Header="Close" Click="TrayCloseMenuItem_Click"/>
         </ContextMenu>
     </Window.Resources>
 

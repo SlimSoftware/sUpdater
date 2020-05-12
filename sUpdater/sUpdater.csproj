@@ -246,6 +246,8 @@
     <Content Include="7z.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Icons\sUpdater_Grey.ico" />
+    <Resource Include="Icons\sUpdater_Orange.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,5 +4,5 @@
                     xmlns:local="clr-namespace:sUpdater.Controls"
                     x:Class="sUpdater.Controls.TrayIcon">
 
-    <tb:TaskbarIcon x:Key="TrayIcon" IconSource="/Icons/sUpdater.ico" ToolTipText="sUpdater" />
+    <tb:TaskbarIcon x:Key="TrayIcon" IconSource="/Icons/sUpdater_Grey.ico" ToolTipText="sUpdater" />
 </ResourceDictionary>
