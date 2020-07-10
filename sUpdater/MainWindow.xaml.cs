@@ -19,7 +19,8 @@ namespace sUpdater
         {
             InitializeComponent();
 
-            if (Environment.GetCommandLineArgs()[1] == "/tray")
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1 && args[1] == "/tray")
             {
                 Utilities.MinimizeToTray(this);
             }
