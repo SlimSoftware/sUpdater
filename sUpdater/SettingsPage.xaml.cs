@@ -129,8 +129,6 @@ namespace sUpdater
                 {
                     // Hide previously shown error label if the folder is writeable
                     portableAppsFolderNotWritableLabel.Visibility = System.Windows.Visibility.Collapsed;
-
-                    File.Delete(Path.Combine(portableAppsFolderTextBox.Text, "sUpdater Tempfile"));
                     Settings.PortableAppDir = portableAppsFolderTextBox.Text;
                 }
             }
@@ -163,8 +161,6 @@ namespace sUpdater
                 {
                     // Hide previously shown error label if the folder is writeable
                     dataFolderNotWriteableLabel.Visibility = System.Windows.Visibility.Collapsed;
-
-                    File.Delete(Path.Combine(dataFolderTextBox.Text, "Slim Updater Tempfile"));
                     Settings.DataDir = dataFolderTextBox.Text;
                 }
             }
@@ -218,6 +214,7 @@ namespace sUpdater
             try
             {
                 File.Create(Path.Combine(path, "sUpdater Tempfile")).Close();
+                File.Delete(Path.Combine(path, "sUpdater Tempfile"));
             }
             catch (Exception)
             {
