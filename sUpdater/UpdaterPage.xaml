@@ -42,8 +42,8 @@
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
-            <Button x:Name="installButton" Height="21" Width="60" Margin="0 0 20 0">Refresh</Button>
-            <Button x:Name="refreshButton" Height="21" Width="100" Click="InstallButton_Click">Install Selected</Button>
+            <Button x:Name="refreshButton" Height="21" Width="60" Click="RefreshButton_Click" Margin="0 0 20 0">Refresh</Button>
+            <Button x:Name="installButton" Height="21" Width="100" Click="InstallButton_Click">Install Selected</Button>
         </StackPanel>
     </Grid>
 </Page>

@@ -252,5 +252,18 @@ namespace sUpdater
             await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
             updateListView.SelectAll();
         }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartPage.ReadDefenitions();
+            StartPage.CheckForUpdates();
+            MainWindow mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
+            mainWindow.UpdateTaskbarIcon();
+         
+            if (Apps.Updates.Count == 0)
+            {
+                SetupDetailsMode();
+            }
+        }
     }
 }
