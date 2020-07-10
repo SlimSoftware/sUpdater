@@ -90,6 +90,10 @@ namespace sUpdater
                 Settings.NotifiedUpdates = notifiedUpdates;
                 Settings.Save();
             }
+            else
+            {
+                TaskbarIcon.Icon = Properties.Resources.sUpdater;
+            }
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
