@@ -103,7 +103,7 @@ namespace sUpdater
             customDefinitionsTextBox.IsEnabled = true;
         }
 
-        private void SaveSettings()
+        public void SaveSettings()
         {
             // Check if the specified portable apps folder already exists
             if (!Directory.Exists(portableAppsFolderTextBox.Text) && portableAppsFolderTextBox.Text != "")
@@ -205,6 +205,7 @@ namespace sUpdater
             {
                 Settings.MinimizeToTray = false;
             }
+
             Settings.Save();
         }
 
@@ -224,6 +225,11 @@ namespace sUpdater
             }
 
             return true;
+        }
+
+        private void Page_Unloaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SaveSettings();
         }
     }
 }
