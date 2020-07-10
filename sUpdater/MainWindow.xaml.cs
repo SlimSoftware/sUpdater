@@ -94,6 +94,7 @@ namespace sUpdater
             else
             {
                 TaskbarIcon.Icon = Properties.Resources.sUpdater;
+                TaskbarIcon.ToolTipText = $"sUpdater\nNo updates available";
             }
         }
 
