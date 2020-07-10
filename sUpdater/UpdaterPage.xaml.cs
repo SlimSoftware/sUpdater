@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -67,22 +68,18 @@ namespace sUpdater
             updateListView.ItemsSource = detailsList;
             Title = "Details";
 
-            // Do not allow the user to select items by clicking on them
-            updateListView.SelectionChanged += (sender, e) =>
-            {
-                updateListView.SelectedItems.Clear();
-            };
+            // Do not allow the user to select items
+            updateListView.SelectionChanged += PreventSelectionHandler;
 
             // Hide select all checkbox and bottom buttons for details view
-            selectAllCheckBox.Visibility = Visibility.Hidden;
-            installButton.Visibility = Visibility.Hidden;
-            refreshButton.Visibility = Visibility.Hidden;
-
-            // Set height of the other rows to 0 so that the row of the listview 
-            // takes up all the available space
+            selectAllCheckBox.Visibility = Visibility.Collapsed;
             selectAllRow.Height = new GridLength(0);
-            buttonsRow.Height = new GridLength(0);
-            listViewRow.Height = new GridLength(1, GridUnitType.Star);
+            installButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void PreventSelectionHandler(object sender, EventArgs e)
+        {
+            updateListView.SelectedItems.Clear();
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
@@ -253,14 +250,30 @@ namespace sUpdater
             updateListView.SelectAll();
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             StartPage.ReadDefenitions();
             StartPage.CheckForUpdates();
             MainWindow mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
             mainWindow.UpdateTaskbarIcon();
-         
-            if (Apps.Updates.Count == 0)
+
+            if (Apps.Updates.Count != 0 && selectAllRow.Height == new GridLength(0))
+            {
+                // If the selectAllRow height is 0, the details mode is shown so restore the normal view
+                updateListView.ItemsSource = Apps.Updates;
+                selectAllCheckBox.Visibility = Visibility.Visible;
+                installButton.Visibility = Visibility.Visible;
+                selectAllRow.Height = new GridLength(25);
+                buttonsRow.Height = new GridLength(50);
+                Title = "Updates";
+
+                // Allow the user to select items again (not possible in details mode)
+                updateListView.SelectionChanged -= PreventSelectionHandler;
+
+                await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
+                updateListView.SelectAll();
+            }
+            else if (Apps.Updates.Count == 0)
             {
                 SetupDetailsMode();
             }
