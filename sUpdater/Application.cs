@@ -202,7 +202,7 @@ namespace sUpdater
         public string GetChangelog()
         {
             string changelogText = "";
-            string defenitionURL = "";
+            string defenitionURL;
 
             if (Settings.DefenitionURL != null)
             {
@@ -252,8 +252,8 @@ namespace sUpdater
 
         public string GetDescription()
         {
-            string descriptionText = "";
-            string defenitionURL = "";
+            string descriptionText = null;
+            string defenitionURL;
 
             if (Settings.DefenitionURL != null)
             {

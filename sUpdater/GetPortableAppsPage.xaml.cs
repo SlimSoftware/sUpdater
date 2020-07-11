@@ -79,12 +79,9 @@ namespace sUpdater
                 // Get content from XML nodes
                 XAttribute nameAttribute = portableAppElement.Attribute("name");
                 XElement versionElement = portableAppElement.Element("version");
-                XElement changelogElement = portableAppElement.Element("changelog");
-                XElement descriptionElement = portableAppElement.Element("description");
                 XElement archElement = portableAppElement.Element("arch");
                 XElement launchElement = portableAppElement.Element("launch");
                 XElement dlElement = portableAppElement.Element("dl");
-                XElement savePathElement = portableAppElement.Element("savepath");
                 XElement extractModeElement = portableAppElement.Element("extractmode");
 
                 // Check if Portable App is already installed
