@@ -162,6 +162,7 @@ namespace sUpdater
             Log.Append("Portable App installation started...", Log.LogLevel.INFO);
             refreshButton.IsEnabled = false;
             installButton.IsEnabled = false;
+            selectAllCheckBox.IsEnabled = false;
             statusLabel.Visibility = Visibility.Hidden;
 
             if (portableAppsListView.SelectedItems.Count == 0)
@@ -174,6 +175,18 @@ namespace sUpdater
             }
             else
             {
+                // Remove all not selected apps from the list and remove the checkbox from all selected apps
+                List<Application> selectedApps = new List<Application>();
+                foreach (Application a in Apps.Updates)
+                {
+                    if (portableAppsListView.SelectedItems.Contains(a))
+                    {
+                        a.Checkbox = false;
+                        selectedApps.Add(a);
+                    }
+                }
+                portableAppsListView.ItemsSource = selectedApps;
+
                 // Download
                 List<Task> tasks = new List<Task>();
                 int currentApp = 0;
@@ -230,6 +243,7 @@ namespace sUpdater
                     portableAppsListView.ItemsSource = notInstalledPortableApps;
                 }
 
+                selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;
             }

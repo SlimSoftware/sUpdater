@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -113,25 +115,37 @@ namespace sUpdater
         {
             bool installFailed = false;
             Log.Append("New app installation started...", Log.LogLevel.INFO);
-            refreshButton.IsEnabled = false;
-            installButton.IsEnabled = false;
+
             statusLabel.Visibility = Visibility.Hidden;
 
             if (getAppsListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show("You have not selected any applications to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
-
-                refreshButton.IsEnabled = true;
-                installButton.IsEnabled = true;
             }
             else
             {
+                refreshButton.IsEnabled = false;
+                installButton.IsEnabled = false;
+                selectAllCheckBox.IsEnabled = false;
+
+                // Remove all not selected apps from the list and remove the checkbox from all selected apps
+                List<Application> selectedApps = new List<Application>();
+                foreach (Application a in notInstalledApps)
+                {
+                    if (getAppsListView.SelectedItems.Contains(a))
+                    {
+                        a.Checkbox = false;
+                        selectedApps.Add(a);
+                    }
+                }
+                getAppsListView.ItemsSource = selectedApps;
+
                 // Download
                 List<Task> tasks = new List<Task>();
                 int currentApp = 0;
 
-                foreach (Application app in getAppsListView.SelectedItems)
+                foreach (Application app in getAppsListView.Items)
                 {
                     currentApp++;
                     Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
@@ -186,13 +200,15 @@ namespace sUpdater
                     statusLabel.Visibility = Visibility.Visible;
                 }
                 if (installFailed == false)
-                {
-                    installButton.IsEnabled = true;
+                {                
                     StartPage.ReadDefenitions();
                     GetNotInstalledApps();
+                    getAppsListView.ItemsSource = notInstalledApps;
                 }
 
+                installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
         }
 
