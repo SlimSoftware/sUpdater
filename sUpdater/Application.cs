@@ -210,7 +210,7 @@ namespace sUpdater
             }
             else
             {
-                defenitionURL = "https://www.slimsoft.tk/slimupdater/defenitions.xml";
+                defenitionURL = "https://www.slimsoft.tk/supdater/defenitions.xml";
             }
 
             using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
@@ -221,7 +221,7 @@ namespace sUpdater
                     xmlReader.MoveToNextAttribute();
 
                     string appAttribute = xmlReader.Value;
-                    if (appAttribute == Name)
+                    if (Name.StartsWith(appAttribute))
                     {
                         xmlReader.MoveToElement();
                         xmlReader.ReadToDescendant("changelog");
@@ -261,7 +261,7 @@ namespace sUpdater
             }
             else
             {
-                defenitionURL = "https://www.slimsoft.tk/slimupdater/defenitions.xml";
+                defenitionURL = "https://www.slimsoft.tk/supdater/defenitions.xml";
             }
 
             using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
