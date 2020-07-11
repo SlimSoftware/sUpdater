@@ -55,7 +55,7 @@ namespace sUpdater
             else
             {
                 Log.Append("Using official definitions", Log.LogLevel.INFO);
-                defenitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+                defenitions = XDocument.Load("https://www.slimsoft.tk/supdater/defenitions.xml");
             }
             //}
             //catch (Exception e)
