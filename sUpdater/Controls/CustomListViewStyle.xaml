@@ -75,7 +75,7 @@
                             <Setter Property="BorderThickness" Value="0"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="BorderThickness" Value="{Binding BorderBrush, 
+                            <Setter Property="BorderThickness" Value="{Binding BorderThickness, 
                                 RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
