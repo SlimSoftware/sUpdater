@@ -1,7 +1,9 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
+﻿using AutoUpdaterDotNET;
+using Hardcodet.Wpf.TaskbarNotification;
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,6 +16,7 @@ namespace sUpdater
     {
         public TaskbarIcon TaskbarIcon { get; private set; }
         public bool ConnectedToServer { get; set; }
+        private UpdateInfoEventArgs updateInfo;
 
         public MainWindow()
         {
@@ -25,8 +28,8 @@ namespace sUpdater
                 Utilities.MinimizeToTray(this);
             }
 
-            Log.Append("Slim Updater v" + Utilities.GetFriendlyVersion() + " " +
-                "started on " + Utilities.GetFriendlyOSName(), Log.LogLevel.INFO);
+            Log.Append($"Slim Updater v{Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version)} " +
+                "started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
 
             TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
@@ -40,6 +43,28 @@ namespace sUpdater
                 StartPage.CheckForUpdates();
             }
             UpdateTaskbarIcon();
+
+            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+            AutoUpdater.Start("https://www.slimsoft.tk/supdater/update.xml");
+        }
+
+        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        {
+            if (args != null)
+            {
+                if (args.IsUpdateAvailable)
+                {           
+                    if (ShowInTaskbar)
+                    {
+                        AppUpdatePage appUpdatePage = new AppUpdatePage(args);
+                        frame.Navigate(appUpdatePage);
+                    }
+
+                    updateInfo = args;
+                    TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
+                    TaskbarIcon.ToolTipText = $"sUpdater\nApplication update available";
+                }
+            }
         }
 
         public void UpdateTaskbarIcon()
@@ -132,6 +157,11 @@ namespace sUpdater
         private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
         {
             Utilities.ShowFromTray(this);
+            if (updateInfo != null)
+            {
+                AppUpdatePage appUpdatePage = new AppUpdatePage(updateInfo);
+                frame.Navigate(appUpdatePage);
+            }
         }
 
         private void TrayCheckUpdatesMenuItem_Click(object sender, RoutedEventArgs e)

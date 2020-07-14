@@ -76,9 +76,8 @@ namespace sUpdater
             return osName;
         }
 
-        public static string GetFriendlyVersion()
+        public static string GetFriendlyVersion(Version version)
         {
-            Version version = Assembly.GetEntryAssembly().GetName().Version;
             if (version.Minor == 0 && version.Build == 0 && version.Revision == 0)
             {
                 return string.Format("{0}.{1}", version.Major.ToString(), 0);

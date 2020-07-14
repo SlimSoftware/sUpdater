@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Reflection;
 using System.Windows.Controls;
 
 namespace sUpdater
@@ -11,7 +12,7 @@ namespace sUpdater
         public AboutPage()
         {
             InitializeComponent();
-            versionLabel.Content += Utilities.GetFriendlyVersion();
+            versionLabel.Content += Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
         }
 
         private void CreditsLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
