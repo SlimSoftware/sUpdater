@@ -9,6 +9,6 @@ namespace sUpdater
         public static Brush normalOrangeBrush = new SolidColorBrush(Color.FromRgb(254, 124, 35));
         public static Brush hoverOrangeBrush = new SolidColorBrush(Color.FromRgb(254, 164, 35));
         public static Brush normalGreyBrush = new SolidColorBrush(Color.FromRgb(141, 141, 141));
-        public static Brush hoverGreyBrush = new SolidColorBrush(Color.FromRgb(141, 171, 141));
+        public static Brush hoverGreyBrush = new SolidColorBrush(Color.FromRgb(171, 171, 171));
     }
 }
