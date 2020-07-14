@@ -17,6 +17,16 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+
+        <StackPanel x:Name="offlineNoticePanel" Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" 
+                    HorizontalAlignment="Center" Height="30" VerticalAlignment="Top" Visibility="Hidden">
+            <Label x:Name="offlineRetryLabel" Foreground="Red" FontSize="16" FontWeight="Bold">Could not connect to the server.</Label>
+            <Label x:Name="offlineRetryLink" Foreground="Red" FontSize="16"
+                       MouseLeftButtonDown="OfflineRetryLink_MouseLeftButtonDown">
+                <TextBlock TextDecorations="Underline" Cursor="Hand">Click here to retry...</TextBlock>
+            </Label>
+        </StackPanel>
+        
         <Controls:FlatTile x:Name="updaterTile" Grid.Column="0" Grid.Row="0" 
                                Background="#00ba00" Image="Icons/updater_icon.png" 
                                Title="No updates available" MaxWidth="300" MaxHeight="150"

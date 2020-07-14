@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -19,70 +18,35 @@ namespace sUpdater
         public StartPage()
         {
             InitializeComponent();
-
-            if (Apps.Updates != null)
-            {
-                if (Apps.Updates.Count > 0)
-                {
-                    updaterTile.Background = Colors.normalOrangeBrush;
-                    updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
-                }
-                else
-                {
-                    updaterTile.Background = Colors.normalGreenBrush;
-                    updaterTile.Title = "No updates available";
-                    Log.Append("No updates available", Log.LogLevel.INFO);
-                }
-            }
+            UpdateGUI();            
         }
 
         #region ReadDefenitions()
-        public static void ReadDefenitions()
+        public static bool ReadDefenitions()
         {
             Log.Append("Reading definitions file", Log.LogLevel.INFO);
             Apps.Regular = new ObservableCollection<Application>();
             XDocument defenitions;
 
             // Load XML File
-            //try
-            //{
-            if (Settings.DefenitionURL != null)
+            try
             {
-                Log.Append("Using custom definition file from " + Settings.DefenitionURL,
-                    Log.LogLevel.INFO);
-                defenitions = XDocument.Load(Settings.DefenitionURL);
+                if (Settings.DefenitionURL != null)
+                {
+                    Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                        Log.LogLevel.INFO);
+                    defenitions = XDocument.Load(Settings.DefenitionURL);
+                }
+                else
+                {
+                    Log.Append("Using official definitions", Log.LogLevel.INFO);
+                    defenitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
+                }
             }
-            else
+            catch (Exception)
             {
-                Log.Append("Using official definitions", Log.LogLevel.INFO);
-                defenitions = XDocument.Load("https://www.slimsoft.tk/supdater/defenitions.xml");
+                return false;
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    logger.Log("Cannot check for updates: " + e.Message,
-            //        Logger.LogLevel.ERROR, logTextBox);
-            //    trayIcon.Icon = Properties.Resources.Slim_UpdaterIcon_Grey;
-            //    trayIcon.Text = e.Message;
-            //    updaterTile.BackColor = normalGrey;
-            //    getNewAppsTile.BackColor = normalGrey;
-            //    portableAppsTile.BackColor = normalGrey;
-            //    updaterTile.Text = "Cannot check for updates";
-            //    offlineLabel.Visible = true;
-            //    offlineRetryLink.Visible = true;
-            //    return;
-            //}
-
-            //if (updaterTile.BackColor == normalGrey)
-            //{
-            //    trayIcon.Icon = Properties.Resources.SlimUpdaterIcon;
-            //    trayIcon.Text = "Slim Updater";
-            //    updaterTile.BackColor = normalGreen;
-            //    getNewAppsTile.BackColor = normalGreen;
-            //    portableAppsTile.BackColor = normalGreen;
-            //    offlineLabel.Visible = false;
-            //    offlineRetryLink.Visible = false;
-            //}
 
             foreach (XElement appElement in defenitions.Descendants("app"))
             {
@@ -162,6 +126,8 @@ namespace sUpdater
 
                 Apps.Regular.Add(appToAdd);
             }
+
+            return true;
         }
         #endregion
 
@@ -205,6 +171,58 @@ namespace sUpdater
         }
         #endregion
 
+        /// <summary>
+        /// Updates to GUI according to whether there are updates or there is a connection to the server
+        /// </summary>
+        private void UpdateGUI()
+        {
+            MainWindow mainWindow = Utilities.GetMainWindow();
+            if (mainWindow.ConnectedToServer)
+            {
+                if (Apps.Updates != null)
+                {
+                    if (updaterTile.Background == Colors.normalGreyBrush)
+                    {
+                        // Update state when connection is available again
+                        getAppsTile.Background = Colors.normalGreenBrush;
+                        portableAppsTile.Background = Colors.normalGreenBrush;
+                        offlineNoticePanel.Visibility = Visibility.Hidden;
+                    }
+
+                    if (Apps.Updates.Count > 0)
+                    {
+                        updaterTile.Background = Colors.normalOrangeBrush;
+                        updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
+                    }
+                    else
+                    {
+                        updaterTile.Background = Colors.normalGreenBrush;
+                        updaterTile.Title = "No updates available";
+                        Log.Append("No updates available", Log.LogLevel.INFO);
+                    }
+                }
+            }
+            else
+            {
+                updaterTile.Background = Colors.normalGreyBrush;
+                updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
+                updaterTile.MouseLeftButtonDown += TileClickedWithNoConnection;
+                getAppsTile.Background = Colors.normalGreyBrush;
+                getAppsTile.MouseLeftButtonDown -= GetAppsTile_MouseLeftButtonDown;
+                getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
+                portableAppsTile.Background = Colors.normalGreyBrush;
+                portableAppsTile.MouseLeftButtonDown -= PortableAppsTile_MouseLeftButtonDown;
+                getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
+                offlineNoticePanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void TileClickedWithNoConnection(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MessageBox.Show("This functionality is not available when there is no connection to the server.", 
+                "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         private void UpdaterTile_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             UpdaterPage updaterPage = new UpdaterPage();
@@ -228,6 +246,16 @@ namespace sUpdater
         {
             InstalledPortableAppsPage portableAppPage = new InstalledPortableAppsPage();
             NavigationService.Navigate(portableAppPage);
+        }
+
+        private void OfflineRetryLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = Utilities.GetMainWindow();
+            bool connectedToServer = ReadDefenitions();
+            mainWindow.ConnectedToServer = connectedToServer;
+            if (connectedToServer)
+                CheckForUpdates();
+            UpdateGUI();
         }
     }
 }
