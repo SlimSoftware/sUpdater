@@ -45,6 +45,7 @@ namespace sUpdater
             if (Settings.DefenitionURL != null)
             {
                 customDefinitionsTextBox.Text = Settings.DefenitionURL;
+                customDefinitionsTextBox.IsEnabled = true;
                 officialDefinitionsRadioButton.IsChecked = false;
                 customDefinitionsRadioButton.IsChecked = true;
             }
