@@ -124,5 +124,10 @@ namespace sUpdater
             mainWindow.Show();
             mainWindow.ShowInTaskbar = true;
         }
+
+        public static MainWindow GetMainWindow()
+        {
+            return (MainWindow)System.Windows.Application.Current.MainWindow;
+        }
     }
 }

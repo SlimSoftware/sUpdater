@@ -268,7 +268,7 @@ namespace sUpdater
         {
             StartPage.ReadDefenitions();
             StartPage.CheckForUpdates();
-            MainWindow mainWindow = (MainWindow)System.Windows.Application.Current.MainWindow;
+            MainWindow mainWindow = Utilities.GetMainWindow();
             mainWindow.UpdateTaskbarIcon();
 
             if (Apps.Updates.Count != 0 && selectAllRow.Height == new GridLength(0))
