@@ -11,7 +11,7 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{889E5D6C-0C06-44B0-AACE-806AE89A330E}
+AppId={{9016A0E6-C775-4FED-8C21-4A2E5456E1EB}}
 AppName={#AppName}
 AppVersion={#AppVersion}
 ;AppVerName={#AppName} {#AppVersion}
@@ -19,9 +19,9 @@ AppPublisher={#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#AppURL}
-DefaultDirName={pf}\Slim Software\sUpdater
+DefaultDirName={commonpf}\Slim Software\sUpdater
 DisableDirPage=yes
-DefaultGroupName={#AppName}
+DefaultGroupName={#AppPublisher}\{#AppName}
 DisableProgramGroupPage=yes
 LicenseFile=license.txt
 OutputBaseFilename=sUpdater v{#AppVersion} setup
@@ -34,10 +34,12 @@ VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
 VersionInfoProductName={#AppName}
 VersionInfoProductVersion={#AppVersion}
-UninstallDisplayName=sUpdater {#AppVersion}
+UninstallDisplayName=sUpdater
 UninstallDisplayIcon={app}\sUpdater.exe
 WizardStyle=modern
 WizardSmallImageFile=wizardsmall.bmp,wizardsmall_hq.bmp
+UsePreviousAppDir=False
+UsePreviousGroup=False
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
