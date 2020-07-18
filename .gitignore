@@ -240,3 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Inno Setup Output directory
+sUpdater/Installer/Output/*
