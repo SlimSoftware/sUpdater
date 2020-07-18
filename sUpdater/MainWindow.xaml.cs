@@ -28,8 +28,8 @@ namespace sUpdater
                 Utilities.MinimizeToTray(this);
             }
 
-            Log.Append($"Slim Updater v{Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version)} " +
-                "started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
+            string version = Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
+            Log.Append($"Slim Updater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
 
             TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
