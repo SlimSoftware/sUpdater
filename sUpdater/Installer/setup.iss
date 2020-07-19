@@ -25,7 +25,6 @@ DefaultGroupName={#AppPublisher}\{#AppName}
 DisableProgramGroupPage=yes
 LicenseFile=license.txt
 OutputBaseFilename=sUpdater v{#AppVersion} setup
-PrivilegesRequired=admin 
 SetupIconFile=..\Icons\sUpdater.ico
 Compression=lzma
 SolidCompression=yes
@@ -63,7 +62,8 @@ Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\sUpdater.exe"; IconIndex: 0; Tasks: desktopicon
 
 [Registry]
-Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "sUpdater"; ValueData: """{app}\{#AppExeName}"""; Flags: uninsdeletevalue
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "sUpdater"; ValueData: """{app}\{#AppExeName}"" /tray"; Flags: uninsdeletevalue
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueName: "Slim Updater"; Flags: deletevalue
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
