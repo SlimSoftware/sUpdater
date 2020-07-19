@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("sUpdater")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("SlimSoftware")]
+[assembly: AssemblyCompany("Slim Software")]
 [assembly: AssemblyProduct("sUpdater")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
