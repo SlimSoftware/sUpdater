@@ -210,7 +210,7 @@ namespace sUpdater
             }
             else
             {
-                defenitionURL = "https://www.slimsoft.tk/supdater/defenitions.xml";
+                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
             }
 
             using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
@@ -261,7 +261,7 @@ namespace sUpdater
             }
             else
             {
-                defenitionURL = "https://www.slimsoft.tk/supdater/defenitions.xml";
+                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
             }
 
             using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
