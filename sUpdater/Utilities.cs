@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Windows;
 
 namespace sUpdater
 {
@@ -120,8 +121,15 @@ namespace sUpdater
 
         public static void ShowFromTray(MainWindow mainWindow)
         {
-            mainWindow.Show();
             mainWindow.ShowInTaskbar = true;
+           
+            if (mainWindow.WindowState == WindowState.Minimized)
+            {
+                mainWindow.WindowState = WindowState.Normal;
+            }
+
+            mainWindow.Show();
+            mainWindow.Activate();
         }
 
         public static MainWindow GetMainWindow()
