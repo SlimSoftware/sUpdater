@@ -190,6 +190,9 @@ namespace sUpdater
                 selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;
+
+                MainWindow mainWindow = Utilities.GetMainWindow();
+                mainWindow.UpdateTaskbarIcon();
             }
         }
 
