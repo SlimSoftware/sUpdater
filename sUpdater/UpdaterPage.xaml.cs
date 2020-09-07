@@ -184,6 +184,9 @@ namespace sUpdater
                     if (Apps.Updates.Count == 0)
                     {
                         noUpdatesAvailablePanel.Visibility = Visibility.Visible;
+                        installButton.Visibility = Visibility.Collapsed;
+                        selectAllCheckBox.Visibility = Visibility.Collapsed;
+                        updateListView.Visibility = Visibility.Hidden;
                     }
                 }
 
@@ -258,6 +261,7 @@ namespace sUpdater
         private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
+            updateListView.Visibility = Visibility.Visible;
             SetupDetailsMode();
         }
 
