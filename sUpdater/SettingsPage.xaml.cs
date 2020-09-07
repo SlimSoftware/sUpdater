@@ -181,14 +181,22 @@ namespace sUpdater
                 Settings.DefenitionURL = null;
             }
 
-            if (autoStartCheckBox.IsChecked == true)
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
             {
-                using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
-                    @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                if (autoStartCheckBox.IsChecked == true)
                 {
+
                     key.SetValue("sUpdater", "\"" +
                         System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()
                         + "\"" + " /tray");
+                }
+                else
+                {
+                    if (key.GetValue("sUpdater") != null)
+                    {
+                        key.DeleteValue("sUpdater");
+                    }
                 }
             }
 
