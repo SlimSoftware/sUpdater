@@ -17,9 +17,7 @@ namespace sUpdater
         {
             InitializeComponent();
 
-            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(
-                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run") ??
-                Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run"))
             {
                 if (key.GetValue("sUpdater") != null)
                 {
