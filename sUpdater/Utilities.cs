@@ -81,32 +81,20 @@ namespace sUpdater
         {
             if (version.Minor == 0 && version.Build == 0 && version.Revision == 0)
             {
-                return string.Format("{0}.{1}", version.Major.ToString(), 0);
+                return $"{version.Major}.0";
             }
             else if (version.Minor != 0 && version.Build == 0 && version.Revision == 0)
             {
-                return string.Format("{0}.{1}", version.Major.ToString(), version.Minor.ToString());
+                return $"{version.Major}.{version.Minor}";
             }
             else if (version.Minor != 0 && version.Build != 0 && version.Revision == 0)
             {
-                return string.Format("{0}.{1}.{2}", version.Major.ToString(), version.Minor.ToString(),
-                    version.Build.ToString());
+                return $"{version.Major}.{version.Minor}.{version.Build}";
             }
             else if (version.Minor == 0 && version.Build != 0 && version.Revision == 0)
             {
-                return string.Format("{0}.{1}.{2}", version.Major.ToString(), 
-                    version.Build.ToString(), 0);
+                return $"{version.Major}.0.{version.Build}";
             }
-            //else if (version.Minor == 0 && version.Build == 0 && version.Revision != 0)
-            //{
-            //    return string.Format("{0}.{1}.{2}", version.Major.ToString(), 0,
-            //        version.Build.ToString(), version.Revision);
-            //}
-            //else if (version.Minor == 0 && version.Build != 0 && version.Revision != 0)
-            //{
-            //    return string.Format("{0}.{1}.{2}.{", version.Major.ToString(), 0,
-            //        version.Build.ToString(), version.Revision);
-            //}
             else
             {
                 return version.ToString();
