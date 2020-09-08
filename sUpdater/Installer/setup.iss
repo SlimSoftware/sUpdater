@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.0"
+#define AppVersion "4.0.1"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -62,9 +62,7 @@ Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
 Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; IconFilename: "{app}\sUpdater.exe"; IconIndex: 0; Tasks: desktopicon
 
 [Registry]
-Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "sUpdater"; ValueData: """{app}\{#AppExeName}"" /tray"; Flags: uninsdeletevalue
-Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueName: "Slim Updater"; Flags: deletevalue
+Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "sUpdater"; ValueData: """{app}\{#AppExeName}"" /tray"; Flags: uninsdeletevalue; Tasks: autostart
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
-Filename: "{commonpf}\Slim Software\Slim Updater\unins000.exe"; Parameters: "/VERYSILENT"; Flags: skipifdoesntexist; StatusMsg: "Uninstalling old version..."
