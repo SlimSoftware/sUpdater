@@ -36,6 +36,7 @@ namespace sUpdater
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Settings.Load();
+            Utilities.InitHttpClient();
 
             ConnectedToServer = StartPage.ReadDefenitions();
             if (ConnectedToServer)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Reflection;
 using System.Windows;
 
@@ -6,6 +7,8 @@ namespace sUpdater
 {
     public static class Utilities
     {
+        public static HttpClient HttpClient { get; set; }
+
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
             string[] latestVersionSplit = latestVersion.Split('.');
@@ -123,6 +126,14 @@ namespace sUpdater
         public static MainWindow GetMainWindow()
         {
             return (MainWindow)System.Windows.Application.Current.MainWindow;
+        }
+
+        public static void InitHttpClient()
+        {
+            HttpClient = new HttpClient();
+            HttpClient.BaseAddress = new Uri("https://slimsoft.tk/supdater/api/");
+            HttpClient.DefaultRequestHeaders.Accept.Clear();
+            HttpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
     }
 }
