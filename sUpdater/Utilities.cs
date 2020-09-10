@@ -131,7 +131,16 @@ namespace sUpdater
         public static void InitHttpClient()
         {
             HttpClient = new HttpClient();
-            HttpClient.BaseAddress = new Uri("https://slimsoft.tk/supdater/api/");
+
+            if (Settings.DefenitionURL == null)
+            {
+                HttpClient.BaseAddress = new Uri("https://slimsoft.tk/supdater/api/");
+            }
+            else
+            {
+                HttpClient.BaseAddress = new Uri(Settings.DefenitionURL);
+            }
+
             HttpClient.DefaultRequestHeaders.Accept.Clear();
             HttpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
         }
