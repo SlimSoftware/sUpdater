@@ -1,5 +1,6 @@
 ﻿using AutoUpdaterDotNET;
 using Hardcodet.Wpf.TaskbarNotification;
+using sUpdater.Controllers;
 using System;
 using System.ComponentModel;
 using System.Linq;
@@ -15,7 +16,6 @@ namespace sUpdater
     public partial class MainWindow : Window
     {
         public TaskbarIcon TaskbarIcon { get; private set; }
-        public bool ConnectedToServer { get; set; }
         private UpdateInfoEventArgs updateInfo;
 
         public MainWindow()
@@ -27,7 +27,10 @@ namespace sUpdater
             {
                 Utilities.MinimizeToTray(this);
             }
+        }
 
+        private async void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             string version = Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
             Log.Append($"Slim Updater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
 
@@ -38,11 +41,7 @@ namespace sUpdater
             Settings.Load();
             Utilities.InitHttpClient();
 
-            ConnectedToServer = StartPage.ReadDefenitions();
-            if (ConnectedToServer)
-            {
-                StartPage.CheckForUpdates();
-            }
+            await AppController.CheckForUpdates();
             UpdateTaskbarIcon();
 
             AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
@@ -70,36 +69,37 @@ namespace sUpdater
 
         public void UpdateTaskbarIcon()
         {
-            if (ConnectedToServer)
+            if (AppController.ConnectedToServer)
             {
-                if (Apps.Updates.Count > 0)
+                int updateCount = AppController.GetUpdateCount();
+                if (updateCount > 0)
                 {
                     string notifiedUpdates = "";
                     TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
 
-                    foreach (Application update in Apps.Updates)
+                    foreach (int appId in AppController.UpdateIds)
                     {
-                        if (update != Apps.Updates.Last())
+                        if (appId != AppController.UpdateIds.Last())
                         {
-                            notifiedUpdates += update.Name + " ";
+                            notifiedUpdates += $"{appId},";
                         }
                         else
                         {
-                            // Do not add a space after the last app name
-                            notifiedUpdates += update.Name;
+                            // Do not add a comma after the last app name
+                            notifiedUpdates += appId;
                         }
                     }
 
                     if (notifiedUpdates != Settings.NotifiedUpdates && ShowInTaskbar == false)
                     {
-                        if (Apps.Updates.Count > 1)
+                        if (updateCount > 1)
                         {
-                            TaskbarIcon.ShowBalloonTip($"{Apps.Updates.Count} updates available",
+                            TaskbarIcon.ShowBalloonTip($"{updateCount} updates available",
                                 "Click for details", BalloonIcon.Info);
                         }
                         else
                         {
-                            TaskbarIcon.ShowBalloonTip($"An update for {Apps.Updates[0].Name.Split(' ')[0]} is available",
+                            TaskbarIcon.ShowBalloonTip($"1 update available",
                                 "Click for details", BalloonIcon.Info);
                         }
 
@@ -110,9 +110,9 @@ namespace sUpdater
                         };
                     }
 
-                    if (Apps.Updates.Count > 1)
+                    if (updateCount > 1)
                     {
-                        TaskbarIcon.ToolTipText = $"sUpdater\n{Apps.Updates.Count} updates available";
+                        TaskbarIcon.ToolTipText = $"sUpdater\n{updateCount} updates available";
                     }
                     else
                     {
@@ -165,13 +165,9 @@ namespace sUpdater
             }
         }
 
-        private void TrayCheckUpdatesMenuItem_Click(object sender, RoutedEventArgs e)
+        private async void TrayCheckUpdatesMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            ConnectedToServer = StartPage.ReadDefenitions();
-            if (ConnectedToServer)
-            {
-                StartPage.CheckForUpdates();
-            }
+            await AppController.CheckForUpdates();
             UpdateTaskbarIcon();
         }
 

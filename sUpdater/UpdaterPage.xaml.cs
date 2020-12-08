@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sUpdater.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,39 +16,43 @@ namespace sUpdater
     /// </summary>
     public partial class UpdaterPage : Page
     {
-        private ObservableCollection<Application> detailsList;
-
         public UpdaterPage()
         {
             InitializeComponent();
+        }
 
-            if (Apps.Updates.Count != 0)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            //await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
+            await PopulateListAsync();
+            updateListView.SelectAll();
+        }
+
+        private async Task PopulateListAsync()
+        {
+            updateListView.ItemsSource = await AppController.GetUpdateInfo();
+
+            if (AppController.GetUpdateCount() == 0)
             {
-                updateListView.ItemsSource = Apps.Updates;
-            }
-            else
-            {
-                SetupDetailsMode();
+                await SetupDetailsMode();
             }
         }
 
         /// <summary>
         /// Sets up some visual tweaks for the details mode
         /// </summary>
-        private void SetupDetailsMode()
+        private async Task SetupDetailsMode()
         {
-            detailsList = new ObservableCollection<Application>();
+            updateListView.ItemsSource = await AppController.GetAppInfo();
 
-            foreach (Application a in Apps.Regular)
+            foreach (Application app in updateListView.ItemsSource)
             {
-                // Create a copy of the app so that the app in the list does not get modified
-                Application app = a.Clone();
                 app.Checkbox = false;
 
                 if (app.LocalVersion != null)
                 {
                     app.Name = app.Name + " " + app.LatestVersion;
-                    if (app.Type == "noupdate")
+                    if (app.Type == Type.NoUpdate)
                     {
                         app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
                     }
@@ -61,11 +66,8 @@ namespace sUpdater
                     app.Name = app.Name + " " + app.LatestVersion;
                     app.DisplayedVersion = "Not Found";
                 }
-
-                detailsList.Add(app);
             }
 
-            updateListView.ItemsSource = detailsList;
             Title = "Details";
 
             // Do not allow the user to select items
@@ -103,7 +105,7 @@ namespace sUpdater
             {
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
                 List<Application> selectedApps = new List<Application>();
-                foreach (Application a in Apps.Updates)
+                foreach (Application a in updateListView.ItemsSource)
                 {
                     if (updateListView.SelectedItems.Contains(a))
                     {
@@ -155,7 +157,7 @@ namespace sUpdater
                     }
                 }
 
-                if (installFailed == true)
+                if (installFailed)
                 {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
@@ -171,17 +173,11 @@ namespace sUpdater
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
                 }
-                if (installFailed == false)
-                {                  
-                    StartPage.ReadDefenitions();
-                    StartPage.CheckForUpdates();
+                else
+                {
+                    updateListView.ItemsSource = await AppController.GetUpdateInfo();
 
-                    if (updateListView.ItemsSource != Apps.Updates)
-                    {
-                        updateListView.ItemsSource = Apps.Updates;
-                    }
-
-                    if (Apps.Updates.Count == 0)
+                    if (AppController.GetUpdateCount() == 0)
                     {
                         noUpdatesAvailablePanel.Visibility = Visibility.Visible;
                         installButton.Visibility = Visibility.Collapsed;
@@ -231,11 +227,11 @@ namespace sUpdater
 
         private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (updateListView.SelectedItems.Count == Apps.Updates.Count && selectAllCheckBox.IsChecked == false)
+            if (updateListView.SelectedItems.Count == AppController.GetUpdateCount() && selectAllCheckBox.IsChecked == false)
             {
                 selectAllCheckBox.IsChecked = true;
             }
-            else if (updateListView.SelectedItems.Count != Apps.Updates.Count && selectAllCheckBox.IsChecked == true)
+            else if (updateListView.SelectedItems.Count != AppController.GetUpdateCount() && selectAllCheckBox.IsChecked == true)
             {
                 selectAllCheckBox.IsChecked = false;
             }
@@ -265,23 +261,15 @@ namespace sUpdater
             SetupDetailsMode();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
-            updateListView.SelectAll();
-        }
-
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            StartPage.ReadDefenitions();
-            StartPage.CheckForUpdates();
+            updateListView.ItemsSource = await AppController.GetUpdateInfo();
             MainWindow mainWindow = Utilities.GetMainWindow();
             mainWindow.UpdateTaskbarIcon();
 
-            if (Apps.Updates.Count != 0 && selectAllRow.Height == new GridLength(0))
+            if (AppController.GetUpdateCount() != 0 && selectAllRow.Height == new GridLength(0))
             {
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
-                updateListView.ItemsSource = Apps.Updates;
                 selectAllCheckBox.Visibility = Visibility.Visible;
                 installButton.Visibility = Visibility.Visible;
                 selectAllRow.Height = new GridLength(25);
@@ -291,10 +279,9 @@ namespace sUpdater
                 // Allow the user to select items again (not possible in details mode)
                 updateListView.SelectionChanged -= PreventSelectionHandler;
 
-                await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
                 updateListView.SelectAll();
             }
-            else if (Apps.Updates.Count == 0)
+            else if (AppController.GetUpdateCount() == 0)
             {
                 SetupDetailsMode();
             }

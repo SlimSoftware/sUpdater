@@ -173,13 +173,13 @@ namespace sUpdater
             else
             {
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<Application> selectedApps = new List<Application>();
-                foreach (Application a in Apps.Updates)
+                List<PortableApp> selectedApps = new List<PortableApp>();
+                foreach (PortableApp app in notInstalledPortableApps)
                 {
-                    if (portableAppsListView.SelectedItems.Contains(a))
+                    if (portableAppsListView.SelectedItems.Contains(app))
                     {
-                        a.Checkbox = false;
-                        selectedApps.Add(a);
+                        app.Checkbox = false;
+                        selectedApps.Add(app);
                     }
                 }
                 portableAppsListView.ItemsSource = selectedApps;

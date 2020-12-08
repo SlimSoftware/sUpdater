@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using sUpdater.Controllers;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,10 @@ namespace sUpdater
         public GetAppsPage()
         {
             InitializeComponent();
-            GetNotInstalledApps();
+        }
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await GetNotInstalledApps();
             getAppsListView.ItemsSource = notInstalledApps;
 
             if (notInstalledApps.Count == 0)
@@ -31,27 +35,20 @@ namespace sUpdater
         /// <summary>
         /// Fills the notInstalledApps list with apps that are not installed
         /// </summary>
-        public void GetNotInstalledApps()
+        public async Task GetNotInstalledApps()
         {
-            notInstalledApps.Clear();
+            notInstalledApps = await AppController.GetNotInstalledAppInfo();
 
-            foreach (Application a in Apps.Regular)
+            foreach (Application app in notInstalledApps)
             {
-                // Create a copy of the app so that the app in the list does not get modified
-                Application app = a.Clone();
-
-                // If the LocalVersion is null, then the app is not installed
-                if (app.LocalVersion == null)
+                // Ensure the app has a checkbox
+                if (app.Checkbox == false)
                 {
-                    // Ensure the app has a checkbox
-                    if (app.Checkbox == false)
-                    {
-                        app.Checkbox = true;
-                    }
-
-                    app.DisplayedVersion = app.LatestVersion;                    
-                    notInstalledApps.Add(app);
+                    app.Checkbox = true;
                 }
+
+                app.DisplayedVersion = app.LatestVersion;                    
+                notInstalledApps.Add(app);
             }
 
             getAppsListView.Items.Refresh();
@@ -96,10 +93,9 @@ namespace sUpdater
             }
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            StartPage.ReadDefenitions();
-            GetNotInstalledApps();
+            await GetNotInstalledApps();
 
             if (notInstalledApps.Count == 0)
             {
@@ -120,7 +116,8 @@ namespace sUpdater
 
             if (getAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any applications to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You have not selected any applications to install.", 
+                    "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
             }
             else
@@ -131,12 +128,12 @@ namespace sUpdater
 
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
                 List<Application> selectedApps = new List<Application>();
-                foreach (Application a in notInstalledApps)
+                foreach (Application app in notInstalledApps)
                 {
-                    if (getAppsListView.SelectedItems.Contains(a))
+                    if (getAppsListView.SelectedItems.Contains(app))
                     {
-                        a.Checkbox = false;
-                        selectedApps.Add(a);
+                        app.Checkbox = false;
+                        selectedApps.Add(app);
                     }
                 }
                 getAppsListView.ItemsSource = selectedApps;
@@ -148,8 +145,8 @@ namespace sUpdater
                 foreach (Application app in getAppsListView.Items)
                 {
                     currentApp++;
-                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, getAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
+                    Log.Append($"Downloading {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
+                        Log.LogLevel.INFO);
 
                     // Do not allow more than 3 downloads at once
                     while (tasks.Count > 2)
@@ -167,16 +164,16 @@ namespace sUpdater
                     currentApp++;
                     if (File.Exists(app.SavePath))
                     {
-                        Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
-                            currentApp, getAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
+                        Log.Append($"Installing {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
+                            Log.LogLevel.INFO);
                         await app.Install();
                     }
                 }
 
-                // Cleanup any leftover exe's in appdata dir
+                // Cleanup any exe's in appdata dir
                 if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
                 {
-                    Log.Append("Cleaning up leftover installers...", Log.LogLevel.INFO);
+                    Log.Append("Cleaning up installers...", Log.LogLevel.INFO);
                     foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
                     {
                         File.Delete(exePath);
@@ -201,8 +198,7 @@ namespace sUpdater
                 }
                 if (installFailed == false)
                 {                
-                    StartPage.ReadDefenitions();
-                    GetNotInstalledApps();
+                    await GetNotInstalledApps();
                     getAppsListView.ItemsSource = notInstalledApps;
                 }
 
