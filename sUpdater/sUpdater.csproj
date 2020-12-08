@@ -77,39 +77,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppUpdatePage.xaml.cs">
+    <Compile Include="Pages\AppUpdatePage.xaml.cs">
       <DependentUpon>AppUpdatePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="GetPortableAppsPage.xaml.cs">
+    <Compile Include="Pages\GetPortableAppsPage.xaml.cs">
       <DependentUpon>GetPortableAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LinkClickCommand.cs" />
-    <Compile Include="PortableApp.cs" />
-    <Compile Include="InstalledPortableAppsPage.xaml.cs">
+    <Compile Include="Models\PortableApp.cs" />
+    <Compile Include="Pages\InstalledPortableAppsPage.xaml.cs">
       <DependentUpon>InstalledPortableAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomListViewStyle.xaml.cs">
       <DependentUpon>CustomListViewStyle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InfoPage.xaml.cs">
+    <Compile Include="Pages\InfoPage.xaml.cs">
       <DependentUpon>InfoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LicensePage.xaml.cs">
+    <Compile Include="Pages\LicensePage.xaml.cs">
       <DependentUpon>LicensePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreditsPage.xaml.cs">
+    <Compile Include="Pages\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Credit.cs" />
-    <Compile Include="GetAppsPage.xaml.cs">
+    <Compile Include="Models\Credit.cs" />
+    <Compile Include="Pages\GetAppsPage.xaml.cs">
       <DependentUpon>GetAppsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Log.cs" />
-    <Compile Include="LogPage.xaml.cs">
+    <Compile Include="Pages\LogPage.xaml.cs">
       <DependentUpon>LogPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AboutPage.xaml.cs">
+    <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -117,12 +117,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
-    <Compile Include="SettingsPage.xaml.cs">
+    <Compile Include="Models\Settings.cs" />
+    <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Page Include="AppUpdatePage.xaml">
+    <Page Include="Pages\AppUpdatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -130,23 +130,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InfoPage.xaml">
+    <Page Include="Pages\InfoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GetPortableAppsPage.xaml">
+    <Page Include="Pages\GetPortableAppsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="InstalledPortableAppsPage.xaml">
+    <Page Include="Pages\InstalledPortableAppsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="LicensePage.xaml">
+    <Page Include="Pages\LicensePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CreditsPage.xaml">
+    <Page Include="Pages\CreditsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -158,7 +158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogPage.xaml">
+    <Page Include="Pages\LogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,12 +166,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Application.cs" />
+    <Compile Include="Models\Application.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Colors.cs" />
+    <Compile Include="Models\Colors.cs" />
     <Compile Include="Controls\FlatTile.xaml.cs">
       <DependentUpon>FlatTile.xaml</DependentUpon>
     </Compile>
@@ -179,32 +179,32 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="GetAppsPage.xaml">
+    <Page Include="Pages\GetAppsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="AboutPage.xaml">
+    <Page Include="Pages\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPage.xaml">
+    <Page Include="Pages\SettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UpdaterPage.xaml">
+    <Page Include="Pages\UpdaterPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StartPage.xaml">
+    <Page Include="Pages\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UpdaterPage.xaml.cs">
+    <Compile Include="Pages\UpdaterPage.xaml.cs">
       <DependentUpon>UpdaterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StartPage.xaml.cs">
+    <Compile Include="Pages\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
