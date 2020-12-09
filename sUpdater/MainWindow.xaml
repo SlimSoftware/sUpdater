@@ -74,5 +74,5 @@
         </ContextMenu>
     </Window.Resources>
 
-    <Frame x:Name="frame" Template="{StaticResource customNavUI}" Source="StartPage.xaml"/>
+    <Frame x:Name="frame" Template="{StaticResource customNavUI}" Source="Pages/StartPage.xaml"/>
 </Window>

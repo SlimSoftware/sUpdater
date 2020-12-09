@@ -28,19 +28,19 @@
         </StackPanel>
         
         <Controls:FlatTile x:Name="updaterTile" Grid.Column="0" Grid.Row="0" 
-                               Background="#00ba00" Image="Icons/updater_icon.png" 
+                               Background="#00ba00" Image="../Icons/updater_icon.png" 
                                Title="No updates available" MaxWidth="300" MaxHeight="150"
                                Margin="50 0 0 0" MouseLeftButtonDown="UpdaterTile_MouseLeftButtonDown"/>
         <Controls:FlatTile x:Name="getAppsTile" Grid.Column="1" Grid.Row="0"
-                               Background="#00ba00" Image="Icons/getapps_icon.png"
+                               Background="#00ba00" Image="../Icons/getapps_icon.png"
                                Title="Get Applications" MaxWidth="300" MaxHeight="150"
                                Margin="0 0 50 0" MouseLeftButtonDown="GetAppsTile_MouseLeftButtonDown"/>
         <Controls:FlatTile x:Name="portableAppsTile" Grid.Column="0" Grid.Row="1"
-                               Background="#00ba00" Image="Icons/portable_icon.png"
+                               Background="#00ba00" Image="../Icons/portable_icon.png"
                                Title="Portable Apps" MaxWidth="300" MaxHeight="150"
                                Margin="50 0 0 0" MouseLeftButtonDown="PortableAppsTile_MouseLeftButtonDown"/>
         <Controls:FlatTile x:Name="settingsTile" Grid.Column="1" Grid.Row="1"
-                               Background="#00ba00" Image="Icons/settings_icon.png"
+                               Background="#00ba00" Image="../Icons/settings_icon.png"
                                Title="Settings" MaxWidth="300" MaxHeight="150"
                                Margin="0 0 50 0" MouseLeftButtonDown="SettingsTile_MouseLeftButtonDown"/>
     </Grid>
