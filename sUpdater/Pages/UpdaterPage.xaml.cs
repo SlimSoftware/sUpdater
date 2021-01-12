@@ -254,11 +254,11 @@ namespace sUpdater
             }
         }
 
-        private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private async void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
             updateListView.Visibility = Visibility.Visible;
-            SetupDetailsMode();
+            await SetupDetailsMode();
         }
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -283,7 +283,7 @@ namespace sUpdater
             }
             else if (AppController.GetUpdateCount() == 0)
             {
-                SetupDetailsMode();
+                await SetupDetailsMode();
             }
         }
     }
