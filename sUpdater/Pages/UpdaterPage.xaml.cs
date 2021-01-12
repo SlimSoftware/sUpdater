@@ -23,7 +23,6 @@ namespace sUpdater
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            //await Task.Delay(1); // Hacky workaround to make sure select all works (page has be to fully loaded)
             await PopulateListAsync();
             updateListView.SelectAll();
         }
