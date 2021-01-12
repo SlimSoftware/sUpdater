@@ -206,7 +206,7 @@ namespace sUpdater.Controllers
         public static async Task<List<Application>> GetNotInstalledAppInfo()
         {
             string ids = string.Join(",", installedApps.Select(x => x.Key));
-            string url = $"apps?f=id,name,version,type,changelog_id,description_id&ids=!{ids}";
+            string url = $"apps?f=id,name,version,type,changelog_id,description_id&nids={ids}";
             List<Application> apps = await CallAPI<List<Application>>(url);
 
             // Append the installed versions

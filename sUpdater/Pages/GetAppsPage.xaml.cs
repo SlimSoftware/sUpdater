@@ -15,31 +15,29 @@ namespace sUpdater
     /// </summary>
     public partial class GetAppsPage : Page
     {
-        private List<Application> notInstalledApps = new List<Application>();
-
         public GetAppsPage()
         {
             InitializeComponent();
+            getAppsListView.ItemsSource = getAppsListView.ItemsSource;
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
+        {           
             await GetNotInstalledApps();
-            getAppsListView.ItemsSource = notInstalledApps;
 
-            if (notInstalledApps.Count == 0)
+            if (getAppsListView.Items.Count == 0)
             {
                 noAppsAvailableLabel.Visibility = Visibility.Visible;
             }
         }
 
         /// <summary>
-        /// Fills the notInstalledApps list with apps that are not installed
+        /// Fills the list with apps that are not installed
         /// </summary>
         public async Task GetNotInstalledApps()
         {
-            notInstalledApps = await AppController.GetNotInstalledAppInfo();
+            List<Application> apps = await AppController.GetNotInstalledAppInfo();
 
-            foreach (Application app in notInstalledApps)
+            foreach (Application app in apps)
             {
                 // Ensure the app has a checkbox
                 if (app.Checkbox == false)
@@ -48,10 +46,9 @@ namespace sUpdater
                 }
 
                 app.DisplayedVersion = app.LatestVersion;                    
-                notInstalledApps.Add(app);
             }
 
-            getAppsListView.Items.Refresh();
+            getAppsListView.ItemsSource = apps;
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -77,7 +74,7 @@ namespace sUpdater
 
         private void GetAppsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (getAppsListView.SelectedItems.Count == notInstalledApps.Count)
+            if (getAppsListView.SelectedItems.Count == getAppsListView.Items.Count)
             {
                 if (selectAllCheckBox.IsChecked == false)
                 {
@@ -97,7 +94,7 @@ namespace sUpdater
         {
             await GetNotInstalledApps();
 
-            if (notInstalledApps.Count == 0)
+            if (getAppsListView.Items.Count == 0)
             {
                 noAppsAvailableLabel.Visibility = Visibility.Visible;
             }
@@ -128,7 +125,7 @@ namespace sUpdater
 
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
                 List<Application> selectedApps = new List<Application>();
-                foreach (Application app in notInstalledApps)
+                foreach (Application app in getAppsListView.ItemsSource)
                 {
                     if (getAppsListView.SelectedItems.Contains(app))
                     {
@@ -199,7 +196,7 @@ namespace sUpdater
                 if (installFailed == false)
                 {                
                     await GetNotInstalledApps();
-                    getAppsListView.ItemsSource = notInstalledApps;
+                    getAppsListView.ItemsSource = getAppsListView.ItemsSource;
                 }
 
                 installButton.IsEnabled = true;
