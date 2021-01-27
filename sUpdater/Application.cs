@@ -135,6 +135,7 @@ namespace sUpdater
             else
             {
                 Progress = 50;
+                Status = "Already downloaded, starting install...";
             }     
         }
 
