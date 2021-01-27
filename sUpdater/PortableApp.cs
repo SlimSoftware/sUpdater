@@ -137,8 +137,8 @@ namespace sUpdater
                     };
                     wc.DownloadFileCompleted += (s, e) =>
                     {
-                        Status = "Waiting for installation...";
-                        IsWaiting = true;
+                        Status = "Download complete";
+                        Progress = 50;
                     };
                     try
                     {
@@ -158,6 +158,8 @@ namespace sUpdater
             }
             else
             {
+                Progress = 50;
+                Status = "Already downloaded, starting install...";
                 Log.Append("Found existing download", Log.LogLevel.INFO);
             }
         }
