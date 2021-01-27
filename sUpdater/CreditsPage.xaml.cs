@@ -21,7 +21,8 @@ namespace sUpdater
             {
                 new Credit("Inno Setup", "JRSoftware", "http://www.jrsoftware.org/isinfo.php"),
                 new Credit("AutoUpdater.NET", "RBSoft", "https://github.com/ravibpatel/AutoUpdater.NET"),
-                new Credit("7-Zip", "Igor Pavlov", "https://www.7-zip.org")
+                new Credit("7-Zip", "Igor Pavlov", "https://www.7-zip.org"),
+                new Credit("WPF NotifyIcon", "Philipp Sumi", "http://www.hardcodet.net/wpf-notifyicon")
             };
 
             foreach (Credit credit in creditList)

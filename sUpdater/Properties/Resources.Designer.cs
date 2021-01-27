@@ -154,5 +154,26 @@ namespace sUpdater.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Code Project Open License (CPOL)
+        ///
+        ///Preamble
+        ///
+        ///	This License governs Your use of the Work. This License is intended to allow developers
+        ///	to use the Source Code and Executable Files provided as part of the Work in any
+        ///	application in any form.
+        ///
+        ///	The main points subject to the terms of the License are:
+        ///
+        ///		- Source Code and Executable Files can be used in commercial applications;
+        ///		- Source Code and Executable Files can be redistributed; and
+        ///		- Source Code can be modified to create derivative wor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WPFNotifyIconLicense {
+            get {
+                return ResourceManager.GetString("WPFNotifyIconLicense", resourceCulture);
+            }
+        }
     }
 }

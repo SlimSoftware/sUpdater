@@ -260,6 +260,7 @@
     <Content Include="7-Zip\7z.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\WPF NotifyIcon license.txt" />
     <Resource Include="Icons\sUpdater_Grey.ico" />
     <Resource Include="Icons\sUpdater_Orange.ico" />
   </ItemGroup>
