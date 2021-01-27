@@ -92,6 +92,20 @@ namespace sUpdater
 
         public async Task Download()
         {
+            if (!Directory.Exists(Settings.PortableAppDir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(Settings.PortableAppDir);
+                }
+                catch (Exception ex)
+                {
+                    Log.Append($"Could not create portable app dir: {ex.Message}", Log.LogLevel.ERROR);
+                    Status = ex.Message;
+                    return;
+                }
+            }
+
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
