@@ -110,11 +110,12 @@ namespace sUpdater
             Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
             SavePath = @Path.Combine(Settings.PortableAppDir, Name, fileName);
-            Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
 
             // Check if portable app is already downloaded
             if (!File.Exists(SavePath))
             {
+                Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+
                 using (var wc = new WebClient())
                 {
                     wc.DownloadProgressChanged += (s, e) =>
@@ -154,6 +155,10 @@ namespace sUpdater
                         }
                     }
                 }
+            }
+            else
+            {
+                Log.Append("Found existing download", Log.LogLevel.INFO);
             }
         }
 

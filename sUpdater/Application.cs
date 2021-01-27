@@ -92,12 +92,13 @@ namespace sUpdater
             }
 
             string fileName = Path.GetFileName(DownloadLink);
-            SavePath = Path.Combine(Settings.DataDir, fileName);
-            Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+            SavePath = Path.Combine(Settings.DataDir, fileName);        
 
             // Check if installer is already downloaded
             if (!File.Exists(SavePath))
             {
+                Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+
                 using (var wc = new WebClient())
                 {
                     wc.DownloadProgressChanged += (s, args) =>
@@ -136,6 +137,7 @@ namespace sUpdater
             {
                 Progress = 50;
                 Status = "Already downloaded, starting install...";
+                Log.Append("Found existing installer", Log.LogLevel.INFO);
             }     
         }
 
