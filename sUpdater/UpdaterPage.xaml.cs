@@ -122,15 +122,9 @@ namespace sUpdater
                     currentApp++;
                     Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
                         app.Name, currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
-                    {
-                        await Task.Delay(1000);
-                    }
                     tasks.Add(app.Download());
                 }
-                await Task.WhenAll(tasks);
+                await Utilities.ExecuteTasksWithLimit(tasks, 3);
 
                 // Install
                 currentApp = 0;
