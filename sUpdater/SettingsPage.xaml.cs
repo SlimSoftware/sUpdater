@@ -184,12 +184,10 @@ namespace sUpdater
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
                 @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
             {
-                if (autoStartCheckBox.IsChecked == true)
+                if (autoStartCheckBox.IsChecked == true && key.GetValue("sUpdater") == null)
                 {
-
-                    key.SetValue("sUpdater", "\"" +
-                        System.Reflection.Assembly.GetExecutingAssembly().Location.ToString()
-                        + "\"" + " /tray");
+                    key.SetValue("sUpdater", 
+                        $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
                 }
                 else
                 {
