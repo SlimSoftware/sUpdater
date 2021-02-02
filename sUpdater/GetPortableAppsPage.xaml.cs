@@ -17,6 +17,7 @@ namespace sUpdater
     public partial class GetPortableAppsPage : Page
     {
         private List<PortableApp> notInstalledPortableApps = new List<PortableApp>();
+
         public GetPortableAppsPage()
         {
             InitializeComponent();
@@ -174,8 +175,8 @@ namespace sUpdater
             else
             {
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<Application> selectedApps = new List<Application>();
-                foreach (Application a in Apps.Updates)
+                List<PortableApp> selectedApps = new List<PortableApp>();
+                foreach (PortableApp a in notInstalledPortableApps)
                 {
                     if (portableAppsListView.SelectedItems.Contains(a))
                     {
