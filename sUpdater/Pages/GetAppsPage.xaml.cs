@@ -1,4 +1,5 @@
 ﻿using sUpdater.Controllers;
+using Dasync.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -116,6 +117,10 @@ namespace sUpdater
                 MessageBox.Show("You have not selected any applications to install.", 
                     "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
+
+                refreshButton.IsEnabled = true;
+                installButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
             else
             {
@@ -136,23 +141,17 @@ namespace sUpdater
                 getAppsListView.ItemsSource = selectedApps;
 
                 // Download
-                List<Task> tasks = new List<Task>();
                 int currentApp = 0;
-
-                foreach (Application app in getAppsListView.Items)
+                await selectedApps.ParallelForEachAsync(async (app) =>
                 {
                     currentApp++;
-                    Log.Append($"Downloading {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
-                        Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
+                    Dispatcher.Invoke(() =>
                     {
-                        await Task.Delay(1000);
-                    }
-                    tasks.Add(app.Download());
-                }
-                await Task.WhenAll(tasks);
+                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                        app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
+                    });
+                    await app.Download();
+                }, maxDegreeOfParallelism: 3);                
 
                 // Install
                 currentApp = 0;

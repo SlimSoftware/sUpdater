@@ -84,13 +84,28 @@ namespace sUpdater
 
         public async Task Download()
         {
+            if (!Directory.Exists(Settings.DataDir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(Settings.DataDir);
+                } 
+                catch (Exception ex)
+                {
+                    Log.Append($"Could not create data dir: {ex.Message}", Log.LogLevel.ERROR);
+                    Status = ex.Message;
+                    return;
+                }
+            }
+
             string fileName = Path.GetFileName(DownloadLink);
-            SavePath = Path.Combine(Settings.DataDir, fileName);
-            Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+            SavePath = Path.Combine(Settings.DataDir, fileName);        
 
             // Check if installer is already downloaded
             if (!File.Exists(SavePath))
             {
+                Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+
                 using (var wc = new WebClient())
                 {
                     wc.DownloadProgressChanged += (s, args) =>
@@ -128,7 +143,9 @@ namespace sUpdater
             else
             {
                 Progress = 50;
-            }
+                Status = "Already downloaded, starting install...";
+                Log.Append("Found existing installer", Log.LogLevel.INFO);
+            }     
         }
 
         public async Task Install()

@@ -7,24 +7,31 @@ namespace sUpdater
     /// </summary>
     public partial class LicensePage : Page
     {
-        public LicensePage(string license)
+        public LicensePage(string creditName)
         {
             InitializeComponent();
 
-            if (license == "7-Zip")
+            Title = $"{creditName} License";
+
+            if (creditName == "7-Zip")
             {
-                Title = "7-Zip License";
                 licenseTextBox.AppendText(Properties.Resources.SevenZipLicense);
             }
-            else if (license == "AutoUpdater.NET")
+            else if (creditName == "AutoUpdater.NET")
             {
-                Title = "AutoUpdater.NET License";
                 licenseTextBox.AppendText(Properties.Resources.AutoUpdaterNETLicense);
             }
-            else if (license == "Inno Setup")
+            else if (creditName == "Inno Setup")
             {
-                Title = "Inno Setup License";
                 licenseTextBox.AppendText(Properties.Resources.InnoSetupLicense);
+            }
+            else if (creditName == "WPF NotifyIcon")
+            {
+                licenseTextBox.AppendText(Properties.Resources.WPFNotifyIconLicense);
+            }
+            else if (creditName == "AsyncEnumerable")
+            {
+                licenseTextBox.AppendText(Properties.Resources.AsyncEnumerableLicense);
             }
         }
     }

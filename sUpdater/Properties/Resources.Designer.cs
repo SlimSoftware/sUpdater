@@ -61,6 +61,26 @@ namespace sUpdater.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The MIT License (MIT)
+        ///
+        ///Copyright (c) 2019 D-ASYNC
+        ///
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit persons to whom the Software is
+        ///furnished to do so, subject to the following conditions:
+        ///
+        ///The above copyri [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string AsyncEnumerableLicense {
+            get {
+                return ResourceManager.GetString("AsyncEnumerableLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to MIT License
         ///
         ///Copyright (c) 2012-2019 RBSoft
@@ -152,6 +172,27 @@ namespace sUpdater.Properties {
             get {
                 object obj = ResourceManager.GetObject("sUpdater_Orange", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Code Project Open License (CPOL)
+        ///
+        ///Preamble
+        ///
+        ///	This License governs Your use of the Work. This License is intended to allow developers
+        ///	to use the Source Code and Executable Files provided as part of the Work in any
+        ///	application in any form.
+        ///
+        ///	The main points subject to the terms of the License are:
+        ///
+        ///		- Source Code and Executable Files can be used in commercial applications;
+        ///		- Source Code and Executable Files can be redistributed; and
+        ///		- Source Code can be modified to create derivative wor [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string WPFNotifyIconLicense {
+            get {
+                return ResourceManager.GetString("WPFNotifyIconLicense", resourceCulture);
             }
         }
     }

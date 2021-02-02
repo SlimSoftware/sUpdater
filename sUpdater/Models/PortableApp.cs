@@ -92,15 +92,30 @@ namespace sUpdater
 
         public async Task Download()
         {
+            if (!Directory.Exists(Settings.PortableAppDir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(Settings.PortableAppDir);
+                }
+                catch (Exception ex)
+                {
+                    Log.Append($"Could not create portable app dir: {ex.Message}", Log.LogLevel.ERROR);
+                    Status = ex.Message;
+                    return;
+                }
+            }
+
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
             SavePath = @Path.Combine(Settings.PortableAppDir, Name, fileName);
-            Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
 
             // Check if portable app is already downloaded
             if (!File.Exists(SavePath))
             {
+                Log.Append("Saving to: " + SavePath, Log.LogLevel.INFO);
+
                 using (var wc = new WebClient())
                 {
                     wc.DownloadProgressChanged += (s, e) =>
@@ -122,8 +137,8 @@ namespace sUpdater
                     };
                     wc.DownloadFileCompleted += (s, e) =>
                     {
-                        Status = "Waiting for installation...";
-                        IsWaiting = true;
+                        Status = "Download complete";
+                        Progress = 50;
                     };
                     try
                     {
@@ -140,6 +155,12 @@ namespace sUpdater
                         }
                     }
                 }
+            }
+            else
+            {
+                Progress = 50;
+                Status = "Already downloaded, starting install...";
+                Log.Append("Found existing download", Log.LogLevel.INFO);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using sUpdater.Controllers;
+using Dasync.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -94,11 +95,13 @@ namespace sUpdater
 
             if (updateListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any updates to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You have not selected any updates to install.", "sUpdater", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
 
                 refreshButton.IsEnabled = true;
                 installButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
             else
             {
@@ -115,23 +118,17 @@ namespace sUpdater
                 updateListView.ItemsSource = selectedApps;
 
                 // Download
-                List<Task> tasks = new List<Task>();
                 int currentApp = 0;
-
-                foreach (Application app in updateListView.SelectedItems)
-                {
+                await selectedApps.ParallelForEachAsync(async (app) =>
+                { 
                     currentApp++;
-                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
+                    Dispatcher.Invoke(() =>
                     {
-                        await Task.Delay(1000);
-                    }
-                    tasks.Add(app.Download());
-                }
-                await Task.WhenAll(tasks);
+                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                            app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
+                    });
+                    await app.Download();
+                }, maxDegreeOfParallelism: 3);
 
                 // Install
                 currentApp = 0;

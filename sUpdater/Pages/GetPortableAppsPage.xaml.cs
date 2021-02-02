@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dasync.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,11 +12,12 @@ using System.Xml.Linq;
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for GetPortableAppsPage.xaml
     /// </summary>
     public partial class GetPortableAppsPage : Page
     {
         private List<PortableApp> notInstalledPortableApps = new List<PortableApp>();
+
         public GetPortableAppsPage()
         {
             InitializeComponent();
@@ -71,7 +73,7 @@ namespace sUpdater
             }
             else
             {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
             }
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))
@@ -164,11 +166,13 @@ namespace sUpdater
 
             if (portableAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No Portable Apps selected to install, aborting...", Log.LogLevel.WARN);
 
-                refreshButton.IsEnabled = false;
-                installButton.IsEnabled = false;
+                refreshButton.IsEnabled = true;
+                installButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
             else
             {
@@ -185,23 +189,17 @@ namespace sUpdater
                 portableAppsListView.ItemsSource = selectedApps;
 
                 // Download
-                List<Task> tasks = new List<Task>();
                 int currentApp = 0;
-
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
+                await selectedApps.ParallelForEachAsync(async (app) =>
                 {
                     currentApp++;
-                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
+                    Dispatcher.Invoke(() =>
                     {
-                        await Task.Delay(1000);
-                    }
-                    tasks.Add(app.Download());
-                }
-                await Task.WhenAll(tasks);
+                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                            app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
+                    });
+                    await app.Download();
+                }, maxDegreeOfParallelism: 3);
 
                 // Install
                 currentApp = 0;
