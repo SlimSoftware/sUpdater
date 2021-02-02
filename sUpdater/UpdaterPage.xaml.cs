@@ -94,11 +94,13 @@ namespace sUpdater
 
             if (updateListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any updates to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You have not selected any updates to install.", "sUpdater", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
 
                 refreshButton.IsEnabled = true;
                 installButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
             else
             {

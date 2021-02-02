@@ -121,8 +121,13 @@ namespace sUpdater
 
             if (getAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any applications to install.", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("You have not selected any applications to install.", "sUpdater", 
+                    MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
+
+                refreshButton.IsEnabled = true;
+                installButton.IsEnabled = true;
+                selectAllCheckBox.IsEnabled = true;
             }
             else
             {
