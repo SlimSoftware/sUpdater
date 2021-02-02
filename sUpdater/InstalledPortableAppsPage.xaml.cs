@@ -25,7 +25,7 @@ namespace sUpdater
             if (installedPortableApps.Count == 0)
             {
                 noAppsInstalledLabel.Visibility = Visibility.Visible;
-            }
+            } 
         }
 
         /// <summary>
@@ -106,13 +106,21 @@ namespace sUpdater
         }
 
         private void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
-        {
-            
+        {        
             if (e.NavigationMode == NavigationMode.Back)
             {
                 // Refresh list when going back from other page
                 installedPortableApps = GetInstalledPortableApps();
                 portableAppsListView.ItemsSource = installedPortableApps;
+
+                if (installedPortableApps.Count == 0)
+                {
+                    noAppsInstalledLabel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    noAppsInstalledLabel.Visibility = Visibility.Collapsed;
+                }
             }
         }
     }
