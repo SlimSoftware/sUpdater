@@ -125,24 +125,5 @@ namespace sUpdater
         {
             return (MainWindow)System.Windows.Application.Current.MainWindow;
         }
-
-        public static async Task ExecuteTasksWithLimit(List<Task> tasks, int limit)
-        {
-            var allTasks = new List<Task>();
-            var activeTasks = new List<Task>();
-
-            foreach (var task in tasks)
-            {
-                if (activeTasks.Count >= limit)
-                {
-                    var completedTask = await Task.WhenAny(activeTasks);
-                    activeTasks.Remove(completedTask);
-                }
-                allTasks.Add(task);
-                activeTasks.Add(task);
-            }
-
-            await Task.WhenAll(allTasks);
-        }
     }
 }

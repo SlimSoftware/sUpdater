@@ -29,6 +29,10 @@ namespace sUpdater
             {
                 licenseTextBox.AppendText(Properties.Resources.WPFNotifyIconLicense);
             }
+            else if (creditName == "AsyncEnumerable")
+            {
+                licenseTextBox.AppendText(Properties.Resources.AsyncEnumerableLicense);
+            }
         }
     }
 }

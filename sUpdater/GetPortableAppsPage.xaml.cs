@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dasync.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -185,23 +186,17 @@ namespace sUpdater
                 portableAppsListView.ItemsSource = selectedApps;
 
                 // Download
-                List<Task> tasks = new List<Task>();
                 int currentApp = 0;
-
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
+                await selectedApps.ParallelForEachAsync(async (app) =>
                 {
                     currentApp++;
-                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-
-                    // Do not allow more than 3 downloads at once
-                    while (tasks.Count > 2)
+                    Dispatcher.Invoke(() =>
                     {
-                        await Task.Delay(1000);
-                    }
-                    tasks.Add(app.Download());
-                }
-                await Task.WhenAll(tasks);
+                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                            app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
+                    });
+                    await app.Download();
+                }, maxDegreeOfParallelism: 3);
 
                 // Install
                 currentApp = 0;
