@@ -11,7 +11,7 @@ using System.Xml.Linq;
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for GetPortableAppsPage.xaml
     /// </summary>
     public partial class GetPortableAppsPage : Page
     {
@@ -71,7 +71,7 @@ namespace sUpdater
             }
             else
             {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/slimupdater/defenitions.xml");
+                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/defenitions.xml");
             }
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))
