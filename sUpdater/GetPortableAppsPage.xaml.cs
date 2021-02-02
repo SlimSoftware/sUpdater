@@ -72,7 +72,7 @@ namespace sUpdater
             }
             else
             {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/defenitions.xml");
+                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
             }
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))
