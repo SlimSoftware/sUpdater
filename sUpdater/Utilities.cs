@@ -11,6 +11,11 @@ namespace sUpdater
     {
         public static HttpClient HttpClient { get; set; }
 
+        /// <summary>
+        /// Whether the last API request was succesful or not
+        /// </summary>
+        public static bool ConnectedToServer = true;
+
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
             string[] latestVersionSplit = latestVersion.Split('.');
@@ -145,6 +150,31 @@ namespace sUpdater
 
             HttpClient.DefaultRequestHeaders.Accept.Clear();
             HttpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public static async Task<T> CallAPI<T>(string url)
+        {
+            using (var response = await HttpClient.GetAsync(url))
+            {
+                Log.Append($"API call: {url}", Log.LogLevel.INFO);
+                if (response.IsSuccessStatusCode)
+                {
+                    T result = await response.Content.ReadAsAsync<T>();
+
+                    if (!ConnectedToServer)
+                    {
+                        ConnectedToServer = true;
+                    }
+
+                    return result;
+                }
+                else
+                {
+                    Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
+                    ConnectedToServer = false;
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
         }
     }
 }

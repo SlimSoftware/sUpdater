@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,7 +15,7 @@ namespace sUpdater.Controllers
         /// <summary>
         /// Temporarily cached information to detect all apps that are available on the server
         /// </summary>
-        private static List<Application> detectInfo = new List<Application>();
+        private static List<DetectInfo> detectInfo = new List<DetectInfo>();
 
         /// <summary>
         /// Contains all installed apps, with its id as key and the installed version as value
@@ -27,56 +28,16 @@ namespace sUpdater.Controllers
         public static List<int> UpdateIds { get; set; } = new List<int>();
 
         /// <summary>
-        /// Whether the last API request was succesful or not
-        /// </summary>
-        public static bool ConnectedToServer = true;
-
-        private static async Task<T> CallAPI<T>(string url)
-        {
-            using (var response = await Utilities.HttpClient.GetAsync(url))
-            {
-                Log.Append($"API call: {url}", Log.LogLevel.INFO);
-                if (response.IsSuccessStatusCode)
-                {
-                    T result = await response.Content.ReadAsAsync<T>();
-
-                    if (!ConnectedToServer)
-                    {
-                        ConnectedToServer = true;
-                    }
-
-                    return result;
-                }
-                else
-                {
-                    Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
-                    ConnectedToServer = false;
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets information to detect which apps are installed
-        /// </summary>
-        private static async Task<List<Application>> GetDetectInfo()
-        {
-            string url = "apps?f=id,arch,version,regkey,regvalue,exe_path";
-            List<Application> detectInfo = await CallAPI<List<Application>>(url);
-            return detectInfo;
-        }
-
-        /// <summary>
         /// Checks which apps are installed and adds their id and installed version to the installedApps dictionary
         /// </summary>
         private static async Task CheckInstalledApps()
         {
-            detectInfo = await GetDetectInfo();
+            detectInfo = await Utilities.CallAPI<List<DetectInfo>>("detectinfo");
 
-            foreach (Application app in detectInfo)
+            foreach (DetectInfo info in detectInfo)
             {
                 // Check whether this app run on the system
-                if (!Environment.Is64BitOperatingSystem && app?.Arch == Arch.x64)
+                if (!Environment.Is64BitOperatingSystem && info.Arch == Models.Arch.x64)
                 {
                     // This app cannot run on the system, so skip it
                     continue;
@@ -84,17 +45,17 @@ namespace sUpdater.Controllers
 
                 // Get local version if installed
                 string localVersion = null;
-                if (app?.RegKey != null)
+                if (info?.RegKey != null)
                 {
-                    var regValue = Registry.GetValue(app?.RegKey, app?.RegValue, null);
+                    var regValue = Registry.GetValue(info?.RegKey, info?.RegValue, null);
                     if (regValue != null)
                     {
                         localVersion = regValue.ToString();
                     }
                 }
-                else if (app?.ExePath != null)
+                else if (info?.ExePath != null)
                 {
-                    string exePath = app?.ExePath;
+                    string exePath = info?.ExePath;
                     if (exePath.Contains("%pf32%"))
                     {
                         if (Environment.Is64BitOperatingSystem)
@@ -131,7 +92,7 @@ namespace sUpdater.Controllers
 
                 if (localVersion != null)
                 {
-                    installedApps.Add(app.Id, localVersion);
+                    installedApps.Add(info.Id, localVersion);
                 }
             }
         }
@@ -149,12 +110,15 @@ namespace sUpdater.Controllers
                 Log.Append($"Error while checking for updates: {ex.Message}", Log.LogLevel.ERROR);
             }
 
+            string installedAppIdsString = string.Join(",", installedApps.Keys);
+            List<Application> latestAppVersions = await Utilities.CallAPI<List<Application>>($"appversion?ids={installedAppIdsString}");
+
             foreach (var kvp in installedApps)
             {
-                Application app = detectInfo.Find(x => x.Id == kvp.Key);
+                Application app = latestAppVersions.Find(x => x.Id == kvp.Key);
                 string localVersion = kvp.Value;
 
-                if (app.Type != Type.NoUpdate)
+                if (!app.NoUpdate)
                 {
                     if (Utilities.UpdateAvailable(app.LatestVersion, localVersion))
                     {
@@ -190,8 +154,7 @@ namespace sUpdater.Controllers
 
             if (ids != "")
             {
-                string url = $"apps?f=id,name,version,changelog_id,description_id&ids={ids}";
-                List<Application> updateInfo = await CallAPI<List<Application>>(url);
+                List<Application> updateInfo = await Utilities.CallAPI<List<Application>>($"apps?ids={ids}");
                 return updateInfo;
             }
             else
@@ -206,8 +169,7 @@ namespace sUpdater.Controllers
         public static async Task<List<Application>> GetNotInstalledAppInfo()
         {
             string ids = string.Join(",", installedApps.Select(x => x.Key));
-            string url = $"apps?f=id,name,version,type,changelog_id,description_id&nids={ids}";
-            List<Application> apps = await CallAPI<List<Application>>(url);
+            List<Application> apps = await Utilities.CallAPI<List<Application>>($"app?nids={ids}");
 
             // Append the installed versions
             for (int i = 0; i < apps.Count; i++)
@@ -223,8 +185,7 @@ namespace sUpdater.Controllers
         /// </summary>
         public static async Task<List<Application>> GetAppInfo()
         {
-            string url = "apps?f=id,name,version,type,changelog_id,description_id";
-            List<Application> appInfo = await CallAPI<List<Application>>(url);
+            List<Application> appInfo = await Utilities.CallAPI<List<Application>>("app");
 
             // Append the installed versions
             for (int i = 0; i < appInfo.Count; i++)

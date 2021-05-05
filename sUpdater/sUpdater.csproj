@@ -89,6 +89,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Description.cs" />
+    <Compile Include="Models\Changelog.cs" />
+    <Compile Include="Models\DetectInfo.cs" />
+    <Compile Include="Models\Installer.cs" />
     <Compile Include="Pages\AppUpdatePage.xaml.cs">
       <DependentUpon>AppUpdatePage.xaml</DependentUpon>
     </Compile>

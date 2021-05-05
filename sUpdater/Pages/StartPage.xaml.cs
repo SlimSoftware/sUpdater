@@ -27,7 +27,7 @@ namespace sUpdater
         /// </summary>
         private void UpdateGUI()
         {
-            if (AppController.ConnectedToServer)
+            if (Utilities.ConnectedToServer)
             {
                 if (updaterTile.Background == Colors.normalGreyBrush)
                 {
@@ -98,7 +98,6 @@ namespace sUpdater
 
         private async void OfflineRetryLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MainWindow mainWindow = Utilities.GetMainWindow();
             await AppController.CheckForUpdates();
             UpdateGUI();
         }

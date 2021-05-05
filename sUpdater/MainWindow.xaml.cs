@@ -69,7 +69,7 @@ namespace sUpdater
 
         public void UpdateTaskbarIcon()
         {
-            if (AppController.ConnectedToServer)
+            if (Utilities.ConnectedToServer)
             {
                 int updateCount = AppController.GetUpdateCount();
                 if (updateCount > 0)

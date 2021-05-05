@@ -52,7 +52,7 @@ namespace sUpdater
                 if (app.LocalVersion != null)
                 {
                     app.Name = app.Name + " " + app.LatestVersion;
-                    if (app.Type == Type.NoUpdate)
+                    if (app.NoUpdate)
                     {
                         app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
                     }

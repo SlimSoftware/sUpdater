@@ -9,10 +9,7 @@ using System.Linq;
 using System.Xml;
 
 namespace sUpdater
-{
-    public enum Arch { Any, x86, x64 };
-    public enum Type { Normal, NoUpdate };
-
+{   
     public class Application : INotifyPropertyChanged
     {
         public int Id { get; set; }
@@ -22,11 +19,7 @@ namespace sUpdater
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
         public bool HasDescription { get; set; }
-        public string RegKey { get; set; }
-        public string RegValue { get; set; }
-        public string ExePath { get; set; }
-        public Arch Arch { get; set; }
-        public Type Type { get; set; }
+        public bool NoUpdate { get; set; }
         public string DownloadLink { get; set; }
         public string SavePath { get; set; }
         public string LaunchArgs { get; set; }
@@ -68,19 +61,6 @@ namespace sUpdater
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public Application(string name, string latestVersion, string localVersion, Arch arch,
-            Type type, string launchArgs, string downloadLink, string savePath = null)
-        {
-            Name = name;
-            LatestVersion = latestVersion;
-            LocalVersion = localVersion;
-            Arch = arch;
-            Type = type;
-            LaunchArgs = launchArgs;
-            DownloadLink = downloadLink;
-            SavePath = savePath;
-        }
 
         public async Task Download()
         {
