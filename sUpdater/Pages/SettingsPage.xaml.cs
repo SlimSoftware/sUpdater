@@ -25,24 +25,24 @@ namespace sUpdater
                 }
             }
 
-            if (Settings.MinimizeToTray == true)
+            if (Utilities.Settings.MinimizeToTray == true)
             {
                 minimizeToTrayCheckBox.IsChecked = true;
             }
 
-            if (Settings.DataDir != null)
+            if (Utilities.Settings.DataDir != null)
             {
-                dataFolderTextBox.Text = Settings.DataDir;
+                dataFolderTextBox.Text = Utilities.Settings.DataDir;
             }
 
-            if (Settings.PortableAppDir != null)
+            if (Utilities.Settings.PortableAppDir != null)
             {
-                portableAppsFolderTextBox.Text = Settings.PortableAppDir;
+                portableAppsFolderTextBox.Text = Utilities.Settings.PortableAppDir;
             }
 
-            if (Settings.DefenitionURL != null)
+            if (Utilities.Settings.DefenitionURL != null)
             {
-                customDefinitionsTextBox.Text = Settings.DefenitionURL;
+                customDefinitionsTextBox.Text = Utilities.Settings.DefenitionURL;
                 customDefinitionsTextBox.IsEnabled = true;
                 officialDefinitionsRadioButton.IsChecked = false;
                 customDefinitionsRadioButton.IsChecked = true;
@@ -128,12 +128,12 @@ namespace sUpdater
                 {
                     // Hide previously shown error label if the folder is writeable
                     portableAppsFolderNotWritableLabel.Visibility = System.Windows.Visibility.Collapsed;
-                    Settings.PortableAppDir = portableAppsFolderTextBox.Text;
+                    Utilities.Settings.PortableAppDir = portableAppsFolderTextBox.Text;
                 }
             }
             else
             {
-                Settings.PortableAppDir = null;
+                Utilities.Settings.PortableAppDir = null;
             }
 
             // Check if the specified data folder already exists
@@ -160,17 +160,17 @@ namespace sUpdater
                 {
                     // Hide previously shown error label if the folder is writeable
                     dataFolderNotWriteableLabel.Visibility = System.Windows.Visibility.Collapsed;
-                    Settings.DataDir = dataFolderTextBox.Text;
+                    Utilities.Settings.DataDir = dataFolderTextBox.Text;
                 }
             }
             else
             {
-                Settings.DataDir = null;
+                Utilities.Settings.DataDir = null;
             }
 
             if (customDefinitionsRadioButton.IsChecked == true && customDefinitionsTextBox.Text != "")
             {
-                Settings.DefenitionURL = customDefinitionsTextBox.Text;
+                Utilities.Settings.DefenitionURL = customDefinitionsTextBox.Text;
             }
             if (customDefinitionsRadioButton.IsChecked == true && customDefinitionsTextBox.Text == "")
             {
@@ -178,7 +178,7 @@ namespace sUpdater
             }
             if (officialDefinitionsRadioButton.IsChecked == true)
             {
-                Settings.DefenitionURL = null;
+                Utilities.Settings.DefenitionURL = null;
             }
 
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
@@ -200,20 +200,20 @@ namespace sUpdater
 
             if (minimizeToTrayCheckBox.IsChecked == true)
             {
-                Settings.MinimizeToTray = true;
+                Utilities.Settings.MinimizeToTray = true;
             }
             else
             {
-                Settings.MinimizeToTray = false;
+                Utilities.Settings.MinimizeToTray = false;
             }
 
-            Settings.Save();
+            Utilities.SaveSettings();
         }
 
         /// <summary>
         /// Tests if the specified folder is writeable
         /// </summary>
-        /// <param name="path">The folder to check</param>
+        /// <param name="path">The path to the folder to check</param>
         private bool IsFolderWriteable(string path)
         {
             try

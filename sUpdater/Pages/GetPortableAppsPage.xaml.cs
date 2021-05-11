@@ -41,7 +41,7 @@ namespace sUpdater
                     await app.Run();
 
                     Log.Append("All processes exited. Cleaning up...", Log.LogLevel.INFO);
-                    string appDir = Path.Combine(Settings.PortableAppDir, app.Name);
+                    string appDir = Path.Combine(Utilities.Settings.PortableAppDir, app.Name);
                     if (Directory.Exists(Path.Combine(appDir)))
                     {
                         Directory.Delete(appDir, true);
@@ -67,9 +67,9 @@ namespace sUpdater
             XDocument definitions;
 
             // Load XML File
-            if (Settings.DefenitionURL != null)
+            if (Utilities.Settings.DefenitionURL != null)
             {
-                definitions = XDocument.Load(Settings.DefenitionURL);
+                definitions = XDocument.Load(Utilities.Settings.DefenitionURL);
             }
             else
             {            

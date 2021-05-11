@@ -37,9 +37,9 @@ namespace sUpdater
             List<PortableApp> apps = new List<PortableApp>();
 
             string[] installedAppPaths = null;
-            if (Settings.PortableAppDir != null)
+            if (Utilities.Settings.PortableAppDir != null)
             {
-                installedAppPaths = Directory.GetDirectories(Settings.PortableAppDir);
+                installedAppPaths = Directory.GetDirectories(Utilities.Settings.PortableAppDir);
             }
 
             foreach (string appDirPath in installedAppPaths)
@@ -82,7 +82,7 @@ namespace sUpdater
             if (result == MessageBoxResult.Yes)
             {
                 Log.Append($"Deleting Portable App: {app.Name}", Log.LogLevel.INFO);
-                string appDir = Path.Combine(Settings.PortableAppDir, app.Name);
+                string appDir = Path.Combine(Utilities.Settings.PortableAppDir, app.Name);
                 if (Directory.Exists(Path.Combine(appDir)))
                 {
                     Directory.Delete(appDir, true);

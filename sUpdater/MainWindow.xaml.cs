@@ -38,7 +38,7 @@ namespace sUpdater
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
-            Settings.Load();
+            Utilities.LoadSettings();
             Utilities.InitHttpClient();
 
             await AppController.CheckForUpdates();
@@ -90,7 +90,7 @@ namespace sUpdater
                         }
                     }
 
-                    if (notifiedUpdates != Settings.NotifiedUpdates && ShowInTaskbar == false)
+                    if (notifiedUpdates != Utilities.Settings.NotifiedUpdates && ShowInTaskbar == false)
                     {
                         if (updateCount > 1)
                         {
@@ -119,8 +119,8 @@ namespace sUpdater
                         TaskbarIcon.ToolTipText = "sUpdater\n1 update available";
                     }
 
-                    Settings.NotifiedUpdates = notifiedUpdates;
-                    Settings.Save();
+                    Utilities.Settings.NotifiedUpdates = notifiedUpdates;
+                    Utilities.SaveSettings();
                 }
                 else
                 {
@@ -189,7 +189,7 @@ namespace sUpdater
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (Settings.MinimizeToTray)
+            if (Utilities.Settings.MinimizeToTray)
             {
                 e.Cancel = true;
                 Utilities.MinimizeToTray(this);

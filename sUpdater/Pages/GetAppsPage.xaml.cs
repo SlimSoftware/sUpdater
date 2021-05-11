@@ -167,10 +167,10 @@ namespace sUpdater
                 }
 
                 // Cleanup any exe's in appdata dir
-                if (Directory.GetFiles(Settings.DataDir, "*.exe").Length > 0)
+                if (Directory.GetFiles(Utilities.Settings.DataDir, "*.exe").Length > 0)
                 {
                     Log.Append("Cleaning up installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Settings.DataDir, ".exe"))
+                    foreach (string exePath in Directory.GetFiles(Utilities.Settings.DataDir, ".exe"))
                     {
                         File.Delete(exePath);
                     }
