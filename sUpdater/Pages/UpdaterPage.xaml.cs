@@ -238,16 +238,8 @@ namespace sUpdater
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
 
-            string changelog = app.GetChangelog();
-            if (changelog != "")
-            {
-                InfoPage infoPage = new InfoPage(changelog, InfoPage.InfoType.Changelog);
-                NavigationService.Navigate(infoPage);
-            }
-            else
-            {
-                MessageBox.Show("No changelog is available for this application");
-            }
+            InfoPage infoPage = new InfoPage(app.Id, InfoPage.InfoType.Changelog);
+            NavigationService.Navigate(infoPage);
         }
 
         private async void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

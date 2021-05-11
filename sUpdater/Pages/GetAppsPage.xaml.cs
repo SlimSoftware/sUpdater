@@ -209,16 +209,8 @@ namespace sUpdater
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
 
-            string description = app.GetDescription();
-            if (description != "")
-            {
-                InfoPage infoPage = new InfoPage(description, InfoPage.InfoType.Changelog);
-                NavigationService.Navigate(infoPage);
-            }
-            else
-            {
-                MessageBox.Show("No description is available for this application");
-            }
+            InfoPage infoPage = new InfoPage(app.Id, InfoPage.InfoType.Description);
+            NavigationService.Navigate(infoPage);
         }
     }
 }

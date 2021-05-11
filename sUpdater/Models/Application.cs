@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
-using System.Xml;
+using sUpdater.Controllers;
 
 namespace sUpdater
 {   
@@ -202,108 +202,6 @@ namespace sUpdater
                 }
             }
         }        
-
-        public string GetChangelog()
-        {
-            string changelogText = "";
-            string defenitionURL;
-
-            if (Settings.DefenitionURL != null)
-            {
-                defenitionURL = Settings.DefenitionURL;
-            }
-            else
-            {
-                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
-            }
-
-            using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
-            {
-                while (xmlReader.Read())
-                {
-                    xmlReader.ReadToFollowing("app");
-                    xmlReader.MoveToNextAttribute();
-
-                    string appAttribute = xmlReader.Value;
-                    if (Name.StartsWith(appAttribute))
-                    {
-                        xmlReader.MoveToElement();
-                        xmlReader.ReadToDescendant("changelog");
-                        if (xmlReader.NodeType != XmlNodeType.EndElement)
-                        {
-                            changelogText = xmlReader.ReadElementContentAsString();
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if (changelogText != null)
-            {
-                // Remove first newline and/or any tabs
-                if (changelogText.StartsWith("\n"))
-                {
-                    changelogText = changelogText.TrimStart("\n".ToCharArray());
-                }
-                if (changelogText.Contains("\t"))
-                {
-                    changelogText = changelogText.Replace("\t", string.Empty);
-                }
-            }
-
-            return changelogText;
-        }
-
-        public string GetDescription()
-        {
-            string descriptionText = null;
-            string defenitionURL;
-
-            if (Settings.DefenitionURL != null)
-            {
-                defenitionURL = Settings.DefenitionURL;
-            }
-            else
-            {
-                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
-            }
-
-            using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
-            {
-                while (xmlReader.Read())
-                {
-                    xmlReader.ReadToFollowing("app");
-                    xmlReader.MoveToNextAttribute();
-
-                    string appAttribute = xmlReader.Value;
-                    if (appAttribute == Name)
-                    {
-                        xmlReader.MoveToElement();
-                        xmlReader.ReadToDescendant("description");
-                        if (xmlReader.NodeType != XmlNodeType.EndElement)
-                        {
-                            descriptionText = xmlReader.ReadElementContentAsString();
-                        }
-                        break;
-                    }
-                }
-            }
-
-            if (descriptionText != null)
-            {
-                // Remove first newline and/or any tabs
-                if (descriptionText.StartsWith("\n"))
-                {
-                    descriptionText = descriptionText.TrimStart("\n".ToCharArray());
-                }
-                if (descriptionText.Contains("\t"))
-                {
-                    descriptionText = descriptionText.Replace("\t", string.Empty);
-                }
-            }
-
-            return descriptionText;
-        }
 
         protected void OnPropertyChanged(string name)
         {

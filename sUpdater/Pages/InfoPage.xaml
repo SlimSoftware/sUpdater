@@ -5,8 +5,17 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:sUpdater"
       mc:Ignorable="d" 
-      d:DesignHeight="435" d:DesignWidth="800">
-    <RichTextBox x:Name="infoTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
+      d:DesignHeight="435" d:DesignWidth="800" Loaded="Page_Loaded">
+    <RichTextBox x:Name="infoTextBox" IsReadOnly="True" IsDocumentEnabled="True" VerticalScrollBarVisibility="Auto">
+        <RichTextBox.Document>
+            <FlowDocument>
+                <FlowDocument.Blocks>
+                    <Paragraph>
+                        Loading...
+                    </Paragraph>
+                </FlowDocument.Blocks>
+            </FlowDocument>
+        </RichTextBox.Document>
         <RichTextBox.Resources>
             <!-- Remove the margin between the lines -->
             <Style TargetType="{x:Type Paragraph}">

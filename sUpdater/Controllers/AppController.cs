@@ -195,5 +195,15 @@ namespace sUpdater.Controllers
 
             return appInfo;
         }
+
+        public static async Task<Changelog> GetChangelog(int appId)
+        {
+            return await Utilities.CallAPI<Changelog>($"changelog?id={appId}");
+        }
+
+        public static async Task<Description> GetDescription(int appId)
+        {
+            return await Utilities.CallAPI<Description>($"description?id={appId}");
+        }
     }
 }
