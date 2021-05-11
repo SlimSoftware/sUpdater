@@ -78,11 +78,11 @@ namespace sUpdater
 
         public async Task Download()
         {
-            if (!Directory.Exists(Settings.DataDir))
+            if (!Directory.Exists(Utilities.Settings.DataDir))
             {
                 try
                 {
-                    Directory.CreateDirectory(Settings.DataDir);
+                    Directory.CreateDirectory(Utilities.Settings.DataDir);
                 } 
                 catch (Exception ex)
                 {
@@ -93,7 +93,7 @@ namespace sUpdater
             }
 
             string fileName = Path.GetFileName(DownloadLink);
-            SavePath = Path.Combine(Settings.DataDir, fileName);        
+            SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);        
 
             // Check if installer is already downloaded
             if (!File.Exists(SavePath))
@@ -222,9 +222,9 @@ namespace sUpdater
             string changelogText = "";
             string defenitionURL;
 
-            if (Settings.DefenitionURL != null)
+            if (Utilities.Settings.DefenitionURL != null)
             {
-                defenitionURL = Settings.DefenitionURL;
+                defenitionURL = Utilities.Settings.DefenitionURL;
             }
             else
             {
@@ -273,9 +273,9 @@ namespace sUpdater
             string descriptionText = null;
             string defenitionURL;
 
-            if (Settings.DefenitionURL != null)
+            if (Utilities.Settings.DefenitionURL != null)
             {
-                defenitionURL = Settings.DefenitionURL;
+                defenitionURL = Utilities.Settings.DefenitionURL;
             }
             else
             {

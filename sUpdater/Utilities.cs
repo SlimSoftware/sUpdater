@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows;
+using sUpdater.Models;
+using System.IO;
+using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
@@ -7,6 +10,12 @@ namespace sUpdater
 {
     public static class Utilities
     {
+        public static Settings Settings { get; set; }
+
+        private static string settingsXmlDir = Path.Combine(Environment.GetFolderPath(
+            Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
+        private static string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
+
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
             string[] latestVersionSplit = latestVersion.Split('.');
@@ -145,6 +154,49 @@ namespace sUpdater
                     return null;
                 }
             }
+        }
+
+        public static void LoadSettings()
+        {
+            // Load XML File
+            if (File.Exists(settingsXmlPath))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+                FileStream fs = new FileStream(settingsXmlPath, FileMode.Open);
+                Settings = (Settings)serializer.Deserialize(fs);
+            }
+            else
+            {
+                CreateSettingsXMLFile();
+                LoadSettings();
+            }
+        }
+
+        private static void CreateSettingsXMLFile()
+        {
+            if (!Directory.Exists(settingsXmlDir))
+            {
+                Directory.CreateDirectory(settingsXmlDir);
+            }
+
+            Settings = new Settings();
+            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+            TextWriter writer = new StreamWriter(settingsXmlPath);
+            serializer.Serialize(writer, Settings);
+            writer.Close();
+        }
+
+        public static void SaveSettings()
+        {
+            if (!File.Exists(settingsXmlPath))
+            {
+                CreateSettingsXMLFile();
+            }
+
+            XmlSerializer serializer = new XmlSerializer(typeof(Settings));
+            TextWriter writer = new StreamWriter(settingsXmlPath);
+            serializer.Serialize(writer, Settings);
+            writer.Close();
         }
     }
 }

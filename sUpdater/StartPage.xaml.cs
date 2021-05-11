@@ -32,11 +32,11 @@ namespace sUpdater
             // Load XML File
             try
             {
-                if (Settings.DefenitionURL != null)
+                if (Utilities.Settings.DefenitionURL != null)
                 {
-                    Log.Append("Using custom definition file from " + Settings.DefenitionURL,
+                    Log.Append("Using custom definition file from " + Utilities.Settings.DefenitionURL,
                         Log.LogLevel.INFO);
-                    defenitions = XDocument.Load(Settings.DefenitionURL);
+                    defenitions = XDocument.Load(Utilities.Settings.DefenitionURL);
                 }
                 else
                 {

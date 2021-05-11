@@ -92,11 +92,11 @@ namespace sUpdater
 
         public async Task Download()
         {
-            if (!Directory.Exists(Settings.PortableAppDir))
+            if (!Directory.Exists(Utilities.Settings.PortableAppDir))
             {
                 try
                 {
-                    Directory.CreateDirectory(Settings.PortableAppDir);
+                    Directory.CreateDirectory(Utilities.Settings.PortableAppDir);
                 }
                 catch (Exception ex)
                 {
@@ -107,9 +107,9 @@ namespace sUpdater
             }
 
             LinkText = "";
-            Directory.CreateDirectory(Path.Combine(Settings.PortableAppDir, Name));
+            Directory.CreateDirectory(Path.Combine(Utilities.Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
-            SavePath = @Path.Combine(Settings.PortableAppDir, Name, fileName);
+            SavePath = @Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
 
             // Check if portable app is already downloaded
             if (!File.Exists(SavePath))
@@ -189,7 +189,7 @@ namespace sUpdater
                     {
                         p.StartInfo.FileName = sevenZipPath;
                         p.StartInfo.Arguments = "e \"" + SavePath + "\" -o\""
-                            + Path.Combine(Settings.PortableAppDir, Name) + "\" -aoa";
+                            + Path.Combine(Utilities.Settings.PortableAppDir, Name) + "\" -aoa";
                         p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                         try
                         {
@@ -242,7 +242,7 @@ namespace sUpdater
 
             using (var p = new Process())
             {
-                p.StartInfo.FileName = Path.Combine(Settings.PortableAppDir, Name, Launch);
+                p.StartInfo.FileName = Path.Combine(Utilities.Settings.PortableAppDir, Name, Launch);
                 // TODO: Add support for optional arguments and using shell execute here
                 try
                 {
