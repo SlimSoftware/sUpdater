@@ -274,20 +274,9 @@ namespace sUpdater
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as PortableApp);
-        }
-
-        public bool Equals(PortableApp app)
-        {
-            return app != null && Name == app.Name && LatestVersion == app.LatestVersion;
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = -1183558336;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
-            return hashCode;
+            return obj is PortableApp app &&
+                   Name == app.Name &&
+                   LatestVersion == app.LatestVersion;
         }
     }
 }
