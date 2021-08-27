@@ -162,7 +162,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in getAppsListView.SelectedItems)
+                foreach (Application app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))

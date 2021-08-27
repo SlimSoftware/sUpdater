@@ -203,7 +203,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
+                foreach (PortableApp app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))

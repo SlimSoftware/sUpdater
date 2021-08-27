@@ -327,5 +327,13 @@ namespace sUpdater
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Application application &&
+                   Name == application.Name &&
+                   LatestVersion == application.LatestVersion &&
+                   Arch == application.Arch;
+        }
     }
 }
