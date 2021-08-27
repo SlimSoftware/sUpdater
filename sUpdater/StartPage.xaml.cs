@@ -236,7 +236,15 @@ namespace sUpdater
                     if (Apps.Updates.Count > 0)
                     {
                         updaterTile.Background = Colors.normalOrangeBrush;
-                        updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
+                        if (Apps.Updates.Count == 1)
+                        {
+                            updaterTile.Title = "1 update available";
+                        }
+                        else
+                        {
+                            updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
+                        }
+                        
                     }
                     else
                     {
