@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -74,8 +75,51 @@ namespace sUpdater
                 string localVersion = null;
                 if (regkeyElement?.Value != null)
                 {
-                    var regValue = Registry.GetValue(regkeyElement.Value,
-                        regvalueElement.Value, null);
+                    RegistryKey baseKey;
+                    if (regkeyElement.Value.StartsWith("HKEY_LOCAL_MACHINE"))
+                    {
+                        if (archElement?.Value == "x64")
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                        }
+                        else
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                        }
+                    } 
+                    else
+                    {
+                        if (archElement?.Value == "x64")
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                        }
+                        else
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry32);
+                        }
+                    }
+
+                    string keyPath = regkeyElement.Value;
+                    keyPath = keyPath.Replace("HKEY_LOCAL_MACHINE\\", "");
+                    keyPath = keyPath.Replace("HKEY_CURRENT_USER\\", "");
+                    var key = baseKey.OpenSubKey(keyPath, false);
+
+                    var regValue = key?.GetValue(regvalueElement.Value, null);
+                    if (regValue == null && Environment.Is64BitOperatingSystem)
+                    {
+                        // In case we are on 64-bit we can check once more under the 64-bit registry
+                        if (regkeyElement.Value.StartsWith("HKEY_LOCAL_MACHINE"))
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                        }
+                        else
+                        {
+                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                        }
+                        key = baseKey.OpenSubKey(keyPath, false);
+                        regValue = key?.GetValue(regvalueElement.Value, null);
+                    }
+
                     if (regValue != null)
                     {
                         localVersion = regValue.ToString();
