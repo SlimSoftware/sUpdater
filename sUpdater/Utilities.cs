@@ -83,7 +83,11 @@ namespace sUpdater
                 case 10:
                     osName = "Windows 10";
                     break;
+                case 11:
+                    osName = "Windows 11";
+                    break;
             }
+
             return osName;
         }
 
