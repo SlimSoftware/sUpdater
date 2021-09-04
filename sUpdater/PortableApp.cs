@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace sUpdater
 {
-    public class PortableApp : IEquatable<PortableApp>, INotifyPropertyChanged
+    public class PortableApp : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public string LatestVersion { get; set; }
@@ -276,7 +276,17 @@ namespace sUpdater
         {
             return obj is PortableApp app &&
                    Name == app.Name &&
-                   LatestVersion == app.LatestVersion;
+                   LatestVersion == app.LatestVersion &&
+                   Arch == app.Arch;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 349623337;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
+            return hashCode;
         }
     }
 }

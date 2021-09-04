@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace sUpdater
 {
@@ -334,6 +335,15 @@ namespace sUpdater
                    Name == application.Name &&
                    LatestVersion == application.LatestVersion &&
                    Arch == application.Arch;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 349623337;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
+            return hashCode;
         }
     }
 }
