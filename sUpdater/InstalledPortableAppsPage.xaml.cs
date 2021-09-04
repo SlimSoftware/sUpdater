@@ -14,6 +14,7 @@ namespace sUpdater
     {
         private List<PortableApp> installedPortableApps = new List<PortableApp>();
         private static List<PortableApp> portableApps = GetPortableAppsPage.GetPortableApps();
+        private bool navigateHandlerAttached = false;
 
         public InstalledPortableAppsPage()
         {
@@ -102,7 +103,11 @@ namespace sUpdater
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigating += NavigationService_Navigating;
+            if (!navigateHandlerAttached)
+            {
+                NavigationService.Navigating += NavigationService_Navigating;
+                navigateHandlerAttached = true;
+            }
         }
 
         private void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
