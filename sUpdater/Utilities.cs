@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
+using DialogResult = System.Windows.Forms.DialogResult;
+using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
 namespace sUpdater
 {
@@ -124,6 +124,27 @@ namespace sUpdater
         public static MainWindow GetMainWindow()
         {
             return (MainWindow)System.Windows.Application.Current.MainWindow;
+        }
+
+        /// <summary>
+        /// Opens a folder browser dialog and returns the selected path
+        /// </summary>
+        /// <param name="defaultPath">The path to the folder that the dialog should show when opened</param>
+        /// <returns>The path selected by the user or null if the dialog has been cancelled</returns>
+        public static string BrowseForFolder(string defaultPath)
+        {
+            using (FolderBrowser fbd = new FolderBrowser())
+            {
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    return fbd.SelectedPath;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

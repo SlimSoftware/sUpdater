@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
 namespace sUpdater
 {
@@ -55,40 +54,30 @@ namespace sUpdater
 
         private void DataFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowser fbd = new FolderBrowser();  
-            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (fbd.ShowDialog() == DialogResult.OK)
+            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            if (selectedPath != null)
             {
-                dataFolderTextBox.Text = fbd.SelectedPath;
+                dataFolderTextBox.Text = selectedPath;
             }
         }
 
         private void OpenDataFolderButton_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(dataFolderTextBox.Text))
-            {
-                Process.Start("explorer.exe", dataFolderTextBox.Text);
-            }
+             OpenDirInExplorer(dataFolderTextBox.Text);
         }
 
         private void PortableAppsFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            using (FolderBrowser fbd = new FolderBrowser())
+            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            if (selectedPath != null)
             {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    portableAppsFolderTextBox.Text = fbd.SelectedPath;
-                }
+                portableAppsFolderTextBox.Text = selectedPath;
             }
         }
 
         private void OpenPortableAppsFolderButton_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(portableAppsFolderTextBox.Text))
-            {
-                Process.Start("explorer.exe", portableAppsFolderTextBox.Text);
-            }
+             OpenDirInExplorer(portableAppsFolderTextBox.Text);
         }
 
         private void OfficialDefinitionsRadioButton_Click(object sender, EventArgs e)
@@ -186,12 +175,12 @@ namespace sUpdater
             {
                 if (autoStartCheckBox.IsChecked == true && key.GetValue("sUpdater") == null)
                 {
-                    key.SetValue("sUpdater", 
+                    key.SetValue("sUpdater",
                         $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
                 }
 
                 if (autoStartCheckBox.IsChecked == false && key.GetValue("sUpdater") != null)
-                { 
+                {
                     key.DeleteValue("sUpdater");
                 }
             }
@@ -209,9 +198,21 @@ namespace sUpdater
         }
 
         /// <summary>
+        /// Opens a folder in File Explorer if the folder exists
+        /// </summary>
+        /// <param name="path">The path to the folder to open</param>
+        private void OpenDirInExplorer(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Process.Start("explorer.exe", path);
+            }
+        }
+
+        /// <summary>
         /// Tests if the specified folder is writeable
         /// </summary>
-        /// <param name="path">The folder to check</param>
+        /// <param name="path">The path to the folder to check</param>
         private bool IsFolderWriteable(string path)
         {
             try
