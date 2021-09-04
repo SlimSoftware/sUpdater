@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.0.4"
+#define AppVersion "4.0.5"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
