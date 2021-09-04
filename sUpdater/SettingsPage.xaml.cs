@@ -55,7 +55,7 @@ namespace sUpdater
 
         private void DataFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowser fbd = new FolderBrowser();         
+            FolderBrowser fbd = new FolderBrowser();  
             fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             if (fbd.ShowDialog() == DialogResult.OK)
             {
@@ -189,12 +189,10 @@ namespace sUpdater
                     key.SetValue("sUpdater", 
                         $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
                 }
-                else
-                {
-                    if (key.GetValue("sUpdater") != null)
-                    {
-                        key.DeleteValue("sUpdater");
-                    }
+
+                if (autoStartCheckBox.IsChecked == false && key.GetValue("sUpdater") != null)
+                { 
+                    key.DeleteValue("sUpdater");
                 }
             }
 
