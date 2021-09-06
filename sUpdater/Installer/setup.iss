@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.0.5"
+#define AppVersion "4.0.6"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -52,8 +52,8 @@ Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
 Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"
-Source: "..\bin\Release\Hardcodet.Wpf.TaskbarNotification.dll"; DestDir: "{app}"
-Source: "..\bin\Release\Hardcodet.Wpf.TaskbarNotification.xml"; DestDir: "{app}"
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}"
 Source: "..\bin\Release\7-Zip\7z.dll"; DestDir: "{app}"
 Source: "..\bin\Release\7-Zip\7z.exe"; DestDir: "{app}"
 Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"
@@ -74,3 +74,7 @@ Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
+
+[InstallDelete]
+Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.dll"
+Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.xml"
