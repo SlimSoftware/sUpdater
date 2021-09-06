@@ -166,8 +166,10 @@ namespace sUpdater
             if (File.Exists(settingsXmlPath))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-                FileStream fs = new FileStream(settingsXmlPath, FileMode.Open);
-                Settings = (Settings)serializer.Deserialize(fs);
+                using (FileStream fs = new FileStream(settingsXmlPath, FileMode.Open))
+                {
+                    Settings = (Settings)serializer.Deserialize(fs);
+                }                 
             }
             else
             {
