@@ -159,8 +159,7 @@ namespace sUpdater
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = "\"" + InstallSwitch + "\""
-                        + " " + SavePath;
+                    p.StartInfo.Arguments = $"/i {SavePath} {InstallSwitch}";
                 }
                 try
                 {
