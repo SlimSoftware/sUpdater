@@ -166,21 +166,20 @@ namespace sUpdater
                 {
                     p.Start();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     var result = MessageBox.Show(
                         "Lauching the installer failed. \nWould you like to try again?",
                         "Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    Log.Append("Launching the installer failed. Asking user for retry.",
-                        Log.LogLevel.INFO);
+                    Log.Append($"Launching the installer failed: {ex.Message}", Log.LogLevel.WARN);
                     if (result == MessageBoxResult.Yes)
                     {
-                        Log.Append("User chose yes.", Log.LogLevel.INFO);
+                        Log.Append("Relaunching installer...", Log.LogLevel.INFO);
                         goto launchInstaller;
                     }
                     else
                     {
-                        Log.Append("User chose no. Skipping this app.", Log.LogLevel.INFO);
+                        Log.Append("User chose not to relaunch installer. Skipping this app.", Log.LogLevel.INFO);
                         return;
                     }
                 }
