@@ -145,8 +145,9 @@ namespace sUpdater
                     {
                         if (Environment.Is64BitOperatingSystem)
                         {
-                            exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles));
+                            // We cannot use SpecialFolder.ProgramFiles here, because we are running as a 32-bit process
+                            // SpecialFolder.ProgramFiles would return the 32-bit ProgramFiles here
+                            exePath = exePath.Replace("%pf64%", Environment.GetEnvironmentVariable("ProgramW6432"));
                         }
                         else
                         {
