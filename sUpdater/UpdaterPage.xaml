@@ -29,6 +29,7 @@
             <ListView.Resources>
                 <ContextMenu x:Key="itemContextMenu">
                     <MenuItem Header="Changelog" Click="ItemChangelog_Click" IsEnabled="{Binding HasChangelog}"/>
+                    <MenuItem Header="Force install" Click="ItemForceInstall_Click"/>
                 </ContextMenu>
             </ListView.Resources>
         </ListView>

@@ -255,6 +255,15 @@ namespace sUpdater
             }
         }
 
+        private async void ItemForceInstall_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+
+            await app.Download();
+            await app.Install();
+        }
+
         private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
