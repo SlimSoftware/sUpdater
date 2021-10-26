@@ -53,6 +53,11 @@ namespace sUpdater
                 }));
             }
 
+            if (notInstalledPortableApps.Count == 0)
+            {
+                noAppsAvailableLabel.Visibility = Visibility.Visible;
+            }
+
             portableAppsListView.ItemsSource = notInstalledPortableApps;
         }
 

@@ -26,6 +26,9 @@
         <ListView x:Name="portableAppsListView" Grid.Row="1" 
                   Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
 
+        <Label x:Name="noAppsAvailableLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" HorizontalAlignment="Center"
+               VerticalAlignment="Center" Visibility="Collapsed">No Portable Apps available</Label>
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
             <Button x:Name="refreshButton" Height="21" Width="60" Margin="0 0 20 0" Click="RefreshButton_Click">Refresh</Button>
             <Button x:Name="installButton" Height="21" Width="100" Click="InstallButton_Click">Install Selected</Button>
