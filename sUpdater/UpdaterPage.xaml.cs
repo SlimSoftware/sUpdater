@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -94,7 +95,7 @@ namespace sUpdater
 
             if (updateListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any updates to install.", "sUpdater", 
+                MessageBox.Show("You have not selected any updates to install.", "sUpdater",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
 
@@ -119,7 +120,7 @@ namespace sUpdater
                 // Download
                 int currentApp = 0;
                 await selectedApps.ParallelForEachAsync(async (app) =>
-                { 
+                {
                     currentApp++;
                     Dispatcher.Invoke(() =>
                     {
@@ -142,17 +143,9 @@ namespace sUpdater
                     }
                 }
 
-                // Cleanup any leftover exe's in appdata dir
-                if (Directory.GetFiles(Utilities.Settings.DataDir, "*.exe").Length > 0)
-                {
-                    Log.Append("Cleaning up leftover installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Utilities.Settings.DataDir, ".exe"))
-                    {
-                        File.Delete(exePath);
-                    }
-                }
+                Utilities.CleanupInstallers();
 
-                if (installFailed == true)
+                if (installFailed)
                 {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
@@ -168,8 +161,8 @@ namespace sUpdater
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
                 }
-                if (installFailed == false)
-                {                  
+                else
+                {
                     StartPage.ReadDefenitions();
                     StartPage.CheckForUpdates();
 
@@ -262,6 +255,7 @@ namespace sUpdater
 
             await app.Download();
             await app.Install();
+            Utilities.CleanupInstallers();
         }
 
         private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

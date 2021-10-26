@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
+using System.Linq;
 
 namespace sUpdater
 {
@@ -203,6 +204,26 @@ namespace sUpdater
             TextWriter writer = new StreamWriter(settingsXmlPath);
             serializer.Serialize(writer, Settings);
             writer.Close();
+        }
+
+        /// <summary>
+        /// Deletes all .exe and .msi installers in the data directory
+        /// </summary>
+        public static void CleanupInstallers()
+        {
+            var exeInstallerPaths = Directory.GetFiles(Utilities.Settings.DataDir, "*.exe");
+            var msiInstallerPaths = Directory.GetFiles(Utilities.Settings.DataDir, "*.msi");
+            var installerPaths = exeInstallerPaths.Concat(msiInstallerPaths);
+            var installerCount = installerPaths.Count();
+
+            if (installerCount > 0)
+            {
+                Log.Append($"Cleaning up {installerCount} installer(s) ...", Log.LogLevel.INFO);
+                foreach (string installerPath in installerPaths)
+                {
+                    File.Delete(installerPath);
+                }
+            }
         }
     }
 }

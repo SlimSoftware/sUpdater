@@ -173,17 +173,9 @@ namespace sUpdater
                     }
                 }
 
-                // Cleanup any exe's in appdata dir
-                if (Directory.GetFiles(Utilities.Settings.DataDir, "*.exe").Length > 0)
-                {
-                    Log.Append("Cleaning up installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Utilities.Settings.DataDir, ".exe"))
-                    {
-                        File.Delete(exePath);
-                    }
-                }
+                Utilities.CleanupInstallers();
 
-                if (installFailed == true)
+                if (installFailed)
                 {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
@@ -199,8 +191,8 @@ namespace sUpdater
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
                 }
-                if (installFailed == false)
-                {                
+                else
+                {
                     StartPage.ReadDefenitions();
                     GetNotInstalledApps();
                     getAppsListView.ItemsSource = notInstalledApps;
