@@ -315,6 +315,7 @@ namespace sUpdater
             if (connectedToServer)
                 CheckForUpdates();
             UpdateGUI();
+            mainWindow.UpdateTaskbarIcon();
         }
     }
 }
