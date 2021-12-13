@@ -203,7 +203,7 @@ namespace sUpdater
                     IsWaiting = false;
                     Progress = 100;
                 }
-                if (p.ExitCode != 0)
+                else
                 {
                     Log.Append(string.Format("Installation failed. Installer exited with " +
                         "exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
