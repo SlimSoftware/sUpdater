@@ -173,8 +173,6 @@ namespace sUpdater
                     }
                 }
 
-                Utilities.CleanupInstallers();
-
                 if (installFailed)
                 {
                     // Only show the failed apps
