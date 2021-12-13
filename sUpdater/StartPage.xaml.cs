@@ -219,7 +219,7 @@ namespace sUpdater
         /// <summary>
         /// Updates the GUI according to whether there are updates or there is a connection to the server
         /// </summary>
-        private void UpdateGUI()
+        public void UpdateGUI()
         {
             MainWindow mainWindow = Utilities.GetMainWindow();
             if (mainWindow.ConnectedToServer)
