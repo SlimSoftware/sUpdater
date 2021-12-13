@@ -217,7 +217,7 @@ namespace sUpdater
         #endregion
 
         /// <summary>
-        /// Updates to GUI according to whether there are updates or there is a connection to the server
+        /// Updates the GUI according to whether there are updates or there is a connection to the server
         /// </summary>
         private void UpdateGUI()
         {
@@ -228,10 +228,16 @@ namespace sUpdater
                 {
                     if (updaterTile.Background == Colors.normalGreyBrush)
                     {
-                        // Update state when connection is available again
                         getAppsTile.Background = Colors.normalGreenBrush;
                         portableAppsTile.Background = Colors.normalGreenBrush;
                         offlineNoticePanel.Visibility = Visibility.Hidden;
+
+                        updaterTile.MouseLeftButtonDown += UpdaterTile_MouseLeftButtonDown;
+                        updaterTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
+                        getAppsTile.MouseLeftButtonDown += GetAppsTile_MouseLeftButtonDown;
+                        getAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
+                        portableAppsTile.MouseLeftButtonDown += PortableAppsTile_MouseLeftButtonDown;
+                        portableAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
                     }
 
                     if (Apps.Updates.Count > 0)
