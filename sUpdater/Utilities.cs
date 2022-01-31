@@ -205,5 +205,33 @@ namespace sUpdater
             serializer.Serialize(writer, Settings);
             writer.Close();
         }
+
+        public static string GetDefinitionURL()
+        {
+            if (Settings.DefenitionURL != null)
+            {
+                return Settings.DefenitionURL;
+            }
+            else
+            {
+                return "https://www.slimsoft.tk/supdater/api";
+            }
+        }
+
+        public static string RemoveLeadingNewLinesAndTabs(string text)
+        {
+            string newText = text;
+
+            if (text.StartsWith("\n"))
+            {
+                newText = newText.TrimStart("\n".ToCharArray());
+            }
+            if (text.Contains("\t"))
+            {
+                newText = newText.Replace("\t", string.Empty);
+            }
+
+            return newText;
+        }
     }
 }
