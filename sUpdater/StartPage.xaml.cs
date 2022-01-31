@@ -158,7 +158,7 @@ namespace sUpdater
                         }
                     }
 
-                    if (File.Exists(exePath))
+                    if (File.Exists(exePath) && regkeyElement?.Value == null)
                     {
                         localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
                     }
