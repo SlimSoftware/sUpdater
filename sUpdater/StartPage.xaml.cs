@@ -7,6 +7,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Xml.Linq;
 
 namespace sUpdater
@@ -51,6 +53,8 @@ namespace sUpdater
 
             foreach (XElement appElement in defenitions.Descendants("app"))
             {
+                ImageSource icon = null;
+
                 // Get content from XML nodes
                 XAttribute nameAttribute = appElement.Attribute("name");
                 XElement idElement = appElement.Element("id");
@@ -158,9 +162,18 @@ namespace sUpdater
                         }
                     }
 
-                    if (File.Exists(exePath) && regkeyElement?.Value == null)
+                    if (File.Exists(exePath))
                     {
-                        localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        if (regkeyElement?.Value == null)
+                        {
+                            localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        }
+
+                        using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(exePath))
+                        {
+                            icon = Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle,Int32Rect.Empty,
+                                   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+                        }
                     }
                 }
 
@@ -170,6 +183,7 @@ namespace sUpdater
                     dlElement.Value);
                 appToAdd.HasChangelog = changelogElement?.Value != null;
                 appToAdd.HasDescription = descriptionElement?.Value != null;
+                appToAdd.Icon = icon;
 
                 Apps.Regular.Add(appToAdd);
             }
