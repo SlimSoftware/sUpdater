@@ -53,6 +53,7 @@ namespace sUpdater
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = appElement.Attribute("name");
+                XElement idElement = appElement.Element("id");
                 XElement versionElement = appElement.Element("version");
                 XElement archElement = appElement.Element("arch");
                 XElement typeElement = appElement.Element("type");
@@ -163,7 +164,8 @@ namespace sUpdater
                     }
                 }
 
-                Application appToAdd = new Application(nameAttribute.Value.ToString(), versionElement.Value,
+                int id = Convert.ToInt32(idElement.Value);
+                Application appToAdd = new Application(id, nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, typeElement.Value, switchElement.Value,
                     dlElement.Value);
                 appToAdd.HasChangelog = changelogElement?.Value != null;
