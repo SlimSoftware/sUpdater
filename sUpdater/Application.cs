@@ -14,7 +14,7 @@ namespace sUpdater
 {
     public class Application : INotifyPropertyChanged
     {
-        public int Id { get; set; }
+        public int Id { get; }
         public ImageSource Icon { get; set; }
         public string Name { get; set; }
         public string LatestVersion { get; set; }
