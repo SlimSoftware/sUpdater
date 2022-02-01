@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Navigation;
 
 namespace sUpdater
@@ -26,7 +27,7 @@ namespace sUpdater
             if (installedPortableApps.Count == 0)
             {
                 noAppsInstalledLabel.Visibility = Visibility.Visible;
-            } 
+            }
         }
 
         /// <summary>
@@ -47,10 +48,19 @@ namespace sUpdater
             {
                 PortableApp pAppListItem = new PortableApp(Path.GetFileName(appDirPath), null);
                 pAppListItem.Checkbox = false;
-                apps.Add(pAppListItem);
 
                 // Find associated PortableApp
                 PortableApp app = portableApps.Find(x => x.Name == pAppListItem.Name);
+
+                string launchPath = Path.Combine(appDirPath, app.Launch);
+                if (File.Exists(launchPath))
+                {
+                    using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(launchPath))
+                    {
+                        pAppListItem.Icon = Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
+                            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+                    }
+                }
 
                 pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {
@@ -61,10 +71,12 @@ namespace sUpdater
 
                     pAppListItem.Status = "";
                     pAppListItem.LinkText = linkText;
-                }));               
+                }));
+
+                apps.Add(pAppListItem);
             }
 
-            return apps; 
+            return apps;
         }
 
         private void GetPortableAppsLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -77,7 +89,7 @@ namespace sUpdater
         {
             MenuItem menuItem = sender as MenuItem;
             PortableApp app = (PortableApp)menuItem.DataContext;
-            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {app.Name}, including all of its settings and data?", 
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {app.Name}, including all of its settings and data?",
                 "sUpdater", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
@@ -111,7 +123,7 @@ namespace sUpdater
         }
 
         private void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
-        {        
+        {
             if (e.NavigationMode == NavigationMode.Back)
             {
                 // Refresh list when going back from other page
