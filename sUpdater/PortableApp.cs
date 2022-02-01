@@ -13,6 +13,7 @@ namespace sUpdater
 {
     public class PortableApp : INotifyPropertyChanged
     {
+        public int Id { get; }
         public string Name { get; set; }
         public ImageSource Icon { get; set; }
         public string LatestVersion { get; set; }
@@ -73,9 +74,10 @@ namespace sUpdater
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PortableApp(string name, string latestVersion, string localVersion, string arch,
+        public PortableApp(int id, string name, string latestVersion, string localVersion, string arch,
             string launch, string dl, string extractMode, string savePath = null)
         {
+            Id = id;
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
