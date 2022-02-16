@@ -217,7 +217,7 @@ namespace sUpdater
             else
             {
                 Log.Append("Using official definitions", Log.LogLevel.INFO);
-                return "https://www.slimsoft.tk/supdater/api";
+                return "https://www.slimsoft.tk/supdater/api/definitions.xml";
             }
         }
 
