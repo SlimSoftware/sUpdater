@@ -210,10 +210,13 @@ namespace sUpdater
         {
             if (Settings.DefenitionURL != null)
             {
+                Log.Append($"Using custom definition file from {Settings.DefenitionURL}",
+                    Log.LogLevel.INFO);
                 return Settings.DefenitionURL;
             }
             else
             {
+                Log.Append("Using official definitions", Log.LogLevel.INFO);
                 return "https://www.slimsoft.tk/supdater/api";
             }
         }
