@@ -34,17 +34,7 @@ namespace sUpdater
             // Load XML File
             try
             {
-                if (Utilities.Settings.DefenitionURL != null)
-                {
-                    Log.Append("Using custom definition file from " + Utilities.Settings.DefenitionURL,
-                        Log.LogLevel.INFO);
-                    defenitions = XDocument.Load(Utilities.Settings.DefenitionURL);
-                }
-                else
-                {
-                    Log.Append("Using official definitions", Log.LogLevel.INFO);
-                    defenitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
-                }
+                defenitions = XDocument.Load(Utilities.GetDefinitionURL());
             }
             catch (Exception)
             {

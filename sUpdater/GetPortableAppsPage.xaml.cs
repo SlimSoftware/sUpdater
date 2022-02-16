@@ -69,17 +69,7 @@ namespace sUpdater
             Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
 
             List<PortableApp> apps = new List<PortableApp>();
-            XDocument definitions;
-
-            // Load XML File
-            if (Utilities.Settings.DefenitionURL != null)
-            {
-                definitions = XDocument.Load(Utilities.Settings.DefenitionURL);
-            }
-            else
-            {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
-            }
+            XDocument definitions = XDocument.Load(Utilities.GetDefinitionURL());
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))
             {
