@@ -19,6 +19,7 @@ namespace sUpdater
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
+        public string ExePath { get; private set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
         public bool HasDescription { get; set; }
@@ -66,13 +67,14 @@ namespace sUpdater
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Application(int id, string name, string latestVersion, string localVersion, string arch,
-            string type, string installSwitch, string downloadLink, string savePath = null)
+        public Application(int id, string name, string latestVersion, string localVersion, string exePath,
+            string arch, string type, string installSwitch, string downloadLink, string savePath = null)
         {
             Id = id;
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
+            ExePath = exePath;
             Arch = arch;
             Type = type;
             InstallSwitch = installSwitch;

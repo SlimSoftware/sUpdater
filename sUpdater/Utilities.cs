@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace sUpdater
 {
@@ -125,7 +128,7 @@ namespace sUpdater
         public static void ShowFromTray(MainWindow mainWindow)
         {
             mainWindow.ShowInTaskbar = true;
-           
+
             if (mainWindow.WindowState == WindowState.Minimized)
             {
                 mainWindow.WindowState = WindowState.Normal;
@@ -170,7 +173,7 @@ namespace sUpdater
                 using (FileStream fs = new FileStream(settingsXmlPath, FileMode.Open))
                 {
                     Settings = (Settings)serializer.Deserialize(fs);
-                }                 
+                }
             }
             else
             {
@@ -235,6 +238,65 @@ namespace sUpdater
             }
 
             return newText;
+        }
+
+        /// <summary>
+        /// Replaces all variables in the given exePath string and returns the resulting string
+        /// </summary>
+        public static string ParseExePath(string exePath)
+        {
+            if (exePath.Contains("%pf32%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFilesX86));
+                }
+                else
+                {
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFiles));
+                }
+            }
+            else if (exePath.Contains("%pf64%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    // We cannot use SpecialFolder.ProgramFiles here, because we are running as a 32-bit process
+                    // SpecialFolder.ProgramFiles would return the 32-bit ProgramFiles here
+                    exePath = exePath.Replace("%pf64%", Environment.GetEnvironmentVariable("ProgramW6432"));
+                }
+            }
+
+            return exePath;
+        }
+
+        private static BitmapSource GetIconFromFile(string filePath)
+        {
+            using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
+            {
+                return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
+                       BitmapSizeOptions.FromEmptyOptions());
+            }
+        }
+
+        public static void PopulateAppIcons(List<Application> apps)
+        {
+            foreach (Application app in apps)
+            {
+                if (app.Icon == null && File.Exists(app.ExePath))
+                {
+                    app.Icon = GetIconFromFile(app.ExePath);
+                }
+            }
+        }
+
+        public static void PopulatePortableAppIcon(PortableApp portableApp, string exePath)
+        {
+            if (portableApp.Icon == null && File.Exists(exePath))
+            {
+                portableApp.Icon = GetIconFromFile(exePath);
+            }
         }
     }
 }

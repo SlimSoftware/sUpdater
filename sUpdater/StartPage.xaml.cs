@@ -1,13 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
 using System.Xml.Linq;
 
@@ -28,7 +25,7 @@ namespace sUpdater
         public static bool ReadDefenitions()
         {
             Log.Append("Reading definitions file", Log.LogLevel.INFO);
-            Apps.Regular = new ObservableCollection<Application>();
+            Apps.Regular = new List<Application>();
             XDocument defenitions;
 
             // Load XML File
@@ -120,37 +117,17 @@ namespace sUpdater
                         localVersion = regValue.ToString();
                     }
                 }
+
+                string exePath = null;
                 if (exePathElement?.Value != null)
                 {
-                    string exePath = exePathElement.Value;
-                    if (exePath.Contains("%pf32%"))
+                    exePath = exePathElement.Value;
+                    if (exePath.Contains("%pf64%") && !Environment.Is64BitOperatingSystem)
                     {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFilesX86));
-                        }
-                        else
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles));
-                        }
+                        // Do not add the app to the list because it is a 64 bit app on a 32 bit system
+                        continue;
                     }
-                    else if (exePath.Contains("%pf64%"))
-                    {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            // We cannot use SpecialFolder.ProgramFiles here, because we are running as a 32-bit process
-                            // SpecialFolder.ProgramFiles would return the 32-bit ProgramFiles here
-                            exePath = exePath.Replace("%pf64%", Environment.GetEnvironmentVariable("ProgramW6432"));
-                        }
-                        else
-                        {
-                            // Do not add the app to the list because it is a 64 bit app
-                            // on a 32 bit system
-                            continue;
-                        }
-                    }
+                    exePath = Utilities.ParseExePath(exePath);
 
                     if (File.Exists(exePath))
                     {
@@ -158,19 +135,13 @@ namespace sUpdater
                         {
                             localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
                         }
-
-                        using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(exePath))
-                        {
-                            icon = Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle,Int32Rect.Empty,
-                                   System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-                        }
                     }
                 }
 
                 int id = Convert.ToInt32(idElement.Value);
                 Application appToAdd = new Application(id, nameAttribute.Value, versionElement.Value,
-                    localVersion, archElement.Value, typeElement.Value, switchElement.Value,
-                    dlElement.Value);
+                    localVersion, exePath, archElement.Value, typeElement.Value,
+                    switchElement.Value, dlElement.Value);
                 appToAdd.HasChangelog = changelogElement?.Value != null;
                 appToAdd.HasDescription = descriptionElement?.Value != null;
                 appToAdd.Icon = icon;
@@ -186,7 +157,7 @@ namespace sUpdater
         public static void CheckForUpdates()
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
-            Apps.Updates = new ObservableCollection<Application>(Apps.Regular);
+            Apps.Updates = new List<Application>(Apps.Regular);
 
             foreach (Application app in Apps.Updates.ToArray())
             {

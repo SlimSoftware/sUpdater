@@ -53,14 +53,7 @@ namespace sUpdater
                 PortableApp app = portableApps.Find(x => x.Name == pAppListItem.Name);
 
                 string launchPath = Path.Combine(appDirPath, app.Launch);
-                if (File.Exists(launchPath))
-                {
-                    using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(launchPath))
-                    {
-                        pAppListItem.Icon = Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
-                            System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
-                    }
-                }
+                Utilities.PopulatePortableAppIcon(pAppListItem, launchPath);
 
                 pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {

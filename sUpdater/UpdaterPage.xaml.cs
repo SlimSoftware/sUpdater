@@ -17,7 +17,7 @@ namespace sUpdater
     /// </summary>
     public partial class UpdaterPage : Page
     {
-        private ObservableCollection<Application> detailsList;
+        private List<Application> detailsList;
 
         public UpdaterPage()
         {
@@ -26,6 +26,7 @@ namespace sUpdater
             if (Apps.Updates.Count != 0)
             {
                 updateListView.ItemsSource = Apps.Updates;
+                Utilities.PopulateAppIcons(Apps.Updates);
             }
             else
             {
@@ -38,7 +39,7 @@ namespace sUpdater
         /// </summary>
         private void SetupDetailsMode()
         {
-            detailsList = new ObservableCollection<Application>();
+            detailsList = new List<Application>();
 
             foreach (Application a in Apps.Regular)
             {
@@ -67,6 +68,7 @@ namespace sUpdater
                 detailsList.Add(app);
             }
 
+            Utilities.PopulateAppIcons(detailsList);
             updateListView.ItemsSource = detailsList;
             Title = "Details";
 

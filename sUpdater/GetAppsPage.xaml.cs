@@ -55,6 +55,7 @@ namespace sUpdater
                 }
             }
 
+            Utilities.PopulateAppIcons(notInstalledApps);
             getAppsListView.Items.Refresh();
         }
 
