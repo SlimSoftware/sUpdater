@@ -268,6 +268,9 @@ namespace sUpdater
                 }
             }
 
+            // Replace system environment vars
+            exePath = Environment.ExpandEnvironmentVariables(exePath);
+
             return exePath;
         }
 
