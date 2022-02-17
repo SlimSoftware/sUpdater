@@ -119,10 +119,22 @@ namespace sUpdater
             }
         }
 
+        public static void UnloadPages(MainWindow mainWindow)
+        {
+            var navigationService = mainWindow.frame.NavigationService;
+            var pageEntry = navigationService.RemoveBackEntry();
+
+            while (pageEntry != null)
+            {
+                pageEntry = navigationService.RemoveBackEntry();
+            }
+        }
+
         public static void MinimizeToTray(MainWindow mainWindow)
         {
             mainWindow.Hide();
             mainWindow.ShowInTaskbar = false;
+            UnloadPages(mainWindow);
         }
 
         public static void ShowFromTray(MainWindow mainWindow)
