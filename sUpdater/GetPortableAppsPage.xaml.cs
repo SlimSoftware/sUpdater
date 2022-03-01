@@ -69,22 +69,13 @@ namespace sUpdater
             Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
 
             List<PortableApp> apps = new List<PortableApp>();
-            XDocument definitions;
-
-            // Load XML File
-            if (Utilities.Settings.DefenitionURL != null)
-            {
-                definitions = XDocument.Load(Utilities.Settings.DefenitionURL);
-            }
-            else
-            {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
-            }
+            XDocument definitions = XDocument.Load(Utilities.GetDefinitionURL());
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = portableAppElement.Attribute("name");
+                XElement idElement = portableAppElement.Element("id");
                 XElement versionElement = portableAppElement.Element("version");
                 XElement archElement = portableAppElement.Element("arch");
                 XElement launchElement = portableAppElement.Element("launch");
@@ -95,7 +86,9 @@ namespace sUpdater
                 // TODO: Get local version of portable app if installed
                 string localVersion = "-";
 
-                apps.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
+                int id = Convert.ToInt32(idElement.Value);
+
+                apps.Add(new PortableApp(id, nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
                     extractModeElement.Value));             
             }

@@ -8,14 +8,18 @@ using System.Windows;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace sUpdater
 {
     public class Application : INotifyPropertyChanged
     {
+        public int Id { get; }
+        public ImageSource Icon { get; set; }
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
+        public string ExePath { get; private set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
         public bool HasDescription { get; set; }
@@ -63,12 +67,14 @@ namespace sUpdater
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Application(string name, string latestVersion, string localVersion, string arch,
-            string type, string installSwitch, string downloadLink, string savePath = null)
+        public Application(int id, string name, string latestVersion, string localVersion, string exePath,
+            string arch, string type, string installSwitch, string downloadLink, string savePath = null)
         {
+            Id = id;
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
+            ExePath = exePath;
             Arch = arch;
             Type = type;
             InstallSwitch = installSwitch;
@@ -83,7 +89,7 @@ namespace sUpdater
                 try
                 {
                     Directory.CreateDirectory(Utilities.Settings.DataDir);
-                } 
+                }
                 catch (Exception ex)
                 {
                     Log.Append($"Could not create data dir: {ex.Message}", Log.LogLevel.ERROR);
@@ -93,7 +99,7 @@ namespace sUpdater
             }
 
             string fileName = Path.GetFileName(DownloadLink);
-            SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);        
+            SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded
             if (!File.Exists(SavePath))
@@ -139,7 +145,7 @@ namespace sUpdater
                 Progress = 50;
                 Status = "Already downloaded, starting install...";
                 Log.Append("Found existing installer", Log.LogLevel.INFO);
-            }     
+            }
         }
 
         public async Task Install()
@@ -203,7 +209,7 @@ namespace sUpdater
                     IsWaiting = false;
                     Progress = 100;
                 }
-                if (p.ExitCode != 0)
+                else
                 {
                     Log.Append(string.Format("Installation failed. Installer exited with " +
                         "exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
@@ -213,54 +219,28 @@ namespace sUpdater
                     IsWaiting = false;
                 }
             }
-        }        
+        }
 
         public string GetChangelog()
         {
             string changelogText = "";
-            string defenitionURL;
+            string definitionURL = Utilities.GetDefinitionURL();
 
-            if (Utilities.Settings.DefenitionURL != null)
+            using (WebClient client = new WebClient())
             {
-                defenitionURL = Utilities.Settings.DefenitionURL;
-            }
-            else
-            {
-                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
-            }
-
-            using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
-            {
-                while (xmlReader.Read())
+                try
                 {
-                    xmlReader.ReadToFollowing("app");
-                    xmlReader.MoveToNextAttribute();
-
-                    string appAttribute = xmlReader.Value;
-                    if (Name.StartsWith(appAttribute))
-                    {
-                        xmlReader.MoveToElement();
-                        xmlReader.ReadToDescendant("changelog");
-                        if (xmlReader.NodeType != XmlNodeType.EndElement)
-                        {
-                            changelogText = xmlReader.ReadElementContentAsString();
-                        }
-                        break;
-                    }
+                    changelogText = client.DownloadString($"{definitionURL}/changelog?id={Id}");
                 }
+                catch (Exception ex)
+                {
+                    Log.Append($"Failed to fetch changelog for {Name}, id {Id}: {ex.Message}", Log.LogLevel.ERROR);
+                }              
             }
 
             if (changelogText != null)
             {
-                // Remove first newline and/or any tabs
-                if (changelogText.StartsWith("\n"))
-                {
-                    changelogText = changelogText.TrimStart("\n".ToCharArray());
-                }
-                if (changelogText.Contains("\t"))
-                {
-                    changelogText = changelogText.Replace("\t", string.Empty);
-                }
+                Utilities.RemoveLeadingNewLinesAndTabs(changelogText);
             }
 
             return changelogText;
@@ -269,49 +249,23 @@ namespace sUpdater
         public string GetDescription()
         {
             string descriptionText = null;
-            string defenitionURL;
+            string definitionURL = Utilities.GetDefinitionURL();
 
-            if (Utilities.Settings.DefenitionURL != null)
+            using (WebClient client = new WebClient())
             {
-                defenitionURL = Utilities.Settings.DefenitionURL;
-            }
-            else
-            {
-                defenitionURL = "https://www.slimsoft.tk/supdater/definitions.xml";
-            }
-
-            using (XmlReader xmlReader = XmlReader.Create(defenitionURL))
-            {
-                while (xmlReader.Read())
+                try
                 {
-                    xmlReader.ReadToFollowing("app");
-                    xmlReader.MoveToNextAttribute();
-
-                    string appAttribute = xmlReader.Value;
-                    if (appAttribute == Name)
-                    {
-                        xmlReader.MoveToElement();
-                        xmlReader.ReadToDescendant("description");
-                        if (xmlReader.NodeType != XmlNodeType.EndElement)
-                        {
-                            descriptionText = xmlReader.ReadElementContentAsString();
-                        }
-                        break;
-                    }
+                    descriptionText = client.DownloadString($"{definitionURL}/description?id={Id}");
+                }
+                catch (Exception ex)
+                {
+                    Log.Append($"Failed to fetch changelog for {Name}, id {Id}: {ex.Message}", Log.LogLevel.ERROR);
                 }
             }
 
             if (descriptionText != null)
             {
-                // Remove first newline and/or any tabs
-                if (descriptionText.StartsWith("\n"))
-                {
-                    descriptionText = descriptionText.TrimStart("\n".ToCharArray());
-                }
-                if (descriptionText.Contains("\t"))
-                {
-                    descriptionText = descriptionText.Replace("\t", string.Empty);
-                }
+                Utilities.RemoveLeadingNewLinesAndTabs(descriptionText);
             }
 
             return descriptionText;

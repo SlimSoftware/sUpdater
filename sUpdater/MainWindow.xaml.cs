@@ -172,6 +172,12 @@ namespace sUpdater
                 StartPage.CheckForUpdates();
             }
             UpdateTaskbarIcon();
+            
+            if (frame.Content is StartPage)
+            {
+                StartPage startPage = (StartPage)frame.Content;
+                startPage.UpdateGUI();
+            }
         }
 
         private void TrayOpenMenuItem_Click(object sender, RoutedEventArgs e)

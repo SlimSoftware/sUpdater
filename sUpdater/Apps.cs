@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 
 namespace sUpdater
 {
@@ -11,11 +11,11 @@ namespace sUpdater
         /// <summary>
         /// Contains all apps, except for portable apps
         /// </summary>
-        public static ObservableCollection<Application> Regular;
+        public static List<Application> Regular;
 
         /// <summary>
         /// Contains all updates that are currently available
         /// </summary>
-        public static ObservableCollection<Application> Updates;
+        public static List<Application> Updates;
     }
 }

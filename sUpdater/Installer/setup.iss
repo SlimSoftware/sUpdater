@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.0.6"
+#define AppVersion "4.0.7"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -54,8 +54,8 @@ Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
 Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"
 Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"
 Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}"
-Source: "..\bin\Release\7-Zip\7z.dll"; DestDir: "{app}"
-Source: "..\bin\Release\7-Zip\7z.exe"; DestDir: "{app}"
+Source: "..\bin\Release\7z.dll"; DestDir: "{app}"
+Source: "..\bin\Release\7z.exe"; DestDir: "{app}"
 Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"
 Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}"
 Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}"; Flags: ignoreversion

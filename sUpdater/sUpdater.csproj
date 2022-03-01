@@ -275,6 +275,7 @@
       <Link>7z.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Icons\no_icon.png" />
     <Resource Include="Resources\AsyncEnumerable License.txt" />
     <Resource Include="Resources\WPF NotifyIcon license.txt" />
     <Resource Include="Icons\sUpdater_Grey.ico" />

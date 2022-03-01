@@ -6,6 +6,9 @@ using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace sUpdater
 {
@@ -116,16 +119,28 @@ namespace sUpdater
             }
         }
 
+        public static void UnloadPages(MainWindow mainWindow)
+        {
+            var navigationService = mainWindow.frame.NavigationService;
+            var pageEntry = navigationService.RemoveBackEntry();
+
+            while (pageEntry != null)
+            {
+                pageEntry = navigationService.RemoveBackEntry();
+            }
+        }
+
         public static void MinimizeToTray(MainWindow mainWindow)
         {
             mainWindow.Hide();
             mainWindow.ShowInTaskbar = false;
+            UnloadPages(mainWindow);
         }
 
         public static void ShowFromTray(MainWindow mainWindow)
         {
             mainWindow.ShowInTaskbar = true;
-           
+
             if (mainWindow.WindowState == WindowState.Minimized)
             {
                 mainWindow.WindowState = WindowState.Normal;
@@ -170,7 +185,7 @@ namespace sUpdater
                 using (FileStream fs = new FileStream(settingsXmlPath, FileMode.Open))
                 {
                     Settings = (Settings)serializer.Deserialize(fs);
-                }                 
+                }
             }
             else
             {
@@ -206,23 +221,96 @@ namespace sUpdater
             writer.Close();
         }
 
-        /// <summary>
-        /// Deletes all .exe and .msi installers in the data directory
-        /// </summary>
-        public static void CleanupInstallers()
+        public static string GetDefinitionURL()
         {
-            var exeInstallerPaths = Directory.GetFiles(Utilities.Settings.DataDir, "*.exe");
-            var msiInstallerPaths = Directory.GetFiles(Utilities.Settings.DataDir, "*.msi");
-            var installerPaths = exeInstallerPaths.Concat(msiInstallerPaths);
-            var installerCount = installerPaths.Count();
-
-            if (installerCount > 0)
+            if (Settings.DefenitionURL != null)
             {
-                Log.Append($"Cleaning up {installerCount} installer(s) ...", Log.LogLevel.INFO);
-                foreach (string installerPath in installerPaths)
+                Log.Append($"Using custom definition file from {Settings.DefenitionURL}",
+                    Log.LogLevel.INFO);
+                return Settings.DefenitionURL;
+            }
+            else
+            {
+                Log.Append("Using official definitions", Log.LogLevel.INFO);
+                return "https://www.slimsoft.tk/supdater/api/definitions.xml";
+            }
+        }
+
+        public static string RemoveLeadingNewLinesAndTabs(string text)
+        {
+            string newText = text;
+
+            if (text.StartsWith("\n"))
+            {
+                newText = newText.TrimStart("\n".ToCharArray());
+            }
+            if (text.Contains("\t"))
+            {
+                newText = newText.Replace("\t", string.Empty);
+            }
+
+            return newText;
+        }
+
+        /// <summary>
+        /// Replaces all variables in the given exePath string and returns the resulting string
+        /// </summary>
+        public static string ParseExePath(string exePath)
+        {
+            if (exePath.Contains("%pf32%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
                 {
-                    File.Delete(installerPath);
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFilesX86));
                 }
+                else
+                {
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFiles));
+                }
+            }
+            else if (exePath.Contains("%pf64%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    // We cannot use SpecialFolder.ProgramFiles here, because we are running as a 32-bit process
+                    // SpecialFolder.ProgramFiles would return the 32-bit ProgramFiles here
+                    exePath = exePath.Replace("%pf64%", Environment.GetEnvironmentVariable("ProgramW6432"));
+                }
+            }
+
+            // Replace system environment vars
+            exePath = Environment.ExpandEnvironmentVariables(exePath);
+
+            return exePath;
+        }
+
+        private static BitmapSource GetIconFromFile(string filePath)
+        {
+            using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
+            {
+                return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
+                       BitmapSizeOptions.FromEmptyOptions());
+            }
+        }
+
+        public static void PopulateAppIcons(List<Application> apps)
+        {
+            foreach (Application app in apps)
+            {
+                if (app.Icon == null && File.Exists(app.ExePath))
+                {
+                    app.Icon = GetIconFromFile(app.ExePath);
+                }
+            }
+        }
+
+        public static void PopulatePortableAppIcon(PortableApp portableApp, string exePath)
+        {
+            if (portableApp.Icon == null && File.Exists(exePath))
+            {
+                portableApp.Icon = GetIconFromFile(exePath);
             }
         }
     }

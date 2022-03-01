@@ -55,6 +55,7 @@ namespace sUpdater
                 }
             }
 
+            Utilities.PopulateAppIcons(notInstalledApps);
             getAppsListView.Items.Refresh();
         }
 
@@ -172,8 +173,6 @@ namespace sUpdater
                         await app.Install();
                     }
                 }
-
-                Utilities.CleanupInstallers();
 
                 if (installFailed)
                 {
