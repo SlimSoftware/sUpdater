@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.Diagnostics;
 using System.IO;

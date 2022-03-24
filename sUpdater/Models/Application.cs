@@ -6,11 +6,10 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
-using System.Xml;
 using System.Collections.Generic;
 using System.Windows.Media;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
     public class Application : INotifyPropertyChanged
     {

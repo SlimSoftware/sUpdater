@@ -1,10 +1,12 @@
 ﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Colors = sUpdater.Models.Colors;
 
 namespace sUpdater
 {

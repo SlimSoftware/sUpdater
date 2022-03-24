@@ -1,13 +1,14 @@
 ﻿using Dasync.Collections;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml.Linq;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
@@ -21,7 +22,7 @@ namespace sUpdater
         public GetPortableAppsPage()
         {
             InitializeComponent();
-            notInstalledPortableApps = GetNotInstalledPortableApps();    
+            notInstalledPortableApps = GetNotInstalledPortableApps();
 
             foreach (PortableApp app in notInstalledPortableApps)
             {
@@ -90,7 +91,7 @@ namespace sUpdater
 
                 apps.Add(new PortableApp(id, nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                    extractModeElement.Value));             
+                    extractModeElement.Value));
             }
 
             return apps;
@@ -123,7 +124,7 @@ namespace sUpdater
             else
             {
                 // Unselect all selected apps                
-                portableAppsListView.SelectedItems.Clear();    
+                portableAppsListView.SelectedItems.Clear();
             }
         }
 
@@ -164,7 +165,7 @@ namespace sUpdater
 
             if (portableAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater", 
+                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No Portable Apps selected to install, aborting...", Log.LogLevel.WARN);
 
@@ -229,7 +230,7 @@ namespace sUpdater
                     statusLabel.Visibility = Visibility.Visible;
                 }
                 else
-                {                   
+                {
                     notInstalledPortableApps = GetNotInstalledPortableApps();
                     // TODO: Properly refresh
                     portableAppsListView.ItemsSource = null;

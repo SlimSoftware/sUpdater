@@ -1,9 +1,9 @@
-﻿using System;
+﻿using sUpdater.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Navigation;
 
 namespace sUpdater

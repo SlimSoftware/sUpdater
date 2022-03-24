@@ -1,19 +1,19 @@
 ﻿using Dasync.Collections;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for UpdaterPage.xaml
     /// </summary>
     public partial class UpdaterPage : Page
     {

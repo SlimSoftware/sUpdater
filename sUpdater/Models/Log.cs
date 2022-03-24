@@ -1,14 +1,12 @@
 ﻿using System;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
     public static class Log
     {
-        private static string _logText { get; set; }
-
         public static event EventHandler<LogAppendEventArgs> LogAppend;
 
-        public static string LogText { get { return _logText; } }
+        public static string LogText { get; private set; }
 
         public enum LogLevel
         {
@@ -21,9 +19,8 @@ namespace sUpdater
         {
             string logLine = string.Format("[{0}] [{1}] {2}",
                 DateTime.Now.ToLongTimeString(), logLevel, text + Environment.NewLine);
-            _logText += logLine;
+            LogText += logLine;
 
-            // Fire the LogAppendEvent
             LogAppend?.Invoke(null, new LogAppendEventArgs() { AppendedLine = logLine });
         }
     }

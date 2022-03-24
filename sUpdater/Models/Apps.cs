@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
     /// <summary>
     /// Holds the ObservableCollections with information about apps and updates.

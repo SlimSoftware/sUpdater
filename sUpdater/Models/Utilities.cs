@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Windows;
-using sUpdater.Models;
 using System.IO;
 using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
     public static class Utilities
     {

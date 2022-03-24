@@ -1,11 +1,13 @@
 ﻿using AutoUpdaterDotNET;
 using Hardcodet.Wpf.TaskbarNotification;
+using sUpdater.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {

@@ -1,11 +1,12 @@
-﻿using System.Diagnostics;
+﻿using sUpdater.Models;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Controls;
 
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for AboutPage.xaml
     /// </summary>
     public partial class AboutPage : Page
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,18 +8,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml.Linq;
+using Application = sUpdater.Models.Application;
+using Colors = sUpdater.Models.Colors;
 
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for StartPage.xaml
     /// </summary>
     public partial class StartPage : Page
     {
         public StartPage()
         {
             InitializeComponent();
-            UpdateGUI();            
+            UpdateGUI();
         }
 
         #region ReadDefenitions()
@@ -78,7 +81,7 @@ namespace sUpdater
                         {
                             baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
                         }
-                    } 
+                    }
                     else
                     {
                         if (archElement?.Value == "x64")
@@ -228,7 +231,7 @@ namespace sUpdater
                         {
                             updaterTile.Title = string.Format("{0} updates available", Apps.Updates.Count);
                         }
-                        
+
                     }
                     else
                     {
@@ -255,7 +258,7 @@ namespace sUpdater
 
         private void TileClickedWithNoConnection(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            MessageBox.Show("This functionality is not available when there is no connection to the server.", 
+            MessageBox.Show("This functionality is not available when there is no connection to the server.",
                 "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 

@@ -3,7 +3,7 @@
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for LicensePage.xaml
+    /// Interaction logic for InfoPage.xaml
     /// </summary>
     public partial class InfoPage : Page
     {
