@@ -101,6 +101,24 @@ namespace sUpdater.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Software Licenses that apply to the DotNetZip library and tools
+        ///
+        ///As DotNetZip includes work derived from other projects, you are required to comply with the terms and conditions for each of them. These licenses include BSD, Apache, and zlib.
+        ///
+        ///To use the software, you must accept the licenses. If you do not accept the licenses, do not use the software.
+        ///
+        ///Original intellectual property in DotNetZip is provided under the Ms-PL:
+        ///    
+        ///    Copyright (c) 2006 - 2011 Dino Chiesa 
+        ///    Copyright (c) 2006, 200 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DotNetZipLicense {
+            get {
+                return ResourceManager.GetString("DotNetZipLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inno Setup License
         ///==================
         ///
@@ -118,30 +136,6 @@ namespace sUpdater.Properties {
         internal static string InnoSetupLicense {
             get {
                 return ResourceManager.GetString("InnoSetupLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to   7-Zip
-        ///  ~~~~~
-        ///  License for use and distribution
-        ///  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        ///
-        ///  7-Zip Copyright (C) 1999-2019 Igor Pavlov.
-        ///
-        ///  The licenses for files are:
-        ///
-        ///    1) 7z.dll:
-        ///         - The &quot;GNU LGPL&quot; as main license for most of the code
-        ///         - The &quot;GNU LGPL&quot; with &quot;unRAR license restriction&quot; for some code
-        ///         - The &quot;BSD 3-clause License&quot; for some code
-        ///    2) All other files: the &quot;GNU LGPL&quot;.
-        ///
-        ///  Redistributions in binary form must reproduce related license information from this fil [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string SevenZipLicense {
-            get {
-                return ResourceManager.GetString("SevenZipLicense", resourceCulture);
             }
         }
         

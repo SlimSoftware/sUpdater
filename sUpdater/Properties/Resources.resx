@@ -119,16 +119,16 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="AsyncEnumerableLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AsyncEnumerable License.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Licenses\AsyncEnumerable.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="AutoUpdaterNETLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\AutoUpdaterNET license.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\Licenses\AutoUpdaterNET.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="DotNetZipLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Licenses\DotNetZip.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="InnoSetupLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Inno Setup license.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="SevenZipLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\7-Zip license.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\Licenses\Inno Setup.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="sUpdater" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\sUpdater.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -140,6 +140,6 @@
     <value>..\Icons\sUpdater_Orange.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="WPFNotifyIconLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\WPF NotifyIcon license.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\Licenses\WPF NotifyIcon.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

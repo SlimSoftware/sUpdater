@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -174,20 +175,7 @@ namespace sUpdater.Models
             {
                 if (ExtractMode == "folder")
                 {
-                    string sevenZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "7z.exe");
-                    if (!File.Exists(sevenZipPath))
-                    {
-                        Log.Append($"7-Zip not present at: {sevenZipPath}. Cancelling...", Log.LogLevel.ERROR);
-                        MessageBox.Show("Could not find 7-Zip in the installation directory. Try reinstalling sUpdater.",
-                            "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
-                        IsWaiting = false;
-                        Status = "";
-                        return;
-                    }
-                    else
-                    {
-                        Log.Append($"7-Zip path: {sevenZipPath}", Log.LogLevel.INFO);
-                    }
+                    using (ZipFile zip = ZipFile.Read)
 
                     using (var p = new Process())
                     {

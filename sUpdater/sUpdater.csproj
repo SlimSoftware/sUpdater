@@ -49,6 +49,9 @@
     <Reference Include="AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.16.0.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.16.0\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.NotifyIcon.Wpf, Version=1.1.0.0, Culture=neutral, PublicKeyToken=682384a853a08aad, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.1.0\lib\net45\Hardcodet.NotifyIcon.Wpf.dll</HintPath>
     </Reference>
@@ -118,11 +121,6 @@
     </Compile>
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Pages\SettingsPage.xaml.cs">
@@ -217,6 +215,11 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -224,8 +227,8 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -258,28 +261,20 @@
     <Resource Include="Icons\sUpdater.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\7-Zip license.txt" />
+    <None Include="Resources\Licenses\AutoUpdaterNET.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AutoUpdaterNET license.txt" />
+    <None Include="Resources\Licenses\Inno Setup.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Inno Setup license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="7-Zip\7z.dll">
-      <Link>7z.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="7-Zip\7z.exe">
-      <Link>7z.exe</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Icons\no_icon.png" />
-    <Resource Include="Resources\AsyncEnumerable License.txt" />
-    <Resource Include="Resources\WPF NotifyIcon license.txt" />
+    <Resource Include="Resources\Licenses\AsyncEnumerable.txt" />
+    <Resource Include="Resources\Licenses\WPF NotifyIcon.txt" />
     <Resource Include="Icons\sUpdater_Grey.ico" />
     <Resource Include="Icons\sUpdater_Orange.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Licenses\DotNetZip.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
