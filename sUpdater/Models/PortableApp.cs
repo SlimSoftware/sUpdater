@@ -173,51 +173,37 @@ namespace sUpdater.Models
         {
             if (File.Exists(SavePath))
             {
+                // If ExtractMode is single, we do not need to extract
                 if (ExtractMode == "folder")
                 {
-                    using (ZipFile zip = ZipFile.Read)
-
-                    using (var p = new Process())
+                    using (ZipFile zip = ZipFile.Read(SavePath))
                     {
-                        p.StartInfo.FileName = sevenZipPath;
-                        p.StartInfo.Arguments = "e \"" + SavePath + "\" -o\""
-                            + Path.Combine(Utilities.Settings.PortableAppDir, Name) + "\" -aoa";
-                        p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                        zip.ExtractProgress += (sender, e) =>
+                        {
+                            if (e.TotalBytesToTransfer > 0)
+                            {
+                                Progress = Convert.ToInt32(50 * e.BytesTransferred / e.TotalBytesToTransfer);
+                            }
+                        };
+
+                        string extractPath = Path.Combine(Utilities.Settings.PortableAppDir, Name);
                         try
                         {
-                            p.Start();
+                            zip.ExtractAll(extractPath);
                         }
                         catch (Exception e)
                         {
                             Status = $"Extracting failed: {e.Message}";
                             Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                        }
-
-                        Status = "Extracting...";
-                        IsWaiting = true;
-
-                        // Wait on a separate thread so the GUI thread does not get blocked
-                        await Task.Run(() =>
-                        {
-                            p.WaitForExit();
-                        });
-                        if (p.ExitCode == 0)
-                        {
-                            Log.Append("Extracting succesful.", Log.LogLevel.INFO);
-                            File.Delete(SavePath);
-                            Status = "Extracting complete";
-                            Progress = 100;
-                            IsWaiting = false;
-                            await Task.Delay(1000);                       
-                        }
-                        if (p.ExitCode != 0)
-                        {
-                            Status = $"Extracting failed. Exit code: {p.ExitCode}";
-                            Progress = 0;
-                            IsWaiting = false;
-                            Log.Append($"Extracting failed. Exit code: {p.ExitCode}", Log.LogLevel.ERROR);
+                            return;
                         }
                     }
+            
+                    Log.Append("Succesfully extracted", Log.LogLevel.INFO);
+                    File.Delete(SavePath);
+                    Status = "Extracting complete";
+                    Progress = 100;
+                    await Task.Delay(1000);                       
                 }
             }
         }
