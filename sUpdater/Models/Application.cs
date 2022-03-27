@@ -8,6 +8,7 @@ using System.Windows;
 using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Media;
+using Ionic.Zip;
 
 namespace sUpdater.Models
 {
@@ -152,20 +153,52 @@ namespace sUpdater.Models
             launchInstaller:
             using (var p = new Process())
             {
-                if (DownloadLink.EndsWith(".exe"))
+                if (!SavePath.EndsWith(".msi"))
                 {
                     p.StartInfo.FileName = SavePath;
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.StartInfo.Arguments = InstallSwitch;
                 }
-                else if (DownloadLink.EndsWith(".msi"))
+                else
                 {
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.StartInfo.Arguments = $"/i {SavePath} {InstallSwitch}";
                 }
+
+                if (SavePath.EndsWith(".zip"))
+                {
+                    await Task.Run(() =>
+                    {
+                        using (ZipFile zip = ZipFile.Read(SavePath))
+                        {
+                            Status = "Extracting...";
+
+                            foreach (ZipEntry entry in zip)
+                            {
+                                // Extract the entry if the filename is the same as the name of the zip file
+                                if (Path.GetFileNameWithoutExtension(entry.FileName) == Path.GetFileNameWithoutExtension(SavePath))
+                                {
+                                    p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, entry.FileName);
+
+                                    try
+                                    {
+                                        entry.Extract(Utilities.Settings.DataDir, ExtractExistingFileAction.DoNotOverwrite);
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        Status = $"Extracting failed";
+                                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
                 try
                 {
                     p.Start();
@@ -175,7 +208,7 @@ namespace sUpdater.Models
                     var result = MessageBox.Show(
                         "Lauching the installer failed. \nWould you like to try again?",
                         "Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    Log.Append($"Launching the installer failed: {ex.Message}", Log.LogLevel.WARN);
+                    Log.Append($"Launching the installer failed: {ex.Message}, filename: {p.StartInfo.FileName}", Log.LogLevel.WARN);
                     if (result == MessageBoxResult.Yes)
                     {
                         Log.Append("Relaunching installer...", Log.LogLevel.INFO);
@@ -212,7 +245,7 @@ namespace sUpdater.Models
                 {
                     Log.Append(string.Format("Installation failed. Installer exited with " +
                         "exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
-                    Status = String.Format(
+                    Status = string.Format(
                         "Install failed. Exit code: {0}", p.ExitCode);
                     Progress = 0;
                     IsWaiting = false;

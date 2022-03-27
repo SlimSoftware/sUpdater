@@ -193,7 +193,7 @@ namespace sUpdater.Models
                         }
                         catch (Exception e)
                         {
-                            Status = $"Extracting failed: {e.Message}";
+                            Status = $"Extracting failed";
                             Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
                             return;
                         }
