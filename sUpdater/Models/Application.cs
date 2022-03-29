@@ -178,8 +178,9 @@ namespace sUpdater.Models
 
                             foreach (ZipEntry entry in zip)
                             {
-                                // Extract the entry if the filename is the same as the name of the zip file
-                                if (Path.GetFileNameWithoutExtension(entry.FileName) == Path.GetFileNameWithoutExtension(SavePath))
+                                // Extract the entry if the file is an installer
+                                string extention = Path.GetExtension(entry.FileName);
+                                if (extention == ".exe" || extention == ".msi")
                                 {
                                     p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, entry.FileName);
 
@@ -193,6 +194,8 @@ namespace sUpdater.Models
                                         Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
                                         return;
                                     }
+
+                                    break;
                                 }
                             }
                         }
