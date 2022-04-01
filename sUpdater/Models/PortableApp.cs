@@ -176,29 +176,18 @@ namespace sUpdater.Models
                 // If ExtractMode is single, we do not need to extract
                 if (ExtractMode == "folder")
                 {
-                    using (ZipFile zip = ZipFile.Read(SavePath))
+                    try
                     {
-                        zip.ExtractProgress += (sender, e) =>
-                        {
-                            if (e.TotalBytesToTransfer > 0)
-                            {
-                                Progress = Convert.ToInt32(50 * e.BytesTransferred / e.TotalBytesToTransfer);
-                            }
-                        };
-
-                        string extractPath = Path.Combine(Utilities.Settings.PortableAppDir, Name);
-                        try
-                        {
-                            zip.ExtractAll(extractPath);
-                        }
-                        catch (Exception e)
-                        {
-                            Status = $"Extracting failed";
-                            Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                            return;
-                        }
+                        await Extract();
                     }
-            
+                    catch (Exception e)
+                    {
+                        Status = "Extracting failed";
+                        Progress = 100;
+                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
+                        return;
+                    }
+
                     Log.Append("Succesfully extracted", Log.LogLevel.INFO);
                     File.Delete(SavePath);
                     Status = "Extracting complete";
@@ -206,6 +195,27 @@ namespace sUpdater.Models
                     await Task.Delay(1000);                       
                 }
             }
+        }
+
+        private Task Extract()
+        {
+            return Task.Run(() =>
+            {
+                using (ZipFile zip = ZipFile.Read(SavePath))
+                {
+                    zip.ExtractProgress += (sender, e) =>
+                    {
+                        if (e.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
+                        {
+                            Progress = 50 + 50 * e.EntriesExtracted / e.EntriesTotal;
+                            Status = $"Extracting ({e.EntriesExtracted}/{e.EntriesTotal}) ...";
+                        }
+                    };
+
+                    string extractPath = Path.Combine(Utilities.Settings.PortableAppDir, Name);
+                    zip.ExtractAll(extractPath);
+                }
+            });
         }
 
         public async Task Run()

@@ -170,36 +170,20 @@ namespace sUpdater.Models
 
                 if (SavePath.EndsWith(".zip"))
                 {
-                    await Task.Run(() =>
+                    string extractedFilename;
+                    try
                     {
-                        using (ZipFile zip = ZipFile.Read(SavePath))
-                        {
-                            Status = "Extracting...";
+                        extractedFilename = await Extract();
+                    } 
+                    catch (Exception e)
+                    {
+                        Status = "Extracting failed";
+                        Progress = 100;
+                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
+                        return;
+                    }
 
-                            foreach (ZipEntry entry in zip)
-                            {
-                                // Extract the entry if the file is an installer
-                                string extention = Path.GetExtension(entry.FileName);
-                                if (extention == ".exe" || extention == ".msi")
-                                {
-                                    p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, entry.FileName);
-
-                                    try
-                                    {
-                                        entry.Extract(Utilities.Settings.DataDir, ExtractExistingFileAction.DoNotOverwrite);
-                                    }
-                                    catch (Exception e)
-                                    {
-                                        Status = $"Extracting failed";
-                                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                                        return;
-                                    }
-
-                                    break;
-                                }
-                            }
-                        }
-                    });
+                    p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, extractedFilename);
                 }
 
                 try
@@ -254,6 +238,39 @@ namespace sUpdater.Models
                     IsWaiting = false;
                 }
             }
+        }
+
+        private Task<string> Extract()
+        {
+            return Task.Run(() =>
+            {
+                string extractedFileName = "";
+                Status = "Extracting...";
+                IsWaiting = true;
+
+                using (ZipFile zip = ZipFile.Read(SavePath))
+                {
+                    foreach (ZipEntry entry in zip)
+                    {
+                        // Extract the entry if the file is an installer
+                        string extention = Path.GetExtension(entry.FileName);
+                        if (extention == ".exe" || extention == ".msi")
+                        {
+                            entry.Extract(Utilities.Settings.DataDir, ExtractExistingFileAction.DoNotOverwrite);
+                            extractedFileName = entry.FileName;
+                            break;
+                        }
+                    }
+                }
+
+                if (extractedFileName == "")
+                {
+                    throw new InvalidOperationException("Did not find an installer in the archive to extract");
+                }
+
+                IsWaiting = false;
+                return extractedFileName;
+            });
         }
 
         public string GetChangelog()
