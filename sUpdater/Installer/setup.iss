@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.0.7"
+#define AppVersion "4.1"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -48,22 +48,22 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\DotNetZip.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
 Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"
-Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}"
-Source: "..\bin\Release\7z.dll"; DestDir: "{app}"
-Source: "..\bin\Release\7z.exe"; DestDir: "{app}"
-Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"
-Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}"
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
