@@ -61,7 +61,7 @@ namespace sUpdater.Models
 
         public static string GetFriendlyOSName()
         {
-            string osName = "Unknown Windows version";
+            string osName = "";
 
             switch (Environment.OSVersion.Version.Major)
             {
@@ -83,14 +83,21 @@ namespace sUpdater.Models
                     }
                     break;
                 case 10:
-                    osName = "Windows 10";
-                    break;
-                case 11:
-                    osName = "Windows 11";
+                    if (Environment.OSVersion.Version.Build >= 22000)
+                        osName = "Windows 11";
+                    else 
+                        osName = "Windows 10";
                     break;
             }
 
-            return osName;
+            if (osName != "")
+            {
+                return osName;
+            } 
+            else
+            {
+                return "unknown Windows version";
+            }
         }
 
         public static string GetFriendlyVersion(Version version)
