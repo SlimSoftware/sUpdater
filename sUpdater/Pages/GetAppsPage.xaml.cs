@@ -202,21 +202,11 @@ namespace sUpdater
             }
         }
 
-        private void ItemDescription_Click(object sender, RoutedEventArgs e)
+        private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
-
-            string description = app.GetDescription();
-            if (description != "")
-            {
-                InfoPage infoPage = new InfoPage(description, InfoPage.InfoType.Changelog);
-                NavigationService.Navigate(infoPage);
-            }
-            else
-            {
-                MessageBox.Show("No description is available for this application");
-            }
+            app.OpenChangelog();
         }
     }
 }

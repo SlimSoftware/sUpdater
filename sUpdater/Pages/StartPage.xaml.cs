@@ -56,8 +56,8 @@ namespace sUpdater
                 XElement regkeyElement = appElement.Element("regkey");
                 XElement regvalueElement = appElement.Element("regvalue");
                 XElement exePathElement = appElement.Element("exePath");
-                XElement descriptionElement = appElement.Element("description");
-                XElement changelogElement = appElement.Element("changelog");
+                XElement hasWebsiteElement = appElement.Element("hasWebsite");
+                XElement hasChangelogElement = appElement.Element("hasChangelog");
 
                 // Check whether this app run on the system
                 if (!Environment.Is64BitOperatingSystem && archElement?.Value == "x64")
@@ -145,8 +145,8 @@ namespace sUpdater
                 Application appToAdd = new Application(id, nameAttribute.Value, versionElement.Value,
                     localVersion, exePath, archElement.Value, typeElement.Value,
                     switchElement.Value, dlElement.Value);
-                appToAdd.HasChangelog = changelogElement?.Value != null;
-                appToAdd.HasDescription = descriptionElement?.Value != null;
+                appToAdd.HasChangelog = hasChangelogElement?.Value == "1";
+                appToAdd.HasWebsite = hasWebsiteElement?.Value == "1";
                 appToAdd.Icon = icon;
 
                 Apps.Regular.Add(appToAdd);

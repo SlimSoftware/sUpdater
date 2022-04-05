@@ -231,24 +231,21 @@ namespace sUpdater
             }
         }
 
-        private void ItemChangelog_Click(object sender, RoutedEventArgs e)
+        private void MenuItemChangelog_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
-
-            string changelog = app.GetChangelog();
-            if (changelog != "")
-            {
-                InfoPage infoPage = new InfoPage(changelog, InfoPage.InfoType.Changelog);
-                NavigationService.Navigate(infoPage);
-            }
-            else
-            {
-                MessageBox.Show("No changelog is available for this application");
-            }
+            app.OpenChangelog();
         }
 
-        private async void ItemForceInstall_Click(object sender, RoutedEventArgs e)
+        private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+            app.OpenWebsite();
+        }
+
+        private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;

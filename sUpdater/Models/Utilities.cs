@@ -228,17 +228,14 @@ namespace sUpdater.Models
 
         public static string GetDefinitionURL()
         {
-            if (Settings.DefenitionURL != null)
-            {
-                Log.Append($"Using custom definition file from {Settings.DefenitionURL}",
-                    Log.LogLevel.INFO);
-                return Settings.DefenitionURL;
-            }
-            else
-            {
-                Log.Append("Using official definitions", Log.LogLevel.INFO);
-                return "https://www.slimsoft.tk/supdater/api/definitions.xml";
-            }
+            return Settings.DefenitionURL ?? "https://www.slimsoft.tk/supdater/api/definitions.xml";
+        }
+
+        public static string GetBaseDefinitionURL()
+        {
+            string definitionURL = GetDefinitionURL();
+            string[] urlParts = definitionURL.Split('/');
+            return definitionURL.Replace($"/{urlParts[urlParts.Length - 1]}", "");
         }
 
         public static string RemoveLeadingNewLinesAndTabs(string text)

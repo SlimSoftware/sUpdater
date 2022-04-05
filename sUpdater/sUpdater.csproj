@@ -101,9 +101,6 @@
     <Compile Include="Controls\CustomListViewStyle.xaml.cs">
       <DependentUpon>CustomListViewStyle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\InfoPage.xaml.cs">
-      <DependentUpon>InfoPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\LicensePage.xaml.cs">
       <DependentUpon>LicensePage.xaml</DependentUpon>
     </Compile>
@@ -132,10 +129,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\TrayIcon.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\InfoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

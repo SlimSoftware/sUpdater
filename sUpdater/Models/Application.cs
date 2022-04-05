@@ -22,7 +22,7 @@ namespace sUpdater.Models
         public string ExePath { get; private set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
-        public bool HasDescription { get; set; }
+        public bool HasWebsite { get; set; }
         public string Arch { get; set; }
         public string Type { get; set; }
         public string DownloadLink { get; set; }
@@ -273,54 +273,22 @@ namespace sUpdater.Models
             });
         }
 
-        public string GetChangelog()
+        /// <summary>
+        /// Opens the changelog of this app in the default browser
+        /// </summary>
+        public void OpenChangelog()
         {
-            string changelogText = "";
-            string definitionURL = Utilities.GetDefinitionURL();
-
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    changelogText = client.DownloadString($"{definitionURL}/changelog?id={Id}");
-                }
-                catch (Exception ex)
-                {
-                    Log.Append($"Failed to fetch changelog for {Name}, id {Id}: {ex.Message}", Log.LogLevel.ERROR);
-                }              
-            }
-
-            if (changelogText != null)
-            {
-                Utilities.RemoveLeadingNewLinesAndTabs(changelogText);
-            }
-
-            return changelogText;
+            string changelogRedirectURL = $"{Utilities.GetBaseDefinitionURL()}/changelog?id={Id}";
+            Process.Start(changelogRedirectURL);
         }
 
-        public string GetDescription()
+        /// <summary>
+        /// Opens the website of this app in the default browser
+        /// </summary>
+        public void OpenWebsite()
         {
-            string descriptionText = null;
-            string definitionURL = Utilities.GetDefinitionURL();
-
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    descriptionText = client.DownloadString($"{definitionURL}/description?id={Id}");
-                }
-                catch (Exception ex)
-                {
-                    Log.Append($"Failed to fetch changelog for {Name}, id {Id}: {ex.Message}", Log.LogLevel.ERROR);
-                }
-            }
-
-            if (descriptionText != null)
-            {
-                Utilities.RemoveLeadingNewLinesAndTabs(descriptionText);
-            }
-
-            return descriptionText;
+            string websiteRedirectURL = $"{Utilities.GetBaseDefinitionURL()}/website?id={Id}";
+            Process.Start(websiteRedirectURL);
         }
 
         public Application Clone()

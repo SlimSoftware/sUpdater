@@ -38,6 +38,15 @@ namespace sUpdater
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Utilities.LoadSettings();
+            if (Utilities.Settings.DefenitionURL != null)
+            {
+                Log.Append($"Using custom definitions from {Utilities.Settings.DefenitionURL}",
+                    Log.LogLevel.INFO);
+            }
+            else
+            {
+                Log.Append("Using official definitions", Log.LogLevel.INFO);
+            }
 
             ConnectedToServer = StartPage.ReadDefenitions();
             if (ConnectedToServer)
