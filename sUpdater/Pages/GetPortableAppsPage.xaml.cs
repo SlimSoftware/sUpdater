@@ -62,17 +62,14 @@ namespace sUpdater
             portableAppsListView.ItemsSource = notInstalledPortableApps;
         }
 
-        /// <summary>
-        /// Fills the portableApps list with all Portable Apps from the definitions
-        /// </summary>
         public static List<PortableApp> GetPortableApps()
         {
             Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
 
             List<PortableApp> apps = new List<PortableApp>();
-            XDocument definitions = XDocument.Load(Utilities.GetDefinitionURL());
+            XDocument appXML = XDocument.Load($"{Utilities.GetAppServerURL()}/apps");
 
-            foreach (XElement portableAppElement in definitions.Descendants("portable"))
+            foreach (XElement portableAppElement in appXML.Descendants("portable"))
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = portableAppElement.Attribute("name");

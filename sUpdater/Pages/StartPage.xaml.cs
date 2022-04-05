@@ -27,21 +27,21 @@ namespace sUpdater
         #region ReadDefenitions()
         public static bool ReadDefenitions()
         {
-            Log.Append("Reading definitions file", Log.LogLevel.INFO);
+            Log.Append("Reading XML", Log.LogLevel.INFO);
             Apps.Regular = new List<Application>();
-            XDocument defenitions;
+            XDocument appXML;
 
             // Load XML File
             try
             {
-                defenitions = XDocument.Load(Utilities.GetDefinitionURL());
+                appXML = XDocument.Load($"{Utilities.GetAppServerURL()}/apps");
             }
             catch (Exception)
             {
                 return false;
             }
 
-            foreach (XElement appElement in defenitions.Descendants("app"))
+            foreach (XElement appElement in appXML.Descendants("app"))
             {
                 ImageSource icon = null;
 

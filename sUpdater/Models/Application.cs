@@ -278,7 +278,7 @@ namespace sUpdater.Models
         /// </summary>
         public void OpenChangelog()
         {
-            string changelogRedirectURL = $"{Utilities.GetBaseDefinitionURL()}/changelog?id={Id}";
+            string changelogRedirectURL = $"{Utilities.GetAppServerURL()}/changelog?id={Id}";
             Process.Start(changelogRedirectURL);
         }
 
@@ -287,7 +287,7 @@ namespace sUpdater.Models
         /// </summary>
         public void OpenWebsite()
         {
-            string websiteRedirectURL = $"{Utilities.GetBaseDefinitionURL()}/website?id={Id}";
+            string websiteRedirectURL = $"{Utilities.GetAppServerURL()}/website?id={Id}";
             Process.Start(websiteRedirectURL);
         }
 

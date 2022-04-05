@@ -226,16 +226,9 @@ namespace sUpdater.Models
             writer.Close();
         }
 
-        public static string GetDefinitionURL()
+        public static string GetAppServerURL()
         {
-            return Settings.DefenitionURL ?? "https://www.slimsoft.tk/supdater/api/definitions.xml";
-        }
-
-        public static string GetBaseDefinitionURL()
-        {
-            string definitionURL = GetDefinitionURL();
-            string[] urlParts = definitionURL.Split('/');
-            return definitionURL.Replace($"/{urlParts[urlParts.Length - 1]}", "");
+            return Settings.AppServerURL ?? "https://www.slimsoft.tk/supdater/api";
         }
 
         public static string RemoveLeadingNewLinesAndTabs(string text)

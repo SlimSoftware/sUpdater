@@ -6,7 +6,7 @@ namespace sUpdater.Models
     public class Settings
     {
         public bool MinimizeToTray { get; set; } = true;
-        public string DefenitionURL { get; set; }
+        public string AppServerURL { get; set; }
 
         public string DataDir { get; set; } = Path.Combine(Environment.GetFolderPath(
             Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");

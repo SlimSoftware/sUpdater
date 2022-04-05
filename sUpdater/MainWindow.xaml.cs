@@ -38,14 +38,14 @@ namespace sUpdater
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Utilities.LoadSettings();
-            if (Utilities.Settings.DefenitionURL != null)
+            if (Utilities.Settings.AppServerURL != null)
             {
-                Log.Append($"Using custom definitions from {Utilities.Settings.DefenitionURL}",
+                Log.Append($"Using custom App Server: {Utilities.Settings.AppServerURL}",
                     Log.LogLevel.INFO);
             }
             else
             {
-                Log.Append("Using official definitions", Log.LogLevel.INFO);
+                Log.Append("Using official App Server", Log.LogLevel.INFO);
             }
 
             ConnectedToServer = StartPage.ReadDefenitions();
