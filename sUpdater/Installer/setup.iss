@@ -48,22 +48,22 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\DotNetZip.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}\Release"; Flags: ignoreversion
+Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"
+Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\DotNetZip.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
