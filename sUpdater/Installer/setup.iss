@@ -78,3 +78,6 @@ Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:La
 [InstallDelete]
 Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.dll"
 Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.xml"
+Type: files; Name: "{app}\7z.dll"
+Type: files; Name: "{app}\7z.exe"
+Type: filesandordirs; Name: "{localappdata}\Slim Updater"
