@@ -12,11 +12,11 @@ With sUpdater you can easily update and install applications on a Windows machin
 ## Screenshots
 ### sUpdater's main window
 
-![Main window](https://user-images.githubusercontent.com/15382274/139085694-31aba381-1d71-434e-8c3c-9589b50c3cfc.png)
+![Main window](https://user-images.githubusercontent.com/15382274/161988111-6562f51d-b041-4827-bb65-ac964540263a.png)
 
 ### Updating applications
-![Update list](https://user-images.githubusercontent.com/15382274/139085879-83a98357-7a0d-4e5e-9021-a97aad45f0ed.png)
+![Update list](https://user-images.githubusercontent.com/15382274/161988193-7b4b399c-7843-4748-a8df-04d23fc5750f.png)
 
 ### Installing new applications
 
-![New app list](https://user-images.githubusercontent.com/15382274/139085924-b7a13c76-ce82-453f-8e85-75aa87173a0f.png)
+![New app list](https://user-images.githubusercontent.com/15382274/161988293-d0ee5098-e9ea-4b4c-909a-734d8a28f1de.png)
