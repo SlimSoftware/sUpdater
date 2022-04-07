@@ -165,7 +165,7 @@ namespace sUpdater.Models
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = $"/i {SavePath} {InstallSwitch}";
+                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {InstallSwitch}";
                 }
 
                 if (SavePath.EndsWith(".zip"))
