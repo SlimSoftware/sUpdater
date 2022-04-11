@@ -7,6 +7,8 @@ using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 using System.Collections.Generic;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace sUpdater.Models
 {
@@ -14,9 +16,11 @@ namespace sUpdater.Models
     {
         public static Settings Settings { get; set; }
 
-        private static string settingsXmlDir = Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
-        private static string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
+        private static readonly string settingsXmlDir = Debugger.IsAttached ?
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) :
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
+
+        private static readonly string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
 
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
