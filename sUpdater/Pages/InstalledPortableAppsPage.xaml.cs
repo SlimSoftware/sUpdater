@@ -41,6 +41,11 @@ namespace sUpdater
             string[] installedAppPaths = null;
             if (Utilities.Settings.PortableAppDir != null)
             {
+                if (!Directory.Exists(Utilities.Settings.PortableAppDir))
+                {
+                    Directory.CreateDirectory(Utilities.Settings.PortableAppDir);
+                }
+
                 installedAppPaths = Directory.GetDirectories(Utilities.Settings.PortableAppDir);
             }
 
