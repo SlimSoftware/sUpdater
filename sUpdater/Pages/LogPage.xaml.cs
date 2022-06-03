@@ -49,19 +49,24 @@ namespace sUpdater
         /// <param name="line">The line to append</param>
         private void AppendLine(string line)
         {
-            Brush color = null;
-
-            if (line.Contains("[INFO]") && textBox.Foreground != Brushes.Black)
+            Brush color;
+            Brush currentColor = null;
+            Dispatcher.Invoke(() =>
             {
-                color = Brushes.Black;
-            }
-            else if (line.Contains("[WARN]") && textBox.Foreground != Colors.normalOrangeBrush)
+                currentColor = textBox.Foreground;
+            });
+
+            if (line.Contains("[WARN]") && currentColor != Colors.normalOrangeBrush)
             {
                 color = Colors.normalOrangeBrush;
             }
-            else if (line.Contains("[ERROR]") && textBox.Foreground != Brushes.Red)
+            else if (line.Contains("[ERROR]") && currentColor!= Brushes.Red)
             {
                 color = Brushes.Red;
+            } 
+            else
+            {
+                color = Brushes.Black;
             }
 
             AppendLine(line, color);
@@ -74,9 +79,12 @@ namespace sUpdater
         /// <param name="color">The text color</param>
         public void AppendLine(string text, Brush color)
         {
-            TextRange tr = new TextRange(textBox.Document.ContentEnd, textBox.Document.ContentEnd);
-            tr.Text = text;
-            tr.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+            Dispatcher.Invoke(() =>
+            {
+                TextRange tr = new TextRange(textBox.Document.ContentEnd, textBox.Document.ContentEnd);
+                tr.Text = text;
+                tr.ApplyPropertyValue(TextElement.ForegroundProperty, color);
+            });
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

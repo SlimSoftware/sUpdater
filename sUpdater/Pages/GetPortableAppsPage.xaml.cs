@@ -189,11 +189,8 @@ namespace sUpdater
                 await selectedApps.ParallelForEachAsync(async (app) =>
                 {
                     currentApp++;
-                    Dispatcher.Invoke(() =>
-                    {
-                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                            app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-                    });
+                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                        app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
                     await app.Download();
                 }, maxDegreeOfParallelism: 3);
 
