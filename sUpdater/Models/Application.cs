@@ -99,6 +99,14 @@ namespace sUpdater.Models
             }
 
             string fileName = Path.GetFileName(DownloadLink);
+            if (fileName.Contains("?"))
+            {
+                // Filename contains invalid character so we'll have to use the launch property as fallback filename
+                if (ExePath != null)
+                {
+                    fileName = ExePath;
+                }
+            }
             SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded

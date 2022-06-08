@@ -114,6 +114,14 @@ namespace sUpdater.Models
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Utilities.Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
+            if (fileName.Contains("?"))
+            {
+                // Filename contains invalid character so we'll have to use the launch property as fallback filename
+                if (Launch != null)
+                {
+                    fileName = Launch;
+                }
+            }
             SavePath = @Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
 
             // Check if portable app is already downloaded
