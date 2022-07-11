@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.1.3"
+#define AppVersion "4.1.4"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -64,6 +64,17 @@ Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{
 Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.Core.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Drawing.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\System.Drawing.Common.xml"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\runtimes\win-arm64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-arm64\native"; Flags: ignoreversion
+Source: "..\bin\Release\runtimes\win-x64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x64\native"; Flags: ignoreversion
+Source: "..\bin\Release\runtimes\win-x86\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x86\native"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
