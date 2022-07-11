@@ -7,7 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Application = sUpdater.Models.Application;
+using Colors = sUpdater.Models.Colors;
 
 namespace sUpdater
 {
