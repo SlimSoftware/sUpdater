@@ -165,6 +165,7 @@ namespace sUpdater
                 {
                     StartPage.ReadDefenitions();
                     StartPage.CheckForUpdates();
+                    Utilities.PopulateAppIcons(Apps.Updates);
 
                     if (updateListView.ItemsSource != Apps.Updates)
                     {
@@ -276,6 +277,8 @@ namespace sUpdater
 
             if (Apps.Updates.Count != 0 && selectAllRow.Height == new GridLength(0))
             {
+                Utilities.PopulateAppIcons(Apps.Updates);
+
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 updateListView.ItemsSource = Apps.Updates;
                 selectAllCheckBox.Visibility = Visibility.Visible;
