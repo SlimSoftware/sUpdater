@@ -200,8 +200,7 @@ namespace sUpdater.Models
                 }
                 catch (Exception ex)
                 {
-                    var result = MessageBox.Show(
-                        "Lauching the installer failed. \nWould you like to try again?",
+                    var result = MessageBox.Show("Lauching the installer failed. \nWould you like to try again?",
                         "Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     Log.Append($"Launching the installer failed: {ex.Message}, filename: {p.StartInfo.FileName}", Log.LogLevel.WARN);
                     if (result == MessageBoxResult.Yes)
@@ -217,7 +216,7 @@ namespace sUpdater.Models
                 }
 
                 // Restore back focus to the MainWindow
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().Focus();
+                Utilities.GetMainWindow().Focus();
 
                 Status = "Installing...";
                 IsWaiting = true;
