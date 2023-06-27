@@ -9,8 +9,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/sUpdater;component/Controls/CustomListViewStyle.xaml"/>
                 <ResourceDictionary Source="/sUpdater;component/Controls/TrayIcon.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Styles/Theme/Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Wpf.Ui;component/Styles/Wpf.Ui.xaml" />
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
