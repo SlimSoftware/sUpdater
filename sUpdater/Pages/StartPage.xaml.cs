@@ -68,75 +68,85 @@ namespace sUpdater
 
                 // Get local version if installed
                 string localVersion = null;
-                if (regkeyElement?.Value != null)
+                string exePath = null;
+                string fileName = Path.GetFileName(dlElement?.Value);
+
+                if (fileName != null && fileName.EndsWith(".msix"))
                 {
-                    RegistryKey baseKey;
-                    if (regkeyElement.Value.StartsWith("HKEY_LOCAL_MACHINE"))
+                    // Modern appx packaged app
+                }
+                else 
+                {
+                    // This is a legacy app
+                    if (regkeyElement?.Value != null)
                     {
-                        if (archElement?.Value == "x64")
-                        {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                        }
-                        else
-                        {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
-                        }
-                    }
-                    else
-                    {
-                        if (archElement?.Value == "x64")
-                        {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
-                        }
-                        else
-                        {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry32);
-                        }
-                    }
-
-                    string keyPath = regkeyElement.Value;
-                    keyPath = keyPath.Replace("HKEY_LOCAL_MACHINE\\", "");
-                    keyPath = keyPath.Replace("HKEY_CURRENT_USER\\", "");
-                    var key = baseKey.OpenSubKey(keyPath, false);
-
-                    var regValue = key?.GetValue(regvalueElement.Value, null);
-                    if (regValue == null && Environment.Is64BitOperatingSystem)
-                    {
-                        // In case we are on 64-bit we can check once more under the 64-bit registry
+                        RegistryKey baseKey;
                         if (regkeyElement.Value.StartsWith("HKEY_LOCAL_MACHINE"))
                         {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                            if (archElement?.Value == "x64")
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                            }
+                            else
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32);
+                            }
                         }
                         else
                         {
-                            baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                            if (archElement?.Value == "x64")
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                            }
+                            else
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry32);
+                            }
                         }
-                        key = baseKey.OpenSubKey(keyPath, false);
-                        regValue = key?.GetValue(regvalueElement.Value, null);
-                    }
 
-                    if (regValue != null)
-                    {
-                        localVersion = regValue.ToString();
-                    }
-                }
+                        string keyPath = regkeyElement.Value;
+                        keyPath = keyPath.Replace("HKEY_LOCAL_MACHINE\\", "");
+                        keyPath = keyPath.Replace("HKEY_CURRENT_USER\\", "");
+                        var key = baseKey.OpenSubKey(keyPath, false);
 
-                string exePath = null;
-                if (exePathElement?.Value != null)
-                {
-                    exePath = exePathElement.Value;
-                    if (exePath.Contains("%pf64%") && !Environment.Is64BitOperatingSystem)
-                    {
-                        // Do not add the app to the list because it is a 64 bit app on a 32 bit system
-                        continue;
-                    }
-                    exePath = Utilities.ParseExePath(exePath);
-
-                    if (File.Exists(exePath))
-                    {
-                        if (regkeyElement?.Value == null)
+                        var regValue = key?.GetValue(regvalueElement.Value, null);
+                        if (regValue == null && Environment.Is64BitOperatingSystem)
                         {
-                            localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                            // In case we are on 64-bit we can check once more under the 64-bit registry
+                            if (regkeyElement.Value.StartsWith("HKEY_LOCAL_MACHINE"))
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                            }
+                            else
+                            {
+                                baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64);
+                            }
+                            key = baseKey.OpenSubKey(keyPath, false);
+                            regValue = key?.GetValue(regvalueElement.Value, null);
+                        }
+
+                        if (regValue != null)
+                        {
+                            localVersion = regValue.ToString();
+                        }
+                    }
+                   
+                    if (exePathElement?.Value != null)
+                    {
+                        exePath = exePathElement.Value;
+                        if (exePath.Contains("%pf64%") && !Environment.Is64BitOperatingSystem)
+                        {
+                            // Do not add the app to the list because it is a 64 bit app on a 32 bit system
+                            continue;
+                        }
+                        exePath = Utilities.ParseExePath(exePath);
+
+                        if (File.Exists(exePath))
+                        {
+                            if (regkeyElement?.Value == null)
+                            {
+                                localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                            }
                         }
                     }
                 }

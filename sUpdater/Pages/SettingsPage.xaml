@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
@@ -12,24 +13,24 @@
         <CheckBox x:Name="autoStartCheckBox">Auto-start sUpdater as a system tray icon</CheckBox>
         <CheckBox x:Name="minimizeToTrayCheckBox" Margin="0,5,0,0">Keep sUpdater running when the window is closed</CheckBox>
 
-        <Label Margin="0,10,0,0">Data Folder Location (to store downloaded installers)</Label>
+        <Label Margin="0,10,0,0" Foreground="Black">Data Folder Location (to store downloaded installers)</Label>
         <StackPanel Orientation="Horizontal">
             <TextBox x:Name="dataFolderTextBox" Width="500" Margin="0,0,10,0"/>
-            <Button x:Name="dataFolderBrowseButton" Height="21" Width="50" Margin="0,0,10,0"
+            <Button x:Name="dataFolderBrowseButton" Margin="0,0,10,0"
                     Click="DataFolderBrowseButton_Click">Browse</Button>
-            <Button x:Name="openDataFolderButton" Height="21" Width="75"
+            <Button x:Name="openDataFolderButton"
                     Click="OpenDataFolderButton_Click">Open Folder</Button>
         </StackPanel>
         <Label x:Name="dataFolderNotWriteableLabel" Foreground="Red" Visibility="Collapsed">
             This folder is not writeable by the current user, please choose a different folder
         </Label>
 
-        <Label Margin="0,10,0,0">Portable Apps Folder Location</Label>
+        <Label Margin="0,10,0,0" Foreground="Black">Portable Apps Folder Location</Label>
         <StackPanel Orientation="Horizontal">
             <TextBox x:Name="portableAppsFolderTextBox" Width="500" Margin="0,0,10,0"/>
-            <Button x:Name="portableAppsFolderBrowseButton" Height="21" Width="50" Margin="0,0,10,0"
+            <Button x:Name="portableAppsFolderBrowseButton" Margin="0,0,10,0"
                     Click="PortableAppsFolderBrowseButton_Click">Browse</Button>
-            <Button x:Name="openPortableAppsFolderButton" Height="21" Width="75"
+            <Button x:Name="openPortableAppsFolderButton"
                     Click="OpenPortableAppsFolderButton_Click">Open Folder</Button>
         </StackPanel>
         <Label x:Name="portableAppsFolderNotWritableLabel" Foreground="Red" Visibility="Collapsed">
