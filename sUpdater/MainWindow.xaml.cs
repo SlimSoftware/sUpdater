@@ -26,6 +26,8 @@ namespace sUpdater
         {
             InitializeComponent();
 
+            Wpf.Ui.Appearance.Accent.Apply(Colors.normalGreenBrush.Color);
+
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1 && args[1] == "/tray")
             {
