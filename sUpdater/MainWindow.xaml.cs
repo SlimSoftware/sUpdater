@@ -1,12 +1,14 @@
 ﻿using AutoUpdaterDotNET;
 using Hardcodet.Wpf.TaskbarNotification;
 using sUpdater.Controllers;
+using sUpdater.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
@@ -32,13 +34,23 @@ namespace sUpdater
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             string version = Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
-            Log.Append($"Slim Updater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
+            Log.Append($"sUpdater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
 
             TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Utilities.LoadSettings();
+            if (Utilities.Settings.AppServerURL != null)
+            {
+                Log.Append($"Using custom App Server: {Utilities.Settings.AppServerURL}",
+                    Log.LogLevel.INFO);
+            }
+            else
+            {
+                Log.Append("Using official App Server", Log.LogLevel.INFO);
+            }
+ 
             Utilities.InitHttpClient();
 
             await AppController.CheckForUpdates();
@@ -169,6 +181,12 @@ namespace sUpdater
         {
             await AppController.CheckForUpdates();
             UpdateTaskbarIcon();
+            
+            if (frame.Content is StartPage)
+            {
+                StartPage startPage = (StartPage)frame.Content;
+                startPage.UpdateGUI();
+            }
         }
 
         private void TrayOpenMenuItem_Click(object sender, RoutedEventArgs e)

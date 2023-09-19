@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ionic.Zip;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,12 +8,15 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
-    public class PortableApp : IEquatable<PortableApp>, INotifyPropertyChanged
+    public class PortableApp : INotifyPropertyChanged
     {
+        public int Id { get; }
         public string Name { get; set; }
+        public ImageSource Icon { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
@@ -21,7 +25,7 @@ namespace sUpdater
         public string DL { get; set; }
         public string ExtractMode { get; set; }
         public string SavePath { get; set; }
-        public string Launch { get; set; }      
+        public string Launch { get; set; }
         public LinkClickCommand LinkClickCommand { get; set; }
 
         private string linkText = "Run";
@@ -71,9 +75,10 @@ namespace sUpdater
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PortableApp(string name, string latestVersion, string localVersion, string arch,
+        public PortableApp(int id, string name, string latestVersion, string localVersion, string arch,
             string launch, string dl, string extractMode, string savePath = null)
         {
+            Id = id;
             Name = name;
             LatestVersion = latestVersion;
             LocalVersion = localVersion;
@@ -109,6 +114,14 @@ namespace sUpdater
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Utilities.Settings.PortableAppDir, Name));
             string fileName = @Path.GetFileName(DL);
+            if (fileName.Contains("?"))
+            {
+                // Filename contains invalid character so we'll have to use the launch property as fallback filename
+                if (Launch != null)
+                {
+                    fileName = Launch;
+                }
+            }
             SavePath = @Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
 
             // Check if portable app is already downloaded
@@ -168,66 +181,49 @@ namespace sUpdater
         {
             if (File.Exists(SavePath))
             {
+                // If ExtractMode is single, we do not need to extract
                 if (ExtractMode == "folder")
                 {
-                    string sevenZipPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "7z.exe");
-                    if (!File.Exists(sevenZipPath))
+                    try
                     {
-                        Log.Append($"7-Zip not present at: {sevenZipPath}. Cancelling...", Log.LogLevel.ERROR);
-                        MessageBox.Show("Could not find 7-Zip in the installation directory. Try reinstalling sUpdater.",
-                            "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
-                        IsWaiting = false;
-                        Status = "";
+                        await Extract();
+                    }
+                    catch (Exception e)
+                    {
+                        Status = "Extracting failed";
+                        Progress = 100;
+                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
                         return;
                     }
-                    else
-                    {
-                        Log.Append($"7-Zip path: {sevenZipPath}", Log.LogLevel.INFO);
-                    }
 
-                    using (var p = new Process())
-                    {
-                        p.StartInfo.FileName = sevenZipPath;
-                        p.StartInfo.Arguments = "e \"" + SavePath + "\" -o\""
-                            + Path.Combine(Utilities.Settings.PortableAppDir, Name) + "\" -aoa";
-                        p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                        try
-                        {
-                            p.Start();
-                        }
-                        catch (Exception e)
-                        {
-                            Status = $"Extracting failed: {e.Message}";
-                            Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                        }
-
-                        Status = "Extracting...";
-                        IsWaiting = true;
-
-                        // Wait on a separate thread so the GUI thread does not get blocked
-                        await Task.Run(() =>
-                        {
-                            p.WaitForExit();
-                        });
-                        if (p.ExitCode == 0)
-                        {
-                            Log.Append("Extracting succesful.", Log.LogLevel.INFO);
-                            File.Delete(SavePath);
-                            Status = "Extracting complete";
-                            Progress = 100;
-                            IsWaiting = false;
-                            await Task.Delay(1000);                       
-                        }
-                        if (p.ExitCode != 0)
-                        {
-                            Status = $"Extracting failed. Exit code: {p.ExitCode}";
-                            Progress = 0;
-                            IsWaiting = false;
-                            Log.Append($"Extracting failed. Exit code: {p.ExitCode}", Log.LogLevel.ERROR);
-                        }
-                    }
+                    Log.Append("Succesfully extracted", Log.LogLevel.INFO);
+                    File.Delete(SavePath);
+                    Status = "Extracting complete";
+                    Progress = 100;
+                    await Task.Delay(1000);                       
                 }
             }
+        }
+
+        private Task Extract()
+        {
+            return Task.Run(() =>
+            {
+                using (ZipFile zip = ZipFile.Read(SavePath))
+                {
+                    zip.ExtractProgress += (sender, e) =>
+                    {
+                        if (e.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
+                        {
+                            Progress = 50 + 50 * e.EntriesExtracted / e.EntriesTotal;
+                            Status = $"Extracting ({e.EntriesExtracted}/{e.EntriesTotal}) ...";
+                        }
+                    };
+
+                    string extractPath = Path.Combine(Utilities.Settings.PortableAppDir, Name);
+                    zip.ExtractAll(extractPath);
+                }
+            });
         }
 
         public async Task Run()
@@ -274,19 +270,18 @@ namespace sUpdater
 
         public override bool Equals(object obj)
         {
-            return Equals(obj as PortableApp);
-        }
-
-        public bool Equals(PortableApp app)
-        {
-            return app != null && Name == app.Name && LatestVersion == app.LatestVersion;
+            return obj is PortableApp app &&
+                   Name == app.Name &&
+                   LatestVersion == app.LatestVersion &&
+                   Arch == app.Arch;
         }
 
         public override int GetHashCode()
         {
-            var hashCode = -1183558336;
+            int hashCode = 349623337;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
             return hashCode;
         }
     }

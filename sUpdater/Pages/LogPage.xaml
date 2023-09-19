@@ -14,7 +14,7 @@
             <RowDefinition Height="32px"/>
         </Grid.RowDefinitions>
 
-        <RichTextBox x:Name="textBox" Grid.Row="0" IsReadOnly="True">
+        <RichTextBox x:Name="textBox" Grid.Row="0" IsReadOnly="True" VerticalScrollBarVisibility="Auto">
             <RichTextBox.Resources>
                 <!-- Remove the margin between the lines -->
                 <Style TargetType="{x:Type Paragraph}">

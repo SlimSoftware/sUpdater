@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Threading.Tasks;
-using System.Net.Http;
 using System.Windows;
-using sUpdater.Models;
 using System.IO;
 using System.Xml.Serialization;
+using DialogResult = System.Windows.Forms.DialogResult;
+using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
+using System.Collections.Generic;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using System.Diagnostics;
+using System.Reflection;
 
-namespace sUpdater
+namespace sUpdater.Models
 {
     public static class Utilities
     {
-        public static HttpClient HttpClient { get; set; }
         public static Settings Settings { get; set; }
 
-        private static string settingsXmlDir = Path.Combine(Environment.GetFolderPath(
-            Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
-        private static string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
+        private static readonly string settingsXmlDir = Debugger.IsAttached ?
+            Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) :
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
 
-        /// <summary>
-        /// Whether the last API request was succesful or not
-        /// </summary>
-        public static bool ConnectedToServer = true;
+        private static readonly string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
 
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
@@ -65,7 +65,7 @@ namespace sUpdater
 
         public static string GetFriendlyOSName()
         {
-            string osName = "Unknown Windows version";
+            string osName = "";
 
             switch (Environment.OSVersion.Version.Major)
             {
@@ -87,10 +87,21 @@ namespace sUpdater
                     }
                     break;
                 case 10:
-                    osName = "Windows 10";
+                    if (Environment.OSVersion.Version.Build >= 22000)
+                        osName = "Windows 11";
+                    else 
+                        osName = "Windows 10";
                     break;
             }
-            return osName;
+
+            if (osName != "")
+            {
+                return osName;
+            } 
+            else
+            {
+                return "unknown Windows version";
+            }
         }
 
         public static string GetFriendlyVersion(Version version)
@@ -126,7 +137,7 @@ namespace sUpdater
         public static void ShowFromTray(MainWindow mainWindow)
         {
             mainWindow.ShowInTaskbar = true;
-           
+
             if (mainWindow.WindowState == WindowState.Minimized)
             {
                 mainWindow.WindowState = WindowState.Normal;
@@ -141,44 +152,23 @@ namespace sUpdater
             return (MainWindow)System.Windows.Application.Current.MainWindow;
         }
 
-        public static void InitHttpClient()
+        /// <summary>
+        /// Opens a folder browser dialog and returns the selected path
+        /// </summary>
+        /// <param name="defaultPath">The path to the folder that the dialog should show when opened</param>
+        /// <returns>The path selected by the user or null if the dialog has been cancelled</returns>
+        public static string BrowseForFolder(string defaultPath)
         {
-            HttpClient = new HttpClient();
-
-            if (Settings.DefenitionURL == null)
+            using (FolderBrowser fbd = new FolderBrowser())
             {
-                HttpClient.BaseAddress = new Uri("https://slimsoft.tk/supdater/api/");
-            }
-            else
-            {
-                HttpClient.BaseAddress = new Uri(Settings.DefenitionURL);
-            }
-
-            HttpClient.DefaultRequestHeaders.Accept.Clear();
-            HttpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        }
-
-        public static async Task<T> CallAPI<T>(string url)
-        {
-            using (var response = await HttpClient.GetAsync(url))
-            {
-                Log.Append($"API call: {url}", Log.LogLevel.INFO);
-                if (response.IsSuccessStatusCode)
+                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    T result = await response.Content.ReadAsAsync<T>();
-
-                    if (!ConnectedToServer)
-                    {
-                        ConnectedToServer = true;
-                    }
-
-                    return result;
+                    return fbd.SelectedPath;
                 }
                 else
                 {
-                    Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
-                    ConnectedToServer = false;
-                    throw new Exception(response.ReasonPhrase);
+                    return null;
                 }
             }
         }
@@ -189,8 +179,10 @@ namespace sUpdater
             if (File.Exists(settingsXmlPath))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Settings));
-                FileStream fs = new FileStream(settingsXmlPath, FileMode.Open);
-                Settings = (Settings)serializer.Deserialize(fs);
+                using (FileStream fs = new FileStream(settingsXmlPath, FileMode.Open))
+                {
+                    Settings = (Settings)serializer.Deserialize(fs);
+                }
             }
             else
             {
@@ -224,6 +216,89 @@ namespace sUpdater
             TextWriter writer = new StreamWriter(settingsXmlPath);
             serializer.Serialize(writer, Settings);
             writer.Close();
+        }
+
+        public static string GetAppServerURL()
+        {
+            return Settings.AppServerURL ?? "https://www.slimsoft.tk/supdater/api";
+        }
+
+        public static string RemoveLeadingNewLinesAndTabs(string text)
+        {
+            string newText = text;
+
+            if (text.StartsWith("\n"))
+            {
+                newText = newText.TrimStart("\n".ToCharArray());
+            }
+            if (text.Contains("\t"))
+            {
+                newText = newText.Replace("\t", string.Empty);
+            }
+
+            return newText;
+        }
+
+        /// <summary>
+        /// Replaces all variables in the given exePath string and returns the resulting string
+        /// </summary>
+        public static string ParseExePath(string exePath)
+        {
+            if (exePath.Contains("%pf32%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFilesX86));
+                }
+                else
+                {
+                    exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                        Environment.SpecialFolder.ProgramFiles));
+                }
+            }
+            else if (exePath.Contains("%pf64%"))
+            {
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    // We cannot use SpecialFolder.ProgramFiles here, because we are running as a 32-bit process
+                    // SpecialFolder.ProgramFiles would return the 32-bit ProgramFiles here
+                    exePath = exePath.Replace("%pf64%", Environment.GetEnvironmentVariable("ProgramW6432"));
+                }
+            }
+
+            // Replace system environment vars
+            exePath = Environment.ExpandEnvironmentVariables(exePath);
+
+            return exePath;
+        }
+
+        private static BitmapSource GetIconFromFile(string filePath)
+        {
+            using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
+            {
+                return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
+                       BitmapSizeOptions.FromEmptyOptions());
+            }
+        }
+
+        public static void PopulateAppIcons(List<Application> apps)
+        {
+            foreach (Application app in apps)
+            {
+                if (app.Icon == null && File.Exists(app.ExePath))
+                {
+                    app.Icon = GetIconFromFile(app.ExePath);
+                }
+            }
+        }
+
+        public static void PopulatePortableAppIcon(PortableApp portableApp, string exePath)
+        {
+            if (portableApp.Icon == null && File.Exists(exePath))
+            {
+                portableApp.Icon = GetIconFromFile(exePath);
+            }
         }
     }
 }

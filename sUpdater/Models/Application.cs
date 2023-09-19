@@ -6,18 +6,25 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Linq;
+using System.Collections.Generic;
+using System.Windows.Media;
+using Ionic.Zip;
 using sUpdater.Controllers;
 
-namespace sUpdater
-{   
+namespace sUpdater.Models
+{
     public class Application : INotifyPropertyChanged
     {
-        public int Id { get; set; }
+        public int Id { get; }
+        public ImageSource Icon { get; set; }
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
+        public string ExePath { get; private set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
+        public bool HasWebsite { get; set; }
+        public string Arch { get; set; }
         public bool HasDescription { get; set; }
         public bool NoUpdate { get; set; }
         public string DownloadLink { get; set; }
@@ -62,6 +69,21 @@ namespace sUpdater
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public Application(int id, string name, string latestVersion, string localVersion, string exePath,
+            string arch, string type, string installSwitch, string downloadLink, string savePath = null)
+        {
+            Id = id;
+            Name = name;
+            LatestVersion = latestVersion;
+            LocalVersion = localVersion;
+            ExePath = exePath;
+            Arch = arch;
+            Type = type;
+            InstallSwitch = installSwitch;
+            DownloadLink = downloadLink;
+            SavePath = savePath;
+        }
+
         public async Task Download()
         {
             if (!Directory.Exists(Utilities.Settings.DataDir))
@@ -69,7 +91,7 @@ namespace sUpdater
                 try
                 {
                     Directory.CreateDirectory(Utilities.Settings.DataDir);
-                } 
+                }
                 catch (Exception ex)
                 {
                     Log.Append($"Could not create data dir: {ex.Message}", Log.LogLevel.ERROR);
@@ -79,7 +101,15 @@ namespace sUpdater
             }
 
             string fileName = Path.GetFileName(DownloadLink);
-            SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);        
+            if (fileName.Contains("?"))
+            {
+                // Filename contains invalid character so we'll have to use the launch property as fallback filename
+                if (ExePath != null)
+                {
+                    fileName = ExePath;
+                }
+            }
+            SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded
             if (!File.Exists(SavePath))
@@ -125,7 +155,7 @@ namespace sUpdater
                 Progress = 50;
                 Status = "Already downloaded, starting install...";
                 Log.Append("Found existing installer", Log.LogLevel.INFO);
-            }     
+            }
         }
 
         public async Task Install()
@@ -133,46 +163,62 @@ namespace sUpdater
             launchInstaller:
             using (var p = new Process())
             {
-                if (DownloadLink.EndsWith(".exe"))
+                if (!SavePath.EndsWith(".msi"))
                 {
                     p.StartInfo.FileName = SavePath;
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
                     p.StartInfo.Arguments = LaunchArgs;
                 }
-                else if (DownloadLink.EndsWith(".msi"))
+                else
                 {
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = "\"" + LaunchArgs + "\""
-                        + " " + SavePath;
+                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {InstallSwitch}";
                 }
+
+                if (SavePath.EndsWith(".zip"))
+                {
+                    string extractedFilename;
+                    try
+                    {
+                        extractedFilename = await Extract();
+                    } 
+                    catch (Exception e)
+                    {
+                        Status = "Extracting failed";
+                        Progress = 100;
+                        Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
+                        return;
+                    }
+
+                    p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, extractedFilename);
+                }
+
                 try
                 {
                     p.Start();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    var result = MessageBox.Show(
-                        "Lauching the installer failed. \nWould you like to try again?",
+                    var result = MessageBox.Show("Lauching the installer failed. \nWould you like to try again?",
                         "Error", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    Log.Append("Launching the installer failed. Asking user for retry.",
-                        Log.LogLevel.INFO);
+                    Log.Append($"Launching the installer failed: {ex.Message}, filename: {p.StartInfo.FileName}", Log.LogLevel.WARN);
                     if (result == MessageBoxResult.Yes)
                     {
-                        Log.Append("User chose yes.", Log.LogLevel.INFO);
+                        Log.Append("Relaunching installer...", Log.LogLevel.INFO);
                         goto launchInstaller;
                     }
                     else
                     {
-                        Log.Append("User chose no. Skipping this app.", Log.LogLevel.INFO);
+                        Log.Append("User chose not to relaunch installer. Skipping this app.", Log.LogLevel.INFO);
                         return;
                     }
                 }
 
                 // Restore back focus to the MainWindow
-                System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault().Focus();
+                Utilities.GetMainWindow().Focus();
 
                 Status = "Installing...";
                 IsWaiting = true;
@@ -191,21 +237,94 @@ namespace sUpdater
                     IsWaiting = false;
                     Progress = 100;
                 }
-                if (p.ExitCode != 0)
+                else
                 {
                     Log.Append(string.Format("Installation failed. Installer exited with " +
                         "exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
-                    Status = String.Format(
+                    Status = string.Format(
                         "Install failed. Exit code: {0}", p.ExitCode);
                     Progress = 0;
                     IsWaiting = false;
                 }
             }
-        }        
+        }
+
+        private Task<string> Extract()
+        {
+            return Task.Run(() =>
+            {
+                string extractedFileName = "";
+                Status = "Extracting...";
+                IsWaiting = true;
+
+                using (ZipFile zip = ZipFile.Read(SavePath))
+                {
+                    foreach (ZipEntry entry in zip)
+                    {
+                        // Extract the entry if the file is an installer
+                        string extention = Path.GetExtension(entry.FileName);
+                        if (extention == ".exe" || extention == ".msi")
+                        {
+                            entry.Extract(Utilities.Settings.DataDir, ExtractExistingFileAction.DoNotOverwrite);
+                            extractedFileName = entry.FileName;
+                            break;
+                        }
+                    }
+                }
+
+                if (extractedFileName == "")
+                {
+                    throw new InvalidOperationException("Did not find an installer in the archive to extract");
+                }
+
+                IsWaiting = false;
+                return extractedFileName;
+            });
+        }
+
+        /// <summary>
+        /// Opens the changelog of this app in the default browser
+        /// </summary>
+        public void OpenChangelog()
+        {
+            string changelogRedirectURL = $"{Utilities.GetAppServerURL()}/changelog?id={Id}";
+            Process.Start(changelogRedirectURL);
+        }
+
+        /// <summary>
+        /// Opens the website of this app in the default browser
+        /// </summary>
+        public void OpenWebsite()
+        {
+            string websiteRedirectURL = $"{Utilities.GetAppServerURL()}/website?id={Id}";
+            Process.Start(websiteRedirectURL);
+        }
+
+        public Application Clone()
+        {
+            return (Application)MemberwiseClone();
+        }
 
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Application application &&
+                   Name == application.Name &&
+                   LatestVersion == application.LatestVersion &&
+                   Arch == application.Arch;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 349623337;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
+            return hashCode;
         }
     }
 }

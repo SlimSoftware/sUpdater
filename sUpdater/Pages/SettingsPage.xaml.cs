@@ -1,10 +1,10 @@
 ﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
 namespace sUpdater
 {
@@ -40,66 +40,56 @@ namespace sUpdater
                 portableAppsFolderTextBox.Text = Utilities.Settings.PortableAppDir;
             }
 
-            if (Utilities.Settings.DefenitionURL != null)
+            if (Utilities.Settings.AppServerURL != null)
             {
-                customDefinitionsTextBox.Text = Utilities.Settings.DefenitionURL;
-                customDefinitionsTextBox.IsEnabled = true;
-                officialDefinitionsRadioButton.IsChecked = false;
-                customDefinitionsRadioButton.IsChecked = true;
+                customAppServerTextBox.Text = Utilities.Settings.AppServerURL;
+                customAppServerTextBox.IsEnabled = true;
+                officialAppServerRadioButton.IsChecked = false;
+                customAppServerRadioButton.IsChecked = true;
             }
             else
             {
-                officialDefinitionsRadioButton.IsChecked = true;
+                officialAppServerRadioButton.IsChecked = true;
             }
         }
 
         private void DataFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            FolderBrowser fbd = new FolderBrowser();         
-            fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (fbd.ShowDialog() == DialogResult.OK)
+            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            if (selectedPath != null)
             {
-                dataFolderTextBox.Text = fbd.SelectedPath;
+                dataFolderTextBox.Text = selectedPath;
             }
         }
 
         private void OpenDataFolderButton_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(dataFolderTextBox.Text))
-            {
-                Process.Start("explorer.exe", dataFolderTextBox.Text);
-            }
+             OpenDirInExplorer(dataFolderTextBox.Text);
         }
 
         private void PortableAppsFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            using (FolderBrowser fbd = new FolderBrowser())
+            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            if (selectedPath != null)
             {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    portableAppsFolderTextBox.Text = fbd.SelectedPath;
-                }
+                portableAppsFolderTextBox.Text = selectedPath;
             }
         }
 
         private void OpenPortableAppsFolderButton_Click(object sender, EventArgs e)
         {
-            if (Directory.Exists(portableAppsFolderTextBox.Text))
-            {
-                Process.Start("explorer.exe", portableAppsFolderTextBox.Text);
-            }
+             OpenDirInExplorer(portableAppsFolderTextBox.Text);
         }
 
-        private void OfficialDefinitionsRadioButton_Click(object sender, EventArgs e)
+        private void OfficialAppServerRadioButton_Click(object sender, EventArgs e)
         {
-            customDefinitionsTextBox.Text = "";
-            customDefinitionsTextBox.IsEnabled = false;
+            customAppServerTextBox.Text = "";
+            customAppServerTextBox.IsEnabled = false;
         }
 
-        private void CustomDefinitionsRadioButton_Click(object sender, EventArgs e)
+        private void CustomAppServerRadioButton_Click(object sender, EventArgs e)
         {
-            customDefinitionsTextBox.IsEnabled = true;
+            customAppServerTextBox.IsEnabled = true;
         }
 
         public void SaveSettings()
@@ -168,17 +158,17 @@ namespace sUpdater
                 Utilities.Settings.DataDir = null;
             }
 
-            if (customDefinitionsRadioButton.IsChecked == true && customDefinitionsTextBox.Text != "")
+            if (customAppServerRadioButton.IsChecked == true && customAppServerTextBox.Text != "")
             {
-                Utilities.Settings.DefenitionURL = customDefinitionsTextBox.Text;
+                Utilities.Settings.AppServerURL = customAppServerTextBox.Text;
             }
-            if (customDefinitionsRadioButton.IsChecked == true && customDefinitionsTextBox.Text == "")
+            if (customAppServerRadioButton.IsChecked == true && customAppServerTextBox.Text == "")
             {
-                MessageBox.Show("You must specify a custom definition URL or use the official defentions");
+                MessageBox.Show("You must specify a custom App Server URL or use the official App Server");
             }
-            if (officialDefinitionsRadioButton.IsChecked == true)
+            if (officialAppServerRadioButton.IsChecked == true)
             {
-                Utilities.Settings.DefenitionURL = null;
+                Utilities.Settings.AppServerURL = null;
             }
 
             using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
@@ -186,15 +176,13 @@ namespace sUpdater
             {
                 if (autoStartCheckBox.IsChecked == true && key.GetValue("sUpdater") == null)
                 {
-                    key.SetValue("sUpdater", 
+                    key.SetValue("sUpdater",
                         $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
                 }
-                else
+
+                if (autoStartCheckBox.IsChecked == false && key.GetValue("sUpdater") != null)
                 {
-                    if (key.GetValue("sUpdater") != null)
-                    {
-                        key.DeleteValue("sUpdater");
-                    }
+                    key.DeleteValue("sUpdater");
                 }
             }
 
@@ -208,6 +196,18 @@ namespace sUpdater
             }
 
             Utilities.SaveSettings();
+        }
+
+        /// <summary>
+        /// Opens a folder in File Explorer if the folder exists
+        /// </summary>
+        /// <param name="path">The path to the folder to open</param>
+        private void OpenDirInExplorer(string path)
+        {
+            if (Directory.Exists(path))
+            {
+                Process.Start("explorer.exe", path);
+            }
         }
 
         /// <summary>

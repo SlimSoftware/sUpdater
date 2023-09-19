@@ -1,4 +1,4 @@
-﻿namespace sUpdater
+﻿namespace sUpdater.Models
 {
     class Credit
     {

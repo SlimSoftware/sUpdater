@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sUpdater.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace sUpdater
     {
         private List<PortableApp> installedPortableApps = new List<PortableApp>();
         private static List<PortableApp> portableApps = GetPortableAppsPage.GetPortableApps();
+        private bool navigateHandlerAttached = false;
 
         public InstalledPortableAppsPage()
         {
@@ -25,7 +27,7 @@ namespace sUpdater
             if (installedPortableApps.Count == 0)
             {
                 noAppsInstalledLabel.Visibility = Visibility.Visible;
-            } 
+            }
         }
 
         /// <summary>
@@ -39,6 +41,11 @@ namespace sUpdater
             string[] installedAppPaths = null;
             if (Utilities.Settings.PortableAppDir != null)
             {
+                if (!Directory.Exists(Utilities.Settings.PortableAppDir))
+                {
+                    Directory.CreateDirectory(Utilities.Settings.PortableAppDir);
+                }
+
                 installedAppPaths = Directory.GetDirectories(Utilities.Settings.PortableAppDir);
             }
 
@@ -46,10 +53,12 @@ namespace sUpdater
             {
                 PortableApp pAppListItem = new PortableApp(Path.GetFileName(appDirPath), null);
                 pAppListItem.Checkbox = false;
-                apps.Add(pAppListItem);
 
                 // Find associated PortableApp
                 PortableApp app = portableApps.Find(x => x.Name == pAppListItem.Name);
+
+                string launchPath = Path.Combine(appDirPath, app.Launch);
+                Utilities.PopulatePortableAppIcon(pAppListItem, launchPath);
 
                 pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                 {
@@ -60,10 +69,12 @@ namespace sUpdater
 
                     pAppListItem.Status = "";
                     pAppListItem.LinkText = linkText;
-                }));               
+                }));
+
+                apps.Add(pAppListItem);
             }
 
-            return apps; 
+            return apps;
         }
 
         private void GetPortableAppsLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -76,7 +87,7 @@ namespace sUpdater
         {
             MenuItem menuItem = sender as MenuItem;
             PortableApp app = (PortableApp)menuItem.DataContext;
-            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {app.Name}, including all of its settings and data?", 
+            MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete {app.Name}, including all of its settings and data?",
                 "sUpdater", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
@@ -102,11 +113,15 @@ namespace sUpdater
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigating += NavigationService_Navigating;
+            if (!navigateHandlerAttached)
+            {
+                NavigationService.Navigating += NavigationService_Navigating;
+                navigateHandlerAttached = true;
+            }
         }
 
         private void NavigationService_Navigating(object sender, NavigatingCancelEventArgs e)
-        {        
+        {
             if (e.NavigationMode == NavigationMode.Back)
             {
                 // Refresh list when going back from other page

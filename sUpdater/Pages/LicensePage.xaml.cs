@@ -13,11 +13,7 @@ namespace sUpdater
 
             Title = $"{creditName} License";
 
-            if (creditName == "7-Zip")
-            {
-                licenseTextBox.AppendText(Properties.Resources.SevenZipLicense);
-            }
-            else if (creditName == "AutoUpdater.NET")
+            if (creditName == "AutoUpdater.NET")
             {
                 licenseTextBox.AppendText(Properties.Resources.AutoUpdaterNETLicense);
             }
@@ -32,6 +28,14 @@ namespace sUpdater
             else if (creditName == "AsyncEnumerable")
             {
                 licenseTextBox.AppendText(Properties.Resources.AsyncEnumerableLicense);
+            }
+            else if (creditName == "AsyncEnumerable")
+            {
+                licenseTextBox.AppendText(Properties.Resources.AsyncEnumerableLicense);
+            }
+            else if (creditName == "DotNetZip")
+            {
+                licenseTextBox.AppendText(Properties.Resources.DotNetZipLicense);
             }
         }
     }

@@ -1,13 +1,12 @@
 ﻿using sUpdater.Controllers;
 using Dasync.Collections;
+using sUpdater.Models;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
@@ -49,7 +48,8 @@ namespace sUpdater
                 app.DisplayedVersion = app.LatestVersion;                    
             }
 
-            getAppsListView.ItemsSource = apps;
+            Utilities.PopulateAppIcons(notInstalledApps);
+            getAppsListView.Items.Refresh();
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -155,7 +155,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in getAppsListView.SelectedItems)
+                foreach (Application app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -166,17 +166,7 @@ namespace sUpdater
                     }
                 }
 
-                // Cleanup any exe's in appdata dir
-                if (Directory.GetFiles(Utilities.Settings.DataDir, "*.exe").Length > 0)
-                {
-                    Log.Append("Cleaning up installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Utilities.Settings.DataDir, ".exe"))
-                    {
-                        File.Delete(exePath);
-                    }
-                }
-
-                if (installFailed == true)
+                if (installFailed)
                 {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
@@ -192,7 +182,7 @@ namespace sUpdater
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
                 }
-                if (installFailed == false)
+                else
                 {                
                     await GetNotInstalledApps();
                     getAppsListView.ItemsSource = getAppsListView.ItemsSource;
@@ -204,13 +194,11 @@ namespace sUpdater
             }
         }
 
-        private void ItemDescription_Click(object sender, RoutedEventArgs e)
+        private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
-
-            InfoPage infoPage = new InfoPage(app.Id, InfoPage.InfoType.Description);
-            NavigationService.Navigate(infoPage);
+            app.OpenChangelog();
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using sUpdater.Models;
 
 namespace sUpdater
 {
@@ -21,9 +22,9 @@ namespace sUpdater
             {
                 new Credit("Inno Setup", "JRSoftware", "http://www.jrsoftware.org/isinfo.php"),
                 new Credit("AutoUpdater.NET", "RBSoft", "https://github.com/ravibpatel/AutoUpdater.NET"),
-                new Credit("7-Zip", "Igor Pavlov", "https://www.7-zip.org"),
                 new Credit("WPF NotifyIcon", "Philipp Sumi", "http://www.hardcodet.net/wpf-notifyicon"),
-                new Credit("AsyncEnumerable", "D·ASYNC", "https://github.com/Dasync/AsyncEnumerable") 
+                new Credit("AsyncEnumerable", "D·ASYNC", "https://github.com/Dasync/AsyncEnumerable"),
+                new Credit("DotNetZip", "Henrik Feldt", "https://github.com/haf/DotNetZip.Semverd")
             };
 
             foreach (Credit credit in creditList)

@@ -1,13 +1,14 @@
 ﻿using Dasync.Collections;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml.Linq;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
@@ -21,7 +22,7 @@ namespace sUpdater
         public GetPortableAppsPage()
         {
             InitializeComponent();
-            notInstalledPortableApps = GetNotInstalledPortableApps();    
+            notInstalledPortableApps = GetNotInstalledPortableApps();
 
             foreach (PortableApp app in notInstalledPortableApps)
             {
@@ -53,18 +54,20 @@ namespace sUpdater
                 }));
             }
 
+            if (notInstalledPortableApps.Count == 0)
+            {
+                noAppsAvailableLabel.Visibility = Visibility.Visible;
+            }
+
             portableAppsListView.ItemsSource = notInstalledPortableApps;
         }
 
-        /// <summary>
-        /// Fills the portableApps list with all Portable Apps from the definitions
-        /// </summary>
         public static List<PortableApp> GetPortableApps()
         {
             Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
 
             List<PortableApp> apps = new List<PortableApp>();
-            XDocument definitions;
+            XDocument appXML = XDocument.Load($"{Utilities.GetAppServerURL()}/apps");
 
             // Load XML File
             if (Utilities.Settings.DefenitionURL != null)
@@ -80,6 +83,7 @@ namespace sUpdater
             {
                 // Get content from XML nodes
                 XAttribute nameAttribute = portableAppElement.Attribute("name");
+                XElement idElement = portableAppElement.Element("id");
                 XElement versionElement = portableAppElement.Element("version");
                 XElement archElement = portableAppElement.Element("arch");
                 XElement launchElement = portableAppElement.Element("launch");
@@ -90,9 +94,11 @@ namespace sUpdater
                 // TODO: Get local version of portable app if installed
                 string localVersion = "-";
 
-                apps.Add(new PortableApp(nameAttribute.Value, versionElement.Value,
+                int id = Convert.ToInt32(idElement.Value);
+
+                apps.Add(new PortableApp(id, nameAttribute.Value, versionElement.Value,
                     localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                    extractModeElement.Value));             
+                    extractModeElement.Value));
             }
 
             return apps;
@@ -125,7 +131,7 @@ namespace sUpdater
             else
             {
                 // Unselect all selected apps                
-                portableAppsListView.SelectedItems.Clear();    
+                portableAppsListView.SelectedItems.Clear();
             }
         }
 
@@ -166,7 +172,7 @@ namespace sUpdater
 
             if (portableAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater", 
+                MessageBox.Show("You have not selected any Portable Apps to install.", "sUpdater",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No Portable Apps selected to install, aborting...", Log.LogLevel.WARN);
 
@@ -193,17 +199,14 @@ namespace sUpdater
                 await selectedApps.ParallelForEachAsync(async (app) =>
                 {
                     currentApp++;
-                    Dispatcher.Invoke(() =>
-                    {
-                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                            app.Name, currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-                    });
+                    Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                        app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
                     await app.Download();
                 }, maxDegreeOfParallelism: 3);
 
                 // Install
                 currentApp = 0;
-                foreach (PortableApp app in portableAppsListView.SelectedItems)
+                foreach (PortableApp app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -231,7 +234,7 @@ namespace sUpdater
                     statusLabel.Visibility = Visibility.Visible;
                 }
                 else
-                {                   
+                {
                     notInstalledPortableApps = GetNotInstalledPortableApps();
                     // TODO: Properly refresh
                     portableAppsListView.ItemsSource = null;

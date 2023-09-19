@@ -1,11 +1,12 @@
 ﻿using AutoUpdaterDotNET;
+using sUpdater.Models;
 using System;
 using System.Windows.Controls;
 
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for AppUpdatePage.xaml
     /// </summary>
     public partial class AppUpdatePage : Page
     {

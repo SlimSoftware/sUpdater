@@ -1,19 +1,20 @@
 ﻿using sUpdater.Controllers;
 using Dasync.Collections;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for UpdaterPage.xaml
     /// </summary>
     public partial class UpdaterPage : Page
     {
@@ -95,7 +96,7 @@ namespace sUpdater
 
             if (updateListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any updates to install.", "sUpdater", 
+                MessageBox.Show("You have not selected any updates to install.", "sUpdater",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
 
@@ -120,7 +121,7 @@ namespace sUpdater
                 // Download
                 int currentApp = 0;
                 await selectedApps.ParallelForEachAsync(async (app) =>
-                { 
+                {
                     currentApp++;
                     Dispatcher.Invoke(() =>
                     {
@@ -132,7 +133,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in updateListView.SelectedItems)
+                foreach (Application app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -140,16 +141,6 @@ namespace sUpdater
                         Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
                             currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
                         await app.Install();
-                    }
-                }
-
-                // Cleanup any leftover exe's in appdata dir
-                if (Directory.GetFiles(Utilities.Settings.DataDir, "*.exe").Length > 0)
-                {
-                    Log.Append("Cleaning up leftover installers...", Log.LogLevel.INFO);
-                    foreach (string exePath in Directory.GetFiles(Utilities.Settings.DataDir, ".exe"))
-                    {
-                        File.Delete(exePath);
                     }
                 }
 
@@ -233,13 +224,27 @@ namespace sUpdater
             }
         }
 
-        private void ItemChangelog_Click(object sender, RoutedEventArgs e)
+        private void MenuItemChangelog_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+            app.OpenChangelog();
+        }
+
+        private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            Application app = (Application)menuItem.DataContext;
+            app.OpenWebsite();
+        }
+
+        private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             Application app = (Application)menuItem.DataContext;
 
-            InfoPage infoPage = new InfoPage(app.Id, InfoPage.InfoType.Changelog);
-            NavigationService.Navigate(infoPage);
+            await app.Download();
+            await app.Install();
         }
 
         private async void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -257,6 +262,8 @@ namespace sUpdater
 
             if (AppController.GetUpdateCount() != 0 && selectAllRow.Height == new GridLength(0))
             {
+                Utilities.PopulateAppIcons(Apps.Updates);
+
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 selectAllCheckBox.Visibility = Visibility.Visible;
                 installButton.Visibility = Visibility.Visible;
