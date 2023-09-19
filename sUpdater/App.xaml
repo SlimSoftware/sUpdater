@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/sUpdater;component/Controls/CustomListViewStyle.xaml"/>
+                <!--<ResourceDictionary Source="/sUpdater;component/Controls/CustomListViewStyle.xaml"/>-->
                 <ResourceDictionary Source="/sUpdater;component/Controls/TrayIcon.xaml"/>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
