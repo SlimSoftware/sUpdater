@@ -70,13 +70,14 @@ namespace sUpdater
             XDocument appXML = XDocument.Load($"{Utilities.GetAppServerURL()}/apps");
 
             // Load XML File
-            if (Utilities.Settings.DefenitionURL != null)
+            XDocument definitions;
+            if (Utilities.Settings.AppServerURL != null)
             {
-                definitions = XDocument.Load(Utilities.Settings.DefenitionURL);
+                definitions = XDocument.Load(Utilities.Settings.AppServerURL);
             }
             else
             {            
-                definitions = XDocument.Load("https://www.slimsoft.tk/supdater/definitions.xml");
+                definitions = XDocument.Load("https://supdater.slimsoft.tk/api");
             }
 
             foreach (XElement portableAppElement in definitions.Descendants("portable"))

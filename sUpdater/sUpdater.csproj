@@ -130,7 +130,6 @@
     <Compile Include="Pages\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Apps.cs" />
     <Compile Include="Models\Credit.cs" />
     <Compile Include="Pages\GetAppsPage.xaml.cs">
       <DependentUpon>GetAppsPage.xaml</DependentUpon>

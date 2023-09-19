@@ -9,6 +9,9 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Reflection;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Http.Headers;
 
 namespace sUpdater.Models
 {
@@ -16,11 +19,18 @@ namespace sUpdater.Models
     {
         public static Settings Settings { get; set; }
 
+        /// <summary>
+        /// Whether the last API request was succesful or not
+        /// </summary>
+        public static bool ConnectedToServer = true;
+
         private static readonly string settingsXmlDir = Debugger.IsAttached ?
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) :
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
 
         private static readonly string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
+
+        private static HttpClient HttpClient { get; set; }
 
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
@@ -145,6 +155,48 @@ namespace sUpdater.Models
 
             mainWindow.Show();
             mainWindow.Activate();
+        }
+
+        public static void InitHttpClient()
+        {
+            HttpClient = new HttpClient();
+
+            if (Settings.AppServerURL == null)
+            {
+                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/supdater/api/v2");
+            }
+            else
+            {
+                HttpClient.BaseAddress = new Uri(Settings.AppServerURL);
+            }
+
+            HttpClient.DefaultRequestHeaders.Accept.Clear();
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public static async Task<T> CallAPI<T>(string url)
+        {
+            using (var response = await HttpClient.GetAsync(url))
+            {
+                Log.Append($"API call: {url}", Log.LogLevel.INFO);
+                if (response.IsSuccessStatusCode)
+                {
+                    T result = await response.Content.ReadAsAsync<T>();
+
+                    if (!ConnectedToServer)
+                    {
+                        ConnectedToServer = true;
+                    }
+
+                    return result;
+                }
+                else
+                {
+                    Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
+                    ConnectedToServer = false;
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
         }
 
         public static MainWindow GetMainWindow()

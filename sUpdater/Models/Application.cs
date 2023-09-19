@@ -69,21 +69,6 @@ namespace sUpdater.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Application(int id, string name, string latestVersion, string localVersion, string exePath,
-            string arch, string type, string installSwitch, string downloadLink, string savePath = null)
-        {
-            Id = id;
-            Name = name;
-            LatestVersion = latestVersion;
-            LocalVersion = localVersion;
-            ExePath = exePath;
-            Arch = arch;
-            Type = type;
-            InstallSwitch = installSwitch;
-            DownloadLink = downloadLink;
-            SavePath = savePath;
-        }
-
         public async Task Download()
         {
             if (!Directory.Exists(Utilities.Settings.DataDir))
@@ -175,7 +160,7 @@ namespace sUpdater.Models
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {InstallSwitch}";
+                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {LaunchArgs}";
                 }
 
                 if (SavePath.EndsWith(".zip"))
