@@ -32,7 +32,7 @@ namespace sUpdater.Controllers
         /// </summary>
         private static async Task CheckInstalledApps()
         {
-            detectInfo = await Utilities.CallAPI<List<DetectInfo>>("detectinfo");
+            detectInfo = await Utilities.CallAPI<List<DetectInfo>>("apps");
 
             foreach (DetectInfo info in detectInfo)
             {

@@ -256,13 +256,14 @@ namespace sUpdater
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            updateListView.ItemsSource = await AppController.GetUpdateInfo();
+            List<Application> apps = await AppController.GetUpdateInfo();
+            updateListView.ItemsSource = apps;
             MainWindow mainWindow = Utilities.GetMainWindow();
             mainWindow.UpdateTaskbarIcon();
 
             if (AppController.GetUpdateCount() != 0 && selectAllRow.Height == new GridLength(0))
             {
-                Utilities.PopulateAppIcons(Apps.Updates);
+                Utilities.PopulateAppIcons(apps);
 
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 selectAllCheckBox.Visibility = Visibility.Visible;

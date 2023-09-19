@@ -194,7 +194,7 @@ namespace sUpdater.Models
                 {
                     Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
                     ConnectedToServer = false;
-                    throw new Exception(response.ReasonPhrase);
+                    return default;
                 }
             }
         }

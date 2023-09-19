@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
+using System.Threading.Tasks;
 
 namespace sUpdater
 {
@@ -48,7 +49,7 @@ namespace sUpdater
                 app.DisplayedVersion = app.LatestVersion;                    
             }
 
-            Utilities.PopulateAppIcons(notInstalledApps);
+            Utilities.PopulateAppIcons(apps);
             getAppsListView.Items.Refresh();
         }
 
