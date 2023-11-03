@@ -31,20 +31,20 @@ namespace sUpdater
 
         private async Task PopulateListAsync()
         {
-            updateListView.ItemsSource = await AppController.GetUpdateInfo();
+            updateListView.ItemsSource = await AppController.GetUpdates();
 
-            if (AppController.GetUpdateCount() == 0)
+            if (AppController.UpdateCount == 0)
             {
-                await SetupDetailsMode();
+                SetupDetailsMode();
             }
         }
 
         /// <summary>
         /// Sets up some visual tweaks for the details mode
         /// </summary>
-        private async Task SetupDetailsMode()
+        private void SetupDetailsMode()
         {
-            updateListView.ItemsSource = await AppController.GetAppInfo();
+            updateListView.ItemsSource = AppController.Apps;
 
             foreach (Application app in updateListView.ItemsSource)
             {

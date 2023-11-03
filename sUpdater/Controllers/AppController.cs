@@ -5,195 +5,144 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace sUpdater.Controllers
 {
     public static class AppController
     {
-        /// <summary>
-        /// Temporarily cached information to detect all apps that are available on the server
-        /// </summary>
-        private static List<DetectInfo> detectInfo = new List<DetectInfo>();
+        public static int UpdateCount { get; private set; }
 
         /// <summary>
-        /// Contains all installed apps, with its id as key and the installed version as value
+        /// Contains all installed apps
         /// </summary>
-        private static Dictionary<int, string> installedApps = new Dictionary<int, string>();
+        public static List<Application> InstalledApps { get; private set; } = new List<Application>();
 
         /// <summary>
-        /// Contains the ids of the updates that are available
+        /// All apps that are available on the server
         /// </summary>
-        public static List<int> UpdateIds { get; set; } = new List<int>();
+        public static List<Application> Apps = new List<Application>();
 
         /// <summary>
-        /// Checks which apps are installed and adds their id and installed version to the installedApps dictionary
+        /// Checks which apps are installed and adds them to the InstalledApps list
         /// </summary>
-        private static async Task CheckInstalledApps()
+        private static async Task CheckForInstalledApps()
         {
-            detectInfo = await Utilities.CallAPI<List<DetectInfo>>("apps");
+            Apps = await Utilities.CallAPI<List<Application>>("apps");
 
-            foreach (DetectInfo info in detectInfo)
+            foreach (Application app in Apps)
             {
-                // Check whether this app run on the system
-                if (!Environment.Is64BitOperatingSystem && info.Arch == Models.Arch.x64)
+                foreach (DetectInfo detectInfo in app.DetectInfo)
                 {
-                    // This app cannot run on the system, so skip it
-                    continue;
-                }
-
-                // Get local version if installed
-                string localVersion = null;
-                if (info?.RegKey != null)
-                {
-                    var regValue = Registry.GetValue(info?.RegKey, info?.RegValue, null);
-                    if (regValue != null)
+                    // Check whether this app run on the system
+                    if (!Environment.Is64BitOperatingSystem && detectInfo.Arch == Arch.x64)
                     {
-                        localVersion = regValue.ToString();
-                    }
-                }
-                else if (info?.ExePath != null)
-                {
-                    string exePath = info?.ExePath;
-                    if (exePath.Contains("%pf32%"))
-                    {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFilesX86));
-                        }
-                        else
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles));
-                        }
-                    }
-                    else if (exePath.Contains("%pf64%"))
-                    {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
-                            Environment.SpecialFolder.ProgramFiles));
-                        }
-                        else
-                        {
-                            // Do not add the app to the list because it is a 64 bit app
-                            // on a 32 bit system
-                            continue;
-                        }
+                        // This app cannot run on the system, so skip it
+                        continue;
                     }
 
-                    if (File.Exists(exePath))
+                    // Get local version if installed
+                    string localVersion = null;
+                    if (detectInfo?.RegKey != null)
                     {
-                        localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        var regValue = Registry.GetValue(detectInfo?.RegKey, detectInfo?.RegValue, null);
+                        if (regValue != null)
+                        {
+                            localVersion = regValue.ToString();
+                        }
                     }
-                }
+                    else if (detectInfo?.ExePath != null)
+                    {
+                        string exePath = detectInfo?.ExePath;
+                        if (exePath.Contains("%pf32%"))
+                        {
+                            if (Environment.Is64BitOperatingSystem)
+                            {
+                                exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                                    Environment.SpecialFolder.ProgramFilesX86));
+                            }
+                            else
+                            {
+                                exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                                    Environment.SpecialFolder.ProgramFiles));
+                            }
+                        }
+                        else if (exePath.Contains("%pf64%"))
+                        {
+                            if (Environment.Is64BitOperatingSystem)
+                            {
+                                exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
+                                    Environment.SpecialFolder.ProgramFiles));
+                            }
+                            else
+                            {
+                                // Do not add the app to the list because it is a 64 bit app
+                                // on a 32 bit system
+                                continue;
+                            }
+                        }
 
-                if (localVersion != null)
-                {
-                    installedApps.Add(info.Id, localVersion);
+                        if (File.Exists(exePath))
+                        {
+                            localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        }
+                    }
+
+                    if (localVersion != null)
+                    {
+                        detectInfo.IsInstalled = true;
+
+                        if (!InstalledApps.Contains(app))
+                        {
+                            InstalledApps.Add(app);
+                        }
+                    }
                 }
             }
         }
 
-        public static async Task CheckForUpdates()
+        public static async Task<List<Application>> GetUpdates()
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
-            UpdateIds = new List<int>();
+            List<Application> updates = new List<Application>();
             try
             {
-                await CheckInstalledApps();
+                await CheckForInstalledApps();
             }
             catch (Exception ex)
             {
                 Log.Append($"Error while checking for updates: {ex.Message}", Log.LogLevel.ERROR);
             }
 
-            string installedAppIdsString = string.Join(",", installedApps.Keys);
-            List<Application> latestAppVersions = await Utilities.CallAPI<List<Application>>($"appversion?ids={installedAppIdsString}");
-
-            foreach (var kvp in installedApps)
+            foreach (Application app in InstalledApps)
             {
-                Application app = latestAppVersions.Find(x => x.Id == kvp.Key);
-                string localVersion = kvp.Value;
-
-                if (!app.NoUpdate)
+                if (Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion) && !app.NoUpdate)
                 {
-                    if (Utilities.UpdateAvailable(app.LatestVersion, localVersion))
-                    {
-                        UpdateIds.Add(kvp.Key);
-                    }
+                    updates.Add(app);
                 }
             }
 
-            if (UpdateIds.Count > 0)
+            if (updates.Count > 0)
             {
-                Log.Append($"{UpdateIds.Count} updates available", Log.LogLevel.INFO);
+                Log.Append($"{updates.Count} updates available", Log.LogLevel.INFO);
             }
             else
             {
                 Log.Append("1 update available", Log.LogLevel.INFO);
             }
 
-            // Cleanup
-            detectInfo = null;
-        }
-
-        public static int GetUpdateCount()
-        {
-            return UpdateIds.Count;
+            return updates;
         }
 
         /// <summary>
-        /// Returns a list of updates containing info such as name, local and latest version
+        /// Returns a list of not installed applications
         /// </summary>
-        public static async Task<List<Application>> GetUpdateInfo()
+        public static async Task<List<Application>> GetNotInstalledApps()
         {
-            string ids = string.Join(",", UpdateIds);
-
-            if (ids != "")
+            return await Task.Run(() =>
             {
-                List<Application> updateInfo = await Utilities.CallAPI<List<Application>>($"apps?ids={ids}");
-                return updateInfo;
-            }
-            else
-            {
-                return new List<Application>();
-            }
-        }
-
-        /// <summary>
-        /// Returns a list of not installed applications containing info such as name, local and latest version
-        /// </summary>
-        public static async Task<List<Application>> GetNotInstalledAppInfo()
-        {
-            string ids = string.Join(",", installedApps.Select(x => x.Key));
-            List<Application> apps = await Utilities.CallAPI<List<Application>>($"app?nids={ids}");
-
-            // Append the installed versions
-            for (int i = 0; i < apps.Count; i++)
-            {
-                apps[i].LocalVersion = installedApps.FirstOrDefault(x => x.Key == apps[i].Id).Value;
-            }
-
-            return apps;
-        }
-
-        /// <summary>
-        /// Returns a list of all apps containing info such as name, local and latest version
-        /// </summary>
-        public static async Task<List<Application>> GetAppInfo()
-        {
-            List<Application> appInfo = await Utilities.CallAPI<List<Application>>("app");
-
-            // Append the installed versions
-            for (int i = 0; i < appInfo.Count; i++)
-            {
-                appInfo[i].LocalVersion = installedApps.FirstOrDefault(x => x.Key == appInfo[i].Id).Value;
-            }
-
-            return appInfo;
+                return InstalledApps.FindAll(app => app.LatestVersion != app.LocalVersion);
+            });
         }
 
         public static async Task<Changelog> GetChangelog(int appId)

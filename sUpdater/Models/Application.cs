@@ -5,11 +5,9 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Media;
 using Ionic.Zip;
-using sUpdater.Controllers;
 
 namespace sUpdater.Models
 {
@@ -20,16 +18,16 @@ namespace sUpdater.Models
         public string Name { get; set; }
         public string LatestVersion { get; set; }
         public string LocalVersion { get; set; }
-        public string ExePath { get; private set; }
+
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool HasChangelog { get; set; }
         public bool HasWebsite { get; set; }
-        public string Arch { get; set; }
-        public bool HasDescription { get; set; }
         public bool NoUpdate { get; set; }
-        public string DownloadLink { get; set; }
+
+        public List<DetectInfo> DetectInfo { get; set; }
+        public List<Installer> Installers { get; set; }
+
         public string SavePath { get; set; }
-        public string LaunchArgs { get; set; }
         public bool Checkbox { get; set; } = true;
         public string LinkText { get; set; }
         public LinkClickCommand LinkClickCommand { get; set; }
@@ -299,8 +297,7 @@ namespace sUpdater.Models
         {
             return obj is Application application &&
                    Name == application.Name &&
-                   LatestVersion == application.LatestVersion &&
-                   Arch == application.Arch;
+                   LatestVersion == application.LatestVersion;
         }
 
         public override int GetHashCode()
@@ -308,7 +305,6 @@ namespace sUpdater.Models
             int hashCode = 349623337;
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
             return hashCode;
         }
     }
