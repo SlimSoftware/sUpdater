@@ -48,7 +48,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"
+Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}"; Flags: ignoreversion
