@@ -56,7 +56,7 @@ namespace sUpdater
             UpdateTaskbarIcon();
 
             AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-            AutoUpdater.Start("https://www.slimsoft.tk/supdater/update.xml");
+            AutoUpdater.Start("https://www.slimsoftware.dev/supdater/update.xml");
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)

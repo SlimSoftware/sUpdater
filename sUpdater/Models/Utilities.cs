@@ -220,7 +220,7 @@ namespace sUpdater.Models
 
         public static string GetAppServerURL()
         {
-            return Settings.AppServerURL ?? "https://www.slimsoft.tk/supdater/api";
+            return Settings.AppServerURL ?? "https://www.slimsoftware.dev/supdater/api";
         }
 
         public static string RemoveLeadingNewLinesAndTabs(string text)
