@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.1.4"
+#define AppVersion "4.1.5"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoft.tk"
 #define AppExeName "sUpdater.exe"
@@ -50,28 +50,17 @@ Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 [Files]
 Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"
 Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\AsyncEnumerable.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\AutoUpdater.NET.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\DotNetZip.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.Core.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Drawing.Common.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Drawing.Common.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\runtimes\win-arm64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-arm64\native"; Flags: ignoreversion
 Source: "..\bin\Release\runtimes\win-x64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x64\native"; Flags: ignoreversion
 Source: "..\bin\Release\runtimes\win-x86\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x86\native"; Flags: ignoreversion
@@ -91,4 +80,7 @@ Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.dll"
 Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.xml"
 Type: files; Name: "{app}\7z.dll"
 Type: files; Name: "{app}\7z.exe"
-Type: filesandordirs; Name: "{localappdata}\Slim Updater"
+Type: files; Name: "{app}\*.xml" 
+Type: files; Name: "{app}\System.Drawing.Common.dll" 
+
+
