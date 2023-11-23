@@ -57,7 +57,6 @@ Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Fl
 Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.Core.xml"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
