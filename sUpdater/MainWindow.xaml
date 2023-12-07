@@ -1,14 +1,14 @@
-﻿<Window
+﻿<ui:UiWindow
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"     
         x:Class="sUpdater.MainWindow"
         mc:Ignorable="d"
         Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing">
 
-    <Window.Resources>
+    <!--<Window.Resources>
         <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
@@ -65,14 +65,36 @@
             <MenuItem Header="Log" Click="LogMenuItem_Click"/>
             <MenuItem Header="About" Click="AboutMenuItem_Click"/>
         </ContextMenu>
+    </Window.Resources>-->
 
-        <ContextMenu x:Key="trayMenu">
-            <MenuItem Header="Check for updates" Click="TrayCheckUpdatesMenuItem_Click"/>
-            <MenuItem Header="Open" Click="TrayOpenMenuItem_Click"/>
-            <MenuItem Header="Settings" Click="TraySettingsMenuItem_Click"/>
-            <MenuItem Header="Close" Click="TrayCloseMenuItem_Click"/>
-        </ContextMenu>
-    </Window.Resources>
+    <Grid>
+    <ui:TitleBar
+        Grid.Row="0"
+        Title="sUpdater"
+        ForceShutdown="False"
+        Icon="pack://application:,,,/Icons/sUPdater.ico"
+        MinimizeToTray="False"
+        ShowHelp="False"
+        ShowClose="True"
+        ShowMaximize="True"
+        ShowMinimize="True"
+        UseSnapLayout="True">
+            <ui:TitleBar.Tray>
+                <ui:NotifyIcon
+                    x:Name="trayIcon"
+                    TooltipText="sUpdater" >
+                    <ui:NotifyIcon.Menu>
+                        <ContextMenu>
+                            <MenuItem Header="Check for updates" Click="TrayCheckUpdatesMenuItem_Click"/>
+                            <MenuItem Header="Open" Click="TrayOpenMenuItem_Click"/>
+                            <MenuItem Header="Settings" Click="TraySettingsMenuItem_Click"/>
+                            <MenuItem Header="Close" Click="TrayCloseMenuItem_Click"/>
+                        </ContextMenu>
+                    </ui:NotifyIcon.Menu>
+                </ui:NotifyIcon>
+            </ui:TitleBar.Tray>
+    </ui:TitleBar>
 
-    <Frame x:Name="frame" Template="{StaticResource customNavUI}" Source="Pages/StartPage.xaml"/>
-</Window>
+    <Frame x:Name="frame" Source="Pages/StartPage.xaml"/>
+    </Grid>
+</ui:UiWindow>

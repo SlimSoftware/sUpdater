@@ -1,5 +1,6 @@
 ﻿using AutoUpdaterDotNET;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Toolkit.Uwp.Notifications;
 using sUpdater.Models;
 using System;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Wpf.Ui.Controls;
 using Application = sUpdater.Models.Application;
 using Colors = sUpdater.Models.Colors;
 
@@ -16,9 +18,8 @@ namespace sUpdater
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : UiWindow
     {
-        public TaskbarIcon TaskbarIcon { get; private set; }
         public bool ConnectedToServer { get; set; }
         private UpdateInfoEventArgs updateInfo;
 
@@ -36,10 +37,6 @@ namespace sUpdater
 
             string version = Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
             Log.Append($"sUpdater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
-
-            TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
-            TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
-            TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Utilities.LoadSettings();
             if (Utilities.Settings.AppServerURL != null)
@@ -68,7 +65,7 @@ namespace sUpdater
             if (args != null)
             {
                 if (args.IsUpdateAvailable)
-                {           
+                {
                     if (ShowInTaskbar)
                     {
                         AppUpdatePage appUpdatePage = new AppUpdatePage(args);
@@ -76,8 +73,12 @@ namespace sUpdater
                     }
 
                     updateInfo = args;
-                    TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
-                    TaskbarIcon.ToolTipText = $"sUpdater\nApplication update available";
+                    //trayIcon.Icon = Properties.Resources.sUpdater_Orange;
+                    trayIcon.TooltipText = $"sUpdater\nApplication update available";
+
+                    new ToastContentBuilder()
+                        .AddText("Test bla bla")
+                        .Show();
                 }
             }
         }
@@ -89,7 +90,7 @@ namespace sUpdater
                 if (Apps.Updates.Count > 0)
                 {
                     string notifiedUpdates = "";
-                    TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
+                    //trayIcon.Icon = Properties.Resources.sUpdater_Orange;
 
                     foreach (Application update in Apps.Updates)
                     {
@@ -106,53 +107,53 @@ namespace sUpdater
 
                     if (notifiedUpdates != Utilities.Settings.NotifiedUpdates && ShowInTaskbar == false)
                     {
-                        if (Apps.Updates.Count > 1)
-                        {
-                            TaskbarIcon.ShowBalloonTip($"{Apps.Updates.Count} updates available",
-                                "Click for details", BalloonIcon.Info);
-                        }
-                        else
-                        {
-                            TaskbarIcon.ShowBalloonTip($"An update for {Apps.Updates[0].Name.Split(' ')[0]} is available",
-                                "Click for details", BalloonIcon.Info);
-                        }
+                        //if (Apps.Updates.Count > 1)
+                        //{
+                        //    new ToastContentBuilder.($"{Apps.Updates.Count} updates available",
+                        //        "Click for details", BalloonIcon.Info);
+                        //}
+                        //else
+                        //{
+                        //    trayIcon.ShowBalloonTip($"An update for {Apps.Updates[0].Name.Split(' ')[0]} is available",
+                        //        "Click for details", BalloonIcon.Info);
+                        //}
 
-                        TaskbarIcon.TrayBalloonTipClicked += (s, e) =>
-                        {
-                            frame.Navigate(new UpdaterPage());
-                            Utilities.ShowFromTray(this);
-                        };
+                        //TaskbarIcon.TrayBalloonTipClicked += (s, e) =>
+                        //{
+                        //    frame.Navigate(new UpdaterPage());
+                        //    Utilities.ShowFromTray(this);
+                        //};
                     }
 
-                    if (Apps.Updates.Count > 1)
-                    {
-                        TaskbarIcon.ToolTipText = $"sUpdater\n{Apps.Updates.Count} updates available";
-                    }
-                    else
-                    {
-                        TaskbarIcon.ToolTipText = "sUpdater\n1 update available";
-                    }
+                    //if (Apps.Updates.Count > 1)
+                    //{
+                    //    TaskbarIcon.ToolTipText = $"sUpdater\n{Apps.Updates.Count} updates available";
+                    //}
+                    //else
+                    //{
+                    //    TaskbarIcon.ToolTipText = "sUpdater\n1 update available";
+                    //}
 
                     Utilities.Settings.NotifiedUpdates = notifiedUpdates;
                     Utilities.SaveSettings();
                 }
                 else
                 {
-                    TaskbarIcon.Icon = Properties.Resources.sUpdater;
-                    TaskbarIcon.ToolTipText = $"sUpdater\nNo updates available";
+                    //TaskbarIcon.Icon = Properties.Resources.sUpdater;
+                    //TaskbarIcon.ToolTipText = $"sUpdater\nNo updates available";
                 }
             }
             else
             {
-                TaskbarIcon.Icon = Properties.Resources.sUpdater_Grey;
-                TaskbarIcon.ToolTipText = $"sUpdater\nCannot connect to the server.\nPlease check your internet connection.";
+                //TaskbarIcon.Icon = Properties.Resources.sUpdater_Grey;
+                //TaskbarIcon.ToolTipText = $"sUpdater\nCannot connect to the server.\nPlease check your internet connection.";
             }
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ContextMenu menu = FindResource("menu") as ContextMenu;
-            menu.PlacementTarget = sender as Button;
+            menu.PlacementTarget = sender as System.Windows.Controls.Button;
             menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             menu.IsOpen = true;
         }
