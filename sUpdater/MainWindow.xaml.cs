@@ -83,22 +83,21 @@ namespace sUpdater
         {
             if (Utilities.ConnectedToServer)
             {
-                int updateCount = AppController.GetUpdateCount();
+                int updateCount = AppController.Updates.Count;
                 if (updateCount > 0)
                 {
                     string notifiedUpdates = "";
                     TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
 
-                    foreach (int appId in AppController.UpdateIds)
+                    foreach (Application app in AppController.Updates)
                     {
-                        if (appId != AppController.UpdateIds.Last())
+                        if (app != AppController.Updates.Last())
                         {
-                            notifiedUpdates += $"{appId},";
+                            notifiedUpdates += $"{app.Id},";
                         }
                         else
                         {
-                            // Do not add a comma after the last app name
-                            notifiedUpdates += appId;
+                            notifiedUpdates += app.Id;
                         }
                     }
 

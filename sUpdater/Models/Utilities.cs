@@ -163,7 +163,7 @@ namespace sUpdater.Models
 
             if (Settings.AppServerURL == null)
             {
-                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/supdater/api/v2");
+                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/api/v2");
             }
             else
             {
@@ -338,9 +338,9 @@ namespace sUpdater.Models
         {
             foreach (Application app in apps)
             {
-                if (app.Icon == null && File.Exists(app.ExePath))
+                if (app.Icon == null && File.Exists(app.DetectInfo.ExePath))
                 {
-                    app.Icon = GetIconFromFile(app.ExePath);
+                    app.Icon = GetIconFromFile(app.DetectInfo.ExePath);
                 }
             }
         }

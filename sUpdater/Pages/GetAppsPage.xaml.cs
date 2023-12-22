@@ -36,7 +36,7 @@ namespace sUpdater
         /// </summary>
         public async Task GetNotInstalledApps()
         {
-            List<Application> apps = await AppController.GetNotInstalledAppInfo();
+            List<Application> apps = await AppController.GetNotInstalledApps();
 
             foreach (Application app in apps)
             {

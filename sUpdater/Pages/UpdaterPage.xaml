@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls" xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:Application}"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Updates" Background="White" Loaded="Page_Loaded">
+      Title="Updates" Background="White">
 
     <Grid>
         <Grid.ColumnDefinitions>

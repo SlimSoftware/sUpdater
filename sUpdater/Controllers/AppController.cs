@@ -1,18 +1,16 @@
 ﻿using Microsoft.Win32;
 using sUpdater.Models;
+using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace sUpdater.Controllers
 {
     public static class AppController
     {
-        public static int UpdateCount { get; private set; }
-
         /// <summary>
         /// Contains all installed apps
         /// </summary>
@@ -21,117 +19,130 @@ namespace sUpdater.Controllers
         /// <summary>
         /// All apps that are available on the server
         /// </summary>
-        public static List<Application> Apps = new List<Application>();
+        public static List<Application> Apps { get; private set; } = new List<Application>();
+
+        /// <summary>
+        /// All apps that have an update available to install
+        /// </summary>
+        public static List<Application> Updates { get; private set; } = new List<Application>();
 
         /// <summary>
         /// Checks which apps are installed and adds them to the InstalledApps list
         /// </summary>
         private static async Task CheckForInstalledApps()
         {
-            Apps = await Utilities.CallAPI<List<Application>>("apps");
+            InstalledApps.Clear();
+            var appDTOs = await Utilities.CallAPI<List<ApplicationDTO>>("apps");
 
-            foreach (Application app in Apps)
+            foreach (ApplicationDTO appDTO in appDTOs)
             {
-                foreach (DetectInfo detectInfo in app.DetectInfo)
+                DetectInfoDTO detectInfoDTO;
+                DetectInfoDTO x64DetectInfo = appDTO.Detectinfo.Find(d => d.Arch == Arch.x64);
+
+                if (Environment.Is64BitOperatingSystem && x64DetectInfo != null)
                 {
-                    // Check whether this app run on the system
-                    if (!Environment.Is64BitOperatingSystem && detectInfo.Arch == Arch.x64)
-                    {
-                        // This app cannot run on the system, so skip it
-                        continue;
-                    }
+                    detectInfoDTO = x64DetectInfo;
+                }
+                else 
+                {
+                    DetectInfoDTO x86BitDetectInfo = appDTO.Detectinfo.Find(d => d.Arch == Arch.x86);
+                    detectInfoDTO = x86BitDetectInfo ?? appDTO.Detectinfo.Find(d => d.Arch == Arch.Any);
+                }
 
-                    // Get local version if installed
-                    string localVersion = null;
-                    if (detectInfo?.RegKey != null)
+                // Get local version if installed
+                string localVersion = null;
+                if (detectInfoDTO?.RegKey != null)
+                {
+                    var regValue = Registry.GetValue(detectInfoDTO?.RegKey, detectInfoDTO?.RegValue, null);
+                    if (regValue != null)
                     {
-                        var regValue = Registry.GetValue(detectInfo?.RegKey, detectInfo?.RegValue, null);
-                        if (regValue != null)
+                        localVersion = regValue.ToString();
+                    }
+                }
+                else if (detectInfoDTO?.ExePath != null)
+                {
+                    string exePath = detectInfoDTO?.ExePath;
+                    if (exePath.Contains("%pf32%"))
+                    {
+                        if (Environment.Is64BitOperatingSystem)
                         {
-                            localVersion = regValue.ToString();
+                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                                Environment.SpecialFolder.ProgramFilesX86));
+                        }
+                        else
+                        {
+                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
+                                Environment.SpecialFolder.ProgramFiles));
                         }
                     }
-                    else if (detectInfo?.ExePath != null)
+                    else if (exePath.Contains("%pf64%"))
                     {
-                        string exePath = detectInfo?.ExePath;
-                        if (exePath.Contains("%pf32%"))
+                        if (Environment.Is64BitOperatingSystem)
                         {
-                            if (Environment.Is64BitOperatingSystem)
-                            {
-                                exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                    Environment.SpecialFolder.ProgramFilesX86));
-                            }
-                            else
-                            {
-                                exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                    Environment.SpecialFolder.ProgramFiles));
-                            }
+                            exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
+                                Environment.SpecialFolder.ProgramFiles));
                         }
-                        else if (exePath.Contains("%pf64%"))
+                        else
                         {
-                            if (Environment.Is64BitOperatingSystem)
-                            {
-                                exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
-                                    Environment.SpecialFolder.ProgramFiles));
-                            }
-                            else
-                            {
-                                // Do not add the app to the list because it is a 64 bit app
-                                // on a 32 bit system
-                                continue;
-                            }
-                        }
-
-                        if (File.Exists(exePath))
-                        {
-                            localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                            // Do not add the app to the list because it is a 64 bit app
+                            // on a 32 bit system
+                            continue;
                         }
                     }
 
-                    if (localVersion != null)
+                    if (File.Exists(exePath))
                     {
-                        detectInfo.IsInstalled = true;
+                        localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                    }
+                }
 
-                        if (!InstalledApps.Contains(app))
-                        {
-                            InstalledApps.Add(app);
-                        }
+                if (localVersion != null)
+                {
+                    if (InstalledApps.Find(a => appDTO.Name == a.Name) == null)
+                    {
+                        InstallerDTO installerDTO = appDTO.Installers.Find(i => i.DetectInfoId == detectInfoDTO.Id);
+                        Application application = new Application(appDTO, new DetectInfo(detectInfoDTO), new Installer(installerDTO));
+
+                        InstalledApps.Add(application);
                     }
                 }
             }
         }
 
-        public static async Task<List<Application>> GetUpdates()
+        /// <summary>
+        /// Checks for applications that have an update available and stores them in the Updates property
+        /// </summary>
+        public static async Task CheckForUpdates()
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
-            List<Application> updates = new List<Application>();
+
             try
             {
                 await CheckForInstalledApps();
             }
             catch (Exception ex)
             {
-                Log.Append($"Error while checking for updates: {ex.Message}", Log.LogLevel.ERROR);
+                Log.Append($"Error while checking for installed apps: {ex.Message}", Log.LogLevel.ERROR);
             }
+
+            Updates.Clear();
 
             foreach (Application app in InstalledApps)
             {
                 if (Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion) && !app.NoUpdate)
                 {
-                    updates.Add(app);
+                    Updates.Add(app);
                 }
             }
 
-            if (updates.Count > 0)
+            if (Updates.Count > 0)
             {
-                Log.Append($"{updates.Count} updates available", Log.LogLevel.INFO);
+                Log.Append($"{Updates.Count} updates available", Log.LogLevel.INFO);
             }
             else
             {
                 Log.Append("1 update available", Log.LogLevel.INFO);
             }
-
-            return updates;
         }
 
         /// <summary>
@@ -143,16 +154,6 @@ namespace sUpdater.Controllers
             {
                 return InstalledApps.FindAll(app => app.LatestVersion != app.LocalVersion);
             });
-        }
-
-        public static async Task<Changelog> GetChangelog(int appId)
-        {
-            return await Utilities.CallAPI<Changelog>($"changelog?id={appId}");
-        }
-
-        public static async Task<Description> GetDescription(int appId)
-        {
-            return await Utilities.CallAPI<Description>($"description?id={appId}");
         }
     }
 }

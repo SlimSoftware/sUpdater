@@ -21,19 +21,13 @@ namespace sUpdater
         public UpdaterPage()
         {
             InitializeComponent();
-        }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            await PopulateListAsync();
-            updateListView.SelectAll();
-        }
-
-        private async Task PopulateListAsync()
-        {
-            updateListView.ItemsSource = await AppController.GetUpdates();
-
-            if (AppController.UpdateCount == 0)
+            updateListView.ItemsSource = AppController.Updates;
+            if (AppController.Updates.Count > 0)
+            {
+                updateListView.SelectAll();
+            }
+            else
             {
                 SetupDetailsMode();
             }
@@ -162,9 +156,10 @@ namespace sUpdater
                 }
                 else
                 {
-                    updateListView.ItemsSource = await AppController.GetUpdateInfo();
+                    await AppController.CheckForUpdates();
+                    updateListView.ItemsSource = AppController.Updates;
 
-                    if (AppController.GetUpdateCount() == 0)
+                    if (AppController.Updates.Count == 0)
                     {
                         noUpdatesAvailablePanel.Visibility = Visibility.Visible;
                         installButton.Visibility = Visibility.Collapsed;
@@ -214,11 +209,11 @@ namespace sUpdater
 
         private void UpdateListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (updateListView.SelectedItems.Count == AppController.GetUpdateCount() && selectAllCheckBox.IsChecked == false)
+            if (updateListView.SelectedItems.Count == AppController.Updates.Count && selectAllCheckBox.IsChecked == false)
             {
                 selectAllCheckBox.IsChecked = true;
             }
-            else if (updateListView.SelectedItems.Count != AppController.GetUpdateCount() && selectAllCheckBox.IsChecked == true)
+            else if (updateListView.SelectedItems.Count != AppController.Updates.Count && selectAllCheckBox.IsChecked == true)
             {
                 selectAllCheckBox.IsChecked = false;
             }
@@ -247,23 +242,23 @@ namespace sUpdater
             await app.Install();
         }
 
-        private async void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DetailsLink_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             noUpdatesAvailablePanel.Visibility = Visibility.Collapsed;
             updateListView.Visibility = Visibility.Visible;
-            await SetupDetailsMode();
+            SetupDetailsMode();
         }
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            List<Application> apps = await AppController.GetUpdateInfo();
-            updateListView.ItemsSource = apps;
+            await AppController.CheckForUpdates();
+            updateListView.ItemsSource = AppController.Updates;
             MainWindow mainWindow = Utilities.GetMainWindow();
             mainWindow.UpdateTaskbarIcon();
 
-            if (AppController.GetUpdateCount() != 0 && selectAllRow.Height == new GridLength(0))
+            if (AppController.Updates.Count > 0 && selectAllRow.Height == new GridLength(0))
             {
-                Utilities.PopulateAppIcons(apps);
+                Utilities.PopulateAppIcons(AppController.Updates);
 
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 selectAllCheckBox.Visibility = Visibility.Visible;
@@ -277,9 +272,9 @@ namespace sUpdater
 
                 updateListView.SelectAll();
             }
-            else if (AppController.GetUpdateCount() == 0)
+            else
             {
-                await SetupDetailsMode();
+                SetupDetailsMode();
             }
         }
     }

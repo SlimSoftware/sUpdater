@@ -46,20 +46,11 @@ namespace sUpdater
                     portableAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
                 }
 
-                int updateCount = AppController.GetUpdateCount();
-                if (AppController.GetUpdateCount() > 0)
+                int updateCount = AppController.Updates.Count;
+                if (updateCount > 0)
                 {
                     updaterTile.Background = Colors.normalOrangeBrush;
-
-                    if (updateCount > 1)
-                    {
-                        updaterTile.Title = $"{updateCount} updates available";
-                    }
-                    else
-                    {
-                        updaterTile.Title = "1 update available";
-                    }
-
+                    updaterTile.Title = updateCount > 1 ? $"{updateCount} updates available" : "1 update available";
                 }
                 else
                 {

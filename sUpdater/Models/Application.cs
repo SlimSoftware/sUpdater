@@ -8,6 +8,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Windows.Media;
 using Ionic.Zip;
+using sUpdater.Models.DTO;
 
 namespace sUpdater.Models
 {
@@ -16,16 +17,20 @@ namespace sUpdater.Models
         public int Id { get; }
         public ImageSource Icon { get; set; }
         public string Name { get; set; }
-        public string LatestVersion { get; set; }
+        public string LatestVersion { get; }
         public string LocalVersion { get; set; }
 
-        public string DisplayedVersion { get; set; } // The version displayed under the app's name
-        public bool HasChangelog { get; set; }
-        public bool HasWebsite { get; set; }
-        public bool NoUpdate { get; set; }
+        /// <summary>
+        /// The version displayed under the app's name
+        /// </summary>
+        public string DisplayedVersion { get; set; }
 
-        public List<DetectInfo> DetectInfo { get; set; }
-        public List<Installer> Installers { get; set; }
+        public string WebsiteUrl { get; }
+        public string ReleaseNotesUrl { get; }
+        public bool NoUpdate { get; }
+
+        public DetectInfo DetectInfo { get; }
+        public Installer Installer { get; }
 
         public string SavePath { get; set; }
         public bool Checkbox { get; set; } = true;
@@ -67,6 +72,18 @@ namespace sUpdater.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public Application(ApplicationDTO applicationDTO, DetectInfo detectInfo, Installer installer)
+        {
+            Id = applicationDTO.Id;
+            Name = applicationDTO.Name;
+            LatestVersion = applicationDTO.Version;
+            NoUpdate = applicationDTO.NoUpdate;
+            WebsiteUrl = applicationDTO.WebsiteUrl;
+            ReleaseNotesUrl = applicationDTO.ReleaseNotesUrl;
+            DetectInfo = detectInfo;
+            Installer = installer;
+        }
+
         public async Task Download()
         {
             if (!Directory.Exists(Utilities.Settings.DataDir))
@@ -83,13 +100,13 @@ namespace sUpdater.Models
                 }
             }
 
-            string fileName = Path.GetFileName(DownloadLink);
+            string fileName = Path.GetFileName(Installer.DownloadLink);
             if (fileName.Contains("?"))
             {
                 // Filename contains invalid character so we'll have to use the launch property as fallback filename
-                if (ExePath != null)
+                if (DetectInfo.ExePath != null)
                 {
-                    fileName = ExePath;
+                    fileName = Path.GetFileName(DetectInfo.ExePath);
                 }
             }
             SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
@@ -117,7 +134,7 @@ namespace sUpdater.Models
                     };
                     try
                     {
-                        await wc.DownloadFileTaskAsync(new Uri(DownloadLink), SavePath);
+                        await wc.DownloadFileTaskAsync(new Uri(Installer.DownloadLinkParsed), SavePath);
                     }
                     catch (Exception ex)
                     {
@@ -151,14 +168,14 @@ namespace sUpdater.Models
                     p.StartInfo.FileName = SavePath;
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = LaunchArgs;
+                    p.StartInfo.Arguments = Installer.LaunchArgs;
                 }
                 else
                 {
                     p.StartInfo.FileName = "msiexec";
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.Verb = "runas";
-                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {LaunchArgs}";
+                    p.StartInfo.Arguments = $@"/i ""{SavePath}"" {Installer.LaunchArgs}";
                 }
 
                 if (SavePath.EndsWith(".zip"))

@@ -104,9 +104,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\Description.cs" />
-    <Compile Include="Models\Changelog.cs" />
     <Compile Include="Models\DetectInfo.cs" />
+    <Compile Include="Models\DTO\ApplicationDTO.cs" />
+    <Compile Include="Models\DTO\DetectInfoDTO.cs" />
+    <Compile Include="Models\DTO\InstallerDTO.cs" />
     <Compile Include="Models\Installer.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Pages\AppUpdatePage.xaml.cs">
@@ -116,7 +117,7 @@
     <Compile Include="Pages\GetPortableAppsPage.xaml.cs">
       <DependentUpon>GetPortableAppsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\LinkClickCommand.cs" />
+    <Compile Include="Commands\LinkClickCommand.cs" />
     <Compile Include="Models\PortableApp.cs" />
     <Compile Include="Pages\InstalledPortableAppsPage.xaml.cs">
       <DependentUpon>InstalledPortableAppsPage.xaml</DependentUpon>
