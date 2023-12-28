@@ -163,7 +163,7 @@ namespace sUpdater.Models
 
             if (Settings.AppServerURL == null)
             {
-                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/api/v2");
+                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/api/v2/");
             }
             else
             {
@@ -178,7 +178,7 @@ namespace sUpdater.Models
         {
             using (var response = await HttpClient.GetAsync(url))
             {
-                Log.Append($"API call: {url}", Log.LogLevel.INFO);
+                Log.Append($"GET {HttpClient.BaseAddress}{url}", Log.LogLevel.INFO);
                 if (response.IsSuccessStatusCode)
                 {
                     T result = await response.Content.ReadAsAsync<T>();
