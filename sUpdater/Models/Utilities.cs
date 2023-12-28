@@ -12,6 +12,11 @@ using System.Reflection;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Security.Policy;
+using Windows.System;
+using Windows.Web.Http;
+using HttpClient = System.Net.Http.HttpClient;
 
 namespace sUpdater.Models
 {
@@ -176,26 +181,15 @@ namespace sUpdater.Models
 
         public static async Task<T> CallAPI<T>(string url)
         {
-            using (var response = await HttpClient.GetAsync(url))
+            try
             {
-                Log.Append($"GET {HttpClient.BaseAddress}{url}", Log.LogLevel.INFO);
-                if (response.IsSuccessStatusCode)
-                {
-                    T result = await response.Content.ReadAsAsync<T>();
-
-                    if (!ConnectedToServer)
-                    {
-                        ConnectedToServer = true;
-                    }
-
-                    return result;
-                }
-                else
-                {
-                    Log.Append($"Failed API call: {url} ({response.ReasonPhrase})", Log.LogLevel.ERROR);
-                    ConnectedToServer = false;
-                    return default;
-                }
+                return await HttpClient.GetFromJsonAsync<T>(url);
+            } 
+            catch (Exception ex) 
+            {
+                Log.Append($"GET {url} ({ex.Message})", Log.LogLevel.ERROR);
+                ConnectedToServer = false;
+                return default;
             }
         }
 
