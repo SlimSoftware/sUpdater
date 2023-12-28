@@ -24,7 +24,7 @@ namespace sUpdater
 
         private void SiteLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Process.Start("https://www.slimsoft.tk");
+            Process.Start("https://www.slimsoftware.dev");
         }
     }
 }
