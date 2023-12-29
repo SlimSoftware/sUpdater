@@ -53,11 +53,7 @@ namespace sUpdater.Controllers
                 string localVersion = null;
                 if (detectInfoDTO?.RegKey != null)
                 {
-                    var regValue = Registry.GetValue(detectInfoDTO?.RegKey, detectInfoDTO?.RegValue, null);
-                    if (regValue != null)
-                    {
-                        localVersion = regValue.ToString();
-                    }
+                    localVersion = GetLocalVersionFromRegistry(detectInfoDTO);
                 }
                 else if (detectInfoDTO?.ExePath != null)
                 {
@@ -102,11 +98,42 @@ namespace sUpdater.Controllers
                     {
                         InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
                         Application application = new Application(appDTO, new DetectInfo(detectInfoDTO), new Installer(installerDTO));
+                        application.LocalVersion = localVersion;
 
                         InstalledApps.Add(application);
                     }
                 }
             }
+        }
+
+        private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
+        {
+            var registryHive = detectInfo.RegKey.StartsWith("HKEY_LOCAL_MACHINE") 
+                ? RegistryHive.LocalMachine : RegistryHive.CurrentUser;
+            var registryView = detectInfo.Arch == Arch.x64 
+                ? RegistryView.Registry64 : RegistryView.Registry32;
+            var baseKey = RegistryKey.OpenBaseKey(registryHive, registryView);       
+
+            string keyPath = detectInfo.RegKey;
+            keyPath = keyPath.Replace("HKEY_LOCAL_MACHINE\\", "");
+            keyPath = keyPath.Replace("HKEY_CURRENT_USER\\", "");
+
+            var key = baseKey.OpenSubKey(keyPath, false);
+            if (key == null)
+            {
+                return null;
+            }
+
+            var regValue = key.GetValue(detectInfo.RegValue, null);
+            if (regValue == null && Environment.Is64BitOperatingSystem)
+            {
+                // In case we are on 64-bit we can check once more under the 64-bit registry
+                baseKey = RegistryKey.OpenBaseKey(registryHive, RegistryView.Registry64);
+                key = baseKey.OpenSubKey(keyPath, false);
+                regValue = key.GetValue(detectInfo.RegValue, null);
+            }
+
+            return regValue?.ToString();
         }
 
         /// <summary>
@@ -116,14 +143,14 @@ namespace sUpdater.Controllers
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
 
-            try
-            {
+            //try
+            //{
                 await CheckForInstalledApps();
-            }
-            catch (Exception ex)
-            {
-                Log.Append($"Error while checking for installed apps: {ex.Message}", Log.LogLevel.ERROR);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Append($"Error while checking for installed apps: {ex.Message}", Log.LogLevel.ERROR);
+            //}
 
             Updates.Clear();
 
