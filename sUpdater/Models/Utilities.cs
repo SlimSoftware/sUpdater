@@ -9,14 +9,10 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
 using System.Reflection;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Security.Policy;
-using Windows.System;
-using Windows.Web.Http;
-using HttpClient = System.Net.Http.HttpClient;
+using System.Net.Http;
 
 namespace sUpdater.Models
 {
@@ -166,14 +162,12 @@ namespace sUpdater.Models
         {
             HttpClient = new HttpClient();
 
-            if (Settings.AppServerURL == null)
+            string appServerURL = Settings.AppServerURL ?? "https://www.slimsoftware.dev/supdater/api/v2/";
+            if (!appServerURL.EndsWith("/"))
             {
-                HttpClient.BaseAddress = new Uri("https://supdater.slimsoft.tk/api/v2/");
+                appServerURL += "/";
             }
-            else
-            {
-                HttpClient.BaseAddress = new Uri(Settings.AppServerURL);
-            }
+            HttpClient.BaseAddress = new Uri(appServerURL);
 
             HttpClient.DefaultRequestHeaders.Accept.Clear();
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
