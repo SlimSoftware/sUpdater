@@ -32,12 +32,12 @@ namespace sUpdater.Controllers
         private static async Task CheckForInstalledApps()
         {
             InstalledApps.Clear();
-            var appDTOs = await Utilities.CallAPI<List<ApplicationDTO>>("apps");
+            var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
 
             foreach (ApplicationDTO appDTO in appDTOs)
             {
                 DetectInfoDTO detectInfoDTO;
-                DetectInfoDTO x64DetectInfo = appDTO.Detectinfo.Find(d => d.Arch == Arch.x64);
+                DetectInfoDTO x64DetectInfo = Array.Find(appDTO.DetectInfo, d => d.Arch == Arch.x64);
 
                 if (Environment.Is64BitOperatingSystem && x64DetectInfo != null)
                 {
@@ -45,8 +45,8 @@ namespace sUpdater.Controllers
                 }
                 else 
                 {
-                    DetectInfoDTO x86BitDetectInfo = appDTO.Detectinfo.Find(d => d.Arch == Arch.x86);
-                    detectInfoDTO = x86BitDetectInfo ?? appDTO.Detectinfo.Find(d => d.Arch == Arch.Any);
+                    DetectInfoDTO x86BitDetectInfo = Array.Find(appDTO.DetectInfo, d => d.Arch == Arch.x86);
+                    detectInfoDTO = x86BitDetectInfo ?? Array.Find(appDTO.DetectInfo, d => d.Arch == Arch.Any);
                 }
 
                 // Get local version if installed
@@ -100,7 +100,7 @@ namespace sUpdater.Controllers
                 {
                     if (InstalledApps.Find(a => appDTO.Name == a.Name) == null)
                     {
-                        InstallerDTO installerDTO = appDTO.Installers.Find(i => i.DetectInfoId == detectInfoDTO.Id);
+                        InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
                         Application application = new Application(appDTO, new DetectInfo(detectInfoDTO), new Installer(installerDTO));
 
                         InstalledApps.Add(application);

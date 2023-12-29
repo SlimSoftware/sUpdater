@@ -1,10 +1,25 @@
-﻿namespace sUpdater.Models.DTO
+﻿using System.Text.Json.Serialization;
+
+namespace sUpdater.Models.DTO
 {
     public class InstallerDTO
     {
-        public int DetectInfoId { get; private set; }
-        public string DownloadLink { get; private set; }
-        public string DownloadLinkParsed { get; private set; }
-        public string LaunchArgs { get; private set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("app_id")]
+        public int AppId { get; set; }
+
+        [JsonPropertyName("detectinfo_id")]
+        public int DetectInfoId { get; set; }
+
+        [JsonPropertyName("download_link")]
+        public string DownloadLink { get; set; }
+
+        [JsonPropertyName("download_link_parsed")]
+        public string DownloadLinkParsed { get; set; }
+
+        [JsonPropertyName("launch_args")]
+        public string LaunchArgs { get; set; }
     }
 }

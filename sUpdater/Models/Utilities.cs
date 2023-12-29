@@ -178,14 +178,8 @@ namespace sUpdater.Models
         {
             try
             {
-                var options = new JsonSerializerOptions()
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-                    PropertyNameCaseInsensitive = true
-                };
-
                 Log.Append($"GET {HttpClient.BaseAddress}{url}", Log.LogLevel.INFO);
-                return await HttpClient.GetFromJsonAsync<T>(url, options);
+                return await HttpClient.GetFromJsonAsync<T>(url);
             } 
             catch (Exception ex) 
             {

@@ -1,16 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
 namespace sUpdater.Models.DTO
 {
     public class ApplicationDTO
     {
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-        public string Version { get; private set; }
-        public bool NoUpdate { get; private set; }
-        public string WebsiteUrl { get; private set; }
-        public string ReleaseNotesUrl { get; private set; }
-        public List<DetectInfoDTO> Detectinfo { get; private set; }
-        public List<InstallerDTO> Installers { get; private set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        [JsonPropertyName("version")]
+        public string Version { get; set; }
+
+        [JsonPropertyName("noupdate")]
+        public bool NoUpdate { get; set; }
+
+        [JsonPropertyName("website_url")]
+        public string WebsiteUrl { get; set; }
+
+        [JsonPropertyName("release_notes_url")]
+        public string ReleaseNotesUrl { get; set; }
+
+        [JsonPropertyName("detectinfo")]
+        public DetectInfoDTO[] DetectInfo { get; set; }
+
+        [JsonPropertyName("installers")]
+        public InstallerDTO[] Installers { get; set; }
     }
 }
