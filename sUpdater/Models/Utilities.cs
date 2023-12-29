@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Http;
+using System.Text.Json;
 
 namespace sUpdater.Models
 {
@@ -177,11 +178,18 @@ namespace sUpdater.Models
         {
             try
             {
-                return await HttpClient.GetFromJsonAsync<T>(url);
+                var options = new JsonSerializerOptions()
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
+                    PropertyNameCaseInsensitive = true
+                };
+
+                Log.Append($"GET {HttpClient.BaseAddress}{url}", Log.LogLevel.INFO);
+                return await HttpClient.GetFromJsonAsync<T>(url, options);
             } 
             catch (Exception ex) 
             {
-                Log.Append($"GET {url} ({ex.Message})", Log.LogLevel.ERROR);
+                Log.Append($"GET {HttpClient.BaseAddress}{url} ({ex.Message})", Log.LogLevel.ERROR);
                 ConnectedToServer = false;
                 return default;
             }
