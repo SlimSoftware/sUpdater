@@ -4,8 +4,10 @@ using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace sUpdater.Controllers
 {
@@ -51,44 +53,27 @@ namespace sUpdater.Controllers
 
                 // Get local version if installed
                 string localVersion = null;
-                if (detectInfoDTO?.RegKey != null)
+                string exePath = null;
+                ImageSource icon = null;
+
+                if (detectInfoDTO.RegKey != null)
                 {
                     localVersion = GetLocalVersionFromRegistry(detectInfoDTO);
                 }
-                else if (detectInfoDTO?.ExePath != null)
-                {
-                    string exePath = detectInfoDTO?.ExePath;
-                    if (exePath.Contains("%pf32%"))
-                    {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFilesX86));
-                        }
-                        else
-                        {
-                            exePath = exePath.Replace("%pf32%", Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFiles));
-                        }
-                    }
-                    else if (exePath.Contains("%pf64%"))
-                    {
-                        if (Environment.Is64BitOperatingSystem)
-                        {
-                            exePath = exePath.Replace("%pf64%", Environment.GetFolderPath(
-                                Environment.SpecialFolder.ProgramFiles));
-                        }
-                        else
-                        {
-                            // Do not add the app to the list because it is a 64 bit app
-                            // on a 32 bit system
-                            continue;
-                        }
-                    }
+                if (detectInfoDTO.ExePath != null)
+                {  
+                    exePath = Utilities.ParseExePath(detectInfoDTO.ExePath);
 
                     if (File.Exists(exePath))
                     {
-                        localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        // Prefer getting version from registry because those are usually more
+                        // prettily formatted than the file version number
+                        if (localVersion == null)
+                        {
+                            localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
+                        }
+
+                        icon = Utilities.GetIconFromFile(exePath);
                     }
                 }
 
@@ -97,8 +82,9 @@ namespace sUpdater.Controllers
                     if (InstalledApps.Find(a => appDTO.Name == a.Name) == null)
                     {
                         InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
-                        Application application = new Application(appDTO, new DetectInfo(detectInfoDTO), new Installer(installerDTO));
+                        Application application = new Application(appDTO, new Installer(installerDTO));
                         application.LocalVersion = localVersion;
+                        application.Icon = icon;
 
                         InstalledApps.Add(application);
                     }
@@ -156,9 +142,13 @@ namespace sUpdater.Controllers
 
             foreach (Application app in InstalledApps)
             {
-                if (Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion) && !app.NoUpdate)
+                if (!app.NoUpdate && Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                 {
-                    Updates.Add(app);
+                    Application updateApp = app.Clone();
+                    updateApp.Name += $" {app.LatestVersion}";
+                    updateApp.DisplayedVersion = $"Installed: {app.LocalVersion}";
+
+                    Updates.Add(updateApp);
                 }
             }
 

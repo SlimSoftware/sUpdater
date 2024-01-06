@@ -28,10 +28,7 @@ namespace sUpdater.Models
         public string WebsiteUrl { get; }
         public string ReleaseNotesUrl { get; }
         public bool NoUpdate { get; }
-
-        public DetectInfo DetectInfo { get; }
         public Installer Installer { get; }
-
         public string SavePath { get; set; }
         public bool Checkbox { get; set; } = true;
         public string LinkText { get; set; }
@@ -72,7 +69,7 @@ namespace sUpdater.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Application(ApplicationDTO applicationDTO, DetectInfo detectInfo, Installer installer)
+        public Application(ApplicationDTO applicationDTO, Installer installer)
         {
             Id = applicationDTO.Id;
             Name = applicationDTO.Name;
@@ -80,7 +77,6 @@ namespace sUpdater.Models
             NoUpdate = applicationDTO.NoUpdate;
             WebsiteUrl = applicationDTO.WebsiteUrl;
             ReleaseNotesUrl = applicationDTO.ReleaseNotesUrl;
-            DetectInfo = detectInfo;
             Installer = installer;
         }
 
@@ -101,14 +97,6 @@ namespace sUpdater.Models
             }
 
             string fileName = Path.GetFileName(Installer.DownloadLink);
-            if (fileName.Contains("?"))
-            {
-                // Filename contains invalid character so we'll have to use the launch property as fallback filename
-                if (DetectInfo.ExePath != null)
-                {
-                    fileName = Path.GetFileName(DetectInfo.ExePath);
-                }
-            }
             SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded

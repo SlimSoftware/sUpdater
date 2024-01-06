@@ -258,8 +258,6 @@ namespace sUpdater
 
             if (AppController.Updates.Count > 0 && selectAllRow.Height == new GridLength(0))
             {
-                Utilities.PopulateAppIcons(AppController.Updates);
-
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 selectAllCheckBox.Visibility = Visibility.Visible;
                 installButton.Visibility = Visibility.Visible;

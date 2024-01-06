@@ -315,23 +315,12 @@ namespace sUpdater.Models
             return exePath;
         }
 
-        private static BitmapSource GetIconFromFile(string filePath)
+        public static BitmapSource GetIconFromFile(string filePath)
         {
             using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
             {
                 return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
                        BitmapSizeOptions.FromEmptyOptions());
-            }
-        }
-
-        public static void PopulateAppIcons(List<Application> apps)
-        {
-            foreach (Application app in apps)
-            {
-                if (app.Icon == null && File.Exists(app.DetectInfo.ExePath))
-                {
-                    app.Icon = GetIconFromFile(app.DetectInfo.ExePath);
-                }
             }
         }
 

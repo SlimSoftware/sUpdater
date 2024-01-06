@@ -49,7 +49,6 @@ namespace sUpdater
                 app.DisplayedVersion = app.LatestVersion;                    
             }
 
-            Utilities.PopulateAppIcons(apps);
             getAppsListView.Items.Refresh();
         }
 
