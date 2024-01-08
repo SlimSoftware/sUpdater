@@ -19,7 +19,6 @@ namespace sUpdater
         public GetAppsPage()
         {
             InitializeComponent();
-            getAppsListView.ItemsSource = getAppsListView.ItemsSource;
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {           
@@ -36,20 +35,7 @@ namespace sUpdater
         /// </summary>
         public async Task GetNotInstalledApps()
         {
-            List<Application> apps = await AppController.GetNotInstalledApps();
-
-            foreach (Application app in apps)
-            {
-                // Ensure the app has a checkbox
-                if (app.Checkbox == false)
-                {
-                    app.Checkbox = true;
-                }
-
-                app.DisplayedVersion = app.LatestVersion;                    
-            }
-
-            getAppsListView.Items.Refresh();
+            getAppsListView.ItemsSource = await AppController.GetNotInstalledApps();
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)

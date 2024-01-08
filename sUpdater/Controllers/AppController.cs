@@ -4,7 +4,6 @@ using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -13,11 +12,6 @@ namespace sUpdater.Controllers
 {
     public static class AppController
     {
-        /// <summary>
-        /// Contains all installed apps
-        /// </summary>
-        public static List<Application> InstalledApps { get; private set; } = new List<Application>();
-
         /// <summary>
         /// All apps that are available on the server
         /// </summary>
@@ -33,7 +27,7 @@ namespace sUpdater.Controllers
         /// </summary>
         private static async Task CheckForInstalledApps()
         {
-            InstalledApps.Clear();
+            Apps.Clear();
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
 
             foreach (ApplicationDTO appDTO in appDTOs)
@@ -77,17 +71,14 @@ namespace sUpdater.Controllers
                     }
                 }
 
-                if (localVersion != null)
+                if (Apps.Find(a => appDTO.Name == a.Name) == null)
                 {
-                    if (InstalledApps.Find(a => appDTO.Name == a.Name) == null)
-                    {
-                        InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
-                        Application application = new Application(appDTO, new Installer(installerDTO));
-                        application.LocalVersion = localVersion;
-                        application.Icon = icon;
+                    InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
+                    Application application = new Application(appDTO, new Installer(installerDTO));
+                    application.LocalVersion = localVersion;
+                    application.Icon = icon;
 
-                        InstalledApps.Add(application);
-                    }
+                    Apps.Add(application);
                 }
             }
         }
@@ -140,7 +131,7 @@ namespace sUpdater.Controllers
 
             Updates.Clear();
 
-            foreach (Application app in InstalledApps)
+            foreach (Application app in Apps.FindAll(app => app.LocalVersion != null))
             {
                 if (!app.NoUpdate && Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                 {
@@ -169,7 +160,13 @@ namespace sUpdater.Controllers
         {
             return await Task.Run(() =>
             {
-                return InstalledApps.FindAll(app => app.LatestVersion != app.LocalVersion);
+                var apps = Apps.FindAll(app => app.LocalVersion == null);
+                foreach (var app in apps)
+                {
+                    app.DisplayedVersion = app.LatestVersion;
+                }
+
+                return apps;
             });
         }
     }
