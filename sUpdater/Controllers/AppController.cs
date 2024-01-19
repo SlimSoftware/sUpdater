@@ -119,16 +119,8 @@ namespace sUpdater.Controllers
         public static async Task CheckForUpdates()
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
-
-            //try
-            //{
-                await CheckForInstalledApps();
-            //}
-            //catch (Exception ex)
-            //{
-            //    Log.Append($"Error while checking for installed apps: {ex.Message}", Log.LogLevel.ERROR);
-            //}
-
+                
+            await CheckForInstalledApps();
             Updates.Clear();
 
             foreach (Application app in Apps.FindAll(app => app.LocalVersion != null))

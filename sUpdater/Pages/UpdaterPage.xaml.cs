@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
+using System.Linq;
 
 namespace sUpdater
 {
@@ -38,31 +39,24 @@ namespace sUpdater
         /// </summary>
         private void SetupDetailsMode()
         {
-            updateListView.ItemsSource = AppController.Apps;
+            var detailApps = AppController.Apps.Select(x => x.Clone()).ToList();
 
-            foreach (Application app in updateListView.ItemsSource)
+            foreach (Application app in detailApps)
             {
                 app.Checkbox = false;
+                app.Name = $"{app.Name} {app.LatestVersion}";
 
                 if (app.LocalVersion != null)
                 {
-                    app.Name = app.Name + " " + app.LatestVersion;
-                    if (app.NoUpdate)
-                    {
-                        app.DisplayedVersion = "Installed: " + app.LocalVersion + " (Using own updater)";
-                    }
-                    else
-                    {
-                        app.DisplayedVersion = "Installed: " + app.LocalVersion;
-                    }
+                    app.DisplayedVersion = $"Installed: {app.LocalVersion}{(app.NoUpdate ? " (using own updater)" : "")}";
                 }
                 else
                 {
-                    app.Name = app.Name + " " + app.LatestVersion;
                     app.DisplayedVersion = "Not Found";
                 }
             }
 
+            updateListView.ItemsSource = detailApps;
             Title = "Details";
 
             // Do not allow the user to select items
