@@ -201,6 +201,9 @@ namespace sUpdater.Models
                     else
                     {
                         Log.Append("User chose not to relaunch installer. Skipping this app.", Log.LogLevel.INFO);
+                        Progress = 0;
+                        Status = "";
+                        Checkbox = true;
                         return;
                     }
                 }
