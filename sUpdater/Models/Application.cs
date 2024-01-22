@@ -96,7 +96,7 @@ namespace sUpdater.Models
                 }
             }
 
-            string fileName = Path.GetFileName(Installer.DownloadLink);
+            string fileName = Path.GetFileName(Installer.DownloadLinkParsed);
             SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded
