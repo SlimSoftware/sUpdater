@@ -43,7 +43,7 @@
                 <RadioButton x:Name="customAppServerRadioButton" Margin="0,5,0,0"
                              Click="CustomAppServerRadioButton_Click">Use the following App Server URL:</RadioButton>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="customAppServerTextBox" Width="300" Margin="0,5,0,0" IsEnabled="False"/>
+                    <TextBox x:Name="customAppServerTextBox" Width="495" Height="21" Margin="0,5,0,0" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>

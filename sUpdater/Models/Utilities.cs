@@ -4,7 +4,6 @@ using System.IO;
 using System.Xml.Serialization;
 using DialogResult = System.Windows.Forms.DialogResult;
 using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
-using System.Collections.Generic;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Diagnostics;
@@ -13,7 +12,6 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Http;
-using System.Text.Json;
 
 namespace sUpdater.Models
 {
@@ -26,13 +24,13 @@ namespace sUpdater.Models
         /// </summary>
         public static bool ConnectedToServer = true;
 
+        public static HttpClient HttpClient { get; private set; }
+
         private static readonly string settingsXmlDir = Debugger.IsAttached ?
             Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) :
             Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Slim Software\sUpdater");
 
         private static readonly string settingsXmlPath = Path.Combine(settingsXmlDir, "settings.xml");
-
-        private static HttpClient HttpClient { get; set; }
 
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
@@ -161,6 +159,10 @@ namespace sUpdater.Models
 
         public static void InitHttpClient()
         {
+            if (HttpClient != null)
+            {
+                HttpClient.Dispose();          
+            }
             HttpClient = new HttpClient();
 
             string appServerURL = Settings.AppServerURL ?? "https://www.slimsoftware.dev/supdater/api/v2/";

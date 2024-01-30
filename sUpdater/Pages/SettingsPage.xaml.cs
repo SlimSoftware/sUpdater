@@ -94,6 +94,30 @@ namespace sUpdater
 
         public void SaveSettings()
         {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
+                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            {
+                if (autoStartCheckBox.IsChecked == true && key.GetValue("sUpdater") == null)
+                {
+                    key.SetValue("sUpdater",
+                        $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
+                }
+
+                if (autoStartCheckBox.IsChecked == false && key.GetValue("sUpdater") != null)
+                {
+                    key.DeleteValue("sUpdater");
+                }
+            }
+
+            if (minimizeToTrayCheckBox.IsChecked == true)
+            {
+                Utilities.Settings.MinimizeToTray = true;
+            }
+            else
+            {
+                Utilities.Settings.MinimizeToTray = false;
+            }
+
             // Check if the specified portable apps folder already exists
             if (!Directory.Exists(portableAppsFolderTextBox.Text) && portableAppsFolderTextBox.Text != "")
             {
@@ -158,43 +182,24 @@ namespace sUpdater
                 Utilities.Settings.DataDir = null;
             }
 
-            if (customAppServerRadioButton.IsChecked == true && customAppServerTextBox.Text != "")
-            {
-                Utilities.Settings.AppServerURL = customAppServerTextBox.Text;
-            }
-            if (customAppServerRadioButton.IsChecked == true && customAppServerTextBox.Text == "")
-            {
-                MessageBox.Show("You must specify a custom App Server URL or use the official App Server");
-            }
             if (officialAppServerRadioButton.IsChecked == true)
             {
                 Utilities.Settings.AppServerURL = null;
             }
-
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(
-                @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+            else if (customAppServerRadioButton.IsChecked == true)
             {
-                if (autoStartCheckBox.IsChecked == true && key.GetValue("sUpdater") == null)
+                if (customAppServerTextBox.Text != "")
                 {
-                    key.SetValue("sUpdater",
-                        $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" /tray");
+                    Utilities.Settings.AppServerURL = customAppServerTextBox.Text;
                 }
-
-                if (autoStartCheckBox.IsChecked == false && key.GetValue("sUpdater") != null)
+                else
                 {
-                    key.DeleteValue("sUpdater");
+                    MessageBox.Show("You must specify a custom App Server URL or use the official App Server");
+                    return;
                 }
             }
 
-            if (minimizeToTrayCheckBox.IsChecked == true)
-            {
-                Utilities.Settings.MinimizeToTray = true;
-            }
-            else
-            {
-                Utilities.Settings.MinimizeToTray = false;
-            }
-
+            Utilities.InitHttpClient();
             Utilities.SaveSettings();
         }
 
