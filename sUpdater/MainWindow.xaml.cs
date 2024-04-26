@@ -29,6 +29,13 @@ namespace sUpdater
             {
                 Utilities.MinimizeToTray(this);
             }
+
+            AppController.CheckForUpdatesCompleted += AppController_CheckForUpdatesCompleted;
+        }
+
+        private void AppController_CheckForUpdatesCompleted(object sender, EventArgs e)
+        {
+            UpdateTaskbarIcon();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -54,7 +61,6 @@ namespace sUpdater
             Utilities.InitHttpClient();
 
             await AppController.CheckForUpdates();
-            UpdateTaskbarIcon();
 
             AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
             AutoUpdater.Start("https://www.slimsoftware.dev/supdater/update.xml");
@@ -179,13 +185,6 @@ namespace sUpdater
         private async void TrayCheckUpdatesMenuItem_Click(object sender, RoutedEventArgs e)
         {
             await AppController.CheckForUpdates();
-            UpdateTaskbarIcon();
-            
-            if (frame.Content is StartPage)
-            {
-                StartPage startPage = (StartPage)frame.Content;
-                startPage.UpdateGUI();
-            }
         }
 
         private void TrayOpenMenuItem_Click(object sender, RoutedEventArgs e)

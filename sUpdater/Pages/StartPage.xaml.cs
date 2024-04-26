@@ -22,6 +22,13 @@ namespace sUpdater
         {
             InitializeComponent();
             UpdateGUI();
+
+            AppController.CheckForUpdatesCompleted += AppController_CheckForUpdatesCompleted;
+        }
+
+        private void AppController_CheckForUpdatesCompleted(object sender, EventArgs e)
+        {
+            UpdateGUI();
         }
 
         /// <summary>
@@ -46,17 +53,28 @@ namespace sUpdater
                     portableAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
                 }
 
-                int updateCount = AppController.Updates.Count;
-                if (updateCount > 0)
+                if (!AppController.CheckingForUpdates)
                 {
-                    updaterTile.Background = Colors.normalOrangeBrush;
-                    updaterTile.Title = updateCount > 1 ? $"{updateCount} updates available" : "1 update available";
-                }
-                else
+                    int updateCount = AppController.Updates.Count;
+                    if (updateCount > 0)
+                    {
+                        updaterTile.Background = Colors.normalOrangeBrush;
+                        updaterTile.Title = updateCount > 1 ? $"{updateCount} updates available" : "1 update available";
+                    }
+                    else
+                    {
+                        updaterTile.Background = Colors.normalGreenBrush;
+                        updaterTile.Title = "No updates available";
+                        Log.Append("No updates available", Log.LogLevel.INFO);
+                    }
+
+                    updaterTile.MouseLeftButtonDown += UpdaterTile_MouseLeftButtonDown;
+                } 
+                else 
                 {
-                    updaterTile.Background = Colors.normalGreenBrush;
-                    updaterTile.Title = "No updates available";
-                    Log.Append("No updates available", Log.LogLevel.INFO);
+                    updaterTile.Background = Colors.normalGreyBrush;
+                    updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
+                    updaterTile.Title = "Checking for updates...";
                 }
             }
             else
@@ -108,7 +126,6 @@ namespace sUpdater
         private async void OfflineRetryLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             await AppController.CheckForUpdates();
-            UpdateGUI();
         }
     }
 }

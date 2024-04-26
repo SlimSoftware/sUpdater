@@ -165,9 +165,6 @@ namespace sUpdater
                 selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;
-
-                MainWindow mainWindow = Utilities.GetMainWindow();
-                mainWindow.UpdateTaskbarIcon();
             }
         }
 
@@ -247,8 +244,6 @@ namespace sUpdater
         {
             await AppController.CheckForUpdates();
             updateListView.ItemsSource = AppController.Updates;
-            MainWindow mainWindow = Utilities.GetMainWindow();
-            mainWindow.UpdateTaskbarIcon();
 
             if (AppController.Updates.Count > 0 && selectAllRow.Height == new GridLength(0))
             {

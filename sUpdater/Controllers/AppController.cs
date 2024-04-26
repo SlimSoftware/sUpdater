@@ -22,6 +22,11 @@ namespace sUpdater.Controllers
         /// </summary>
         public static List<Application> Updates { get; private set; } = new List<Application>();
 
+        /** Indicates whether there is currently being checked for updates */
+        public static bool CheckingForUpdates { get; private set; } = true;
+
+        public static event EventHandler CheckForUpdatesCompleted;
+
         /// <summary>
         /// Checks which apps are installed and adds them to the InstalledApps list
         /// </summary>
@@ -119,6 +124,7 @@ namespace sUpdater.Controllers
         public static async Task CheckForUpdates()
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
+            CheckingForUpdates = true;
                 
             await CheckForInstalledApps();
             Updates.Clear();
@@ -143,6 +149,9 @@ namespace sUpdater.Controllers
             {
                 Log.Append("1 update available", Log.LogLevel.INFO);
             }
+
+            CheckingForUpdates = false;
+            CheckForUpdatesCompleted?.Invoke(null, EventArgs.Empty);
         }
 
         /// <summary>
