@@ -69,7 +69,7 @@ namespace sUpdater.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Application(ApplicationDTO applicationDTO, Installer installer)
+        public Application(ApplicationDTO applicationDTO, InstallerDTO installerDTO)
         {
             Id = applicationDTO.Id;
             Name = applicationDTO.Name;
@@ -77,7 +77,7 @@ namespace sUpdater.Models
             NoUpdate = applicationDTO.NoUpdate;
             WebsiteUrl = applicationDTO.WebsiteUrl;
             ReleaseNotesUrl = applicationDTO.ReleaseNotesUrl;
-            Installer = installer;
+            Installer = new Installer(installerDTO);
         }
 
         public async Task Download()
@@ -299,21 +299,6 @@ namespace sUpdater.Models
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is Application application &&
-                   Name == application.Name &&
-                   LatestVersion == application.LatestVersion;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 349623337;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
-            return hashCode;
         }
     }
 }

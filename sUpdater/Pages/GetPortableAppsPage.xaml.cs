@@ -1,4 +1,5 @@
 ﻿using Dasync.Collections;
+using sUpdater.Controllers;
 using sUpdater.Models;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,13 @@ namespace sUpdater
         public GetPortableAppsPage()
         {
             InitializeComponent();
-            notInstalledPortableApps = GetNotInstalledPortableApps();
+            PopluatePortableAppsList();
+        }
+
+        // (Re)loads the list of not installed portable apps
+        private async void PopluatePortableAppsList()
+        {
+            notInstalledPortableApps = await PortableAppController.GetNotInstalledPortableApps();
 
             foreach (PortableApp app in notInstalledPortableApps)
             {
@@ -54,65 +61,8 @@ namespace sUpdater
                 }));
             }
 
-            if (notInstalledPortableApps.Count == 0)
-            {
-                noAppsAvailableLabel.Visibility = Visibility.Visible;
-            }
-
+            noAppsAvailableLabel.Visibility = notInstalledPortableApps.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             portableAppsListView.ItemsSource = notInstalledPortableApps;
-        }
-
-        public static List<PortableApp> GetPortableApps()
-        {
-            Log.Append("Getting Portable Apps", Log.LogLevel.INFO);
-
-            List<PortableApp> apps = new List<PortableApp>();
-            XDocument appXML = XDocument.Load($"{Utilities.GetAppServerURL()}/apps");
-
-            // Load XML File
-            XDocument definitions;
-            if (Utilities.Settings.AppServerURL != null)
-            {
-                definitions = XDocument.Load(Utilities.Settings.AppServerURL);
-            }
-            else
-            {            
-                definitions = XDocument.Load("https://supdater.slimsoft.tk/api");
-            }
-
-            foreach (XElement portableAppElement in definitions.Descendants("portable"))
-            {
-                // Get content from XML nodes
-                XAttribute nameAttribute = portableAppElement.Attribute("name");
-                XElement idElement = portableAppElement.Element("id");
-                XElement versionElement = portableAppElement.Element("version");
-                XElement archElement = portableAppElement.Element("arch");
-                XElement launchElement = portableAppElement.Element("launch");
-                XElement dlElement = portableAppElement.Element("dl");
-                XElement extractModeElement = portableAppElement.Element("extractmode");
-
-                // Check if Portable App is already installed
-                // TODO: Get local version of portable app if installed
-                string localVersion = "-";
-
-                int id = Convert.ToInt32(idElement.Value);
-
-                apps.Add(new PortableApp(id, nameAttribute.Value, versionElement.Value,
-                    localVersion, archElement.Value, launchElement.Value, dlElement.Value,
-                    extractModeElement.Value));
-            }
-
-            return apps;
-        }
-
-        private List<PortableApp> GetNotInstalledPortableApps()
-        {
-            List<PortableApp> portableApps = GetPortableApps();
-            List<PortableApp> installedPortableApps = InstalledPortableAppsPage.GetInstalledPortableApps();
-            List<PortableApp> notInstalledPortableApps = portableApps.Where(
-                a => installedPortableApps.All(b => a.Name != b.Name && a.LatestVersion != b.LatestVersion)).ToList();
-
-            return notInstalledPortableApps;
         }
 
         private void SelectAllCheckBox_Click(object sender, RoutedEventArgs e)
@@ -154,12 +104,10 @@ namespace sUpdater
             }
         }
 
-        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            notInstalledPortableApps = GetNotInstalledPortableApps();
-            // TODO: Properly refresh
-            portableAppsListView.ItemsSource = null;
-            portableAppsListView.ItemsSource = notInstalledPortableApps;
+            await PortableAppController.CheckForPortableApps();
+            PopluatePortableAppsList();
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
@@ -236,10 +184,7 @@ namespace sUpdater
                 }
                 else
                 {
-                    notInstalledPortableApps = GetNotInstalledPortableApps();
-                    // TODO: Properly refresh
-                    portableAppsListView.ItemsSource = null;
-                    portableAppsListView.ItemsSource = notInstalledPortableApps;
+                    portableAppsListView.ItemsSource = await PortableAppController.GetNotInstalledPortableApps();
                 }
 
                 selectAllCheckBox.IsEnabled = true;

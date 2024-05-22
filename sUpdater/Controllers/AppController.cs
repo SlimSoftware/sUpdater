@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -28,7 +29,8 @@ namespace sUpdater.Controllers
         public static event EventHandler CheckForUpdatesCompleted;
 
         /// <summary>
-        /// Checks which apps are installed and adds them to the InstalledApps list
+        /// Populates the Apps list with the apps from the App Server and gets the local version number 
+        /// if an app is installed on the user's system
         /// </summary>
         private static async Task CheckForInstalledApps()
         {
@@ -76,15 +78,12 @@ namespace sUpdater.Controllers
                     }
                 }
 
-                if (Apps.Find(a => appDTO.Name == a.Name) == null)
-                {
-                    InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
-                    Application application = new Application(appDTO, new Installer(installerDTO));
-                    application.LocalVersion = localVersion;
-                    application.Icon = icon;
+                InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
+                Application application = new Application(appDTO, installerDTO);
+                application.LocalVersion = localVersion;
+                application.Icon = icon;
 
-                    Apps.Add(application);
-                }
+                Apps.Add(application);
             }
         }
 
