@@ -16,8 +16,8 @@ namespace sUpdater.Models.DTO
         [JsonPropertyName("download_link")]
         public string DownloadLink { get; set; }
 
-        [JsonPropertyName("download_link_parsed")]
-        public string DownloadLinkParsed { get; set; }
+        [JsonPropertyName("download_link_raw")]
+        public string DownloadLinkRaw { get; set; }
 
         [JsonPropertyName("launch_args")]
         public string LaunchArgs { get; set; }

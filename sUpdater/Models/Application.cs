@@ -96,7 +96,7 @@ namespace sUpdater.Models
                 }
             }
 
-            string fileName = Path.GetFileName(Installer.DownloadLinkParsed);
+            string fileName = Path.GetFileName(Installer.DownloadLink);
             SavePath = Path.Combine(Utilities.Settings.DataDir, fileName);
 
             // Check if installer is already downloaded
@@ -122,7 +122,7 @@ namespace sUpdater.Models
                     };
                     try
                     {
-                        await wc.DownloadFileTaskAsync(new Uri(Installer.DownloadLinkParsed), SavePath);
+                        await wc.DownloadFileTaskAsync(new Uri(Installer.DownloadLink), SavePath);
                     }
                     catch (Exception ex)
                     {
