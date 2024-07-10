@@ -7,9 +7,6 @@ namespace sUpdater.Models.DTO
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("app_id")]
-        public int AppId { get; set; }
-
         [JsonPropertyName("arch")]
         public Arch Arch { get; set; }
 

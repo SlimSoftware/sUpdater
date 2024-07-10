@@ -1,10 +1,12 @@
 ﻿using Ionic.Zip;
+using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,17 +20,14 @@ namespace sUpdater.Models
         public string Name { get; set; }
         public ImageSource Icon { get; set; }
         public string LatestVersion { get; set; }
-        public string LocalVersion { get; set; }
+        public bool Installed { get; set; }
         public string DisplayedVersion { get; set; } // The version displayed under the app's name
         public bool Checkbox { get; set; } = true;
-        public string Arch { get; set; }
-        public string DL { get; set; }
-        public string ExtractMode { get; set; }
+        public Archive Archive { get; set; }
         public string SavePath { get; set; }
-        public string Launch { get; set; }
         public LinkClickCommand LinkClickCommand { get; set; }
 
-        private string linkText = "Run";
+        private string linkText;
 
         public string LinkText
         {
@@ -75,24 +74,12 @@ namespace sUpdater.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public PortableApp(int id, string name, string latestVersion, string localVersion, string arch,
-            string launch, string dl, string extractMode, string savePath = null)
+        public PortableApp(PortableAppDTO portableAppDTO, ArchiveDTO archiveDTO)
         {
-            Id = id;
-            Name = name;
-            LatestVersion = latestVersion;
-            LocalVersion = localVersion;
-            Arch = arch;
-            Launch = launch;
-            DL = dl;
-            ExtractMode = extractMode;
-            SavePath = savePath;
-        }
-
-        public PortableApp(string name, string displayedVersion)
-        {
-            Name = name;
-            DisplayedVersion = displayedVersion;
+            Id = portableAppDTO.Id;
+            Name = portableAppDTO.Name;
+            LatestVersion = portableAppDTO.Version;
+            Archive = new Archive(archiveDTO);
         }
 
         public async Task Download()
@@ -113,15 +100,14 @@ namespace sUpdater.Models
 
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Utilities.Settings.PortableAppDir, Name));
-            string fileName = @Path.GetFileName(DL);
-            if (fileName.Contains("?"))
+            string fileName = @Path.GetFileName(Archive.DownloadLinkParsed);
+
+            if (fileName.Contains("?") && Archive.LaunchFile != null)
             {
                 // Filename contains invalid character so we'll have to use the launch property as fallback filename
-                if (Launch != null)
-                {
-                    fileName = Launch;
-                }
+                fileName = Archive.LaunchFile;
             }
+
             SavePath = @Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
 
             // Check if portable app is already downloaded
@@ -137,15 +123,7 @@ namespace sUpdater.Models
                         double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
                         double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
 
-                        // Set the progress
-                        if (ExtractMode == "single")
-                        {
-                            Progress = e.ProgressPercentage;
-                        }
-                        else
-                        {
-                            Progress = e.ProgressPercentage / 2;
-                        }
+                        Progress = Archive.ExtractMode == ExtractMode.Folder ?  e.ProgressPercentage / 2 : e.ProgressPercentage;
                         Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                     };
                     wc.DownloadFileCompleted += (s, e) =>
@@ -155,7 +133,7 @@ namespace sUpdater.Models
                     };
                     try
                     {
-                        await wc.DownloadFileTaskAsync(new Uri(DL), SavePath);
+                        await wc.DownloadFileTaskAsync(new Uri(Archive.DownloadLinkParsed), SavePath);
                     }
                     catch (Exception e)
                     {
@@ -181,8 +159,7 @@ namespace sUpdater.Models
         {
             if (File.Exists(SavePath))
             {
-                // If ExtractMode is single, we do not need to extract
-                if (ExtractMode == "folder")
+                if (Archive.ExtractMode == ExtractMode.Folder)
                 {
                     try
                     {
@@ -238,7 +215,7 @@ namespace sUpdater.Models
 
             using (var p = new Process())
             {
-                p.StartInfo.FileName = Path.Combine(Utilities.Settings.PortableAppDir, Name, Launch);
+                p.StartInfo.FileName = Path.Combine(Utilities.Settings.PortableAppDir, Name, Archive.LaunchFile);
                 // TODO: Add support for optional arguments and using shell execute here
                 try
                 {
@@ -253,11 +230,11 @@ namespace sUpdater.Models
             }
             await Task.Run(() =>
             {
-                Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Archive.LaunchFile));
                 while (processes == null | processes.Length != 0)
                 {
                     Thread.Sleep(1000);
-                    processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Launch));
+                    processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Archive.LaunchFile));
                 }
             });
             Status = "";
@@ -266,23 +243,6 @@ namespace sUpdater.Models
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is PortableApp app &&
-                   Name == app.Name &&
-                   LatestVersion == app.LatestVersion &&
-                   Arch == app.Arch;
-        }
-
-        public override int GetHashCode()
-        {
-            int hashCode = 349623337;
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(LatestVersion);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Arch);
-            return hashCode;
         }
     }
 }

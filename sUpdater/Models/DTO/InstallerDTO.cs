@@ -4,12 +4,6 @@ namespace sUpdater.Models.DTO
 {
     public class InstallerDTO
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
-
-        [JsonPropertyName("app_id")]
-        public int AppId { get; set; }
-
         [JsonPropertyName("detectinfo_id")]
         public int DetectInfoId { get; set; }
 

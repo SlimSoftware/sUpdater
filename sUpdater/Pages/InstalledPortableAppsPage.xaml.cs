@@ -1,4 +1,5 @@
-﻿using sUpdater.Models;
+﻿using sUpdater.Controllers;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,72 +10,33 @@ using System.Windows.Navigation;
 namespace sUpdater
 {
     /// <summary>
-    /// Interaction logic for PortableAppPage.xaml
+    /// Interaction logic for INstalledPortableAppsPage.xaml
     /// </summary>
     public partial class InstalledPortableAppsPage : Page
     {
         private List<PortableApp> installedPortableApps = new List<PortableApp>();
-        private static List<PortableApp> portableApps = GetPortableAppsPage.GetPortableApps();
         private bool navigateHandlerAttached = false;
 
         public InstalledPortableAppsPage()
         {
             InitializeComponent();
-
-            installedPortableApps = GetInstalledPortableApps();
-            portableAppsListView.ItemsSource = installedPortableApps;
-
-            if (installedPortableApps.Count == 0)
-            {
-                noAppsInstalledLabel.Visibility = Visibility.Visible;
-            }
+            PopulateInstalledAppsList();
         }
 
-        /// <summary>
-        /// Fills the installedPortableApps list with portable apps that are installed
-        /// </summary>
-        public static List<PortableApp> GetInstalledPortableApps()
+        // (Re)loads the list of installed portable apps
+        private async void PopulateInstalledAppsList()
         {
-            Log.Append("Checking for installed Portable Apps", Log.LogLevel.INFO);
-            List<PortableApp> apps = new List<PortableApp>();
+            await PortableAppController.CheckForInstalledPortableApps();
 
-            string[] installedAppPaths = null;
-            if (Utilities.Settings.PortableAppDir != null)
+            installedPortableApps = await PortableAppController.GetInstalledPortableApps();
+            foreach (PortableApp portableApp in installedPortableApps)
             {
-                if (!Directory.Exists(Utilities.Settings.PortableAppDir))
-                {
-                    Directory.CreateDirectory(Utilities.Settings.PortableAppDir);
-                }
-
-                installedAppPaths = Directory.GetDirectories(Utilities.Settings.PortableAppDir);
+                portableApp.Checkbox = false;
             }
 
-            foreach (string appDirPath in installedAppPaths)
-            {
-                PortableApp pAppListItem = new PortableApp(Path.GetFileName(appDirPath), null);
-                pAppListItem.Checkbox = false;
-
-                // Find associated PortableApp
-                PortableApp app = portableApps.Find(x => x.Name == pAppListItem.Name);
-
-                string launchPath = Path.Combine(appDirPath, app.Launch);
-                Utilities.PopulatePortableAppIcon(pAppListItem, launchPath);
-
-                pAppListItem.LinkClickCommand = new LinkClickCommand(new Action(async () =>
-                {
-                    string linkText = pAppListItem.LinkText;
-                    pAppListItem.LinkText = "";
-                    pAppListItem.Status = "Running...";
-                    await app.Run();
-
-                    pAppListItem.Status = "";
-                    pAppListItem.LinkText = linkText;
-                }));
-
-                apps.Add(pAppListItem);
-            }
-
-            return apps;
+            portableAppsListView.ItemsSource = null;
+            portableAppsListView.ItemsSource = installedPortableApps;
+            noAppsInstalledLabel.Visibility = installedPortableApps.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void GetPortableAppsLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -100,15 +62,7 @@ namespace sUpdater
                 }
             }
 
-            installedPortableApps = GetInstalledPortableApps();
-            // TODO: Properly refresh
-            portableAppsListView.ItemsSource = null;
-            portableAppsListView.ItemsSource = installedPortableApps;
-
-            if (installedPortableApps.Count == 0)
-            {
-                noAppsInstalledLabel.Visibility = Visibility.Visible;
-            }
+            PopulateInstalledAppsList();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -124,18 +78,8 @@ namespace sUpdater
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                // Refresh list when going back from other page
-                installedPortableApps = GetInstalledPortableApps();
-                portableAppsListView.ItemsSource = installedPortableApps;
-
-                if (installedPortableApps.Count == 0)
-                {
-                    noAppsInstalledLabel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    noAppsInstalledLabel.Visibility = Visibility.Collapsed;
-                }
+                // Refresh list when going back from get portable apps page
+                PopulateInstalledAppsList();
             }
         }
     }

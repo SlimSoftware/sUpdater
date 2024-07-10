@@ -72,7 +72,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\PortableAppController.cs" />
+    <Compile Include="Models\Archive.cs" />
     <Compile Include="Models\DetectInfo.cs" />
+    <Compile Include="Models\DTO\ArchiveDTO.cs" />
+    <Compile Include="Models\DTO\PortableAppDTO.cs" />
     <Compile Include="Models\DTO\ApplicationDTO.cs" />
     <Compile Include="Models\DTO\DetectInfoDTO.cs" />
     <Compile Include="Models\DTO\InstallerDTO.cs" />
