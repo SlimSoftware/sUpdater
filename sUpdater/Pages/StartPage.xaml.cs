@@ -1,12 +1,6 @@
-﻿using Microsoft.Win32;
-using sUpdater.Models;
+﻿using sUpdater.Models;
 using sUpdater.Controllers;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Colors = sUpdater.Models.Colors;
@@ -18,6 +12,7 @@ namespace sUpdater
     /// </summary>
     public partial class StartPage : Page
     {
+        private bool noConnectionEventHandlersAttached = false;
         public StartPage()
         {
             InitializeComponent();
@@ -38,9 +33,9 @@ namespace sUpdater
         {
             if (Utilities.ConnectedToServer)
             {
-                if (updaterTile.Background == Colors.normalGreyBrush)
+                if (noConnectionEventHandlersAttached)
                 {
-                    // Update state when connection is available again
+                    // Update state when connection is available again, updaterTile will be done later below
                     getAppsTile.Background = Colors.normalGreenBrush;
                     portableAppsTile.Background = Colors.normalGreenBrush;
                     offlineNoticePanel.Visibility = Visibility.Hidden;
@@ -51,6 +46,8 @@ namespace sUpdater
                     getAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
                     portableAppsTile.MouseLeftButtonDown += PortableAppsTile_MouseLeftButtonDown;
                     portableAppsTile.MouseLeftButtonDown -= TileClickedWithNoConnection;
+
+                    noConnectionEventHandlersAttached = false;
                 }
 
                 if (!AppController.CheckingForUpdates)
@@ -79,16 +76,23 @@ namespace sUpdater
             }
             else
             {
-                updaterTile.Background = Colors.normalGreyBrush;
-                updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
-                updaterTile.MouseLeftButtonDown += TileClickedWithNoConnection;
-                getAppsTile.Background = Colors.normalGreyBrush;
-                getAppsTile.MouseLeftButtonDown -= GetAppsTile_MouseLeftButtonDown;
-                getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
-                portableAppsTile.Background = Colors.normalGreyBrush;
-                portableAppsTile.MouseLeftButtonDown -= PortableAppsTile_MouseLeftButtonDown;
-                getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
                 offlineNoticePanel.Visibility = Visibility.Visible;
+                updaterTile.Background = Colors.normalGreyBrush;
+                getAppsTile.Background = Colors.normalGreyBrush;
+                portableAppsTile.Background = Colors.normalGreyBrush;
+                updaterTile.Title = "Could not check for updates";
+
+                if (!noConnectionEventHandlersAttached)
+                {
+                    updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
+                    updaterTile.MouseLeftButtonDown += TileClickedWithNoConnection;
+                    getAppsTile.MouseLeftButtonDown -= GetAppsTile_MouseLeftButtonDown;
+                    getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;       
+                    portableAppsTile.MouseLeftButtonDown -= PortableAppsTile_MouseLeftButtonDown;
+                    portableAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
+
+                    noConnectionEventHandlersAttached = true;
+                }              
             } 
         }
 

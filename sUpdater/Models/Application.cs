@@ -106,6 +106,11 @@ namespace sUpdater.Models
 
                 using (var wc = new WebClient())
                 {
+                    wc.Headers = new WebHeaderCollection()
+                    {
+                        {  HttpRequestHeader.Referer, "https://coha.nl" }
+                    };
+
                     wc.DownloadProgressChanged += (s, args) =>
                     {
                         // Convert download size to mb

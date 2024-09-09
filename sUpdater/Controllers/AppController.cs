@@ -36,6 +36,7 @@ namespace sUpdater.Controllers
         {
             Apps.Clear();
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
+            if (appDTOs == null) return;
 
             foreach (ApplicationDTO appDTO in appDTOs)
             {

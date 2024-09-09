@@ -99,7 +99,7 @@ namespace sUpdater.Models
                 case 10:
                     if (Environment.OSVersion.Version.Build >= 22000)
                         osName = "Windows 11";
-                    else 
+                    else
                         osName = "Windows 10";
                     break;
             }
@@ -107,7 +107,7 @@ namespace sUpdater.Models
             if (osName != "")
             {
                 return osName;
-            } 
+            }
             else
             {
                 return "unknown Windows version";
@@ -161,7 +161,7 @@ namespace sUpdater.Models
         {
             if (HttpClient != null)
             {
-                HttpClient.Dispose();          
+                HttpClient.Dispose();
             }
             HttpClient = new HttpClient();
 
@@ -181,9 +181,12 @@ namespace sUpdater.Models
             try
             {
                 Log.Append($"GET {HttpClient.BaseAddress}{url}", Log.LogLevel.INFO);
-                return await HttpClient.GetFromJsonAsync<T>(url);
-            } 
-            catch (Exception ex) 
+                var response = await HttpClient.GetFromJsonAsync<T>(url);
+
+                if (ConnectedToServer == false) ConnectedToServer = true;
+                return response;
+            }
+            catch (Exception ex)
             {
                 Log.Append($"GET {HttpClient.BaseAddress}{url} ({ex.Message})", Log.LogLevel.ERROR);
                 ConnectedToServer = false;
@@ -333,5 +336,36 @@ namespace sUpdater.Models
                 portableApp.Icon = GetIconFromFile(exePath);
             }
         }
+
+        /// <summary>
+        /// Attaches an action to the given event handler, first removing all other already attached event handlers
+        /// </summary>
+        public static void AttachSingleEventHandler(ref EventHandler @event, ref EventHandler action, object obj)
+        {
+            RemoveOtherEventHandlers(action.Method.Name, @event, obj);
+            @event += action;
+        }
+
+        private static void RemoveOtherEventHandlers(string eventName, EventHandler eventHandler, object obj)
+        {
+            var type = obj.GetType();
+            var eventField = type.GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (eventField != null)
+            {
+                // Get the current event handler's delegate
+                var eventDelegate = (MulticastDelegate)eventField.GetValue(obj);
+
+                if (eventDelegate != null)
+                {
+                    // Loop through all handlers and remove them
+                    foreach (var handler in eventDelegate.GetInvocationList())
+                    {
+                        eventHandler -= (EventHandler)handler;
+                    }
+                }
+            }
+        }
     }
 }
+
