@@ -278,24 +278,6 @@ namespace sUpdater.Models
             });
         }
 
-        /// <summary>
-        /// Opens the changelog of this app in the default browser
-        /// </summary>
-        public void OpenChangelog()
-        {
-            string changelogRedirectURL = $"{Utilities.GetAppServerURL()}/changelog?id={Id}";
-            Process.Start(changelogRedirectURL);
-        }
-
-        /// <summary>
-        /// Opens the website of this app in the default browser
-        /// </summary>
-        public void OpenWebsite()
-        {
-            string websiteRedirectURL = $"{Utilities.GetAppServerURL()}/website?id={Id}";
-            Process.Start(websiteRedirectURL);
-        }
-
         public Application Clone()
         {
             return (Application)MemberwiseClone();

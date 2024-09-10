@@ -3,7 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Controls="clr-namespace:sUpdater.Controls" xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:Application}"
+      xmlns:converters="clr-namespace:sUpdater.Converters" 
+      xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:Application}"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
       Title="Get Applications" Background="White" Loaded="Page_Loaded">
@@ -26,8 +27,9 @@
         <ListView x:Name="getAppsListView" Grid.Row="1" 
                   Style="{StaticResource ResourceKey=CustomListViewStyle}">
             <ListView.Resources>
+                <converters:StringToBooleanConverter x:Key="StringToBooleanConverter" />
                 <ContextMenu x:Key="itemContextMenu">
-                    <MenuItem Header="Website" Click="MenuItemWebsite_Click" IsEnabled="{Binding HasWebsite}"/>
+                    <MenuItem Header="Website" Click="MenuItemWebsite_Click" IsEnabled="{Binding WebsiteUrl, Converter={StaticResource StringToBooleanConverter}}"/>
                 </ContextMenu>
             </ListView.Resources>
         </ListView>

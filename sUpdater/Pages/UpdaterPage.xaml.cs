@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
 using System.Linq;
+using System.Diagnostics;
 
 namespace sUpdater
 {
@@ -210,24 +211,21 @@ namespace sUpdater
             }
         }
 
-        private void MenuItemChangelog_Click(object sender, RoutedEventArgs e)
+        private void MenuItemReleaseNotes_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem menuItem = sender as MenuItem;
-            Application app = (Application)menuItem.DataContext;
-            app.OpenChangelog();
+            Application app = Utilities.GetApplicationFromControl(sender);
+            Process.Start(app.ReleaseNotesUrl);
         }
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem menuItem = sender as MenuItem;
-            Application app = (Application)menuItem.DataContext;
-            app.OpenWebsite();
+            Application app = Utilities.GetApplicationFromControl(sender);
+            Process.Start(app.WebsiteUrl);
         }
 
         private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem menuItem = sender as MenuItem;
-            Application app = (Application)menuItem.DataContext;
+            Application app = Utilities.GetApplicationFromControl(sender);
 
             await app.Download();
             await app.Install();

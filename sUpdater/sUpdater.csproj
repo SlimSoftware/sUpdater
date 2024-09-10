@@ -73,6 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\PortableAppController.cs" />
+    <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Models\Archive.cs" />
     <Compile Include="Models\DetectInfo.cs" />
     <Compile Include="Models\DTO\ArchiveDTO.cs" />

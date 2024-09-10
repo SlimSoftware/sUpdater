@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Http;
+using System.Windows.Controls;
 
 namespace sUpdater.Models
 {
@@ -336,35 +337,10 @@ namespace sUpdater.Models
                 portableApp.Icon = GetIconFromFile(exePath);
             }
         }
-
-        /// <summary>
-        /// Attaches an action to the given event handler, first removing all other already attached event handlers
-        /// </summary>
-        public static void AttachSingleEventHandler(ref EventHandler @event, ref EventHandler action, object obj)
+        public static Application GetApplicationFromControl(object sender)
         {
-            RemoveOtherEventHandlers(action.Method.Name, @event, obj);
-            @event += action;
-        }
-
-        private static void RemoveOtherEventHandlers(string eventName, EventHandler eventHandler, object obj)
-        {
-            var type = obj.GetType();
-            var eventField = type.GetField(eventName, BindingFlags.Instance | BindingFlags.NonPublic);
-
-            if (eventField != null)
-            {
-                // Get the current event handler's delegate
-                var eventDelegate = (MulticastDelegate)eventField.GetValue(obj);
-
-                if (eventDelegate != null)
-                {
-                    // Loop through all handlers and remove them
-                    foreach (var handler in eventDelegate.GetInvocationList())
-                    {
-                        eventHandler -= (EventHandler)handler;
-                    }
-                }
-            }
+            var control = sender as Control;
+            return (Application)control.DataContext;
         }
     }
 }

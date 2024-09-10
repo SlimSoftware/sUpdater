@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace sUpdater
 {
@@ -182,9 +183,8 @@ namespace sUpdater
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem menuItem = sender as MenuItem;
-            Application app = (Application)menuItem.DataContext;
-            app.OpenChangelog();
+            Application app = Utilities.GetApplicationFromControl(sender);
+            Process.Start(app.WebsiteUrl);
         }
     }
 }

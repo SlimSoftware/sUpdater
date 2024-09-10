@@ -8,6 +8,7 @@
         Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing" Loaded="Window_Loaded">
 
     <Window.Resources>
+
         <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
