@@ -32,6 +32,8 @@ namespace sUpdater
             foreach (PortableApp portableApp in installedPortableApps)
             {
                 portableApp.Checkbox = false;
+                portableApp.Progress = 0;
+                portableApp.Status = "";
             }
 
             portableAppsListView.ItemsSource = null;

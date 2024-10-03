@@ -73,6 +73,7 @@ namespace sUpdater.Controllers
                     string launchPath = Path.Combine(installedAppDirPath, portableApp.Archive.LaunchFile);
                     Utilities.PopulatePortableAppIcon(portableApp, launchPath);
 
+                    portableApp.Checkbox = false;
                     portableApp.LinkText = "Run";
                     portableApp.LinkClickCommand = new LinkClickCommand(new Action(async () =>
                     {
@@ -83,6 +84,14 @@ namespace sUpdater.Controllers
                         portableApp.Status = "";
                         portableApp.LinkText = "Run";
                     }));
+                }
+                else
+                {
+                    portableApp.Installed = false;
+
+                    // TODO: find a better way for this as it is display logic
+                    portableApp.Checkbox = true;
+                    portableApp.LinkText = "";
                 }
             }
         }

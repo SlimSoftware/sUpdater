@@ -82,7 +82,7 @@ namespace sUpdater.Models
             Archive = new Archive(archiveDTO);
         }
 
-        public async Task Download()
+        public async Task<bool> Download()
         {
             if (!Directory.Exists(Utilities.Settings.PortableAppDir))
             {
@@ -94,7 +94,7 @@ namespace sUpdater.Models
                 {
                     Log.Append($"Could not create portable app dir: {ex.Message}", Log.LogLevel.ERROR);
                     Status = ex.Message;
-                    return;
+                    return false;
                 }
             }
 
@@ -153,9 +153,11 @@ namespace sUpdater.Models
                 Status = "Already downloaded, starting install...";
                 Log.Append("Found existing download", Log.LogLevel.INFO);
             }
+
+            return true;
         }
 
-        public async Task Install()
+        public async Task<bool> Install()
         {
             if (File.Exists(SavePath))
             {
@@ -170,7 +172,7 @@ namespace sUpdater.Models
                         Status = "Extracting failed";
                         Progress = 100;
                         Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                        return;
+                        return false;
                     }
 
                     Log.Append("Succesfully extracted", Log.LogLevel.INFO);
@@ -179,7 +181,11 @@ namespace sUpdater.Models
                     Progress = 100;
                     await Task.Delay(1000);                       
                 }
+
+                return true;
             }
+
+            return false;
         }
 
         private Task Extract()
@@ -224,7 +230,7 @@ namespace sUpdater.Models
                 catch (Exception ex)
                 {
                     MessageBox.Show($"An error occurred when trying to run the app:\n{ex.Message}", "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
-                    Log.Append($"An error occurred when trying to run the Portable App {Name}: {ex.Message}", Log.LogLevel.ERROR);
+                    Log.Append($"An error occurred when trying to run the Portable App {Name}: {ex.Message} {p.StartInfo.FileName}", Log.LogLevel.ERROR);
                     Status = "";
                 }
             }

@@ -27,13 +27,12 @@
                 Style="{StaticResource ResourceKey=CustomListViewStyle}">
             <ListView.Resources>
                 <ContextMenu x:Key="itemContextMenu">
-                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click" IsEnabled="{Binding HasDescription}"/>
+                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click" />
                 </ContextMenu>
             </ListView.Resources>
         </ListView>
 
-        <Label x:Name="noAppsInstalledLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" 
-               VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+        <Label x:Name="noAppsInstalledLabel" Grid.Row="1" FontSize="14"  VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
             No installed Portable Apps found. You can install Portable Apps by clicking on the link in the top right corner.
         </Label>
     </Grid>

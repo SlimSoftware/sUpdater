@@ -107,12 +107,13 @@ namespace sUpdater
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             await PortableAppController.CheckForPortableApps();
+            await PortableAppController.CheckForInstalledPortableApps();
             PopluatePortableAppsList();
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            bool installFailed = false;
+            bool installSucces = true;
             Log.Append("Portable App installation started...", Log.LogLevel.INFO);
             refreshButton.IsEnabled = false;
             installButton.IsEnabled = false;
@@ -150,7 +151,9 @@ namespace sUpdater
                     currentApp++;
                     Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
                         app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
-                    await app.Download();
+
+                    bool success = await app.Download();
+                    if (!success) installSucces = false;
                 }, maxDegreeOfParallelism: 3);
 
                 // Install
@@ -162,15 +165,22 @@ namespace sUpdater
                     {
                         Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
                             currentApp, portableAppsListView.SelectedItems.Count), Log.LogLevel.INFO);
-                        await app.Install();
+                        bool success = await app.Install();
+
+                        if (!success) installSucces = false;
                     }
                 }
 
-                if (installFailed == true)
+                if (installSucces)
+                {
+                    await PortableAppController.CheckForInstalledPortableApps();
+                    portableAppsListView.ItemsSource = await PortableAppController.GetNotInstalledPortableApps();
+                }
+                else 
                 {
                     // Only show the failed apps
-                    List<Application> failedApps = new List<Application>();
-                    foreach (Application app in portableAppsListView.SelectedItems)
+                    List<PortableApp> failedApps = new List<PortableApp>();
+                    foreach (PortableApp app in portableAppsListView.SelectedItems)
                     {
                         if (app.Status != "Install complete")
                         {
@@ -181,10 +191,6 @@ namespace sUpdater
                     statusLabel.Foreground = Brushes.Red;
                     statusLabel.Content = "Some Portable Apps failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    portableAppsListView.ItemsSource = await PortableAppController.GetNotInstalledPortableApps();
                 }
 
                 selectAllCheckBox.IsEnabled = true;
