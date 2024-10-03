@@ -80,7 +80,7 @@ namespace sUpdater.Models
             Installer = new Installer(installerDTO);
         }
 
-        public async Task Download()
+        public async Task<bool> Download()
         {
             if (!Directory.Exists(Utilities.Settings.DataDir))
             {
@@ -92,7 +92,7 @@ namespace sUpdater.Models
                 {
                     Log.Append($"Could not create data dir: {ex.Message}", Log.LogLevel.ERROR);
                     Status = ex.Message;
-                    return;
+                    return false;
                 }
             }
 
@@ -139,7 +139,7 @@ namespace sUpdater.Models
                         {
                             File.Delete(SavePath);
                         }
-                        return;
+                        return false;
                     }
                 }
             }
@@ -149,9 +149,11 @@ namespace sUpdater.Models
                 Status = "Already downloaded, starting install...";
                 Log.Append("Found existing installer", Log.LogLevel.INFO);
             }
+
+            return true;
         }
 
-        public async Task Install()
+        public async Task<bool> Install()
         {
             launchInstaller:
             using (var p = new Process())
@@ -183,7 +185,7 @@ namespace sUpdater.Models
                         Status = "Extracting failed";
                         Progress = 100;
                         Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
-                        return;
+                        return false;
                     }
 
                     p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, extractedFilename);
@@ -209,7 +211,7 @@ namespace sUpdater.Models
                         Progress = 0;
                         Status = "";
                         Checkbox = true;
-                        return;
+                        return false;
                     }
                 }
 
@@ -232,6 +234,8 @@ namespace sUpdater.Models
                     Status = "Install complete";
                     IsWaiting = false;
                     Progress = 100;
+
+                    return true;
                 }
                 else
                 {
@@ -243,6 +247,8 @@ namespace sUpdater.Models
                     IsWaiting = false;
                 }
             }
+
+            return false;
         }
 
         private Task<string> Extract()

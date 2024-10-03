@@ -76,8 +76,8 @@ namespace sUpdater
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            bool installFailed = false;
             Log.Append("Update installation started...", Log.LogLevel.INFO);
+            bool installSuccess = true;
             refreshButton.IsEnabled = false;
             installButton.IsEnabled = false;
             selectAllCheckBox.IsEnabled = false;
@@ -117,7 +117,9 @@ namespace sUpdater
                         Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
                             app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
                     });
-                    await app.Download();
+                    bool success = await app.Download();
+
+                    if (!success) installSuccess = false;
                 }, maxDegreeOfParallelism: 3);
 
                 // Install
@@ -129,11 +131,26 @@ namespace sUpdater
                     {
                         Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
                             currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
-                        await app.Install();
+                        bool success = await app.Install();
+
+                        if (!success) installSuccess = false;
                     }
                 }
 
-                if (installFailed)
+                if (installSuccess)
+                {
+                    await AppController.CheckForUpdates();
+                    updateListView.ItemsSource = AppController.Updates;
+
+                    if (AppController.Updates.Count == 0)
+                    {
+                        noUpdatesAvailablePanel.Visibility = Visibility.Visible;
+                        installButton.Visibility = Visibility.Collapsed;
+                        selectAllCheckBox.Visibility = Visibility.Collapsed;
+                        updateListView.Visibility = Visibility.Hidden;
+                    }
+                }
+                else
                 {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
@@ -148,19 +165,6 @@ namespace sUpdater
                     statusLabel.Foreground = Brushes.Red;
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    await AppController.CheckForUpdates();
-                    updateListView.ItemsSource = AppController.Updates;
-
-                    if (AppController.Updates.Count == 0)
-                    {
-                        noUpdatesAvailablePanel.Visibility = Visibility.Visible;
-                        installButton.Visibility = Visibility.Collapsed;
-                        selectAllCheckBox.Visibility = Visibility.Collapsed;
-                        updateListView.Visibility = Visibility.Hidden;
-                    }
                 }
 
                 selectAllCheckBox.IsEnabled = true;

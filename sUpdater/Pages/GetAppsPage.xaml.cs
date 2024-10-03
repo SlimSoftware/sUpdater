@@ -94,9 +94,9 @@ namespace sUpdater
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            bool installFailed = false;
             Log.Append("New app installation started...", Log.LogLevel.INFO);
 
+            bool installSuccess = true;
             statusLabel.Visibility = Visibility.Hidden;
 
             if (getAppsListView.SelectedItems.Count == 0)
@@ -137,7 +137,9 @@ namespace sUpdater
                         Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
                         app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
                     });
-                    await app.Download();
+                    bool success = await app.Download();
+
+                    if (!success) installSuccess = false;
                 }, maxDegreeOfParallelism: 3);                
 
                 // Install
@@ -149,12 +151,19 @@ namespace sUpdater
                     {
                         Log.Append($"Installing {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
                             Log.LogLevel.INFO);
-                        await app.Install();
+
+                        bool success = await app.Install();
+                        if (!success) installSuccess = false;
                     }
                 }
 
-                if (installFailed)
+                if (installSuccess)
                 {
+                    await GetNotInstalledApps();
+                    getAppsListView.ItemsSource = getAppsListView.ItemsSource;
+                }
+                else
+                {                
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
                     foreach (Application app in getAppsListView.SelectedItems)
@@ -168,11 +177,6 @@ namespace sUpdater
                     statusLabel.Foreground = Brushes.Red;
                     statusLabel.Content = "Some applications failed to install.";
                     statusLabel.Visibility = Visibility.Visible;
-                }
-                else
-                {                
-                    await GetNotInstalledApps();
-                    getAppsListView.ItemsSource = getAppsListView.ItemsSource;
                 }
 
                 installButton.IsEnabled = true;
