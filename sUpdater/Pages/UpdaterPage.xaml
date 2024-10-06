@@ -19,10 +19,21 @@
             <RowDefinition x:Name="buttonsRow" Height="50px"/>
         </Grid.RowDefinitions>
 
-        <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Row="0" IsChecked="True"
-                  Click="SelectAllCheckBox_Click">Select All</CheckBox>
-        <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Row="0" HorizontalAlignment="Center"
-                   FontWeight="Bold" FontSize="13" DockPanel.Dock="Top" Visibility="Hidden" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <CheckBox x:Name="selectAllCheckBox" Margin="5" Grid.Column="0" IsChecked="True"
+                      Click="SelectAllCheckBox_Click">Select All</CheckBox>
+            <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Column="1"
+                       FontWeight="Bold" FontSize="13" Visibility="Visible" HorizontalAlignment="Center" />
+            <Label x:Name="detailsHeaderLink" Foreground="#00ba00" Grid.Column="2" HorizontalAlignment="Right"
+                       MouseLeftButtonDown="DetailsLink_MouseLeftButtonDown">
+                <TextBlock TextDecorations="Underline" Cursor="Hand" FontSize="14" Margin="0,-2,5,0">Show all apps</TextBlock>
+            </Label>
+        </Grid>
 
         <ListView x:Name="updateListView" Grid.Row="1"
                   SelectionChanged="UpdateListView_SelectionChanged"
