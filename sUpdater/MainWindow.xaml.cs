@@ -1,11 +1,11 @@
-﻿using AutoUpdaterDotNET;
-using Hardcodet.Wpf.TaskbarNotification;
+﻿using Hardcodet.Wpf.TaskbarNotification;
 using sUpdater.Controllers;
 using sUpdater.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Application = sUpdater.Models.Application;
@@ -18,7 +18,7 @@ namespace sUpdater
     public partial class MainWindow : Window
     {
         public TaskbarIcon TaskbarIcon { get; private set; }
-        private UpdateInfoEventArgs updateInfo;
+        private AppUpdateInfo appUpdateInfo;
 
         public MainWindow()
         {
@@ -57,32 +57,28 @@ namespace sUpdater
             {
                 Log.Append("Using official App Server", Log.LogLevel.INFO);
             }
+
+            await CheckForAppUpdates();
  
             Utilities.InitHttpClient();
-
             await AppController.CheckForUpdates();
-
-            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-            AutoUpdater.Start("https://www.slimsoftware.dev/supdater/update.xml");
         }
 
-        private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
+        private async Task CheckForAppUpdates()
         {
-            if (args != null)
-            {
-                if (args.IsUpdateAvailable)
-                {           
-                    if (ShowInTaskbar)
-                    {
-                        AppUpdatePage appUpdatePage = new AppUpdatePage(args);
-                        frame.Navigate(appUpdatePage);
-                    }
+            appUpdateInfo = await AppUpdateController.GetAppUpdateInfo();
 
-                    updateInfo = args;
-                    TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
-                    TaskbarIcon.ToolTipText = $"sUpdater\nApplication update available";
+            if (appUpdateInfo.UpdateAvailable)
+            {
+                TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
+                TaskbarIcon.ToolTipText = $"sUpdater update available";
+
+                if (ShowInTaskbar)
+                {
+                    AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
+                    frame.Navigate(appUpdatePage);
                 }
-            }
+           }
         }
 
         public void UpdateTaskbarIcon()
@@ -175,9 +171,9 @@ namespace sUpdater
         private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
         {
             Utilities.ShowFromTray(this);
-            if (updateInfo != null)
+            if (appUpdateInfo != null)
             {
-                AppUpdatePage appUpdatePage = new AppUpdatePage(updateInfo);
+                AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
                 frame.Navigate(appUpdatePage);
             }
         }

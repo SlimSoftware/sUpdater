@@ -13,6 +13,8 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Http;
 using System.Windows.Controls;
+using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace sUpdater.Models
 {
@@ -341,6 +343,28 @@ namespace sUpdater.Models
         {
             var control = sender as Control;
             return (Application)control.DataContext;
+        }
+
+        public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                foreach (object child in LogicalTreeHelper.GetChildren(depObj))
+                {
+                    if (child is T typedChild)
+                    {
+                        yield return typedChild;
+                    }
+
+                    if (child is DependencyObject depChild)
+                    {
+                        foreach (T childOfChild in FindLogicalChildren<T>(depChild))
+                        {
+                            yield return childOfChild;
+                        }
+                    }
+                }
+            }
         }
     }
 }

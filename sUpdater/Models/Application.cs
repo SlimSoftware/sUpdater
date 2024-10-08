@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using Ionic.Zip;
 using sUpdater.Models.DTO;
+using System.Text.Json.Serialization;
 
 namespace sUpdater.Models
 {
