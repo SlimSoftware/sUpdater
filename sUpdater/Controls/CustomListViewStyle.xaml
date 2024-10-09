@@ -138,8 +138,7 @@
                             VerticalAlignment="Center">
                             <ProgressBar x:Name="progressBar"  Height="20px" Width="225px" Margin="0,10,0,0" 
                                 Minimum="0" Maximum="100" Value="{Binding Progress}"/>
-                            <Label Foreground="#00ba00" FontWeight="Bold" 
-                                HorizontalAlignment="Center" Content="{Binding Status}"/>
+                            <Label FontSize="12" HorizontalAlignment="Center" Content="{Binding Status}"/>
                         </StackPanel>
                     </Grid>
 
