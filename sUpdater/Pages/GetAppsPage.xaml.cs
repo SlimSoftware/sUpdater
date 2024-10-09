@@ -90,6 +90,11 @@ namespace sUpdater
             {
                 noAppsAvailableLabel.Visibility = Visibility.Collapsed;
             }
+
+            if (statusLabel.Visibility == Visibility.Visible)
+            {
+                statusLabel.Visibility = Visibility.Hidden;
+            }
         }
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)

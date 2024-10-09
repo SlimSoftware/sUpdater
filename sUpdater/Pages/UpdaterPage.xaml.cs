@@ -265,6 +265,11 @@ namespace sUpdater
             {
                 SetupDetailsMode();
             }
+
+            if (statusLabel.Visibility == Visibility.Visible)
+            {
+                statusLabel.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
