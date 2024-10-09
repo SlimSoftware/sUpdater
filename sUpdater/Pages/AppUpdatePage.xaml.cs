@@ -22,6 +22,7 @@ namespace sUpdater
             InitializeComponent();
             versionLabel.Content += Utilities.GetFriendlyVersion(new Version(appUpdateInfo.App.LocalVersion));
             updateInfo = appUpdateInfo;
+            DataContext = appUpdateInfo.App;
 
             using (var stringReader = new StringReader(appUpdateInfo.ChangelogRawText))
             {
@@ -51,8 +52,17 @@ namespace sUpdater
 
         private async void InstallUpdateButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            buttonsStackPanel.Visibility = System.Windows.Visibility.Hidden;
+            installStackPanel.Visibility = System.Windows.Visibility.Visible;
+
             await updateInfo.App.Download();
-            await updateInfo.App.Install();
+            bool succes = await updateInfo.App.Install();
+
+            if (!succes)
+            {
+                buttonsStackPanel.Visibility = System.Windows.Visibility.Visible;
+                installStackPanel.Visibility = System.Windows.Visibility.Hidden;
+            }
         }
     }
 }
