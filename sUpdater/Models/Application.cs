@@ -119,6 +119,8 @@ namespace sUpdater.Models
                         double totalSize = Math.Round(args.TotalBytesToReceive / 1024d / 1024d, 1);
 
                         Progress = args.ProgressPercentage / 2;
+                        if (Progress == 0) Progress = 1; // Make sure the progress bar is always visible
+
                         Status = string.Format(
                             "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                     };
