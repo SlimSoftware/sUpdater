@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Application = sUpdater.Models.Application;
+using Wpf.Ui.Controls;
+using System.Windows.Media;
+using Colors = sUpdater.Models.Colors;
 
 namespace sUpdater
 {
@@ -29,6 +32,8 @@ namespace sUpdater
             {
                 Utilities.MinimizeToTray(this);
             }
+
+            Wpf.Ui.Appearance.ApplicationAccentColorManager.Apply(((SolidColorBrush)Colors.normalGreenBrush).Color);
 
             AppController.CheckForUpdatesCompleted += AppController_CheckForUpdatesCompleted;
         }
@@ -151,7 +156,7 @@ namespace sUpdater
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ContextMenu menu = FindResource("menu") as ContextMenu;
-            menu.PlacementTarget = sender as Button;
+            menu.PlacementTarget = sender as System.Windows.Controls.Button;
             menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
             menu.IsOpen = true;
         }
