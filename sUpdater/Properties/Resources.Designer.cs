@@ -22,7 +22,7 @@ namespace sUpdater.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace sUpdater.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("sUpdater.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace sUpdater.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,88 +61,9 @@ namespace sUpdater.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The MIT License (MIT)
-        ///
-        ///Copyright (c) 2019 D-ASYNC
-        ///
-        ///Permission is hereby granted, free of charge, to any person obtaining a copy
-        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
-        ///in the Software without restriction, including without limitation the rights
-        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        ///copies of the Software, and to permit persons to whom the Software is
-        ///furnished to do so, subject to the following conditions:
-        ///
-        ///The above copyri [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string AsyncEnumerableLicense {
-            get {
-                return ResourceManager.GetString("AsyncEnumerableLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to MIT License
-        ///
-        ///Copyright (c) 2012-2019 RBSoft
-        ///
-        ///Permission is hereby granted, free of charge, to any person obtaining a copy
-        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
-        ///in the Software without restriction, including without limitation the rights
-        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        ///copies of the Software, and to permit persons to whom the Software is
-        ///furnished to do so, subject to the following conditions:
-        ///
-        ///The above copyright no [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string AutoUpdaterNETLicense {
-            get {
-                return ResourceManager.GetString("AutoUpdaterNETLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Software Licenses that apply to the DotNetZip library and tools
-        ///
-        ///As DotNetZip includes work derived from other projects, you are required to comply with the terms and conditions for each of them. These licenses include BSD, Apache, and zlib.
-        ///
-        ///To use the software, you must accept the licenses. If you do not accept the licenses, do not use the software.
-        ///
-        ///Original intellectual property in DotNetZip is provided under the Ms-PL:
-        ///    
-        ///    Copyright (c) 2006 - 2011 Dino Chiesa 
-        ///    Copyright (c) 2006, 200 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string DotNetZipLicense {
-            get {
-                return ResourceManager.GetString("DotNetZipLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inno Setup License
-        ///==================
-        ///
-        ///Except where otherwise noted, all of the documentation and software included in the Inno Setup
-        ///package is copyrighted by Jordan Russell.
-        ///
-        ///Copyright (C) 1997-2019 Jordan Russell. All rights reserved.
-        ///Portions Copyright (C) 2000-2019 Martijn Laan. All rights reserved.
-        ///
-        ///This software is provided &quot;as-is,&quot; without any express or implied warranty. In no event shall the
-        ///author be held liable for any damages arising from the use of this software.
-        ///
-        ///Permission is gra [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string InnoSetupLicense {
-            get {
-                return ResourceManager.GetString("InnoSetupLicense", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon sUpdater {
+        public static System.Drawing.Icon sUpdater {
             get {
                 object obj = ResourceManager.GetObject("sUpdater", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -152,7 +73,7 @@ namespace sUpdater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon sUpdater_Grey {
+        public static System.Drawing.Icon sUpdater_Grey {
             get {
                 object obj = ResourceManager.GetObject("sUpdater_Grey", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -162,7 +83,7 @@ namespace sUpdater.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon sUpdater_Orange {
+        public static System.Drawing.Icon sUpdater_Orange {
             get {
                 object obj = ResourceManager.GetObject("sUpdater_Orange", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
@@ -170,23 +91,23 @@ namespace sUpdater.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Code Project Open License (CPOL)
+        ///   Looks up a localized string similar to License notice for the following libraries:
+        ///AsyncEnumerable.dll
+        ///===========================================
         ///
-        ///Preamble
+        ///The MIT License (MIT)
         ///
-        ///	This License governs Your use of the Work. This License is intended to allow developers
-        ///	to use the Source Code and Executable Files provided as part of the Work in any
-        ///	application in any form.
+        ///Copyright (c) 2019 D-ASYNC
         ///
-        ///	The main points subject to the terms of the License are:
-        ///
-        ///		- Source Code and Executable Files can be used in commercial applications;
-        ///		- Source Code and Executable Files can be redistributed; and
-        ///		- Source Code can be modified to create derivative wor [rest of string was truncated]&quot;;.
+        ///Permission is hereby granted, free of charge, to any person obtaining a copy
+        ///of this software and associated documentation files (the &quot;Software&quot;), to deal
+        ///in the Software without restriction, including without limitation the rights
+        ///to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        ///copies of the Software, and to permit pers [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string WPFNotifyIconLicense {
+        public static string ThirdPartyNotices {
             get {
-                return ResourceManager.GetString("WPFNotifyIconLicense", resourceCulture);
+                return ResourceManager.GetString("ThirdPartyNotices", resourceCulture);
             }
         }
     }

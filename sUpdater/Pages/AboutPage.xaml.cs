@@ -17,8 +17,8 @@ namespace sUpdater
 
         private void CreditsLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            CreditsPage creditsPage = new CreditsPage();
-            NavigationService.Navigate(creditsPage);
+            LicensePage licensePage = new LicensePage();
+            NavigationService.Navigate(licensePage);
         }
 
         private void SiteLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -7,11 +7,10 @@
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationIcon>Icons\sUpdater.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Resource Include="Icons\updater_icon.png" />
@@ -35,13 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\no_icon.png" />
-    <Resource Include="Resources\Licenses\AsyncEnumerable.txt" />
-    <Resource Include="Resources\Licenses\WPF NotifyIcon.txt" />
     <Resource Include="Icons\sUpdater_Grey.ico" />
     <Resource Include="Icons\sUpdater_Orange.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Licenses\DotNetZip.txt" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AsyncEnumerator">
@@ -58,5 +52,18 @@
     <PackageReference Include="System.Net.Http.Json">
       <Version>8.0.1</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

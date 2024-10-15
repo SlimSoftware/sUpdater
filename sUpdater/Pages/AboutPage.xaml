@@ -27,7 +27,7 @@
                 </Label>
                 <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center"
                        MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
-                    <TextBlock TextDecorations="Underline" Cursor="Hand">Credits</TextBlock>
+                    <TextBlock TextDecorations="Underline" Cursor="Hand">Third-Party Licenses</TextBlock>
                 </Label>
             </StackPanel>
         </StackPanel>

@@ -118,18 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AsyncEnumerableLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Licenses\AsyncEnumerable.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="AutoUpdaterNETLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Licenses\AutoUpdaterNET.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="DotNetZipLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Licenses\DotNetZip.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="InnoSetupLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Licenses\Inno Setup.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="sUpdater" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\sUpdater.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -139,7 +127,7 @@
   <data name="sUpdater_Orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\sUpdater_Orange.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="WPFNotifyIconLicense" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Licenses\WPF NotifyIcon.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ThirdPartyNotices" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\third-party-notices.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
