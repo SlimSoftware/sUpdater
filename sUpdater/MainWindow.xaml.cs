@@ -73,6 +73,9 @@ namespace sUpdater
                 TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
                 TaskbarIcon.ToolTipText = $"sUpdater update available";
 
+                Label updateAvailableHeaderLink = (Label)frame.Template.FindName("updateAvailableHeaderLink", frame);
+                updateAvailableHeaderLink.Visibility = Visibility.Visible;
+
                 if (ShowInTaskbar)
                 {
                     AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
@@ -205,6 +208,15 @@ namespace sUpdater
             {
                 e.Cancel = true;
                 Utilities.MinimizeToTray(this);
+            }
+        }
+
+        private void UpdateAvailableHeaderLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!(frame.Content is AppUpdatePage))
+            {
+                AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
+                frame.Navigate(appUpdatePage);
             }
         }
     }

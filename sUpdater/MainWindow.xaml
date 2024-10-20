@@ -8,7 +8,6 @@
         Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing" Loaded="Window_Loaded">
 
     <Window.Resources>
-
         <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="True">
@@ -35,9 +34,9 @@
             <DockPanel>
                 <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="50px"/>
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel x:Name="header" Height="35" Orientation="Horizontal" Grid.Row="0">
@@ -52,10 +51,16 @@
                             VerticalAlignment="Center" Style="{StaticResource headerLabel}"/>
                     </StackPanel>
 
-                    <Button x:Name="menuButton" Grid.Column="2" MaxWidth="16px" MaxHeight="16px"
-                            BorderThickness="0" Background="White" Click="MenuButton_Click">
-                        <Image Source="Icons\menu_icon.png"/>
-                    </Button>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <Label x:Name="updateAvailableHeaderLink" Foreground="#00ba00" Grid.Column="2" VerticalAlignment="Center" Visibility="Collapsed" 
+                               MouseLeftButtonDown="UpdateAvailableHeaderLink_MouseLeftButtonDown">
+                            <TextBlock TextDecorations="Underline" Cursor="Hand" FontSize="14">sUpdater update available</TextBlock>
+                        </Label>
+                        <Button x:Name="menuButton" Grid.Column="2" MaxWidth="16px" MaxHeight="16px" Margin="10 0"
+                                BorderThickness="0" Background="White" Click="MenuButton_Click">
+                            <Image Source="Icons\menu_icon.png"/>
+                        </Button>
+                    </StackPanel>
                 </Grid>
                 <ContentPresenter/>
             </DockPanel>
