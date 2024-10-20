@@ -1,5 +1,5 @@
-﻿using sUpdater.Models;
-using sUpdater.Controllers;
+﻿using sUpdater.Controllers;
+using sUpdater.Models;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,8 +66,8 @@ namespace sUpdater
                     }
 
                     updaterTile.MouseLeftButtonDown += UpdaterTile_MouseLeftButtonDown;
-                } 
-                else 
+                }
+                else
                 {
                     updaterTile.Background = Colors.normalGreyBrush;
                     updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
@@ -87,13 +87,13 @@ namespace sUpdater
                     updaterTile.MouseLeftButtonDown -= UpdaterTile_MouseLeftButtonDown;
                     updaterTile.MouseLeftButtonDown += TileClickedWithNoConnection;
                     getAppsTile.MouseLeftButtonDown -= GetAppsTile_MouseLeftButtonDown;
-                    getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;       
+                    getAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
                     portableAppsTile.MouseLeftButtonDown -= PortableAppsTile_MouseLeftButtonDown;
                     portableAppsTile.MouseLeftButtonDown += TileClickedWithNoConnection;
 
                     noConnectionEventHandlersAttached = true;
-                }              
-            } 
+                }
+            }
         }
 
         private void TileClickedWithNoConnection(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -4,6 +4,6 @@
     {
         public bool UpdateAvailable { get; set; }
         public string ChangelogRawText { get; set; }
-        public Application App { get; set; }    
+        public Application App { get; set; }
     }
 }

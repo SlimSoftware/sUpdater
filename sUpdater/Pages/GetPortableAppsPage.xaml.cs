@@ -4,12 +4,9 @@ using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Xml.Linq;
-using Application = sUpdater.Models.Application;
 
 namespace sUpdater
 {
@@ -176,7 +173,7 @@ namespace sUpdater
                     await PortableAppController.CheckForInstalledPortableApps();
                     portableAppsListView.ItemsSource = await PortableAppController.GetNotInstalledPortableApps();
                 }
-                else 
+                else
                 {
                     // Only show the failed apps
                     List<PortableApp> failedApps = new List<PortableApp>();

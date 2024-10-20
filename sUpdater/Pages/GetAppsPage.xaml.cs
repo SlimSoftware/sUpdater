@@ -1,14 +1,14 @@
-﻿using sUpdater.Controllers;
-using Dasync.Collections;
+﻿using Dasync.Collections;
+using sUpdater.Controllers;
 using sUpdater.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace sUpdater
 {
@@ -22,7 +22,7 @@ namespace sUpdater
             InitializeComponent();
         }
         private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {           
+        {
             await GetNotInstalledApps();
 
             if (getAppsListView.Items.Count == 0)
@@ -56,7 +56,7 @@ namespace sUpdater
             else
             {
                 // Unselect all selected apps                
-                getAppsListView.SelectedItems.Clear();    
+                getAppsListView.SelectedItems.Clear();
             }
         }
 
@@ -106,7 +106,7 @@ namespace sUpdater
 
             if (getAppsListView.SelectedItems.Count == 0)
             {
-                MessageBox.Show("You have not selected any applications to install.", 
+                MessageBox.Show("You have not selected any applications to install.",
                     "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
                 Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
 
@@ -145,7 +145,7 @@ namespace sUpdater
                     bool success = await app.Download();
 
                     if (!success) installSuccess = false;
-                }, maxDegreeOfParallelism: 3);                
+                }, maxDegreeOfParallelism: 3);
 
                 // Install
                 currentApp = 0;
@@ -168,7 +168,7 @@ namespace sUpdater
                     getAppsListView.ItemsSource = getAppsListView.ItemsSource;
                 }
                 else
-                {                
+                {
                     // Only show the failed apps
                     List<Application> failedApps = new List<Application>();
                     foreach (Application app in getAppsListView.SelectedItems)

@@ -1,21 +1,21 @@
-﻿using System;
-using System.Windows;
-using System.IO;
-using System.Xml.Serialization;
-using DialogResult = System.Windows.Forms.DialogResult;
-using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
+﻿using sUpdater.Models;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
-using System.Threading.Tasks;
+using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Net.Http;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
-using sUpdater.Models;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 using Application = sUpdater.Models.Application;
+using DialogResult = System.Windows.Forms.DialogResult;
+using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
 namespace sUpdater
 {

@@ -1,12 +1,10 @@
 ﻿using Ionic.Zip;
 using sUpdater.Models.DTO;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -123,7 +121,7 @@ namespace sUpdater.Models
                         double recievedSize = Math.Round(e.BytesReceived / 1024d / 1024d, 1);
                         double totalSize = Math.Round(e.TotalBytesToReceive / 1024d / 1024d, 1);
 
-                        Progress = Archive.ExtractMode == ExtractMode.Folder ?  e.ProgressPercentage / 2 : e.ProgressPercentage;
+                        Progress = Archive.ExtractMode == ExtractMode.Folder ? e.ProgressPercentage / 2 : e.ProgressPercentage;
                         Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                     };
                     wc.DownloadFileCompleted += (s, e) =>
@@ -138,7 +136,7 @@ namespace sUpdater.Models
                     catch (Exception e)
                     {
                         Log.Append($"An error occurred while downloading {e.Message}", Log.LogLevel.ERROR);
-                            Status = $"Download failed: {e.Message}";
+                        Status = $"Download failed: {e.Message}";
 
                         if (File.Exists(SavePath))
                         {
@@ -179,7 +177,7 @@ namespace sUpdater.Models
                     File.Delete(SavePath);
                     Status = "Extracting complete";
                     Progress = 100;
-                    await Task.Delay(1000);                       
+                    await Task.Delay(1000);
                 }
 
                 return true;

@@ -60,10 +60,10 @@ namespace sUpdater
             {
                 color = Colors.normalOrangeBrush;
             }
-            else if (line.Contains("[ERROR]") && currentColor!= Brushes.Red)
+            else if (line.Contains("[ERROR]") && currentColor != Brushes.Red)
             {
                 color = Brushes.Red;
-            } 
+            }
             else
             {
                 color = Brushes.Black;

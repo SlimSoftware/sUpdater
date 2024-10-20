@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -47,7 +46,7 @@ namespace sUpdater.Controllers
                 {
                     detectInfoDTO = x64DetectInfo;
                 }
-                else 
+                else
                 {
                     DetectInfoDTO x86BitDetectInfo = Array.Find(appDTO.DetectInfo, d => d.Arch == Arch.x86);
                     detectInfoDTO = x86BitDetectInfo ?? Array.Find(appDTO.DetectInfo, d => d.Arch == Arch.Any);
@@ -63,7 +62,7 @@ namespace sUpdater.Controllers
                     localVersion = GetLocalVersionFromRegistry(detectInfoDTO);
                 }
                 if (detectInfoDTO.ExePath != null)
-                {  
+                {
                     exePath = Utilities.ParseExePath(detectInfoDTO.ExePath);
 
                     if (File.Exists(exePath))
@@ -90,11 +89,11 @@ namespace sUpdater.Controllers
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
         {
-            var registryHive = detectInfo.RegKey.StartsWith("HKEY_LOCAL_MACHINE") 
+            var registryHive = detectInfo.RegKey.StartsWith("HKEY_LOCAL_MACHINE")
                 ? RegistryHive.LocalMachine : RegistryHive.CurrentUser;
-            var registryView = detectInfo.Arch == Arch.x64 
+            var registryView = detectInfo.Arch == Arch.x64
                 ? RegistryView.Registry64 : RegistryView.Registry32;
-            var baseKey = RegistryKey.OpenBaseKey(registryHive, registryView);       
+            var baseKey = RegistryKey.OpenBaseKey(registryHive, registryView);
 
             string keyPath = detectInfo.RegKey;
             keyPath = keyPath.Replace("HKEY_LOCAL_MACHINE\\", "");
@@ -125,7 +124,7 @@ namespace sUpdater.Controllers
         {
             Log.Append("Checking for updates...", Log.LogLevel.INFO);
             CheckingForUpdates = true;
-                
+
             await CheckForInstalledApps();
             Updates.Clear();
 

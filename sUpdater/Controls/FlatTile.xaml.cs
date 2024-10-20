@@ -1,5 +1,4 @@
-﻿using sUpdater.Models;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -29,7 +28,7 @@ namespace sUpdater.Controls
             get { return icon.Source; }
             set { icon.Source = value; }
         }
-      
+
         private void Title_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // Center text

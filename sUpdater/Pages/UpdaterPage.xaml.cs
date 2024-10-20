@@ -1,17 +1,16 @@
-﻿using sUpdater.Controllers;
-using Dasync.Collections;
+﻿using Dasync.Collections;
+using sUpdater.Controllers;
 using sUpdater.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Application = sUpdater.Models.Application;
-using System.Linq;
-using System.Diagnostics;
 
 namespace sUpdater
 {

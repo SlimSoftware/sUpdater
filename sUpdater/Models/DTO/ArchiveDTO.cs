@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
 namespace sUpdater.Models.DTO
-{ 
+{
     public class ArchiveDTO
     {
         public string DownloadLink { get; set; }

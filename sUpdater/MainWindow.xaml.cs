@@ -81,7 +81,7 @@ namespace sUpdater
                     AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
                     frame.Navigate(appUpdatePage);
                 }
-           }
+            }
         }
 
         public void UpdateTaskbarIcon()

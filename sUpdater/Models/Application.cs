@@ -1,15 +1,13 @@
-﻿using System;
+﻿using Ionic.Zip;
+using sUpdater.Models.DTO;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Collections.Generic;
 using System.Windows.Media;
-using Ionic.Zip;
-using sUpdater.Models.DTO;
-using System.Text.Json.Serialization;
 
 namespace sUpdater.Models
 {
@@ -158,7 +156,7 @@ namespace sUpdater.Models
 
         public async Task<bool> Install()
         {
-            launchInstaller:
+        launchInstaller:
             using (var p = new Process())
             {
                 if (!SavePath.EndsWith(".msi"))
@@ -182,7 +180,7 @@ namespace sUpdater.Models
                     try
                     {
                         extractedFilename = await Extract();
-                    } 
+                    }
                     catch (Exception e)
                     {
                         Status = "Extracting failed";

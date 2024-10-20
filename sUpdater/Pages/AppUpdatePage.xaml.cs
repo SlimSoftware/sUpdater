@@ -36,7 +36,7 @@ namespace sUpdater
                         link.RequestNavigate += Hyperlink_RequestNavigate;
                     }
                 }
-            }           
+            }
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

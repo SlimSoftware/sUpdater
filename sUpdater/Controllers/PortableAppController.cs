@@ -1,13 +1,10 @@
-﻿using Microsoft.Win32;
-using sUpdater.Models;
+﻿using sUpdater.Models;
 using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace sUpdater.Controllers
 {
@@ -36,7 +33,7 @@ namespace sUpdater.Controllers
                 {
                     archiveDTO = x64Archive;
                 }
-                else 
+                else
                 {
                     ArchiveDTO x86Archive = Array.Find(portableAppDTO.Archives, d => d.Arch == Arch.x86);
                     archiveDTO = x86Archive ?? Array.Find(portableAppDTO.Archives, d => d.Arch == Arch.Any);

@@ -63,7 +63,7 @@ namespace sUpdater
 
         private void OpenDataFolderButton_Click(object sender, EventArgs e)
         {
-             OpenDirInExplorer(dataFolderTextBox.Text);
+            OpenDirInExplorer(dataFolderTextBox.Text);
         }
 
         private void PortableAppsFolderBrowseButton_Click(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace sUpdater
 
         private void OpenPortableAppsFolderButton_Click(object sender, EventArgs e)
         {
-             OpenDirInExplorer(portableAppsFolderTextBox.Text);
+            OpenDirInExplorer(portableAppsFolderTextBox.Text);
         }
 
         private void OfficialAppServerRadioButton_Click(object sender, EventArgs e)

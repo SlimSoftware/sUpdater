@@ -1,6 +1,5 @@
 ﻿using sUpdater.Controllers;
 using sUpdater.Models;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
