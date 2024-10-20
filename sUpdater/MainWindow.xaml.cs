@@ -48,6 +48,8 @@ namespace sUpdater
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             Utilities.LoadSettings();
+            Utilities.InitHttpClient();
+
             if (Utilities.Settings.AppServerURL != null)
             {
                 Log.Append($"Using custom App Server: {Utilities.Settings.AppServerURL}",
@@ -59,8 +61,6 @@ namespace sUpdater
             }
 
             await CheckForAppUpdates();
- 
-            Utilities.InitHttpClient();
             await AppController.CheckForUpdates();
         }
 

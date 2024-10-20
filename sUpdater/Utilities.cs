@@ -14,7 +14,6 @@ using System.Net.Http.Json;
 using System.Net.Http;
 using System.Windows.Controls;
 using System.Collections.Generic;
-using System.Windows.Media;
 using sUpdater.Models;
 using Application = sUpdater.Models.Application;
 
