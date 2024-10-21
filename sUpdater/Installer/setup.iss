@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define AppName "sUpdater"
-#define AppVersion "4.1.5"
+#define AppVersion "5.0"
 #define AppPublisher "Slim Software"
-#define AppURL "http://www.slimsoft.tk"
+#define AppURL "http://www.slimsoftware.dev"
 #define AppExeName "sUpdater.exe"
 
 [Setup]
@@ -48,21 +48,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\AsyncEnumerable.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\AutoUpdater.NET.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\DotNetZip.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Bcl.AsyncInterfaces.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\sUpdater.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Runtime.CompilerServices.Unsafe.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\System.Threading.Tasks.Extensions.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.WinForms.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.Wpf.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Microsoft.Web.WebView2.Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\runtimes\win-arm64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-arm64\native"; Flags: ignoreversion
-Source: "..\bin\Release\runtimes\win-x64\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x64\native"; Flags: ignoreversion
-Source: "..\bin\Release\runtimes\win-x86\native\WebView2Loader.dll"; DestDir: "{app}\runtimes\win-x86\native"; Flags: ignoreversion
+Source: "..\bin\Release\net472\*"; DestDir: "{app}"
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
@@ -79,7 +65,8 @@ Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.dll"
 Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.xml"
 Type: files; Name: "{app}\7z.dll"
 Type: files; Name: "{app}\7z.exe"
-Type: files; Name: "{app}\*.xml" 
-Type: files; Name: "{app}\System.Drawing.Common.dll" 
-
-
+Type: files; Name: "{app}\*.xml"
+Type: files; Name: "{app}\System.Drawing.Common.dll"
+Type: filesandordirs; Name: "{app}\runtimes"
+Type: files; Name: "{app}\AutoUpdater.NET.dll"
+Type: files; Name: "{app}\Microsoft.Web.WebView2*.dll"
