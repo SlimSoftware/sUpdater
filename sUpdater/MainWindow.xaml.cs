@@ -174,7 +174,7 @@ namespace sUpdater
         private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
         {
             Utilities.ShowFromTray(this);
-            if (appUpdateInfo != null)
+            if (appUpdateInfo.UpdateAvailable)
             {
                 AppUpdatePage appUpdatePage = new AppUpdatePage(appUpdateInfo);
                 frame.Navigate(appUpdatePage);
