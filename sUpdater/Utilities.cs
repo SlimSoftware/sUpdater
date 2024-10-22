@@ -144,8 +144,11 @@ namespace sUpdater
 
         public static void MinimizeToTray(MainWindow mainWindow)
         {
-            mainWindow.Hide();
-            mainWindow.ShowInTaskbar = false;
+            if (mainWindow != null)
+            {
+                mainWindow.Hide();
+                mainWindow.ShowInTaskbar = false;
+            }
         }
 
         public static void ShowFromTray(MainWindow mainWindow)
