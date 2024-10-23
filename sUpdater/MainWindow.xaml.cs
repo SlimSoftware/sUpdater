@@ -24,11 +24,9 @@ namespace sUpdater
         {
             InitializeComponent();
 
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1 && args[1] == "/tray")
-            {
-                Utilities.MinimizeToTray(this);
-            }
+            TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
+            TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
+            TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
 
             AppController.CheckForUpdatesCompleted += AppController_CheckForUpdatesCompleted;
         }
@@ -38,33 +36,7 @@ namespace sUpdater
             UpdateTaskbarIcon();
         }
 
-        private async void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            string version = Utilities.GetFriendlyVersion(Assembly.GetEntryAssembly().GetName().Version);
-            Log.Append($"sUpdater v{version} started on {Utilities.GetFriendlyOSName()}", Log.LogLevel.INFO);
-
-            TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
-            TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
-            TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
-
-            Utilities.LoadSettings();
-            Utilities.InitHttpClient();
-
-            if (Utilities.Settings.AppServerURL != null)
-            {
-                Log.Append($"Using custom App Server: {Utilities.Settings.AppServerURL}",
-                    Log.LogLevel.INFO);
-            }
-            else
-            {
-                Log.Append("Using official App Server", Log.LogLevel.INFO);
-            }
-
-            await CheckForAppUpdates();
-            await AppController.CheckForUpdates();
-        }
-
-        private async Task CheckForAppUpdates()
+        public async Task CheckForAppUpdates()
         {
             appUpdateInfo = await AppUpdateController.GetAppUpdateInfo();
 

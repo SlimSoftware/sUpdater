@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="sUpdater.MainWindow"
         mc:Ignorable="d"
-        Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="sUpdater" Height="500" Width="800" Icon="Icons/sUpdater.ico" Closing="Window_Closing">
 
     <Window.Resources>
         <Style x:Key="headerBackArrow" TargetType="{x:Type Button}">
