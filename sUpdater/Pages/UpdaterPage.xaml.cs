@@ -246,7 +246,11 @@ namespace sUpdater
             await AppController.CheckForUpdates();
             updateListView.ItemsSource = AppController.Updates;
 
-            if (AppController.Updates.Count > 0 && selectAllRow.Height == new GridLength(0))
+            if (AppController.Updates.Count == 0)
+            {
+                SetupDetailsMode();
+            } 
+            else if (selectAllRow.Height == new GridLength(0))
             {
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view
                 selectAllCheckBox.Visibility = Visibility.Visible;
@@ -259,10 +263,6 @@ namespace sUpdater
                 updateListView.SelectionChanged -= PreventSelectionHandler;
 
                 updateListView.SelectAll();
-            }
-            else
-            {
-                SetupDetailsMode();
             }
 
             if (statusLabel.Visibility == Visibility.Visible)
