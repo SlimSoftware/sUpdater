@@ -59,7 +59,7 @@ Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType
 Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
 
 [InstallDelete]
-Type: filesandordirs; Name: "{pf32}\Slim Software\sUpdater"; Check: Is64BitInstallMode
+Type: filesandordirs; Name: "{autopf32}\Slim Software\sUpdater"; Check: Is64BitInstallMode
 Type: files; Name: "{app}\Hardcodet.Wpf.TaskbarNotification.xml"
 Type: files; Name: "{app}\7z.dll"
 Type: files; Name: "{app}\7z.exe"
