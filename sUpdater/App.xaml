@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/sUpdater;component/Controls/CustomListViewStyle.xaml"/>
                 <ResourceDictionary Source="/sUpdater;component/Controls/TrayIcon.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Fluent;component/Themes/Fluent.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
