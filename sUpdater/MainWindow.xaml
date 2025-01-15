@@ -40,9 +40,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel x:Name="header" Height="35" Orientation="Horizontal" Grid.Row="0">
-                        <Button x:Name="headerBackArrow" Command="{x:Static NavigationCommands.BrowseBack}" 
-                            IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource headerBackArrow}" 
-                            BorderThickness="0" Background="White">
+                        <Button x:Name="headerBackArrow" Command="{x:Static NavigationCommands.BrowseBack}" Background="Transparent"
+                            IsEnabled="{TemplateBinding CanGoBack}" Style="{StaticResource headerBackArrow}" BorderThickness="0">
                             <Image Source="Icons\arrow_green.png" Width="24" Height="24" Margin="5 0"/>
                         </Button>
                         <Label x:Name="headerLabel" Content="{Binding RelativeSource=
@@ -56,8 +55,8 @@
                                MouseLeftButtonDown="UpdateAvailableHeaderLink_MouseLeftButtonDown">
                             <TextBlock TextDecorations="Underline" Cursor="Hand" FontSize="14">sUpdater update available</TextBlock>
                         </Label>
-                        <Button x:Name="menuButton" Grid.Column="2" MaxWidth="16px" MaxHeight="16px" Margin="10 0"
-                                BorderThickness="0" Background="White" Click="MenuButton_Click">
+                        <Button x:Name="menuButton" Grid.Column="2" Height="28" Margin="10 0" Background="Transparent"
+                                BorderThickness="0" Click="MenuButton_Click">
                             <Image Source="Icons\menu_icon.png"/>
                         </Button>
                     </StackPanel>

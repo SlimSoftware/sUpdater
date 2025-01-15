@@ -5,7 +5,7 @@
 
     <!-- Default ListView Style, but with lost focus color set to blue -->
     <Style x:Key="DisableItemLostFocusColorStyle"  TargetType="{x:Type ListViewItem}">
-        <Setter Property="Background" Value="Transparent"/>
+        <!--<Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, 
             RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -15,7 +15,7 @@
         <Setter Property="BorderThickness" Value="{Binding BorderThickness, 
             RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="BorderBrush" Value="{Binding BorderBrush, 
-            RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>-->
 
         <Setter Property="ContextMenu" Value="{DynamicResource itemContextMenu}" />
 
@@ -98,7 +98,7 @@
                 <DataTemplate>
                     <Grid Height="50px" Tag="{Binding DataContext, RelativeSource={RelativeSource Self}}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="checkColumn" Width="20px"/>
+                            <ColumnDefinition x:Name="checkColumn" Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -111,7 +111,7 @@
                                 RelativeSource={RelativeSource AncestorType=ListViewItem}}"
                             Grid.Column="0"/>
 
-                        <Image Grid.Column="1" Height="32" Width="32" Margin="5,0" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image Grid.Column="1" Height="36" Width="36" Margin="5,0" RenderOptions.BitmapScalingMode="HighQuality">
                             <Image.Source>
                                 <Binding Path="Icon">
                                     <Binding.TargetNullValue>
@@ -121,9 +121,9 @@
                             </Image.Source>
                         </Image>
 
-                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                        <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center">
                             <Label FontSize="14" Content="{Binding Name}"/>
-                            <Label x:Name="displayedVersionLabel" Margin="0,-5,0,0" Content="{Binding DisplayedVersion}" Foreground="#8d8d8d"/>
+                            <Label x:Name="displayedVersionLabel" FontSize="13"  Content="{Binding DisplayedVersion}" Foreground="#8d8d8d"/>
                         </StackPanel>
 
                         <TextBlock x:Name="linkTextBlock" Grid.Column="4" Text="{Binding LinkText}"
@@ -136,16 +136,16 @@
 
                         <StackPanel Grid.Column="5" Orientation="Vertical" HorizontalAlignment="Right"
                             VerticalAlignment="Center">
-                            <ProgressBar x:Name="progressBar"  Height="20px" Width="225px" Margin="0,10,0,0" 
+                            <ProgressBar x:Name="progressBar" Width="225px" Height="7px" Margin="0,10,0,0"
                                 Minimum="0" Maximum="100" Value="{Binding Progress}"/>
-                            <Label FontSize="12" HorizontalAlignment="Center" Content="{Binding Status}"/>
+                            <Label FontSize="12.5" Margin="0,1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="{Binding Status}"/>
                         </StackPanel>
                     </Grid>
 
                     <DataTemplate.Triggers>
                         <!-- Show and hide the checkColumn when the Checkbox property is changed -->
                         <DataTrigger Binding="{Binding Checkbox}" Value="True">
-                            <Setter TargetName="checkColumn" Property="Width" Value="20px"/>
+                            <Setter TargetName="checkColumn" Property="Width" Value="Auto"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Checkbox}" Value="False">
                             <Setter TargetName="checkColumn" Property="Width" Value="0"/>
@@ -153,6 +153,10 @@
 
                         <!-- Hide the progress bar if the Progress property is set to 0 or it is null -->
                         <DataTrigger Binding="{Binding Progress}" Value="0">
+                            <Setter TargetName="progressBar" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Progress}" Value="1">
                             <Setter TargetName="progressBar" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
 

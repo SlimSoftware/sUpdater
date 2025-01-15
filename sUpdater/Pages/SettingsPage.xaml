@@ -6,7 +6,7 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="800"
-      Title="Settings" Background="White" Unloaded="Page_Unloaded">
+      Title="Settings" Background="Transparent" Unloaded="Page_Unloaded">
 
     <StackPanel Orientation="Vertical" Margin="10">
         <CheckBox x:Name="autoStartCheckBox">Auto-start sUpdater as a system tray icon</CheckBox>
@@ -15,10 +15,9 @@
         <Label Margin="0,10,0,0">Data Folder Location (to store downloaded installers)</Label>
         <StackPanel Orientation="Horizontal">
             <TextBox x:Name="dataFolderTextBox" Width="500" Margin="0,0,10,0"/>
-            <Button x:Name="dataFolderBrowseButton" Height="21" Width="50" Margin="0,0,10,0"
+            <Button x:Name="dataFolderBrowseButton" Margin="0,0,10,0"
                     Click="DataFolderBrowseButton_Click">Browse</Button>
-            <Button x:Name="openDataFolderButton" Height="21" Width="75"
-                    Click="OpenDataFolderButton_Click">Open Folder</Button>
+            <Button x:Name="openDataFolderButton" Click="OpenDataFolderButton_Click">Open Folder</Button>
         </StackPanel>
         <Label x:Name="dataFolderNotWriteableLabel" Foreground="Red" Visibility="Collapsed">
             This folder is not writeable by the current user, please choose a different folder
@@ -27,10 +26,8 @@
         <Label Margin="0,10,0,0">Portable Apps Folder Location</Label>
         <StackPanel Orientation="Horizontal">
             <TextBox x:Name="portableAppsFolderTextBox" Width="500" Margin="0,0,10,0"/>
-            <Button x:Name="portableAppsFolderBrowseButton" Height="21" Width="50" Margin="0,0,10,0"
-                    Click="PortableAppsFolderBrowseButton_Click">Browse</Button>
-            <Button x:Name="openPortableAppsFolderButton" Height="21" Width="75"
-                    Click="OpenPortableAppsFolderButton_Click">Open Folder</Button>
+            <Button x:Name="portableAppsFolderBrowseButton" Margin="0,0,10,0" Click="PortableAppsFolderBrowseButton_Click">Browse</Button>
+            <Button x:Name="openPortableAppsFolderButton" Click="OpenPortableAppsFolderButton_Click">Open Folder</Button>
         </StackPanel>
         <Label x:Name="portableAppsFolderNotWritableLabel" Foreground="Red" Visibility="Collapsed">
             This folder is not writeable by the current user, please choose a different folder
@@ -43,7 +40,7 @@
                 <RadioButton x:Name="customAppServerRadioButton" Margin="0,5,0,0"
                              Click="CustomAppServerRadioButton_Click">Use the following App Server URL:</RadioButton>
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="customAppServerTextBox" Width="495" Height="21" Margin="0,5,0,0" IsEnabled="False"/>
+                    <TextBox x:Name="customAppServerTextBox" Width="495" Margin="0,5,0,0" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
