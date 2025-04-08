@@ -1,76 +1,21 @@
-﻿using Ionic.Zip;
-using sUpdater.Models.DTO;
+﻿using sUpdater.Models.DTO;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace sUpdater.Models
 {
-    public class PortableApp : INotifyPropertyChanged
+    public class PortableApp : BaseApplication, INotifyPropertyChanged
     {
         public int Id { get; }
-        public string Name { get; set; }
-        public ImageSource Icon { get; set; }
-        public string LatestVersion { get; set; }
-        public bool Installed { get; set; }
-        public string DisplayedVersion { get; set; } // The version displayed under the app's name
-        public bool Checkbox { get; set; } = true;
+
         public Archive Archive { get; set; }
-        public string SavePath { get; set; }
-        public LinkClickCommand LinkClickCommand { get; set; }
-
-        private string linkText;
-
-        public string LinkText
-        {
-            get { return linkText; }
-            set
-            {
-                linkText = value;
-                OnPropertyChanged("LinkText");
-            }
-        }
-
-        private int progress;
-        public int Progress
-        {
-            get { return progress; }
-            set
-            {
-                progress = value;
-                OnPropertyChanged("Progress");
-            }
-        }
-
-        private string status;
-        public string Status
-        {
-            get { return status; }
-            set
-            {
-                status = value;
-                OnPropertyChanged("Status");
-            }
-        }
-
-        private bool isWaiting;
-        public bool IsWaiting
-        {
-            get { return isWaiting; }
-            set
-            {
-                isWaiting = value;
-                OnPropertyChanged("IsWaiting");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public PortableApp(PortableAppDTO portableAppDTO, ArchiveDTO archiveDTO)
         {
@@ -98,15 +43,15 @@ namespace sUpdater.Models
 
             LinkText = "";
             Directory.CreateDirectory(Path.Combine(Utilities.Settings.PortableAppDir, Name));
-            string fileName = @Path.GetFileName(Archive.DownloadLinkParsed);
+            string fileName = Path.GetFileName(Archive.DownloadLinkParsed);
 
-            if (fileName.Contains("?") && Archive.LaunchFile != null)
+            if (fileName.Contains('?') && Archive.LaunchFile != null)
             {
                 // Filename contains invalid character so we'll have to use the launch property as fallback filename
                 fileName = Archive.LaunchFile;
             }
 
-            SavePath = @Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
+            SavePath = Path.Combine(Utilities.Settings.PortableAppDir, Name, fileName);
 
             // Check if portable app is already downloaded
             if (!File.Exists(SavePath))
@@ -155,6 +100,32 @@ namespace sUpdater.Models
             return true;
         }
 
+        protected Task Extract()
+        {
+            return Task.Run(() =>
+            {
+                Status = "Extracting...";
+                IsWaiting = true;
+                string extractPath = Path.GetDirectoryName(SavePath);
+
+                if (Archive.ExtractMode == ExtractMode.Folder)
+                {
+                    ZipFile.ExtractToDirectory(SavePath, extractPath);
+                }
+                else if (Archive.ExtractMode == ExtractMode.Single)
+                {
+                    using ZipArchive archive = ZipFile.OpenRead(SavePath);
+                    string searchFileName = $"{Path.GetFileNameWithoutExtension(SavePath)}.exe";
+                    ZipArchiveEntry entry = archive.GetEntry(searchFileName);
+
+                    extractPath = Path.Combine(extractPath, entry.Name);
+                    entry.ExtractToFile(extractPath);
+                }
+
+                IsWaiting = false;
+            });
+        }
+
         public async Task<bool> Install()
         {
             if (File.Exists(SavePath))
@@ -186,27 +157,6 @@ namespace sUpdater.Models
             return false;
         }
 
-        private Task Extract()
-        {
-            return Task.Run(() =>
-            {
-                using (ZipFile zip = ZipFile.Read(SavePath))
-                {
-                    zip.ExtractProgress += (sender, e) =>
-                    {
-                        if (e.EventType == ZipProgressEventType.Extracting_BeforeExtractEntry)
-                        {
-                            Progress = 50 + 50 * e.EntriesExtracted / e.EntriesTotal;
-                            Status = $"Extracting ({e.EntriesExtracted}/{e.EntriesTotal}) ...";
-                        }
-                    };
-
-                    string extractPath = Path.Combine(Utilities.Settings.PortableAppDir, Name);
-                    zip.ExtractAll(extractPath);
-                }
-            });
-        }
-
         public async Task Run()
         {
             Log.Append($"Launching {Name}", Log.LogLevel.INFO);
@@ -232,6 +182,7 @@ namespace sUpdater.Models
                     Status = "";
                 }
             }
+
             await Task.Run(() =>
             {
                 Process[] processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Archive.LaunchFile));
@@ -241,12 +192,8 @@ namespace sUpdater.Models
                     processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Archive.LaunchFile));
                 }
             });
-            Status = "";
-        }
 
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Status = "";
         }
     }
 }

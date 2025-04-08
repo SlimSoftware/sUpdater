@@ -15,7 +15,7 @@ namespace sUpdater.Controllers
         public static async Task<AppUpdateInfo> GetAppUpdateInfo()
         {
             ApplicationDTO appDTO = await httpClient.GetFromJsonAsync<ApplicationDTO>("https://www.slimsoftware.dev/supdater/update.json");
-            Application app = new Application(appDTO, appDTO.Installers.First());
+            Application app = new Application(appDTO, null, appDTO.Installers.First());
             app.LocalVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             AppUpdateInfo appUpdateInfo = new AppUpdateInfo()

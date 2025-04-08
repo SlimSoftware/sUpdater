@@ -79,7 +79,7 @@ namespace sUpdater.Controllers
                 }
 
                 InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
-                Application application = new Application(appDTO, installerDTO);
+                Application application = new Application(appDTO, detectInfoDTO, installerDTO);
                 application.LocalVersion = localVersion;
                 application.Icon = icon;
 

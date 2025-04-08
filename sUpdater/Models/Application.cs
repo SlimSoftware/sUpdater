@@ -1,74 +1,26 @@
-﻿using Ionic.Zip;
-using sUpdater.Models.DTO;
+﻿using sUpdater.Models.DTO;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace sUpdater.Models
 {
-    public class Application : INotifyPropertyChanged
+    public class Application : BaseApplication, INotifyPropertyChanged
     {
         public int Id { get; }
-        public ImageSource Icon { get; set; }
-        public string Name { get; set; }
-        public string LatestVersion { get; }
         public string LocalVersion { get; set; }
-
-        /// <summary>
-        /// The version displayed under the app's name
-        /// </summary>
-        public string DisplayedVersion { get; set; }
-
         public string WebsiteUrl { get; }
         public string ReleaseNotesUrl { get; }
         public bool NoUpdate { get; }
+        public DetectInfo DetectInfo { get; }
         public Installer Installer { get; }
-        public string SavePath { get; set; }
-        public bool Checkbox { get; set; } = true;
-        public string LinkText { get; set; }
-        public LinkClickCommand LinkClickCommand { get; set; }
 
-        private int progress;
-        public int Progress
-        {
-            get { return progress; }
-            set
-            {
-                progress = value;
-                OnPropertyChanged("Progress");
-            }
-        }
-
-        private string status;
-        public string Status
-        {
-            get { return status; }
-            set
-            {
-                status = value;
-                OnPropertyChanged("Status");
-            }
-        }
-
-        private bool isWaiting;
-        public bool IsWaiting
-        {
-            get { return isWaiting; }
-            set
-            {
-                isWaiting = value;
-                OnPropertyChanged("IsWaiting");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public Application(ApplicationDTO applicationDTO, InstallerDTO installerDTO)
+        public Application(ApplicationDTO applicationDTO, DetectInfoDTO detectInfoDTO, InstallerDTO installerDTO)
         {
             Id = applicationDTO.Id;
             Name = applicationDTO.Name;
@@ -76,7 +28,9 @@ namespace sUpdater.Models
             NoUpdate = applicationDTO.NoUpdate;
             WebsiteUrl = applicationDTO.WebsiteUrl;
             ReleaseNotesUrl = applicationDTO.ReleaseNotesUrl;
-            Installer = new Installer(installerDTO);
+
+            if (detectInfoDTO != null) DetectInfo = new DetectInfo(detectInfoDTO);
+            if (installerDTO != null) Installer = new Installer(installerDTO);
         }
 
         public async Task<bool> Download()
@@ -105,11 +59,6 @@ namespace sUpdater.Models
 
                 using (var wc = new WebClient())
                 {
-                    wc.Headers = new WebHeaderCollection()
-                    {
-                        {  HttpRequestHeader.Referer, "https://coha.nl" }
-                    };
-
                     wc.DownloadProgressChanged += (s, args) =>
                     {
                         // Convert download size to mb
@@ -119,13 +68,13 @@ namespace sUpdater.Models
                         Progress = args.ProgressPercentage / 2;
                         if (Progress == 0) Progress = 1; // Make sure the progress bar is always visible
 
-                        Status = string.Format(
-                            "Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
+                        Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
                     };
                     wc.DownloadFileCompleted += (s, args) =>
                     {
                         Status = "Download complete";
                     };
+
                     try
                     {
                         await wc.DownloadFileTaskAsync(new Uri(Installer.DownloadLink), SavePath);
@@ -154,6 +103,29 @@ namespace sUpdater.Models
             return true;
         }
 
+        private Task<string> Extract()
+        {
+            return Task.Run(() =>
+            {
+                Status = "Extracting...";
+                IsWaiting = true;
+                string searchFileName = $"{Path.GetFileNameWithoutExtension(SavePath)}.exe";
+
+                if (File.Exists(Path.Combine(Utilities.Settings.DataDir, searchFileName))) return searchFileName;
+
+                using (ZipArchive archive = ZipFile.OpenRead(SavePath))
+                {
+                    ZipArchiveEntry entry = archive.GetEntry(searchFileName);
+
+                    string extractPath = Path.Combine(Utilities.Settings.DataDir, entry.Name);
+                    entry.ExtractToFile(extractPath);
+                }
+
+                IsWaiting = false;
+                return searchFileName;
+            });
+        }
+
         public async Task<bool> Install()
         {
         launchInstaller:
@@ -176,10 +148,10 @@ namespace sUpdater.Models
 
                 if (SavePath.EndsWith(".zip"))
                 {
-                    string extractedFilename;
                     try
                     {
-                        extractedFilename = await Extract();
+                        string extractPath = await Extract();
+                        p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, extractPath);
                     }
                     catch (Exception e)
                     {
@@ -188,8 +160,6 @@ namespace sUpdater.Models
                         Log.Append($"Extracting failed: {e.Message}", Log.LogLevel.ERROR);
                         return false;
                     }
-
-                    p.StartInfo.FileName = Path.Combine(Utilities.Settings.DataDir, extractedFilename);
                 }
 
                 try
@@ -240,10 +210,8 @@ namespace sUpdater.Models
                 }
                 else
                 {
-                    Log.Append(string.Format("Installation failed. Installer exited with " +
-                        "exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
-                    Status = string.Format(
-                        "Install failed. Exit code: {0}", p.ExitCode);
+                    Log.Append(string.Format("Installation failed. Installer exited with exit code {0}.", p.ExitCode), Log.LogLevel.ERROR);
+                    Status = string.Format("Install failed. Exit code: {0}", p.ExitCode);
                     Progress = 0;
                     IsWaiting = false;
                 }
@@ -252,47 +220,9 @@ namespace sUpdater.Models
             return false;
         }
 
-        private Task<string> Extract()
-        {
-            return Task.Run(() =>
-            {
-                string extractedFileName = "";
-                Status = "Extracting...";
-                IsWaiting = true;
-
-                using (ZipFile zip = ZipFile.Read(SavePath))
-                {
-                    foreach (ZipEntry entry in zip)
-                    {
-                        // Extract the entry if the file is an installer
-                        string extention = Path.GetExtension(entry.FileName);
-                        if (extention == ".exe" || extention == ".msi")
-                        {
-                            entry.Extract(Utilities.Settings.DataDir, ExtractExistingFileAction.DoNotOverwrite);
-                            extractedFileName = entry.FileName;
-                            break;
-                        }
-                    }
-                }
-
-                if (extractedFileName == "")
-                {
-                    throw new InvalidOperationException("Did not find an installer in the archive to extract");
-                }
-
-                IsWaiting = false;
-                return extractedFileName;
-            });
-        }
-
         public Application Clone()
         {
             return (Application)MemberwiseClone();
-        }
-
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
