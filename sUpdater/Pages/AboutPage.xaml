@@ -18,14 +18,14 @@
         </StackPanel>
         
         <StackPanel VerticalAlignment="Bottom" Height="50">
-            <Label Name="openSourceLabel" Foreground="#00ba00" HorizontalAlignment="Center" Margin="0 -10 0 0"
-                   FontSize="15px" FontWeight="Bold">Open Source Software by SlimSoftware</Label>
+            <Label Name="openSourceLabel"  HorizontalAlignment="Center" Margin="0 -10 0 0"
+                   FontSize="16px">Open Source Software by SlimSoftware</Label>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Label x:Name="siteLink" Foreground="#00ba00" HorizontalAlignment="Center" 
+                <Label x:Name="siteLink" HorizontalAlignment="Center" 
                        MouseLeftButtonDown="SiteLink_MouseLeftButtonDown" Margin="10,0">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Visit our website</TextBlock>
                 </Label>
-                <Label x:Name="creditsLink" Foreground="#00ba00" HorizontalAlignment="Center"
+                <Label x:Name="creditsLink" HorizontalAlignment="Center"
                        MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Third-Party Licenses</TextBlock>
                 </Label>
