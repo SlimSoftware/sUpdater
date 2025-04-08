@@ -7,25 +7,25 @@
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
       Title="About">
-    <DockPanel x:Name="mainPanel" Background="#00ba00">
+    <DockPanel x:Name="mainPanel" Background="Transparent">
         <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
             <Image Source="..\Icons\sUpdater.png" MaxWidth="96px" MaxHeight="96px" Margin="0 20 0 0"
                    RenderOptions.BitmapScalingMode="HighQuality"/>
-            <Label Foreground="White" HorizontalAlignment="Center" Margin="0 10 0 0"
+            <Label Foreground="#00ba00" HorizontalAlignment="Center" Margin="0 10 0 0"
                FontSize="22px" FontWeight="Bold">sUpdater</Label>
-            <Label x:Name="versionLabel" Foreground="White" Margin="-3" HorizontalAlignment="Center"
+            <Label x:Name="versionLabel" Foreground="#00ba00"  HorizontalAlignment="Center"
                FontSize="15px" FontWeight="Bold" xml:space="preserve">Version </Label>
         </StackPanel>
         
         <StackPanel VerticalAlignment="Bottom" Height="50">
-            <Label Name="openSourceLabel" Foreground="White" HorizontalAlignment="Center" Margin="0 -10 0 0"
+            <Label Name="openSourceLabel" Foreground="#00ba00" HorizontalAlignment="Center" Margin="0 -10 0 0"
                    FontSize="15px" FontWeight="Bold">Open Source Software by SlimSoftware</Label>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 -5 0 0">
-                <Label x:Name="siteLink" Foreground="White" HorizontalAlignment="Center" 
-                       MouseLeftButtonDown="SiteLink_MouseLeftButtonDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label x:Name="siteLink" Foreground="#00ba00" HorizontalAlignment="Center" 
+                       MouseLeftButtonDown="SiteLink_MouseLeftButtonDown" Margin="10,0">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Visit our website</TextBlock>
                 </Label>
-                <Label x:Name="creditsLink" Foreground="White" HorizontalAlignment="Center"
+                <Label x:Name="creditsLink" Foreground="#00ba00" HorizontalAlignment="Center"
                        MouseLeftButtonDown="CreditsLink_MouseLeftButtonDown">
                     <TextBlock TextDecorations="Underline" Cursor="Hand">Third-Party Licenses</TextBlock>
                 </Label>

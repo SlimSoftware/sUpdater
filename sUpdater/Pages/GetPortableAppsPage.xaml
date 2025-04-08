@@ -6,14 +6,14 @@
       xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Get Portable Apps" Background="White">
+      Title="Get Portable Apps">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="selectAllRow" Height="25px" />
+            <RowDefinition x:Name="selectAllRow" Height="32px" />
             <RowDefinition x:Name="listViewRow"/>
             <RowDefinition x:Name="buttonsRow" Height="50px"/>
         </Grid.RowDefinitions>
@@ -26,12 +26,12 @@
         <ListView x:Name="portableAppsListView" Grid.Row="1" 
                   Style="{StaticResource ResourceKey=CustomListViewStyle}"/>
 
-        <Label x:Name="noAppsAvailableLabel" FontWeight="Bold" FontSize="13" Grid.Row="1" HorizontalAlignment="Center"
+        <Label x:Name="noAppsAvailableLabel" FontSize="14" Grid.Row="1" HorizontalAlignment="Center"
                VerticalAlignment="Center" Visibility="Collapsed">No Portable Apps available</Label>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="50" Grid.Row="2">
-            <Button x:Name="refreshButton" Height="21" Width="60" Margin="0 0 20 0" Click="RefreshButton_Click">Refresh</Button>
-            <Button x:Name="installButton" Height="21" Width="100" Click="InstallButton_Click">Install Selected</Button>
+            <Button x:Name="refreshButton" Width="75" Margin="0 0 20 0" Click="RefreshButton_Click">Refresh</Button>
+            <Button x:Name="installButton"  Width="125" Click="InstallButton_Click">Install Selected</Button>
         </StackPanel>
     </Grid>
 </Page>

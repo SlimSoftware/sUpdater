@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:sUpdater"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800" Title="Third-Party Licenses">
-    <RichTextBox x:Name="licenseTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Auto" 
-                 Background="white">
+    <RichTextBox x:Name="licenseTextBox" IsReadOnly="True" VerticalScrollBarVisibility="Auto" >
         <RichTextBox.Resources>
             <!-- Remove the margin between the lines -->
             <Style TargetType="{x:Type Paragraph}">

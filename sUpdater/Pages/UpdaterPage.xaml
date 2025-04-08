@@ -7,14 +7,14 @@
       xmlns:converters="clr-namespace:sUpdater.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
-      Title="Updates" Background="White">
+      Title="Updates" Background="Transparent">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="selectAllRow" Height="36px" />
+            <RowDefinition x:Name="selectAllRow" Height="32px" />
             <RowDefinition x:Name="listViewRow"/>
             <RowDefinition x:Name="buttonsRow" Height="50px"/>
         </Grid.RowDefinitions>
