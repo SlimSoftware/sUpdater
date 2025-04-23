@@ -3,7 +3,6 @@ using sUpdater.Controllers;
 using sUpdater.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -217,13 +216,13 @@ namespace sUpdater
         private void MenuItemReleaseNotes_Click(object sender, RoutedEventArgs e)
         {
             Application app = Utilities.GetApplicationFromControl(sender);
-            Process.Start(app.ReleaseNotesUrl);
+            Utilities.OpenWebLink(app.ReleaseNotesUrl);
         }
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
             Application app = Utilities.GetApplicationFromControl(sender);
-            Process.Start(app.WebsiteUrl);
+            Utilities.OpenWebLink(app.WebsiteUrl);
         }
 
         private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)
@@ -249,7 +248,7 @@ namespace sUpdater
             if (AppController.Updates.Count == 0)
             {
                 SetupDetailsMode();
-            } 
+            }
             else if (selectAllRow.Height == new GridLength(0))
             {
                 // If the selectAllRow height is 0, the details mode is shown so restore the normal view

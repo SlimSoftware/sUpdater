@@ -370,6 +370,11 @@ namespace sUpdater
                 }
             }
         }
+
+        public static void OpenWebLink(string url)
+        {
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
     }
 }
 

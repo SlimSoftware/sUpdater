@@ -2,7 +2,6 @@
 using sUpdater.Controllers;
 using sUpdater.Models;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -193,7 +192,7 @@ namespace sUpdater
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
             Application app = Utilities.GetApplicationFromControl(sender);
-            Process.Start(app.WebsiteUrl);
+            Utilities.OpenWebLink(app.WebsiteUrl);
         }
     }
 }

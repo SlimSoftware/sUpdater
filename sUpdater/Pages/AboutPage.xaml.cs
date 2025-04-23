@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Windows.Controls;
 
 namespace sUpdater
@@ -23,7 +22,7 @@ namespace sUpdater
 
         private void SiteLink_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("https://www.slimsoftware.dev") { UseShellExecute = true });
+            Utilities.OpenWebLink("https://www.slimsoftware.dev");
         }
     }
 }
