@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using Application = sUpdater.Models.Application;
 
 namespace sUpdater
@@ -21,16 +22,7 @@ namespace sUpdater
         public UpdaterPage()
         {
             InitializeComponent();
-
             updateListView.ItemsSource = AppController.Updates;
-            if (AppController.Updates.Count > 0)
-            {
-                updateListView.SelectAll();
-            }
-            else
-            {
-                SetupDetailsMode();
-            }
         }
 
         /// <summary>
@@ -267,6 +259,18 @@ namespace sUpdater
             if (statusLabel.Visibility == Visibility.Visible)
             {
                 statusLabel.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AppController.Updates.Count > 0)
+            {
+                Dispatcher.BeginInvoke(new Action(updateListView.SelectAll), DispatcherPriority.Loaded);
+            }
+            else
+            {
+                SetupDetailsMode();
             }
         }
     }

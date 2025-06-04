@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace sUpdater.Models
 {
-    public class BaseApplication
+    public class BaseApplication : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public ImageSource Icon { get; set; }
