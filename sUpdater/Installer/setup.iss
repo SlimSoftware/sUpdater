@@ -36,6 +36,7 @@ WizardStyle=modern
 WizardSmallImageFile=wizardsmall.bmp,wizardsmall_hq.bmp
 UsePreviousAppDir=False
 UsePreviousGroup=False
+SignTool=sUpdater
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -46,7 +47,7 @@ Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
 Source: "..\bin\Release\net472\*"; DestDir: "{app}"
-Source: "..\bin\Release\net472\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\Release\net472\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion signonce
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
