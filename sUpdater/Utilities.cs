@@ -1,4 +1,5 @@
-﻿using sUpdater.Models;
+﻿using Microsoft.Win32;
+using sUpdater.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,8 +15,6 @@ using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using Application = sUpdater.Models.Application;
-using DialogResult = System.Windows.Forms.DialogResult;
-using FolderBrowser = System.Windows.Forms.FolderBrowserDialog;
 
 namespace sUpdater
 {
@@ -213,18 +212,12 @@ namespace sUpdater
         /// <returns>The path selected by the user or null if the dialog has been cancelled</returns>
         public static string BrowseForFolder(string defaultPath)
         {
-            using (FolderBrowser fbd = new FolderBrowser())
-            {
-                fbd.SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    return fbd.SelectedPath;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            var dialog = new OpenFolderDialog();
+            dialog.InitialDirectory = defaultPath;
+            var isOk = dialog.ShowDialog();
+
+            if (isOk == true) return dialog.FolderName;
+            return null;
         }
 
         public static void LoadSettings()

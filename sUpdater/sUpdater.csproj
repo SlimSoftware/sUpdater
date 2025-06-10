@@ -2,9 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>

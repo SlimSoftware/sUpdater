@@ -2,8 +2,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 
 namespace sUpdater
 {
@@ -54,11 +54,10 @@ namespace sUpdater
 
         private void DataFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            if (selectedPath != null)
-            {
-                dataFolderTextBox.Text = selectedPath;
-            }
+            string selectedPath = Utilities.BrowseForFolder(dataFolderTextBox.Text);
+            if (selectedPath == null) return;
+
+            dataFolderTextBox.Text = selectedPath;
         }
 
         private void OpenDataFolderButton_Click(object sender, EventArgs e)
@@ -68,11 +67,10 @@ namespace sUpdater
 
         private void PortableAppsFolderBrowseButton_Click(object sender, EventArgs e)
         {
-            string selectedPath = Utilities.BrowseForFolder(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
-            if (selectedPath != null)
-            {
-                portableAppsFolderTextBox.Text = selectedPath;
-            }
+            string selectedPath = Utilities.BrowseForFolder(portableAppsFolderTextBox.Text);
+            if (selectedPath == null) return;
+
+            portableAppsFolderTextBox.Text = selectedPath;
         }
 
         private void OpenPortableAppsFolderButton_Click(object sender, EventArgs e)
