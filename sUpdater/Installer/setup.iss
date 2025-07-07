@@ -1,3 +1,5 @@
+#include "CodeDependencies.iss"
+
 #define AppName "sUpdater"
 #define AppVersion "5.0"
 #define AppPublisher "Slim Software"
@@ -46,8 +48,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\net472\*"; DestDir: "{app}"
-Source: "..\bin\Release\net472\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion signonce
+Source: "..\bin\Release\net9.0-windows\publish\*"; DestDir: "{app}"; Flags: createallsubdirs recursesubdirs
+Source: "..\bin\Release\net9.0-windows\publish\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion signonce
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
@@ -69,3 +71,11 @@ Type: files; Name: "{app}\System.Drawing.Common.dll"
 Type: filesandordirs; Name: "{app}\runtimes"
 Type: files; Name: "{app}\AutoUpdater.NET.dll"
 Type: files; Name: "{app}\Microsoft.Web.WebView2*.dll"
+
+[Code]
+function InitializeSetup: Boolean;
+begin
+  Dependency_AddDotNet90Desktop;
+
+  Result := True;
+end;
