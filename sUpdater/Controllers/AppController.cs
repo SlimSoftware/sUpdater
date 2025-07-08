@@ -31,7 +31,7 @@ namespace sUpdater.Controllers
         /// Populates the Apps list with the apps from the App Server and gets the local version number 
         /// if an app is installed on the user's system
         /// </summary>
-        private static async Task CheckForInstalledApps()
+        public static async Task CheckForInstalledApps()
         {
             Apps.Clear();
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");

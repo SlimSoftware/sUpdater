@@ -33,8 +33,10 @@ namespace sUpdater
         /// <summary>
         /// Fills the list with apps that are not installed
         /// </summary>
-        public async Task GetNotInstalledApps()
+        public async Task GetNotInstalledApps(bool refresh = false)
         {
+            if (refresh) await AppController.CheckForInstalledApps();
+
             getAppsListView.ItemsSource = await AppController.GetNotInstalledApps();
         }
 
@@ -79,7 +81,7 @@ namespace sUpdater
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            await GetNotInstalledApps();
+            await GetNotInstalledApps(true);
 
             if (getAppsListView.Items.Count == 0)
             {
@@ -163,8 +165,7 @@ namespace sUpdater
 
                 if (installSuccess)
                 {
-                    await GetNotInstalledApps();
-                    getAppsListView.ItemsSource = getAppsListView.ItemsSource;
+                    await GetNotInstalledApps(true);
                 }
                 else
                 {
