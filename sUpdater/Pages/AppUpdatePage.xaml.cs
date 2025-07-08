@@ -1,10 +1,10 @@
 ﻿using sUpdater.Models;
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Navigation;
 using System.Xml;
 
@@ -20,7 +20,6 @@ namespace sUpdater
         public AppUpdatePage(AppUpdateInfo appUpdateInfo)
         {
             InitializeComponent();
-            versionLabel.Content += Utilities.GetFriendlyVersion(new Version(appUpdateInfo.App.LocalVersion));
             updateInfo = appUpdateInfo;
             DataContext = appUpdateInfo.App;
 
@@ -29,6 +28,8 @@ namespace sUpdater
                 using (XmlReader xmlReader = XmlReader.Create(stringReader))
                 {
                     FlowDocument flowDoc = (FlowDocument)XamlReader.Load(xmlReader);
+                    flowDoc.FontFamily = new FontFamily("Segoe UI");
+                    flowDoc.FontSize = 15;
                     releaseNotesTextBox.Document = flowDoc;
 
                     foreach (Hyperlink link in Utilities.FindLogicalChildren<Hyperlink>(flowDoc))

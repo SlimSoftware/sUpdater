@@ -17,16 +17,15 @@
         
         <StackPanel Orientation="Vertical" Grid.Row="0">
             <Label Margin="10,10,0,0" FontSize="18px" FontWeight="Bold">An update for sUpdater is available</Label>
-            <Label x:Name="versionLabel" Margin="10,0,0,0" FontSize="15" FontWeight="Bold" xml:space="preserve">Version </Label>
             <TextBlock Margin="15,10,10,0" FontSize="14" TextWrapping="Wrap">Updates can contain performance improvements, bugfixes and security patches. It is recommended to install updates as soon as possible. Do you want to install the update now?</TextBlock>
         </StackPanel>
 
-        <RichTextBox x:Name="releaseNotesTextBox" Margin="10,20,10,10" IsReadOnly="True" IsDocumentEnabled="True" FontSize="14" Grid.Row="1" />
+        <RichTextBox x:Name="releaseNotesTextBox" Margin="10,20,10,10" IsReadOnly="True" IsDocumentEnabled="True" FontSize="14" Grid.Row="1" FontFamily="Segoe UI" />
 
         <StackPanel x:Name="buttonsStackPanel" VerticalAlignment="Bottom" Margin="0 10" Grid.Row="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 -5 0 0">
-                <Button x:Name="installUpdateButton" Width="100" Height="24" Margin="0 0 20 0" Click="InstallUpdateButton_Click">Install Update</Button>
-                <Button x:Name="ignoreUpdateButton" Width="75" Height="24" Click="IgnoreUpdateButton_Click">Not Now</Button>
+                <Button x:Name="installUpdateButton" Margin="0 0 20 0" Click="InstallUpdateButton_Click">Install Update</Button>
+                <Button x:Name="ignoreUpdateButton" Click="IgnoreUpdateButton_Click">Not Now</Button>
             </StackPanel>
         </StackPanel>
 
