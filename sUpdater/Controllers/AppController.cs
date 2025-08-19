@@ -5,8 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using WindowsPackageManager.Interop;
 
 namespace sUpdater.Controllers
 {
@@ -34,6 +37,9 @@ namespace sUpdater.Controllers
         public static async Task CheckForInstalledApps()
         {
             Apps.Clear();
+
+            GetWinGetApps();
+
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
             if (appDTOs == null) return;
 
@@ -85,6 +91,29 @@ namespace sUpdater.Controllers
 
                 Apps.Add(application);
             }
+        }
+
+        private static List<Application> GetWinGetApps()
+        {
+            WindowsPackageManagerFactory WinGetFactory;
+            bool IsAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+
+            // If the user is an administrator, use the elevated factory. Otherwhise COM will crash
+            if (IsAdministrator)
+                WinGetFactory = new WindowsPackageManagerElevatedFactory();
+            else
+                WinGetFactory = new WindowsPackageManagerStandardFactory();
+
+            // Create Package Manager and get available catalogs
+            var Manager = WinGetFactory.CreatePackageManager();
+            var AvailableCatalogs = Manager.GetPackageCatalogs();
+
+            foreach (var Catalog in AvailableCatalogs.ToArray())
+            {
+
+            }
+
+            return [];
         }
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
