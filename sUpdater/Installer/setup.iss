@@ -1,7 +1,7 @@
 #include "CodeDependencies.iss"
 
 #define AppName "sUpdater"
-#define AppVersion "6.0"
+#define AppVersion "6.0.1"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoftware.dev"
 #define AppExeName "sUpdater.exe"

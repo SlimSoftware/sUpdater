@@ -1,5 +1,4 @@
-﻿using Dasync.Collections;
-using sUpdater.Controllers;
+﻿using sUpdater.Controllers;
 using sUpdater.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -135,18 +134,22 @@ namespace sUpdater
 
                 // Download
                 int currentApp = 0;
-                await selectedApps.ParallelForEachAsync(async (app) =>
-                {
-                    currentApp++;
-                    Dispatcher.Invoke(() =>
-                    {
-                        Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                        app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
-                    });
-                    bool success = await app.Download();
 
-                    if (!success) installSuccess = false;
-                }, maxDegreeOfParallelism: 3);
+                await Parallel.ForEachAsync(
+                    selectedApps,
+                    new ParallelOptions() { MaxDegreeOfParallelism = 3 },
+                    async (app, cancellationToken) =>
+                    {
+                        currentApp++;
+                        Dispatcher.Invoke(() =>
+                        {
+                            Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                            app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
+                        });
+                        bool success = await app.Download();
+
+                        if (!success) installSuccess = false;
+                    });
 
                 // Install
                 currentApp = 0;
