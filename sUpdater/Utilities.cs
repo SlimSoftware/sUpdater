@@ -37,6 +37,8 @@ namespace sUpdater
 
         public static bool UpdateAvailable(string latestVersion, string localVersion)
         {
+            if (string.IsNullOrEmpty(latestVersion) || string.IsNullOrEmpty(localVersion)) return false;
+
             string[] latestVersionSplit = latestVersion.Split('.');
             string[] localVersionSplit = localVersion.Split('.');
 

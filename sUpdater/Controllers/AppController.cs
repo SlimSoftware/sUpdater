@@ -124,7 +124,10 @@ namespace sUpdater.Controllers
                 {
                     apps.Add(new()
                     {
-                        Name = package.CatalogPackage.Name
+                        Name = package.CatalogPackage.Name,
+                        LocalVersion = package.CatalogPackage.InstalledVersion?.Version,
+                        LatestVersion = package.CatalogPackage.DefaultInstallVersion?.Version,
+                        Installed = true
                     });
                 }
             }
@@ -205,7 +208,7 @@ namespace sUpdater.Controllers
         {
             return await Task.Run(() =>
             {
-                var apps = Apps.FindAll(app => app.LocalVersion == null);
+                var apps = Apps.FindAll(app => !app.Installed);
                 foreach (var app in apps)
                 {
                     app.DisplayedVersion = app.LatestVersion;
