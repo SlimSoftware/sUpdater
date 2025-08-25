@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Management.Deployment;
+using Microsoft.Win32;
 using sUpdater.Models;
 using sUpdater.Models.DTO;
 using System;
@@ -38,7 +39,7 @@ namespace sUpdater.Controllers
         {
             Apps.Clear();
 
-            GetWinGetApps();
+            Apps.AddRange(await GetWinGetApps());
 
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
             if (appDTOs == null) return;
@@ -93,27 +94,42 @@ namespace sUpdater.Controllers
             }
         }
 
-        private static List<Application> GetWinGetApps()
+        private async static Task<List<Application>> GetWinGetApps()
         {
-            WindowsPackageManagerFactory WinGetFactory;
-            bool IsAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+            var apps = new List<Application>();
+
+            WindowsPackageManagerFactory winGetFactory;
+            bool isAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
 
             // If the user is an administrator, use the elevated factory. Otherwhise COM will crash
-            if (IsAdministrator)
-                WinGetFactory = new WindowsPackageManagerElevatedFactory();
+            if (isAdministrator)
+                winGetFactory = new WindowsPackageManagerElevatedFactory();
             else
-                WinGetFactory = new WindowsPackageManagerStandardFactory();
+                winGetFactory = new WindowsPackageManagerStandardFactory();
 
             // Create Package Manager and get available catalogs
-            var Manager = WinGetFactory.CreatePackageManager();
-            var AvailableCatalogs = Manager.GetPackageCatalogs();
+            var manager = winGetFactory.CreatePackageManager();
+            var catalog = manager.GetLocalPackageCatalog(LocalPackageCatalog.InstalledPackages);
 
-            foreach (var Catalog in AvailableCatalogs.ToArray())
+            var connectResult = await catalog.ConnectAsync();
+            if (connectResult.Status != ConnectResultStatus.Ok) return [];
+
+            FindPackagesOptions findPackagesOptions = winGetFactory.CreateFindPackagesOptions();
+
+            var packages = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+
+            foreach (var package in packages.Matches.ToArray())
             {
-
+                if (package.CatalogPackage.InstalledVersion != null)
+                {
+                    apps.Add(new()
+                    {
+                        Name = package.CatalogPackage.Name
+                    });
+                }
             }
 
-            return [];
+            return apps;
         }
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)

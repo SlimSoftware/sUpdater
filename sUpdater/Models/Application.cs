@@ -33,6 +33,10 @@ namespace sUpdater.Models
             if (installerDTO != null) Installer = new Installer(installerDTO);
         }
 
+        public Application()
+        {
+        }
+
         public async Task<bool> Download()
         {
             if (!Directory.Exists(Utilities.Settings.DataDir))
