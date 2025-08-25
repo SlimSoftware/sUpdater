@@ -5,12 +5,12 @@
 
     <SelfContained>true</SelfContained>
     <RootNamespace>WindowsPackageManager.Interop</RootNamespace>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     
-    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <!-- IF BUILD FAILS DUE TO MISSING Microsoft.Management.Deployment NAMESPACE,
-            TOGGLE THE LAST NUMBER OF THE LINE BELOW 1 UNIT UP OR DOWN, AND REBUILD-->
+     TOGGLE THE LAST NUMBER OF THE LINE BELOW 1 UNIT UP OR DOWN, AND REBUILD-->
     <WindowsSdkPackageVersion>10.0.26100.57</WindowsSdkPackageVersion>
+    
     <!--Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers-->
 
@@ -23,7 +23,6 @@
   <PropertyGroup>
     <CsWinRTWindowsMetadata>10.0.19041.0</CsWinRTWindowsMetadata>
     <CsWinRTIncludes>Microsoft.Management.Deployment</CsWinRTIncludes>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
