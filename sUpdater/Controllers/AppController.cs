@@ -97,44 +97,47 @@ namespace sUpdater.Controllers
 
         private async static Task<List<Application>> GetWinGetApps()
         {
-            var apps = new List<Application>();
-
-            WindowsPackageManagerFactory winGetFactory;
-            bool isAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-
             // If the user is an administrator, use the elevated factory. Otherwhise COM will crash
-            if (isAdministrator)
-                winGetFactory = new WindowsPackageManagerElevatedFactory();
-            else
-                winGetFactory = new WindowsPackageManagerStandardFactory();
+            bool isAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
+            WindowsPackageManagerFactory winGetFactory = isAdministrator ? new WindowsPackageManagerElevatedFactory() : new WindowsPackageManagerStandardFactory();
 
-            // Create Package Manager and get available catalogs
             var manager = winGetFactory.CreatePackageManager();
             var catalog = manager.GetLocalPackageCatalog(LocalPackageCatalog.InstalledPackages);
 
             var connectResult = await catalog.ConnectAsync();
             if (connectResult.Status != ConnectResultStatus.Ok) return [];
 
-            FindPackagesOptions findPackagesOptions = winGetFactory.CreateFindPackagesOptions();
+            var findPackagesOptions = winGetFactory.CreateFindPackagesOptions();
 
-            var packages = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
-
-            foreach (var package in packages.Matches.ToArray())
-            {
-                if (package.CatalogPackage.InstalledVersion != null)
-                {
-                    apps.Add(new()
-                    {
-                        Name = package.CatalogPackage.Name,
-                        LocalVersion = package.CatalogPackage.InstalledVersion.Version,
-                        LatestVersion = package.CatalogPackage.DefaultInstallVersion?.Version,
-                        Icon = IconHelper.GetIconFromPackageId(package.CatalogPackage.InstalledVersion.Id),
-                        Installed = true
-                    });
-                }
-            }
+            var findPackagesResult = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+            var apps = await WinGetPackagesToApplications(findPackagesResult);
 
             return apps;
+        }
+
+        private static async Task<List<Application>> WinGetPackagesToApplications(FindPackagesResult packagesResult)
+        {
+            return await Task.Run(() =>
+            {
+                var apps = new List<Application>();
+
+                foreach (var matchResult in packagesResult.Matches.ToArray())
+                {
+                    if (matchResult.CatalogPackage.InstalledVersion != null)
+                    {
+                        apps.Add(new Application
+                        {
+                            Name = matchResult.CatalogPackage.Name,
+                            LocalVersion = matchResult.CatalogPackage.InstalledVersion.Version,
+                            LatestVersion = matchResult.CatalogPackage.DefaultInstallVersion?.Version,
+                            Icon = IconHelper.GetIconFromPackageId(matchResult.CatalogPackage.InstalledVersion.Id),
+                            Installed = true
+                        });
+                    }
+                }
+
+                return apps;
+            });
         }
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
