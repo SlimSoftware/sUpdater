@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using sUpdater.Helpers;
+using System.Reflection;
 using System.Windows.Controls;
 
 namespace sUpdater

@@ -1,5 +1,6 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using sUpdater.Controllers;
+using sUpdater.Helpers;
 using sUpdater.Models;
 using System;
 using System.ComponentModel;

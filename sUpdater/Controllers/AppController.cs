@@ -1,5 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using Microsoft.Win32;
+using sUpdater.Helpers;
 using sUpdater.Models;
 using sUpdater.Models.DTO;
 using System;
@@ -81,7 +82,7 @@ namespace sUpdater.Controllers
                             localVersion = FileVersionInfo.GetVersionInfo(exePath).FileVersion;
                         }
 
-                        icon = Utilities.GetIconFromFile(exePath);
+                        icon = IconHelper.GetIconFromFile(exePath);
                     }
                 }
 
@@ -125,8 +126,9 @@ namespace sUpdater.Controllers
                     apps.Add(new()
                     {
                         Name = package.CatalogPackage.Name,
-                        LocalVersion = package.CatalogPackage.InstalledVersion?.Version,
+                        LocalVersion = package.CatalogPackage.InstalledVersion.Version,
                         LatestVersion = package.CatalogPackage.DefaultInstallVersion?.Version,
+                        Icon = IconHelper.GetIconFromPackageId(package.CatalogPackage.InstalledVersion.Id),
                         Installed = true
                     });
                 }

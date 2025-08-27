@@ -1,4 +1,5 @@
-﻿using sUpdater.Models;
+﻿using sUpdater.Helpers;
+using sUpdater.Models;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;

@@ -1,4 +1,5 @@
-﻿using sUpdater.Models;
+﻿using sUpdater.Helpers;
+using sUpdater.Models;
 using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace sUpdater.Controllers
                     portableApp.Installed = true;
 
                     string launchPath = Path.Combine(installedAppDirPath, portableApp.Archive.LaunchFile);
-                    Utilities.PopulatePortableAppIcon(portableApp, launchPath);
+                    IconHelper.PopulatePortableAppIcon(portableApp, launchPath);
 
                     portableApp.Checkbox = false;
                     portableApp.LinkText = "Run";

@@ -1,4 +1,5 @@
-﻿using sUpdater.Models.DTO;
+﻿using sUpdater.Helpers;
+using sUpdater.Models.DTO;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;

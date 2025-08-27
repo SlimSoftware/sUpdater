@@ -11,12 +11,10 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 using System.Xml.Serialization;
 using Application = sUpdater.Models.Application;
 
-namespace sUpdater
+namespace sUpdater.Helpers
 {
     public static class Utilities
     {
@@ -322,22 +320,6 @@ namespace sUpdater
             return exePath;
         }
 
-        public static BitmapSource GetIconFromFile(string filePath)
-        {
-            using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
-            {
-                return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
-                       BitmapSizeOptions.FromEmptyOptions());
-            }
-        }
-
-        public static void PopulatePortableAppIcon(PortableApp portableApp, string exePath)
-        {
-            if (portableApp.Icon == null && File.Exists(exePath))
-            {
-                portableApp.Icon = GetIconFromFile(exePath);
-            }
-        }
         public static Application GetApplicationFromControl(object sender)
         {
             var control = sender as Control;
