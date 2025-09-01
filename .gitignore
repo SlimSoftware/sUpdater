@@ -242,4 +242,4 @@ ModelManifest.xml
 .fake/
 
 # Inno Setup Output directory
-sUpdater/Installer/Output/*
+setup/Output/*

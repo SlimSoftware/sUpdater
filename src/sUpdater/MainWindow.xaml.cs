@@ -5,7 +5,6 @@ using sUpdater.Models;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,11 +18,15 @@ namespace sUpdater
     public partial class MainWindow : Window
     {
         public TaskbarIcon TaskbarIcon { get; private set; }
+        public double Progress { get; set; }
+
         private AppUpdateInfo appUpdateInfo;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = this;
 
             TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
