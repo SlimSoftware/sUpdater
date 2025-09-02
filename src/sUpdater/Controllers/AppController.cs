@@ -1,5 +1,4 @@
-﻿using Microsoft.Management.Deployment;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using sUpdater.Helpers;
 using sUpdater.Models;
 using sUpdater.Models.DTO;
@@ -7,11 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using WindowsPackageManager.Interop;
 
 namespace sUpdater.Controllers
 {
@@ -40,7 +36,7 @@ namespace sUpdater.Controllers
         {
             Apps.Clear();
 
-            Apps.AddRange(await GetWinGetApps());
+            Apps.AddRange(await WinGetAppController.GetInstalledApps());
 
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
             if (appDTOs == null) return;
@@ -93,51 +89,6 @@ namespace sUpdater.Controllers
 
                 Apps.Add(application);
             }
-        }
-
-        private async static Task<List<Application>> GetWinGetApps()
-        {
-            // If the user is an administrator, use the elevated factory. Otherwhise COM will crash
-            bool isAdministrator = new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
-            WindowsPackageManagerFactory winGetFactory = isAdministrator ? new WindowsPackageManagerElevatedFactory() : new WindowsPackageManagerStandardFactory();
-
-            var manager = winGetFactory.CreatePackageManager();
-            var catalog = manager.GetLocalPackageCatalog(LocalPackageCatalog.InstalledPackages);
-
-            var connectResult = await catalog.ConnectAsync();
-            if (connectResult.Status != ConnectResultStatus.Ok) return [];
-
-            var findPackagesOptions = winGetFactory.CreateFindPackagesOptions();
-
-            var findPackagesResult = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
-            var apps = await WinGetPackagesToApplications(findPackagesResult);
-
-            return apps;
-        }
-
-        private static async Task<List<Application>> WinGetPackagesToApplications(FindPackagesResult packagesResult)
-        {
-            return await Task.Run(() =>
-            {
-                var apps = new List<Application>();
-
-                foreach (var matchResult in packagesResult.Matches.ToArray())
-                {
-                    if (matchResult.CatalogPackage.InstalledVersion != null)
-                    {
-                        apps.Add(new Application
-                        {
-                            Name = matchResult.CatalogPackage.Name,
-                            LocalVersion = matchResult.CatalogPackage.InstalledVersion.Version,
-                            LatestVersion = matchResult.CatalogPackage.DefaultInstallVersion?.Version,
-                            Icon = IconHelper.GetIconFromPackageId(matchResult.CatalogPackage.InstalledVersion.Id),
-                            Installed = true
-                        });
-                    }
-                }
-
-                return apps;
-            });
         }
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
