@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using sUpdater.Models;
+using System.Drawing;
 using System.IO;
 using System.Windows;
 using System.Windows.Interop;
@@ -11,11 +12,13 @@ namespace sUpdater.Helpers
     {
         public static BitmapSource GetIconFromFile(string filePath)
         {
-            using (var sysicon = System.Drawing.Icon.ExtractAssociatedIcon(filePath))
-            {
-                return Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
-                       BitmapSizeOptions.FromEmptyOptions());
-            }
+            using var sysicon = Icon.ExtractAssociatedIcon(filePath);
+
+            var bitmap = Imaging.CreateBitmapSourceFromHIcon(sysicon.Handle, Int32Rect.Empty,
+                   BitmapSizeOptions.FromEmptyOptions());
+            bitmap.Freeze();
+
+            return bitmap;
         }
 
         public static void PopulatePortableAppIcon(PortableApp portableApp, string exePath)
