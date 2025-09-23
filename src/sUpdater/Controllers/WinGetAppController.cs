@@ -39,9 +39,16 @@ namespace sUpdater.Controllers
 
         public async static Task<List<Application>> GetInstalledApps()
         {
-            var catalog = PackageManager.GetLocalPackageCatalog(LocalPackageCatalog.InstalledPackages);
+            CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = PackageManagerFactory.CreateCreateCompositePackageCatalogOptions();
+            foreach (var catalogRef in PackageManager.GetPackageCatalogs().ToArray())
+            {
+                createCompositePackageCatalogOptions.Catalogs.Add(catalogRef);
+            }
 
-            var connectResult = await catalog.ConnectAsync();
+            createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
+            PackageCatalogReference installedSearchCatalogRef = PackageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
+
+            var connectResult = await installedSearchCatalogRef.ConnectAsync();
             if (connectResult.Status != ConnectResultStatus.Ok) return [];
 
             var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
@@ -60,17 +67,17 @@ namespace sUpdater.Controllers
 
                 foreach (var matchResult in packagesResult.Matches.ToArray())
                 {
-                    if (matchResult.CatalogPackage.InstalledVersion != null)
+                    // if (matchResult.CatalogPackage.InstalledVersion != null)
+                    //{
+                    apps.Add(new Application
                     {
-                        apps.Add(new Application
-                        {
-                            Name = matchResult.CatalogPackage.Name,
-                            LocalVersion = matchResult.CatalogPackage.InstalledVersion.Version,
-                            LatestVersion = matchResult.CatalogPackage.DefaultInstallVersion?.Version,
-                            Icon = IconHelper.GetIconFromPackageId(matchResult.CatalogPackage.InstalledVersion.Id),
-                            Installed = true
-                        });
-                    }
+                        Name = matchResult.CatalogPackage.Name,
+                        LocalVersion = matchResult.CatalogPackage.InstalledVersion.Version,
+                        LatestVersion = matchResult.CatalogPackage.DefaultInstallVersion?.Version,
+                        Icon = IconHelper.GetIconFromPackageId(matchResult.CatalogPackage.InstalledVersion.Id),
+                        Installed = true
+                    });
+                    // }
                 }
 
                 return apps;

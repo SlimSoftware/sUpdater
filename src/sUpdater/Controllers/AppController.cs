@@ -36,7 +36,8 @@ namespace sUpdater.Controllers
         {
             Apps.Clear();
 
-            Apps.AddRange(await WinGetAppController.GetInstalledApps());
+            var winGetApps = await WinGetAppController.GetInstalledApps();
+            Apps.AddRange(winGetApps);
 
             var appDTOs = await Utilities.CallAPI<ApplicationDTO[]>("apps");
             if (appDTOs == null) return;
@@ -89,6 +90,8 @@ namespace sUpdater.Controllers
 
                 Apps.Add(application);
             }
+
+            Apps.Sort((a, b) => a.Name.CompareTo(b.Name));
         }
 
         private static string GetLocalVersionFromRegistry(DetectInfoDTO detectInfo)
