@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Application = sUpdater.Models.Application;
+using SUpdaterApp = sUpdater.Models.Apps.SUpdaterApp;
 
 namespace sUpdater
 {
@@ -70,7 +70,7 @@ namespace sUpdater
                     string notifiedUpdates = "";
                     TaskbarIcon.Icon = Properties.Resources.sUpdater_Orange;
 
-                    foreach (Application app in AppController.Updates)
+                    foreach (SUpdaterApp app in AppController.Updates)
                     {
                         if (app != AppController.Updates.Last())
                         {

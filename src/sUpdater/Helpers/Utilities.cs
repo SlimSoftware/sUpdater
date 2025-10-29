@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using sUpdater.Models;
+using sUpdater.Models.Apps;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Serialization;
-using Application = sUpdater.Models.Application;
 
 namespace sUpdater.Helpers
 {
@@ -320,10 +320,10 @@ namespace sUpdater.Helpers
             return exePath;
         }
 
-        public static Application GetApplicationFromControl(object sender)
+        public static IApplication GetApplicationFromControl(object sender)
         {
             var control = sender as Control;
-            return (Application)control.DataContext;
+            return (IApplication)control.DataContext;
         }
 
         public static IEnumerable<T> FindLogicalChildren<T>(DependencyObject depObj) where T : DependencyObject

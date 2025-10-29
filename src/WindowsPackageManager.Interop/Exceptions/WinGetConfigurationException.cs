@@ -3,7 +3,7 @@
 
 using System;
 
-namespace WindowsPackageManager.Interop;
+namespace WindowsPackageManager.Interop.Exceptions;
 
 public class WinGetConfigurationException : Exception
 {

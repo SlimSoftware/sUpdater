@@ -1,13 +1,15 @@
-﻿using System.ComponentModel;
+﻿using sUpdater.Commands;
+using System.ComponentModel;
 using System.Windows.Media;
 
-namespace sUpdater.Models
+namespace sUpdater.Models.Apps
 {
     public class BaseApplication : INotifyPropertyChanged
     {
         public string Name { get; set; }
         public ImageSource Icon { get; set; }
         public string LatestVersion { get; set; }
+        public string LocalVersion { get; set; }
         public bool Installed { get; set; }
 
         /// <summary>The version displayed under the app's name</summary>
@@ -51,6 +53,11 @@ namespace sUpdater.Models
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public IApplication Clone()
+        {
+            return (IApplication)MemberwiseClone();
         }
     }
 }

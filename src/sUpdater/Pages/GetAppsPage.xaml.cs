@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Application = sUpdater.Models.Application;
+using SUpdaterApp = sUpdater.Models.Apps.SUpdaterApp;
 
 namespace sUpdater
 {
@@ -45,7 +45,7 @@ namespace sUpdater
             if (selectAllCheckBox.IsChecked == true)
             {
                 // Select all unselected apps
-                foreach (Application app in getAppsListView.Items)
+                foreach (SUpdaterApp app in getAppsListView.Items)
                 {
                     // Check if the app is not selected, if so check it
                     if (!getAppsListView.SelectedItems.Contains(app))
@@ -122,8 +122,8 @@ namespace sUpdater
                 selectAllCheckBox.IsEnabled = false;
 
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<Application> selectedApps = new List<Application>();
-                foreach (Application app in getAppsListView.ItemsSource)
+                List<SUpdaterApp> selectedApps = new List<SUpdaterApp>();
+                foreach (SUpdaterApp app in getAppsListView.ItemsSource)
                 {
                     if (getAppsListView.SelectedItems.Contains(app))
                     {
@@ -154,7 +154,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in selectedApps)
+                foreach (SUpdaterApp app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -174,8 +174,8 @@ namespace sUpdater
                 else
                 {
                     // Only show the failed apps
-                    List<Application> failedApps = new List<Application>();
-                    foreach (Application app in getAppsListView.SelectedItems)
+                    List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
+                    foreach (SUpdaterApp app in getAppsListView.SelectedItems)
                     {
                         if (app.Status != "Install complete")
                         {
@@ -196,8 +196,8 @@ namespace sUpdater
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
-            Application app = Utilities.GetApplicationFromControl(sender);
-            Utilities.OpenWebLink(app.WebsiteUrl);
+            var app = Utilities.GetApplicationFromControl(sender);
+            if (app is SUpdaterApp sApp) Utilities.OpenWebLink(sApp.WebsiteUrl);
         }
     }
 }

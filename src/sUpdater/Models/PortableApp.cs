@@ -1,4 +1,5 @@
 ﻿using sUpdater.Helpers;
+using sUpdater.Models.Apps;
 using sUpdater.Models.DTO;
 using System;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ using System.Windows;
 
 namespace sUpdater.Models
 {
-    public class PortableApp : BaseApplication, INotifyPropertyChanged
+    public class PortableApp : Apps.BaseApplication, INotifyPropertyChanged
     {
         public int Id { get; }
 

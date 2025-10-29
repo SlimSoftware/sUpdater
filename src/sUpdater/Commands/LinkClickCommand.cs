@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace sUpdater.Models
+namespace sUpdater.Commands
 {
     public class LinkClickCommand : ICommand
     {

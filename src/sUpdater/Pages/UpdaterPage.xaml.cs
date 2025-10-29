@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using Application = sUpdater.Models.Application;
+using SUpdaterApp = sUpdater.Models.Apps.SUpdaterApp;
 
 namespace sUpdater
 {
@@ -33,14 +33,14 @@ namespace sUpdater
         {
             var detailApps = AppController.Apps.Select(x => x.Clone()).ToList();
 
-            foreach (Application app in detailApps)
+            foreach (var app in detailApps)
             {
                 app.Checkbox = false;
                 app.Name = $"{app.Name} {app.LatestVersion}";
 
                 if (app.LocalVersion != null)
                 {
-                    app.DisplayedVersion = $"Installed: {app.LocalVersion}{(app.NoUpdate ? " (using own updater)" : "")}";
+                    app.DisplayedVersion = $"Installed: {app.LocalVersion}{(app is SUpdaterApp sApp && sApp.NoUpdate ? " (using own updater)" : "")}";
                 }
                 else
                 {
@@ -87,8 +87,8 @@ namespace sUpdater
             else
             {
                 // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<Application> selectedApps = new List<Application>();
-                foreach (Application a in updateListView.ItemsSource)
+                List<SUpdaterApp> selectedApps = new List<SUpdaterApp>();
+                foreach (SUpdaterApp a in updateListView.ItemsSource)
                 {
                     if (updateListView.SelectedItems.Contains(a))
                     {
@@ -119,7 +119,7 @@ namespace sUpdater
 
                 // Install
                 currentApp = 0;
-                foreach (Application app in selectedApps)
+                foreach (SUpdaterApp app in selectedApps)
                 {
                     currentApp++;
                     if (File.Exists(app.SavePath))
@@ -148,8 +148,8 @@ namespace sUpdater
                 else
                 {
                     // Only show the failed apps
-                    List<Application> failedApps = new List<Application>();
-                    foreach (Application app in updateListView.SelectedItems)
+                    List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
+                    foreach (SUpdaterApp app in updateListView.SelectedItems)
                     {
                         if (app.Status != "Install complete")
                         {
@@ -183,7 +183,7 @@ namespace sUpdater
         private void ListViewItem_Clicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             // Get app associated with the listview item
-            Application app = ((ListViewItem)sender).Content as Application;
+            SUpdaterApp app = ((ListViewItem)sender).Content as SUpdaterApp;
 
             if (app.Checkbox == true)
             {
@@ -212,19 +212,19 @@ namespace sUpdater
 
         private void MenuItemReleaseNotes_Click(object sender, RoutedEventArgs e)
         {
-            Application app = Utilities.GetApplicationFromControl(sender);
-            Utilities.OpenWebLink(app.ReleaseNotesUrl);
+            //var app = Utilities.GetApplicationFromControl(sender);
+            // Utilities.OpenWebLink(app.ReleaseNotesUrl);
         }
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
-            Application app = Utilities.GetApplicationFromControl(sender);
-            Utilities.OpenWebLink(app.WebsiteUrl);
+            // SUpdaterApp app = Utilities.GetApplicationFromControl(sender);
+            // Utilities.OpenWebLink(app.WebsiteUrl);
         }
 
         private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)
         {
-            Application app = Utilities.GetApplicationFromControl(sender);
+            var app = Utilities.GetApplicationFromControl(sender);
 
             await app.Download();
             await app.Install();

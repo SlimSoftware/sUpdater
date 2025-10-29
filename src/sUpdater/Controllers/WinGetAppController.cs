@@ -1,6 +1,6 @@
 ﻿using Microsoft.Management.Deployment;
 using sUpdater.Helpers;
-using sUpdater.Models;
+using sUpdater.Models.Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace sUpdater.Controllers
             return _packageManager;
         }
 
-        public async static Task<List<Application>> GetInstalledApps()
+        public async static Task<List<WinGetApp>> GetInstalledApps()
         {
             CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = PackageManagerFactory.CreateCreateCompositePackageCatalogOptions();
             foreach (var catalogRef in PackageManager.GetPackageCatalogs().ToArray())
@@ -59,25 +59,25 @@ namespace sUpdater.Controllers
             return apps;
         }
 
-        private static async Task<List<Application>> ConvertPackagesToApplications(FindPackagesResult packagesResult)
+        private static async Task<List<WinGetApp>> ConvertPackagesToApplications(FindPackagesResult packagesResult)
         {
             return await Task.Run(() =>
             {
-                var apps = new List<Application>();
+                var apps = new List<WinGetApp>();
 
                 foreach (var matchResult in packagesResult.Matches.ToArray())
                 {
-                    // if (matchResult.CatalogPackage.InstalledVersion != null)
-                    //{
-                    apps.Add(new Application
+                    var catalogPackage = matchResult.CatalogPackage;
+
+                    apps.Add(new WinGetApp
                     {
-                        Name = matchResult.CatalogPackage.Name,
-                        LocalVersion = matchResult.CatalogPackage.InstalledVersion.Version,
-                        LatestVersion = matchResult.CatalogPackage.DefaultInstallVersion?.Version,
-                        Icon = IconHelper.GetIconFromPackageId(matchResult.CatalogPackage.InstalledVersion.Id),
-                        Installed = true
+                        Name = catalogPackage.Name,
+                        LocalVersion = catalogPackage.InstalledVersion.Version,
+                        LatestVersion = catalogPackage.DefaultInstallVersion?.Version,
+                        Icon = IconHelper.GetIconFromPackageId(catalogPackage.InstalledVersion.Id),
+                        Installed = true,
+                        CatalogPackage = catalogPackage,
                     });
-                    // }
                 }
 
                 return apps;

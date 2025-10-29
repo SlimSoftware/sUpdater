@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using sUpdater.Helpers;
 using sUpdater.Models;
+using sUpdater.Models.Apps;
 using sUpdater.Models.DTO;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ namespace sUpdater.Controllers
         /// <summary>
         /// All apps that are available on the server
         /// </summary>
-        public static List<Application> Apps { get; private set; } = new List<Application>();
+        public static List<IApplication> Apps { get; private set; } = [];
 
         /// <summary>
         /// All apps that have an update available to install
         /// </summary>
-        public static List<Application> Updates { get; private set; } = new List<Application>();
+        public static List<IApplication> Updates { get; private set; } = [];
 
         /** Indicates whether there is currently being checked for updates */
         public static bool CheckingForUpdates { get; private set; } = true;
@@ -84,7 +85,7 @@ namespace sUpdater.Controllers
                 }
 
                 InstallerDTO installerDTO = Array.Find(appDTO.Installers, i => i.DetectInfoId == detectInfoDTO.Id);
-                Application application = new Application(appDTO, detectInfoDTO, installerDTO);
+                SUpdaterApp application = new(appDTO, detectInfoDTO, installerDTO);
                 application.LocalVersion = localVersion;
                 application.Icon = icon;
 
@@ -135,11 +136,11 @@ namespace sUpdater.Controllers
             await CheckForInstalledApps();
             Updates.Clear();
 
-            foreach (Application app in Apps.FindAll(app => app.LocalVersion != null))
+            foreach (var app in Apps.FindAll(app => app.LocalVersion != null))
             {
-                if (!app.NoUpdate && Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
+                if ((app is SUpdaterApp sApp && !sApp.NoUpdate) && Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                 {
-                    Application updateApp = app.Clone();
+                    var updateApp = app.Clone();
                     updateApp.Name += $" {app.LatestVersion}";
                     updateApp.DisplayedVersion = $"Installed: {app.LocalVersion}";
 
@@ -163,7 +164,7 @@ namespace sUpdater.Controllers
         /// <summary>
         /// Returns a list of not installed applications
         /// </summary>
-        public static async Task<List<Application>> GetNotInstalledApps()
+        public static async Task<List<IApplication>> GetNotInstalledApps()
         {
             return await Task.Run(() =>
             {

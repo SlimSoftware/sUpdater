@@ -1,4 +1,5 @@
-﻿using sUpdater.Controllers;
+﻿using sUpdater.Commands;
+using sUpdater.Controllers;
 using sUpdater.Helpers;
 using sUpdater.Models;
 using System;

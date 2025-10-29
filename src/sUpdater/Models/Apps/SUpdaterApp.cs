@@ -1,7 +1,6 @@
 ﻿using sUpdater.Helpers;
 using sUpdater.Models.DTO;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -9,19 +8,18 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace sUpdater.Models
+namespace sUpdater.Models.Apps
 {
-    public class Application : BaseApplication, INotifyPropertyChanged
+    public class SUpdaterApp : BaseApplication, IApplication
     {
         public int Id { get; }
-        public string LocalVersion { get; set; }
+        public bool NoUpdate { get; }
         public string WebsiteUrl { get; }
         public string ReleaseNotesUrl { get; }
-        public bool NoUpdate { get; }
         public DetectInfo DetectInfo { get; }
         public Installer Installer { get; }
 
-        public Application(ApplicationDTO applicationDTO, DetectInfoDTO detectInfoDTO, InstallerDTO installerDTO)
+        public SUpdaterApp(ApplicationDTO applicationDTO, DetectInfoDTO detectInfoDTO, InstallerDTO installerDTO)
         {
             Id = applicationDTO.Id;
             Name = applicationDTO.Name;
@@ -34,7 +32,7 @@ namespace sUpdater.Models
             if (installerDTO != null) Installer = new Installer(installerDTO);
         }
 
-        public Application()
+        public SUpdaterApp()
         {
         }
 
@@ -223,11 +221,6 @@ namespace sUpdater.Models
             }
 
             return false;
-        }
-
-        public Application Clone()
-        {
-            return (Application)MemberwiseClone();
         }
     }
 }

@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:sUpdater.Converters" 
-      xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:Application}"
+      xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:sUpdaterApp}"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
       Title="Get Applications" Background="Transparent" Loaded="Page_Loaded">
