@@ -53,6 +53,8 @@ namespace sUpdater.Controllers
 
             var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
 
+            var operation = connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+
             var findPackagesResult = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
             var apps = await ConvertPackagesToApplications(findPackagesResult);
 
@@ -71,6 +73,7 @@ namespace sUpdater.Controllers
 
                     apps.Add(new WinGetApp
                     {
+                        Id = catalogPackage.Id,
                         Name = catalogPackage.Name,
                         LocalVersion = catalogPackage.InstalledVersion.Version,
                         LatestVersion = catalogPackage.DefaultInstallVersion?.Version,

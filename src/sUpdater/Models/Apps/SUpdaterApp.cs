@@ -12,7 +12,7 @@ namespace sUpdater.Models.Apps
 {
     public class SUpdaterApp : BaseApplication, IApplication
     {
-        public int Id { get; }
+        public string Id { get; init; }
         public bool NoUpdate { get; }
         public string WebsiteUrl { get; }
         public string ReleaseNotesUrl { get; }
@@ -21,7 +21,7 @@ namespace sUpdater.Models.Apps
 
         public SUpdaterApp(ApplicationDTO applicationDTO, DetectInfoDTO detectInfoDTO, InstallerDTO installerDTO)
         {
-            Id = applicationDTO.Id;
+            Id = applicationDTO.Id.ToString();
             Name = applicationDTO.Name;
             LatestVersion = applicationDTO.Version;
             NoUpdate = applicationDTO.NoUpdate;

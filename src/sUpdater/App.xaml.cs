@@ -1,10 +1,10 @@
-﻿using Hardcodet.Wpf.TaskbarNotification;
-using sUpdater.Controllers;
+﻿using sUpdater.Controllers;
 using sUpdater.Helpers;
 using sUpdater.Models;
 using System;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace sUpdater
 {
@@ -15,6 +15,8 @@ namespace sUpdater
     {
         async void App_Startup(object sender, StartupEventArgs e)
         {
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
             MainWindow mainWindow = new MainWindow();
             string[] args = Environment.GetCommandLineArgs();
 
@@ -46,6 +48,13 @@ namespace sUpdater
 
             await mainWindow.CheckForAppUpdates();
             await AppController.CheckForUpdates();
+        }
+
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("An internal error occurred. Sorry for the inconvience!\nSee the log for the technical details.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            Log.Append(e.Exception.Message, Log.LogLevel.ERROR);
+            e.Handled = true;
         }
     }
 }

@@ -6,6 +6,7 @@ namespace sUpdater.Models.Apps
 {
     public interface IApplication
     {
+        string Id { get; init; }
         string Name { get; set; }
         ImageSource Icon { get; set; }
         string LatestVersion { get; set; }

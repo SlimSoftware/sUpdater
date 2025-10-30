@@ -138,7 +138,9 @@ namespace sUpdater.Controllers
 
             foreach (var app in Apps.FindAll(app => app.LocalVersion != null))
             {
-                if ((app is SUpdaterApp sApp && !sApp.NoUpdate) && Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
+                if (app is SUpdaterApp sApp && sApp.NoUpdate) continue;
+
+                if (Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
                 {
                     var updateApp = app.Clone();
                     updateApp.Name += $" {app.LatestVersion}";

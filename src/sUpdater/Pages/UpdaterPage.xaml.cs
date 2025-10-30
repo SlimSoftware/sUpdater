@@ -1,6 +1,7 @@
 ﻿using sUpdater.Controllers;
 using sUpdater.Helpers;
 using sUpdater.Models;
+using sUpdater.Models.Apps;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -67,101 +68,106 @@ namespace sUpdater
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            Log.Append("Update installation started...", Log.LogLevel.INFO);
-            bool installSuccess = true;
-            refreshButton.IsEnabled = false;
-            installButton.IsEnabled = false;
-            selectAllCheckBox.IsEnabled = false;
-            statusLabel.Visibility = Visibility.Hidden;
-
-            if (updateListView.SelectedItems.Count == 0)
+            try
             {
-                MessageBox.Show("You have not selected any updates to install.", "sUpdater",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
+                Log.Append("Update installation started...", Log.LogLevel.INFO);
+                bool installSuccess = true;
+                refreshButton.IsEnabled = false;
+                installButton.IsEnabled = false;
+                selectAllCheckBox.IsEnabled = false;
+                statusLabel.Visibility = Visibility.Hidden;
 
-                refreshButton.IsEnabled = true;
-                installButton.IsEnabled = true;
-                selectAllCheckBox.IsEnabled = true;
-            }
-            else
-            {
-                // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<SUpdaterApp> selectedApps = new List<SUpdaterApp>();
-                foreach (SUpdaterApp a in updateListView.ItemsSource)
+                if (updateListView.SelectedItems.Count == 0)
                 {
-                    if (updateListView.SelectedItems.Contains(a))
-                    {
-                        a.Checkbox = false;
-                        selectedApps.Add(a);
-                    }
-                }
-                updateListView.ItemsSource = selectedApps;
+                    MessageBox.Show("You have not selected any updates to install.", "sUpdater",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    Log.Append("No updates selected to install, aborting...", Log.LogLevel.ERROR);
 
-                // Download
-                int currentApp = 0;
-
-                await Parallel.ForEachAsync(
-                    selectedApps,
-                    new ParallelOptions() { MaxDegreeOfParallelism = 3 },
-                    async (app, cancellationToken) =>
-                    {
-                        currentApp++;
-                        Dispatcher.Invoke(() =>
-                        {
-                            Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                                app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
-                        });
-                        bool success = await app.Download();
-
-                        if (!success) installSuccess = false;
-                    });
-
-                // Install
-                currentApp = 0;
-                foreach (SUpdaterApp app in selectedApps)
-                {
-                    currentApp++;
-                    if (File.Exists(app.SavePath))
-                    {
-                        Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
-                            currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
-                        bool success = await app.Install();
-
-                        if (!success) installSuccess = false;
-                    }
-                }
-
-                if (installSuccess)
-                {
-                    await AppController.CheckForUpdates();
-                    updateListView.ItemsSource = AppController.Updates;
-
-                    if (AppController.Updates.Count == 0)
-                    {
-                        noUpdatesAvailablePanel.Visibility = Visibility.Visible;
-                        installButton.Visibility = Visibility.Collapsed;
-                        selectAllCheckBox.Visibility = Visibility.Collapsed;
-                        updateListView.Visibility = Visibility.Hidden;
-                    }
+                    refreshButton.IsEnabled = true;
+                    installButton.IsEnabled = true;
+                    selectAllCheckBox.IsEnabled = true;
                 }
                 else
                 {
-                    // Only show the failed apps
-                    List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
-                    foreach (SUpdaterApp app in updateListView.SelectedItems)
+                    // Remove all not selected apps from the list and remove the checkbox from all selected apps
+                    var selectedApps = new List<IApplication>();
+                    foreach (IApplication a in updateListView.ItemsSource)
                     {
-                        if (app.Status != "Install complete")
+                        if (updateListView.SelectedItems.Contains(a))
                         {
-                            failedApps.Add(app);
+                            a.Checkbox = false;
+                            selectedApps.Add(a);
                         }
                     }
-                    updateListView.ItemsSource = failedApps;
-                    statusLabel.Foreground = Brushes.Red;
-                    statusLabel.Content = "Some applications failed to install.";
-                    statusLabel.Visibility = Visibility.Visible;
-                }
+                    updateListView.ItemsSource = selectedApps;
 
+                    // Download
+                    int currentApp = 0;
+
+                    await Parallel.ForEachAsync(
+                        selectedApps,
+                        new ParallelOptions() { MaxDegreeOfParallelism = 3 },
+                        async (app, cancellationToken) =>
+                        {
+                            currentApp++;
+                            Dispatcher.Invoke(() =>
+                            {
+                                Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                                    app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
+                            });
+                            bool success = await app.Download();
+
+                            if (!success) installSuccess = false;
+                        });
+
+                    // Install
+                    currentApp = 0;
+                    foreach (IApplication app in selectedApps)
+                    {
+                        currentApp++;
+                        if (File.Exists(app.SavePath))
+                        {
+                            Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
+                                currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
+                            bool success = await app.Install();
+
+                            if (!success) installSuccess = false;
+                        }
+                    }
+
+                    if (installSuccess)
+                    {
+                        await AppController.CheckForUpdates();
+                        updateListView.ItemsSource = AppController.Updates;
+
+                        if (AppController.Updates.Count == 0)
+                        {
+                            noUpdatesAvailablePanel.Visibility = Visibility.Visible;
+                            installButton.Visibility = Visibility.Collapsed;
+                            selectAllCheckBox.Visibility = Visibility.Collapsed;
+                            updateListView.Visibility = Visibility.Hidden;
+                        }
+                    }
+                    else
+                    {
+                        // Only show the failed apps
+                        List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
+                        foreach (SUpdaterApp app in updateListView.SelectedItems)
+                        {
+                            if (app.Status != "Install complete")
+                            {
+                                failedApps.Add(app);
+                            }
+                        }
+                        updateListView.ItemsSource = failedApps;
+                        statusLabel.Foreground = Brushes.Red;
+                        statusLabel.Content = "Some applications failed to install.";
+                        statusLabel.Visibility = Visibility.Visible;
+                    }
+                }
+            }
+            finally
+            {
                 selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;

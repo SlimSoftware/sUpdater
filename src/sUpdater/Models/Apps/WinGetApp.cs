@@ -7,18 +7,9 @@ namespace sUpdater.Models.Apps
 {
     public class WinGetApp : BaseApplication, IApplication
     {
+        public string Id { get; init; }
         public CatalogPackage CatalogPackage { get; set; }
 
-        //public async Task<bool> Download()
-        //{
-        //    var options = new DownloadOptions() { AcceptPackageAgreements = true };
-        //    var operation = WinGetAppController.PackageManager.DownloadPackageAsync(CatalogPackage, options);
-
-
-
-        //    var result = await operation;
-        //    return result.Status == DownloadResultStatus.Ok;
-        //}
 
         public Task<bool> Download()
         {
@@ -28,26 +19,26 @@ namespace sUpdater.Models.Apps
 
         public async Task<bool> Install()
         {
-            var options = new InstallOptions() { AcceptPackageAgreements = true };
-            var operation = WinGetAppController.PackageManager.InstallPackageAsync(CatalogPackage, options);
+            var options = WinGetAppController.PackageManagerFactory.CreateInstallOptions();
+            options.AcceptPackageAgreements = true;
+            options.PackageInstallMode = PackageInstallMode.Silent;
 
-            Progress = 1; // Make sure the progress bar is always visible
+            var operation = WinGetAppController.PackageManager.InstallPackageAsync(CatalogPackage, options);
 
             operation.Progress = (asyncOperation, prog) =>
             {
                 if (prog.State == PackageInstallProgressState.Downloading)
                 {
-                    Progress = (int)prog.DownloadProgress / 2;
+                    Progress = (int)(prog.DownloadProgress / 2.0);
 
-                    double recievedSize = Math.Round(prog.BytesDownloaded / 1024d / 1024d, 1);
-                    double totalSize = Math.Round(prog.BytesRequired / 1024d / 1024d, 1);
-
-                    Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
+                    double downloadedMB = prog.BytesDownloaded / 1024d / 1024d;
+                    double totalMB = prog.BytesRequired / 1024d / 1024d;
+                    Status = $"Downloading... {downloadedMB:0.0} MB / {totalMB:0.0} MB";
                 }
                 else
                 {
-                    Progress = ((int)prog.InstallationProgress / 2) + 50;
-                    Status = $"Installing... {Math.Round(prog.InstallationProgress, 0)}%";
+                    Progress = 50 + (int)(prog.InstallationProgress / 2.0);
+                    Status = $"Installing... {prog.InstallationProgress:0}%";
                 }
             };
 
