@@ -131,7 +131,9 @@ namespace sUpdater.Models.Apps
 
         public async Task<bool> Install()
         {
-        launchInstaller:
+            if (!File.Exists(SavePath)) return false;
+
+            launchInstaller:
             using (var p = new Process())
             {
                 if (!SavePath.EndsWith(".msi"))

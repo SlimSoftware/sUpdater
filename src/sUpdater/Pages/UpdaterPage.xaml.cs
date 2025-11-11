@@ -4,7 +4,6 @@ using sUpdater.Models;
 using sUpdater.Models.Apps;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -125,14 +124,12 @@ namespace sUpdater
                     foreach (IApplication app in selectedApps)
                     {
                         currentApp++;
-                        if (File.Exists(app.SavePath))
-                        {
-                            Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
-                                currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
-                            bool success = await app.Install();
 
-                            if (!success) installSuccess = false;
-                        }
+                        Log.Append(string.Format("Installing {0} ({1} of {2}) ...", app.Name,
+                            currentApp, updateListView.SelectedItems.Count), Log.LogLevel.INFO);
+                        bool success = await app.Install();
+
+                        if (!success) installSuccess = false;
                     }
 
                     if (installSuccess)
@@ -151,8 +148,8 @@ namespace sUpdater
                     else
                     {
                         // Only show the failed apps
-                        List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
-                        foreach (SUpdaterApp app in updateListView.SelectedItems)
+                        List<IApplication> failedApps = [];
+                        foreach (IApplication app in updateListView.SelectedItems)
                         {
                             if (app.Status != "Install complete")
                             {
@@ -168,6 +165,14 @@ namespace sUpdater
             }
             finally
             {
+                foreach (IApplication app in updateListView.SelectedItems)
+                {
+                    app.Progress = 0;
+                    app.IsWaiting = false;
+                    app.Status = "";
+                    app.Checkbox = true;
+                }
+
                 selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;

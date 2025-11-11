@@ -156,13 +156,13 @@
                             <Setter TargetName="progressBar" Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding Progress}" Value="1">
-                            <Setter TargetName="progressBar" Property="Visibility" Value="Collapsed"/>
-                        </DataTrigger>
-
                         <!-- Set the progress bar to the Indeterminate mode if the IsWaiting property is set to true -->
                         <DataTrigger Binding="{Binding IsWaiting}" Value="True">
                             <Setter TargetName="progressBar" Property="IsIndeterminate" Value="True"/>
+                            <Setter TargetName="progressBar" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsWaiting}" Value="False">
+                            <Setter TargetName="progressBar" Property="IsIndeterminate" Value="False"/>
                         </DataTrigger>
 
                         <!-- Hide the link textblock if the LinkTekst property is null -->

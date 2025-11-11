@@ -2,6 +2,7 @@
 using sUpdater.Controllers;
 using System;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace sUpdater.Models.Apps
 {
@@ -27,22 +28,54 @@ namespace sUpdater.Models.Apps
 
             operation.Progress = (asyncOperation, prog) =>
             {
-                if (prog.State == PackageInstallProgressState.Downloading)
+                Application.Current.Dispatcher.BeginInvoke(() =>
                 {
-                    Progress = (int)(prog.DownloadProgress / 2.0);
+                    if (prog.State == PackageInstallProgressState.Downloading)
+                    {
+                        Progress = (int)Math.Round(prog.DownloadProgress * 100, 0);
 
-                    double downloadedMB = prog.BytesDownloaded / 1024d / 1024d;
-                    double totalMB = prog.BytesRequired / 1024d / 1024d;
-                    Status = $"Downloading... {downloadedMB:0.0} MB / {totalMB:0.0} MB";
-                }
-                else
-                {
-                    Progress = 50 + (int)(prog.InstallationProgress / 2.0);
-                    Status = $"Installing... {prog.InstallationProgress:0}%";
-                }
+                        double recievedSize = Math.Round(prog.BytesDownloaded / 1024d / 1024d, 1);
+                        double totalSize = Math.Round(prog.BytesRequired / 1024d / 1024d, 1);
+
+                        if (Progress > 0)
+                        {
+                            Status = string.Format("Downloading... {0:0.0} MB/{1:0.0} MB", recievedSize, totalSize);
+                            IsWaiting = false;
+                        }
+                        else
+                        {
+                            Status = "Downloading...";
+                            IsWaiting = true;
+                        }
+                    }
+                    else
+                    {
+                        switch (prog.State)
+                        {
+                            case PackageInstallProgressState.Queued:
+                                Status = "Waiting for install";
+                                break;
+                            case PackageInstallProgressState.Installing:
+                                Status = "Installing...";
+                                break;
+                            case PackageInstallProgressState.PostInstall:
+                                Status = "Finishing install...";
+                                break;
+                            case PackageInstallProgressState.Finished:
+                                Status = "Installed";
+                                IsWaiting = false;
+                                return;
+                            default:
+                                break;
+                        }
+
+                        IsWaiting = true;
+                    }
+                });
             };
 
             var result = await operation;
+
             return result.Status == InstallResultStatus.Ok;
         }
     }
