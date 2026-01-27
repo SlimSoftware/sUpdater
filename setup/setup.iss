@@ -1,7 +1,7 @@
 #include "CodeDependencies.iss"
 
 #define AppName "sUpdater"
-#define AppVersion "6.0.1"
+#define AppVersion "6.1"
 #define AppPublisher "Slim Software"
 #define AppURL "http://www.slimsoftware.dev"
 #define AppExeName "sUpdater.exe"
@@ -24,7 +24,7 @@ DefaultGroupName={#AppPublisher}\{#AppName}
 DisableProgramGroupPage=yes
 LicenseFile=license.txt
 OutputBaseFilename=sUpdater-v{#AppVersion}-setup
-SetupIconFile=..\Icons\sUpdater.ico
+SetupIconFile=..\src\sUpdater\Icons\sUpdater.ico
 Compression=lzma
 SolidCompression=yes
 MinVersion=0,6.1sp1
@@ -48,8 +48,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "autostart"; Description: "Auto-start sUpdater as a system tray icon"
 
 [Files]
-Source: "..\bin\Release\net9.0-windows\publish\*"; DestDir: "{app}"; Flags: createallsubdirs recursesubdirs
-Source: "..\bin\Release\net9.0-windows\publish\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion signonce
+Source: "..\src\sUpdater\bin\Release\net9.0-windows\publish\*"; DestDir: "{app}"; Flags: createallsubdirs recursesubdirs
+Source: "..\src\sUpdater\bin\Release\net9.0-windows\publish\sUpdater.exe"; DestDir: "{app}"; Flags: ignoreversion signonce
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExeName}"
@@ -57,6 +57,7 @@ Name: "{commondesktop}\{#AppName}"; Filename: "{app}\{#AppExeName}"; IconFilenam
 
 [Registry]
 Root: "HKCU"; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "sUpdater"; ValueData: """{app}\{#AppExeName}"" /tray"; Flags: uninsdeletevalue; Tasks: autostart
+Root: HKLM; Subkey: "Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{{9016A0E6-C775-4FED-8C21-4A2E5456E1EB}}_is1"; Flags: deletekey; Check: OldAppNotInstalled
 
 [Run]
 Filename: "{app}\{#AppExeName}"; Flags: nowait postinstall; Description: "{cm:LaunchProgram,{#StringChange(AppName, '&', '&&')}}"
@@ -78,4 +79,9 @@ begin
   Dependency_AddDotNet90Desktop;
 
   Result := True;
+end;
+
+function OldAppNotInstalled: Boolean;
+begin
+  Result := not FileExists('C:\Program Files (x86)\Slim Software\sUpdater\sUpdater.exe');
 end;
