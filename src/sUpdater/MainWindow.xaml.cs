@@ -30,6 +30,7 @@ namespace sUpdater
             TaskbarIcon = (TaskbarIcon)FindResource("TrayIcon");
             TaskbarIcon.ContextMenu = (ContextMenu)FindResource("trayMenu");
             TaskbarIcon.TrayLeftMouseDown += TaskbarIcon_TrayLeftMouseDown;
+            TaskbarIcon.ToolTipText = "sUpdater\nChecking for updates...";
 
             AppController.CheckForUpdatesCompleted += AppController_CheckForUpdatesCompleted;
         }
