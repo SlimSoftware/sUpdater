@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 using WindowsPackageManager.Interop;
 
@@ -37,28 +38,31 @@ namespace sUpdater.Controllers
             return _packageManager;
         }
 
-        public async static Task<List<WinGetApp>> GetInstalledApps()
+        public static Task<List<WinGetApp>> GetInstalledApps()
         {
-            CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = PackageManagerFactory.CreateCreateCompositePackageCatalogOptions();
-            foreach (var catalogRef in PackageManager.GetPackageCatalogs().ToArray())
+            return Task.Run(async () =>
             {
-                createCompositePackageCatalogOptions.Catalogs.Add(catalogRef);
-            }
+                CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = PackageManagerFactory.CreateCreateCompositePackageCatalogOptions();
+                foreach (var catalogRef in PackageManager.GetPackageCatalogs().ToArray())
+                {
+                    createCompositePackageCatalogOptions.Catalogs.Add(catalogRef);
+                }
 
-            createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
-            PackageCatalogReference installedSearchCatalogRef = PackageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
+                createCompositePackageCatalogOptions.CompositeSearchBehavior = CompositeSearchBehavior.LocalCatalogs;
+                PackageCatalogReference installedSearchCatalogRef = PackageManager.CreateCompositePackageCatalog(createCompositePackageCatalogOptions);
 
-            var connectResult = await installedSearchCatalogRef.ConnectAsync();
-            if (connectResult.Status != ConnectResultStatus.Ok) return [];
+                var connectResult = await installedSearchCatalogRef.ConnectAsync();
+                if (connectResult.Status != ConnectResultStatus.Ok) return [];
 
-            var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
+                var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
 
-            var operation = connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+                var operation = connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
 
-            var findPackagesResult = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
-            var apps = await ConvertPackagesToApplications(findPackagesResult);
+                var findPackagesResult = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+                var apps = await ConvertPackagesToApplications(findPackagesResult);
 
-            return apps;
+                return apps;
+            });
         }
 
         private static async Task<List<WinGetApp>> ConvertPackagesToApplications(FindPackagesResult packagesResult)
@@ -75,13 +79,41 @@ namespace sUpdater.Controllers
                     {
                         Id = catalogPackage.Id,
                         Name = catalogPackage.Name,
-                        LocalVersion = catalogPackage.InstalledVersion.Version,
+                        LocalVersion = catalogPackage.InstalledVersion?.Version,
                         LatestVersion = catalogPackage.DefaultInstallVersion?.Version,
-                        Icon = IconHelper.GetIconFromPackageId(catalogPackage.InstalledVersion.Id),
+                        Icon = IconHelper.GetIconFromPackageId(catalogPackage.InstalledVersion?.Id),
                         Installed = true,
                         CatalogPackage = catalogPackage,
                     });
                 }
+
+                return apps;
+            });
+        }
+
+        public static Task<List<WinGetApp>> GetNonInstalledAppsBySearch(string searchQuery, CancellationToken cancellationToken = default)
+        {
+            return Task.Run(async () =>
+            {
+                var remoteCatalogRef = PackageManager.GetPredefinedPackageCatalog(PredefinedPackageCatalog.OpenWindowsCatalog);
+
+                var connectResult = await remoteCatalogRef.ConnectAsync();
+                if (connectResult.Status != ConnectResultStatus.Ok) return [];
+                if (cancellationToken.IsCancellationRequested) return [];
+
+                var filter = PackageManagerFactory.CreatePackageMatchFilter();
+                filter.Field = PackageMatchField.Name;
+                filter.Option = PackageFieldMatchOption.ContainsCaseInsensitive;
+                filter.Value = searchQuery;
+
+                var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
+                findPackagesOptions.Filters.Add(filter);
+
+                var result = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+                if (cancellationToken.IsCancellationRequested) return [];
+
+                var apps = await ConvertPackagesToApplications(result);
+                if (cancellationToken.IsCancellationRequested) return [];
 
                 return apps;
             });

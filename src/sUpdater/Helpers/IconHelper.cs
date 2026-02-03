@@ -31,6 +31,8 @@ namespace sUpdater.Helpers
 
         public static BitmapSource GetIconFromPackageId(string packageId)
         {
+            if (packageId == null) return null;
+
             var splitId = packageId.Split("\\");
             if (splitId.Length < 4) return null;
 

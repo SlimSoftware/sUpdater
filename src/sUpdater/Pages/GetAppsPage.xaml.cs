@@ -1,12 +1,16 @@
 ﻿using sUpdater.Controllers;
 using sUpdater.Helpers;
 using sUpdater.Models;
+using sUpdater.Models.Apps;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using SUpdaterApp = sUpdater.Models.Apps.SUpdaterApp;
 
 namespace sUpdater
@@ -16,10 +20,13 @@ namespace sUpdater
     /// </summary>
     public partial class GetAppsPage : Page
     {
+        private CancellationTokenSource _cancellationTokenSource = new();
+
         public GetAppsPage()
         {
             InitializeComponent();
         }
+
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
             await GetNotInstalledApps();
@@ -45,7 +52,7 @@ namespace sUpdater
             if (selectAllCheckBox.IsChecked == true)
             {
                 // Select all unselected apps
-                foreach (SUpdaterApp app in getAppsListView.Items)
+                foreach (IApplication app in getAppsListView.Items)
                 {
                     // Check if the app is not selected, if so check it
                     if (!getAppsListView.SelectedItems.Contains(app))
@@ -100,97 +107,114 @@ namespace sUpdater
 
         private async void InstallButton_Click(object sender, RoutedEventArgs e)
         {
-            Log.Append("New app installation started...", Log.LogLevel.INFO);
-
-            bool installSuccess = true;
-            statusLabel.Visibility = Visibility.Hidden;
-
-            if (getAppsListView.SelectedItems.Count == 0)
+            try
             {
-                MessageBox.Show("You have not selected any applications to install.",
-                    "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
-                Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
+                Log.Append("New app installation started...", Log.LogLevel.INFO);
 
-                refreshButton.IsEnabled = true;
-                installButton.IsEnabled = true;
-                selectAllCheckBox.IsEnabled = true;
-            }
-            else
-            {
-                refreshButton.IsEnabled = false;
-                installButton.IsEnabled = false;
-                selectAllCheckBox.IsEnabled = false;
+                bool installSuccess = true;
+                statusLabel.Visibility = Visibility.Hidden;
 
-                // Remove all not selected apps from the list and remove the checkbox from all selected apps
-                List<SUpdaterApp> selectedApps = new List<SUpdaterApp>();
-                foreach (SUpdaterApp app in getAppsListView.ItemsSource)
+                if (getAppsListView.SelectedItems.Count == 0)
                 {
-                    if (getAppsListView.SelectedItems.Contains(app))
-                    {
-                        app.Checkbox = false;
-                        selectedApps.Add(app);
-                    }
-                }
-                getAppsListView.ItemsSource = selectedApps;
+                    MessageBox.Show("You have not selected any applications to install.",
+                        "sUpdater", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Log.Append("No applications selected to install, aborting...", Log.LogLevel.ERROR);
 
-                // Download
-                int currentApp = 0;
-
-                await Parallel.ForEachAsync(
-                    selectedApps,
-                    new ParallelOptions() { MaxDegreeOfParallelism = 3 },
-                    async (app, cancellationToken) =>
-                    {
-                        currentApp++;
-                        Dispatcher.Invoke(() =>
-                        {
-                            Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
-                            app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
-                        });
-                        bool success = await app.Download();
-
-                        if (!success) installSuccess = false;
-                    });
-
-                // Install
-                currentApp = 0;
-                foreach (SUpdaterApp app in selectedApps)
-                {
-                    currentApp++;
-                    if (File.Exists(app.SavePath))
-                    {
-                        Log.Append($"Installing {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
-                            Log.LogLevel.INFO);
-
-                        bool success = await app.Install();
-                        if (!success) installSuccess = false;
-                    }
-                }
-
-                if (installSuccess)
-                {
-                    await GetNotInstalledApps(true);
+                    refreshButton.IsEnabled = true;
+                    installButton.IsEnabled = true;
+                    selectAllCheckBox.IsEnabled = true;
                 }
                 else
                 {
-                    // Only show the failed apps
-                    List<SUpdaterApp> failedApps = new List<SUpdaterApp>();
-                    foreach (SUpdaterApp app in getAppsListView.SelectedItems)
+                    refreshButton.IsEnabled = false;
+                    installButton.IsEnabled = false;
+                    selectAllCheckBox.IsEnabled = false;
+
+                    // Remove all not selected apps from the list and remove the checkbox from all selected apps
+                    List<IApplication> selectedApps = [];
+                    foreach (IApplication app in getAppsListView.ItemsSource)
                     {
-                        if (app.Status != "Install complete")
+                        if (getAppsListView.SelectedItems.Contains(app))
                         {
-                            failedApps.Add(app);
+                            app.Checkbox = false;
+                            selectedApps.Add(app);
                         }
                     }
-                    getAppsListView.ItemsSource = failedApps;
-                    statusLabel.Foreground = Brushes.Red;
-                    statusLabel.Content = "Some applications failed to install.";
-                    statusLabel.Visibility = Visibility.Visible;
+                    getAppsListView.ItemsSource = selectedApps;
+
+                    // Download
+                    int currentApp = 0;
+
+                    await Parallel.ForEachAsync(
+                        selectedApps,
+                        new ParallelOptions() { MaxDegreeOfParallelism = 3 },
+                        async (app, cancellationToken) =>
+                        {
+                            currentApp++;
+                            Dispatcher.Invoke(() =>
+                            {
+                                Log.Append(string.Format("Downloading {0} ({1} of {2}) ...",
+                                app.Name, currentApp, selectedApps.Count), Log.LogLevel.INFO);
+                            });
+                            bool success = await app.Download();
+
+                            if (!success) installSuccess = false;
+                        });
+
+                    // Install
+                    currentApp = 0;
+                    foreach (IApplication app in selectedApps)
+                    {
+                        currentApp++;
+                        if (File.Exists(app.SavePath))
+                        {
+                            Log.Append($"Installing {app.Name} ({currentApp} of {getAppsListView.SelectedItems.Count}) ...",
+                                Log.LogLevel.INFO);
+
+                            bool success = await app.Install();
+                            if (!success) installSuccess = false;
+                        }
+                    }
+
+                    if (installSuccess)
+                    {
+                        await GetNotInstalledApps(true);
+                    }
+                    else
+                    {
+                        // Only show the failed apps
+                        List<IApplication> failedApps = [];
+                        foreach (IApplication app in getAppsListView.SelectedItems)
+                        {
+                            if (app.Status != "Install complete")
+                            {
+                                failedApps.Add(app);
+                            }
+                        }
+                        getAppsListView.ItemsSource = failedApps;
+                        statusLabel.Foreground = Brushes.Red;
+                        statusLabel.Content = "Some applications failed to install.";
+                        statusLabel.Visibility = Visibility.Visible;
+                    }
+
+                    installButton.IsEnabled = true;
+                    refreshButton.IsEnabled = true;
+                    selectAllCheckBox.IsEnabled = true;
+                }
+            }
+            finally
+            {
+                foreach (IApplication app in getAppsListView.SelectedItems)
+                {
+                    app.Progress = 0;
+                    app.IsWaiting = false;
+                    app.Status = "";
+                    app.Checkbox = true;
                 }
 
+                selectAllCheckBox.IsEnabled = true;
                 installButton.IsEnabled = true;
                 refreshButton.IsEnabled = true;
-                selectAllCheckBox.IsEnabled = true;
             }
         }
 
@@ -198,6 +222,34 @@ namespace sUpdater
         {
             var app = Utilities.GetApplicationFromControl(sender);
             if (app is SUpdaterApp sApp) Utilities.OpenWebLink(sApp.WebsiteUrl);
+        }
+
+        private async void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            var searchQuery = searchTextBox.Text.Trim();
+
+            try
+            {
+                loadingProgressBar.Visibility = Visibility.Visible;
+                await Task.Delay(300, token);
+
+                getAppsListView.ItemsSource = searchQuery.Length > 3
+                    ? await WinGetAppController.GetNonInstalledAppsBySearch(searchQuery)
+                    : await AppController.GetNotInstalledApps();
+
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            finally
+            {
+                if (!token.IsCancellationRequested)
+                    loadingProgressBar.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

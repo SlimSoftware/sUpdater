@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:converters="clr-namespace:sUpdater.Converters" 
-      xmlns:models="clr-namespace:sUpdater.Models" d:DataContext="{d:DesignInstance Type=models:sUpdaterApp}"
+      xmlns:models="clr-namespace:sUpdater.Models"
       mc:Ignorable="d" 
       d:DesignHeight="435" d:DesignWidth="800"
       Title="Get Applications" Background="Transparent" Loaded="Page_Loaded">
@@ -24,6 +24,23 @@
         <Label x:Name="statusLabel" Foreground="#00ba00" Grid.Row="0" HorizontalAlignment="Center"
                    FontWeight="Bold" FontSize="13" DockPanel.Dock="Top" Visibility="Hidden" />
 
+        <Grid Grid.Row="0" DockPanel.Dock="Top" HorizontalAlignment="Right" Width="300">
+            <TextBox x:Name="searchTextBox"
+             Padding="6,3" TextChanged="SearchTextBox_TextChanged"
+             VerticalContentAlignment="Center"/>
+
+            <TextBlock Text="Search for more apps by typing here..."
+               Margin="12,-2,0,0"
+               VerticalAlignment="Center"
+               Foreground="Gray"
+               IsHitTestVisible="False"
+               Visibility="{Binding ElementName=searchTextBox,
+                                    Path=Text.IsEmpty,
+                                    Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+
+        <ProgressBar x:Name="loadingProgressBar" Grid.Row="0" Foreground="#00ba00" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                     IsIndeterminate="True" Width="150" Height="7px" Visibility="Collapsed" />
         <ListView x:Name="getAppsListView" Grid.Row="1" 
                   Style="{StaticResource ResourceKey=CustomListViewStyle}">
             <ListView.Resources>
