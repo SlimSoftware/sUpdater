@@ -1,9 +1,11 @@
 ﻿using Microsoft.Management.Deployment;
+using Microsoft.Win32;
 using sUpdater.Helpers;
 using sUpdater.Models.Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,6 +20,9 @@ namespace sUpdater.Controllers
 
         public static PackageManager PackageManager { get => GetPackageManager(); }
         private static PackageManager _packageManager;
+
+        private static PackageCatalog _appsCatalog;
+        private static readonly SemaphoreSlim _catalogLock = new(1, 1);
 
         private static WindowsPackageManagerFactory GetPackageManagerFactory()
         {
@@ -38,12 +43,47 @@ namespace sUpdater.Controllers
             return _packageManager;
         }
 
+        public static async Task<PackageCatalog> GetAppCatalog()
+        {
+            if (_appsCatalog != null) return _appsCatalog;
+
+            await _catalogLock.WaitAsync();
+            try
+            {
+                if (_appsCatalog != null) return _appsCatalog;
+
+                var remoteCatalogRef = PackageManager.GetPredefinedPackageCatalog(PredefinedPackageCatalog.OpenWindowsCatalog);
+
+                var connectResult = await remoteCatalogRef.ConnectAsync();
+
+                if (connectResult.Status != ConnectResultStatus.Ok) return null;
+
+                NetworkChange.NetworkAvailabilityChanged += (_, e) =>
+                {
+                    if (e.IsAvailable) _appsCatalog = null;
+                };
+
+                SystemEvents.PowerModeChanged += (_, e) =>
+                {
+                    if (e.Mode == PowerModes.Resume) _appsCatalog = null;
+                };
+
+                _appsCatalog = connectResult.PackageCatalog;
+                return _appsCatalog;
+            }
+            finally
+            {
+                _catalogLock.Release();
+            }
+        }
+
         public static Task<List<WinGetApp>> GetInstalledApps()
         {
             return Task.Run(async () =>
             {
                 CreateCompositePackageCatalogOptions createCompositePackageCatalogOptions = PackageManagerFactory.CreateCreateCompositePackageCatalogOptions();
-                foreach (var catalogRef in PackageManager.GetPackageCatalogs().ToArray())
+                var catalogs = PackageManager.GetPackageCatalogs().ToList();
+                foreach (var catalogRef in catalogs)
                 {
                     createCompositePackageCatalogOptions.Catalogs.Add(catalogRef);
                 }
@@ -70,8 +110,9 @@ namespace sUpdater.Controllers
             return await Task.Run(() =>
             {
                 var apps = new List<WinGetApp>();
+                var matches = packagesResult.Matches.ToList();
 
-                foreach (var matchResult in packagesResult.Matches.ToArray())
+                foreach (var matchResult in matches)
                 {
                     var catalogPackage = matchResult.CatalogPackage;
                     var packageMetadata = catalogPackage.DefaultInstallVersion?.GetCatalogPackageMetadata();
@@ -98,11 +139,8 @@ namespace sUpdater.Controllers
         {
             return Task.Run(async () =>
             {
-                var remoteCatalogRef = PackageManager.GetPredefinedPackageCatalog(PredefinedPackageCatalog.OpenWindowsCatalog);
-
-                var connectResult = await remoteCatalogRef.ConnectAsync();
-                if (connectResult.Status != ConnectResultStatus.Ok) return [];
-                if (cancellationToken.IsCancellationRequested) return [];
+                var catalog = await GetAppCatalog();
+                if (catalog == null) return [];
 
                 var filter = PackageManagerFactory.CreatePackageMatchFilter();
                 filter.Field = PackageMatchField.Name;
@@ -112,12 +150,13 @@ namespace sUpdater.Controllers
                 var findPackagesOptions = PackageManagerFactory.CreateFindPackagesOptions();
                 findPackagesOptions.Filters.Add(filter);
 
-                var result = await connectResult.PackageCatalog.FindPackagesAsync(findPackagesOptions);
+                var result = await catalog.FindPackagesAsync(findPackagesOptions);
                 if (cancellationToken.IsCancellationRequested) return [];
 
                 var apps = await ConvertPackagesToApplications(result);
                 if (cancellationToken.IsCancellationRequested) return [];
 
+                apps.Sort((a, b) => a.Name.CompareTo(b.Name));
                 return apps;
             });
         }
