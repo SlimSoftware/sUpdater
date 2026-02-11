@@ -14,8 +14,6 @@ namespace sUpdater.Models.Apps
     {
         public string Id { get; init; }
         public bool NoUpdate { get; }
-        public string WebsiteUrl { get; }
-        public string ReleaseNotesUrl { get; }
         public DetectInfo DetectInfo { get; }
         public Installer Installer { get; }
 

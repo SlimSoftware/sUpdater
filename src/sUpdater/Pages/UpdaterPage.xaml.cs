@@ -223,14 +223,14 @@ namespace sUpdater
 
         private void MenuItemReleaseNotes_Click(object sender, RoutedEventArgs e)
         {
-            //var app = Utilities.GetApplicationFromControl(sender);
-            // Utilities.OpenWebLink(app.ReleaseNotesUrl);
+            var app = Utilities.GetApplicationFromControl(sender);
+            Utilities.OpenWebLink(app.ReleaseNotesUrl);
         }
 
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
-            // SUpdaterApp app = Utilities.GetApplicationFromControl(sender);
-            // Utilities.OpenWebLink(app.WebsiteUrl);
+            var app = Utilities.GetApplicationFromControl(sender);
+            Utilities.OpenWebLink(app.WebsiteUrl);
         }
 
         private async void MenuItemForceInstall_Click(object sender, RoutedEventArgs e)

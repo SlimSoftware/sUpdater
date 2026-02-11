@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using SUpdaterApp = sUpdater.Models.Apps.SUpdaterApp;
 
 namespace sUpdater
 {
@@ -221,7 +220,7 @@ namespace sUpdater
         private void MenuItemWebsite_Click(object sender, RoutedEventArgs e)
         {
             var app = Utilities.GetApplicationFromControl(sender);
-            if (app is SUpdaterApp sApp) Utilities.OpenWebLink(sApp.WebsiteUrl);
+            Utilities.OpenWebLink(app.WebsiteUrl);
         }
 
         private async void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -74,6 +74,7 @@ namespace sUpdater.Controllers
                 foreach (var matchResult in packagesResult.Matches.ToArray())
                 {
                     var catalogPackage = matchResult.CatalogPackage;
+                    var packageMetadata = catalogPackage.DefaultInstallVersion?.GetCatalogPackageMetadata();
 
                     apps.Add(new WinGetApp
                     {
@@ -83,6 +84,8 @@ namespace sUpdater.Controllers
                         LatestVersion = catalogPackage.DefaultInstallVersion?.Version,
                         Icon = IconHelper.GetIconFromPackageId(catalogPackage.InstalledVersion?.Id),
                         Installed = true,
+                        ReleaseNotesUrl = packageMetadata?.ReleaseNotesUrl,
+                        WebsiteUrl = packageMetadata?.PackageUrl,
                         CatalogPackage = catalogPackage,
                     });
                 }

@@ -15,6 +15,9 @@ namespace sUpdater.Models.Apps
         /// <summary>The version displayed under the app's name</summary>
         public string DisplayedVersion { get; set; }
 
+        public string WebsiteUrl { get; set; }
+        public string ReleaseNotesUrl { get; set; }
+
         public bool Checkbox { get; set; } = true;
         public string SavePath { get; set; }
 

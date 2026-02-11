@@ -13,6 +13,8 @@ namespace sUpdater.Models.Apps
         string LocalVersion { get; set; }
         bool Installed { get; set; }
         string DisplayedVersion { get; set; }
+        public string WebsiteUrl { get; set; }
+        public string ReleaseNotesUrl { get; set; }
         bool Checkbox { get; set; }
         string SavePath { get; set; }
         int Progress { get; set; }
