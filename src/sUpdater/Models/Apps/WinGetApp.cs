@@ -1,5 +1,6 @@
-﻿using Microsoft.Management.Deployment;
+using Microsoft.Management.Deployment;
 using sUpdater.Controllers;
+using sUpdater.Helpers;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,6 +12,18 @@ namespace sUpdater.Models.Apps
         public string Id { get; init; }
         public CatalogPackage CatalogPackage { get; set; }
 
+        private bool _iconLoaded = false;
+
+        public async Task LoadIconAsync()
+        {
+            if (_iconLoaded || Icon != null) return;
+
+            await Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                Icon = IconHelper.GetIconFromPackageId(CatalogPackage.InstalledVersion?.Id);
+                _iconLoaded = true;
+            });
+        }
 
         public Task<bool> Download()
         {

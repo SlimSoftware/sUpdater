@@ -123,7 +123,6 @@ namespace sUpdater.Controllers
                         Name = catalogPackage.Name,
                         LocalVersion = catalogPackage.InstalledVersion?.Version,
                         LatestVersion = catalogPackage.DefaultInstallVersion?.Version,
-                        Icon = IconHelper.GetIconFromPackageId(catalogPackage.InstalledVersion?.Id),
                         Installed = true,
                         ReleaseNotesUrl = packageMetadata?.ReleaseNotesUrl,
                         WebsiteUrl = packageMetadata?.PackageUrl,
