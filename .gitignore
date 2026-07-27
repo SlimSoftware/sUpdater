@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # Inno Setup Output directory
 setup/Output/*
+
+# IntelliJ
+.idea
