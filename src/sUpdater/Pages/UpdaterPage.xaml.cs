@@ -1,7 +1,8 @@
-﻿using sUpdater.Controllers;
+using sUpdater.Controllers;
 using sUpdater.Helpers;
 using sUpdater.Models;
 using sUpdater.Models.Apps;
+using sUpdater.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -288,6 +289,51 @@ namespace sUpdater
             {
                 SetupDetailsMode();
             }
+        }
+
+        private void IgnoreUpdate(IApplication app, string version)
+        {
+            AppType appType = app is SUpdaterApp ? AppType.sUpdater : AppType.WinGet;
+            
+            var ignoredUpdate = new IgnoredUpdate
+            {
+                Id = app.Id,
+                Type = appType,
+                Version = version
+            };
+            
+            Utilities.Settings.IgnoredUpdates.Add(ignoredUpdate);
+            Utilities.SaveSettings();
+            
+            var updateToRemove = AppController.Updates.FirstOrDefault(u => u.Id == app.Id && (version == null || u.LatestVersion == version));
+            if (updateToRemove != null)
+            {
+                AppController.Updates.Remove(updateToRemove);
+                updateListView.ItemsSource = null;
+                updateListView.ItemsSource = AppController.Updates;
+                
+                if (AppController.Updates.Count == 0)
+                {
+                    SetupDetailsMode();
+                }
+            }
+            
+            string logMessage = version == null 
+                ? $"Ignoring all future updates for {app.Name}"
+                : $"Ignoring version {version} for {app.Name}";
+            Log.Append(logMessage, Log.LogLevel.INFO);
+        }
+
+        private void MenuItemIgnore_Click(object sender, RoutedEventArgs e)
+        {
+            var app = Utilities.GetApplicationFromControl(sender);
+            IgnoreUpdate(app, null);
+        }
+
+        private void MenuItemIgnoreVersion_Click(object sender, RoutedEventArgs e)
+        {
+            var app = Utilities.GetApplicationFromControl(sender);
+            IgnoreUpdate(app, app.LatestVersion);
         }
     }
 }

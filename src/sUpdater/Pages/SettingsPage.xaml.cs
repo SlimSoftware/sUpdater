@@ -1,5 +1,6 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using sUpdater.Helpers;
+using sUpdater.Models.Settings;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -50,6 +51,29 @@ namespace sUpdater
             else
             {
                 officialAppServerRadioButton.IsChecked = true;
+            }
+
+            LoadIgnoredUpdates();
+        }
+
+        private void LoadIgnoredUpdates()
+        {
+            ignoredUpdatesListView.ItemsSource = Utilities.Settings.IgnoredUpdates;
+        }
+
+        private void IgnoredUpdatesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            removeIgnoredUpdateButton.IsEnabled = ignoredUpdatesListView.SelectedItem != null;
+        }
+
+        private void RemoveIgnoredUpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ignoredUpdatesListView.SelectedItem is IgnoredUpdate ignoredUpdate)
+            {
+                Utilities.Settings.IgnoredUpdates.Remove(ignoredUpdate);
+                Utilities.SaveSettings();
+                ignoredUpdatesListView.ItemsSource = null;
+                ignoredUpdatesListView.ItemsSource = Utilities.Settings.IgnoredUpdates;
             }
         }
 

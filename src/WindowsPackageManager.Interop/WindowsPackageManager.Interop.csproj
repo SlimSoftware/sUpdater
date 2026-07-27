@@ -1,9 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-
-
-    <SelfContained>true</SelfContained>
     <RootNamespace>WindowsPackageManager.Interop</RootNamespace>
     <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     
@@ -27,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <CsWinRTInputs Include="$(PROGRAMFILES)\WindowsApps\Microsoft.DesktopAppInstaller_1.27.460.0_x64__8wekyb3d8bbwe" />
+    <CsWinRTInputs Include="$(PROGRAMFILES)\WindowsApps\Microsoft.DesktopAppInstaller_1.29.280.0_x64__8wekyb3d8bbwe" />
     <!--Content Include="$(TargetDir)\winrtact.dll" Link="winrtact.dll" CopyToOutputDirectory="PreserveNewest" /-->
   </ItemGroup>
 

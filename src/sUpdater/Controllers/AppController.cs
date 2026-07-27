@@ -1,12 +1,14 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using sUpdater.Helpers;
 using sUpdater.Models;
 using sUpdater.Models.Apps;
 using sUpdater.Models.DTO;
+using sUpdater.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
@@ -140,24 +142,18 @@ namespace sUpdater.Controllers
             {
                 if (app is SUpdaterApp sApp && sApp.NoUpdate) continue;
 
-                if (Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion))
-                {
-                    var updateApp = app.Clone();
-                    updateApp.Name += $" {app.LatestVersion}";
-                    updateApp.DisplayedVersion = $"Installed: {app.LocalVersion}";
+                if (!Utilities.UpdateAvailable(app.LatestVersion, app.LocalVersion)) continue;
+                if (UpdateHelper.IsIgnored(app)) continue;
 
-                    Updates.Add(updateApp);
-                }
+                var updateApp = app.Clone();
+                updateApp.Name += $" {app.LatestVersion}";
+                updateApp.DisplayedVersion = $"Installed: {app.LocalVersion}";
+
+                Updates.Add(updateApp);
             }
 
-            if (Updates.Count > 0)
-            {
-                Log.Append($"{Updates.Count} updates available", Log.LogLevel.INFO);
-            }
-            else
-            {
-                Log.Append("1 update available", Log.LogLevel.INFO);
-            }
+            Log.Append(Updates.Count > 0 ? $"{Updates.Count} updates available" : "1 update available",
+                Log.LogLevel.INFO);
 
             CheckingForUpdates = false;
             CheckForUpdatesCompleted?.Invoke(null, EventArgs.Empty);

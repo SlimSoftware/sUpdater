@@ -44,6 +44,8 @@
                     <MenuItem Header="Release Notes" Click="MenuItemReleaseNotes_Click" IsEnabled="{Binding ReleaseNotesUrl, Converter={StaticResource StringToBooleanConverter} }"/>
                     <MenuItem Header="Website" Click="MenuItemWebsite_Click" IsEnabled="{Binding WebsiteUrl, Converter={StaticResource StringToBooleanConverter}}"/>
                     <MenuItem Header="Force install" Click="MenuItemForceInstall_Click"/>
+                    <MenuItem Header="Ignore" Click="MenuItemIgnore_Click" />
+                    <MenuItem Header="Ignore this version" Click="MenuItemIgnoreVersion_Click" />
                 </ContextMenu>
             </ListView.Resources>
         </ListView>

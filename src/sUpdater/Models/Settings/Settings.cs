@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -16,6 +16,6 @@ namespace sUpdater.Models.Settings
 
         public string NotifiedUpdates { get; set; }
 
-        public List<IgnoredUpdate> IgnoredUpdates { get; set; }
+        public List<IgnoredUpdate> IgnoredUpdates { get; set; } = new List<IgnoredUpdate>();
     }
 }
