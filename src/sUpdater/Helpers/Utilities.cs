@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using sUpdater.Models;
 using sUpdater.Models.Apps;
+using sUpdater.Models.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

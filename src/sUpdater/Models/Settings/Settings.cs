@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
-namespace sUpdater.Models
+namespace sUpdater.Models.Settings
 {
     public class Settings
     {
@@ -14,5 +15,7 @@ namespace sUpdater.Models
             Environment.SpecialFolder.MyDocuments), "Portable Apps");
 
         public string NotifiedUpdates { get; set; }
+
+        public List<IgnoredUpdate> IgnoredUpdates { get; set; }
     }
 }
