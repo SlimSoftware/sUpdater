@@ -3,13 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:Controls="clr-namespace:sUpdater.Controls"
       mc:Ignorable="d" 
-      d:DesignHeight="500" d:DesignWidth="800"
+      d:DesignHeight="535" d:DesignWidth="800"
       Title="Settings" Background="Transparent" Unloaded="Page_Unloaded">
 
     <StackPanel Orientation="Vertical" Margin="10">
-        <CheckBox x:Name="autoStartCheckBox">Auto-start sUpdater as a system tray icon</CheckBox>
+        <CheckBox x:Name="autoStartCheckBox" Margin="0">Auto-start sUpdater as a system tray icon</CheckBox>
         <CheckBox x:Name="minimizeToTrayCheckBox" Margin="0,5,0,0">Keep sUpdater running when the window is closed</CheckBox>
 
         <Label Margin="0,10,0,0">Data Folder Location (to store downloaded installers)</Label>
@@ -35,12 +34,13 @@
 
         <GroupBox Header="App Server" Margin="0,10,0,0">
             <StackPanel Orientation="Vertical" Margin="0,5,0,0">
-                <RadioButton x:Name="officialAppServerRadioButton"
+                <RadioButton x:Name="officialAppServerRadioButton" GroupName="AppServer"
                              Click="OfficialAppServerRadioButton_Click">Use the official sUpdater App Server</RadioButton>
-                <RadioButton x:Name="customAppServerRadioButton" Margin="0,5,0,0"
-                             Click="CustomAppServerRadioButton_Click">Use the following App Server URL:</RadioButton>
+            
                 <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="customAppServerTextBox" Width="495" Margin="0,5,0,0" IsEnabled="False"/>
+                    <RadioButton x:Name="customAppServerRadioButton" GroupName="AppServer" Margin="0,5,0,0"
+                                 Click="CustomAppServerRadioButton_Click">Use the following App Server URL:</RadioButton>
+                    <TextBox x:Name="customAppServerTextBox" Width="495" Margin="10,5,0,0" IsEnabled="False"/>
                 </StackPanel>
             </StackPanel>
         </GroupBox>
@@ -57,9 +57,10 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Button x:Name="removeIgnoredUpdateButton" Margin="0,5,0,0" Click="RemoveIgnoredUpdateButton_Click" 
-                        IsEnabled="False">Remove Selected</Button>
+                
             </StackPanel>
         </GroupBox>
+        <Button x:Name="removeIgnoredUpdateButton" Margin="0,5,0,0" Click="RemoveIgnoredUpdateButton_Click" 
+                IsEnabled="False">Remove Selected</Button>
     </StackPanel>
 </Page>

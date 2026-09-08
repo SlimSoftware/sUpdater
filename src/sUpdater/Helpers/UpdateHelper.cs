@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using sUpdater.Controllers;
 using sUpdater.Models;
 using sUpdater.Models.Apps;
 using sUpdater.Models.Settings;
@@ -7,6 +10,12 @@ namespace sUpdater.Helpers;
 
 public static class UpdateHelper
 {
+    private static readonly Dictionary<AppType, Type> _appTypes = new()
+    {
+        { AppType.sUpdater, typeof(SUpdaterApp) },
+        { AppType.WinGet, typeof(WinGetApp) }
+    };
+    
     public static bool IsIgnored(IApplication app)
     {
         var appType = app is SUpdaterApp ? AppType.sUpdater : AppType.WinGet;
@@ -29,5 +38,11 @@ public static class UpdateHelper
         }
 
         return false;
+    }
+    
+    public static IApplication GetAppFromIgnoredUpdate(IgnoredUpdate ignoredUpdate)
+    {
+        var appType = _appTypes[ignoredUpdate.Type];
+        return AppController.Apps.FirstOrDefault(x => x.Id == ignoredUpdate.Id && x.GetType() == appType);
     }
 }
